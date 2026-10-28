@@ -298,7 +298,9 @@
           ],
           "controls": [
             "C-37",
-            "C-24"
+            "C-24",
+            "C-22",
+            "C-23"
           ],
           "depends_on": [
             "B-09"
@@ -1353,7 +1355,18 @@
           "owns": [
             "levers/powershell/MailboxOps/",
             "levers/registry.d/mailbox.json",
-            "workflows/notify/templates/mailbox/",
+            "workflows/notify/templates/mailbox.add-dl-member.md",
+            "workflows/notify/templates/mailbox.clear-auto-reply.md",
+            "workflows/notify/templates/mailbox.convert-shared.md",
+            "workflows/notify/templates/mailbox.enable-archive.md",
+            "workflows/notify/templates/mailbox.grant-full-access.md",
+            "workflows/notify/templates/mailbox.grant-onedrive-manager.md",
+            "workflows/notify/templates/mailbox.grant-send-as.md",
+            "workflows/notify/templates/mailbox.remove-dl-member.md",
+            "workflows/notify/templates/mailbox.revoke-full-access.md",
+            "workflows/notify/templates/mailbox.revoke-onedrive-manager.md",
+            "workflows/notify/templates/mailbox.revoke-send-as.md",
+            "workflows/notify/templates/mailbox.set-auto-reply.md",
             "fixtures/tenant/contoso-dental/mailboxes.json",
             "fixtures/tenant/fabrikam-capital/mailboxes.json",
             "specs/B-33.md",
@@ -2568,7 +2581,13 @@
           "owns": [
             "levers/powershell/DeviceOps/",
             "levers/registry.d/device.json",
-            "workflows/notify/templates/device/",
+            "workflows/notify/templates/device.cleanup-temp.md",
+            "workflows/notify/templates/device.reboot-server.md",
+            "workflows/notify/templates/device.reboot.md",
+            "workflows/notify/templates/device.repair-mapped-drive.md",
+            "workflows/notify/templates/device.reset-outlook-profile.md",
+            "workflows/notify/templates/device.restart-service.md",
+            "workflows/notify/templates/device.restart-spooler.md",
             "tests/py/devices/test_b62_remed.py",
             "specs/B-62.md",
             "docs/changes/B-62.md"
@@ -2687,7 +2706,12 @@
           "owns": [
             "levers/powershell/DeviceR3/",
             "levers/registry.d/device-r3.json",
-            "workflows/notify/templates/device-r3/",
+            "workflows/notify/templates/device.isolate.md",
+            "workflows/notify/templates/device.lock.md",
+            "workflows/notify/templates/device.release.md",
+            "workflows/notify/templates/device.retire.md",
+            "workflows/notify/templates/device.unlock.md",
+            "workflows/notify/templates/device.wipe.md",
             "tests/py/devices/test_b65_device_r3.py",
             "specs/B-65.md",
             "docs/changes/B-65.md"
@@ -3677,6 +3701,7 @@
           "owns": [
             "governance/MODEL_TOOL_APPROVAL.md",
             "governance/templates/ai-change-request.md",
+            "workflows/assurance/approvals.py",
             "specs/B-93.md",
             "docs/changes/B-93.md"
           ],
@@ -3742,7 +3767,15 @@
           ],
           "owns": [
             "governance/USE_CASE_INTAKE.md",
-            "docs/ROI_TRACKER.md",
+            "governance/ROI_TRACKER.md",
+            "workflows/assurance/__init__.py",
+            "workflows/assurance/__main__.py",
+            "workflows/assurance/rubric.py",
+            "workflows/assurance/intake.py",
+            "workflows/assurance/roi.py",
+            "workflows/assurance/soc2.py",
+            "workflows/assurance/risk.py",
+            "workflows/assurance/render.py",
             "governance/SOC2_CONTROL_MAPPING.md",
             "governance/RISK_REGISTER.md",
             "docs/planned/ROI_TRACKER.md",
@@ -3773,8 +3806,9 @@
           ],
           "depends_on": [],
           "owns": [
-            "docs/STAFF_TRAINING.md",
-            "docs/CLIENT_CONVERSATION_GUIDE.md",
+            "governance/STAFF_TRAINING.md",
+            "governance/CLIENT_CONVERSATION_GUIDE.md",
+            "workflows/training/",
             "docs/AI_EXPLAINER.md",
             "docs/CLIENT_DATA_HANDLING.md",
             "docs/planned/STAFF_TRAINING.md",
@@ -3807,7 +3841,8 @@
           ],
           "depends_on": [],
           "owns": [
-            "docs/TECH_RADAR.md",
+            "governance/TECH_RADAR.md",
+            "workflows/assurance/briefs.py",
             "docs/LEADERSHIP_BRIEF.md",
             "docs/PLAN_30_60_90.md",
             "docs/AUTOMATION_FRAMEWORK_REVIEW.md",

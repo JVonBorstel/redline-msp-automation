@@ -189,7 +189,11 @@ def test_b37_2_caller_runbook_describes_the_callback_on_file_method_the_approval
 def test_b37_2_runbooks_name_roles_not_people_and_hold_no_phone_number() -> None:
     for name in ("urgent-termination.md", "caller-verification.md"):
         text = _runbook(name)
-        assert not re.search(r"\+?\d[\d\s().-]{8,}\d", text), name
+        # The B-59 `Last reviewed: YYYY-MM-DD` line is a date, not a phone number; every other line is checked.
+        dated = [ln for ln in text.splitlines() if re.fullmatch(r"Last reviewed: \d{4}-\d{2}-\d{2}", ln.strip())]
+        assert len(dated) <= 1, name
+        body = "\n".join(ln for ln in text.splitlines() if ln not in dated)
+        assert not re.search(r"\+?\d[\d\s().-]{8,}\d", body), name
         assert "@" not in text, name
         assert "Synthetic" in text and "Independently built prototype" in text, name
 

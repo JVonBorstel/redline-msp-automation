@@ -15,11 +15,13 @@ def store() -> IdentityStore:
     return IdentityStore.load()
 
 
-def test_config_has_the_four_synthetic_identities(store: IdentityStore) -> None:
+def test_config_has_the_five_synthetic_identities(store: IdentityStore) -> None:
     expected = {
         "tech-ana": (Role.TECHNICIAN, (CONTOSO,)),
         "tech-ben": (Role.TECHNICIAN, (FABRIKAM,)),
         "lead-lee": (Role.LEAD, (CONTOSO, FABRIKAM)),
+        # B-28 dual approval (D-067, W3-E1): a second synthetic lead, so an R3 lever can get two distinct approvers.
+        "lead-mia": (Role.LEAD, (CONTOSO, FABRIKAM)),
         "triage-bot": (Role.AGENT, (CONTOSO, FABRIKAM)),
     }
     assert len(store) == len(expected)

@@ -159,9 +159,9 @@ Controls that bound the most chains (a failure in one of these widens many blast
 | `C-04` Per-client scope at the tool layer | 13 | built |
 | `C-33` Rollback from recorded before-state | 10 | partial |
 | `C-13` Prompt-injection tripwire | 9 | built |
-| `C-32` Blast-radius and rate limits | 8 | planned |
+| `C-32` Blast-radius and rate limits | 8 | partial |
 
-Planned controls that the most chains depend on (the build order this map argues for): `C-32` Blast-radius and rate limits (8), `C-30` Requester identity verification for access-affecting levers (8), `C-40` Monitoring and alerting on automation behaviour (5), `C-38` Agent and technician access review; least-privilege delegated access (5), `C-42` Staff training and acceptable use (4), `C-25` Data classification and pre-prompt redaction gate (3).
+Controls that were planned when this map was written and that the most chains depend on (the build order this map argued for): `C-32` Blast-radius and rate limits (8), `C-30` Requester identity verification for access-affecting levers (8), `C-40` Monitoring and alerting on automation behaviour (5), `C-38` Agent and technician access review; least-privilege delegated access (5), `C-42` Staff training and acceptable use (4), `C-25` Data classification and pre-prompt redaction gate (3). Status on 2026-10-27 (map/controls.json): C-30 and C-25 built; C-32, C-40, C-38 and C-42 partial.
 
 ## 5. Chains by area
 
@@ -199,7 +199,7 @@ R1 · agent-triage · repo: partial · persona: P-01 Priya Nair, dental hygienis
 | FN: misses it | Parsing fails or confidence is low and the ticket waits unassigned; Priya waits with patients in the lobby. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one person; a wrong-client match is BR-2 (a confidentiality event between two tenants) |
-| Safeguards | Inventory rule: Agent proposes client, contact and summary; dispatcher confirms before the ticket is saved. Free text is untrusted input; C-12 Untrusted input wrapping (built); C-13 Prompt-injection tripwire (built); C-27 Tenant isolation of prompts, context, logs and error text (partial); C-25 Data classification and pre-prompt redaction gate (planned) |
+| Safeguards | Inventory rule: Agent proposes client, contact and summary; dispatcher confirms before the ticket is saved. Free text is untrusted input; C-12 Untrusted input wrapping (built); C-13 Prompt-injection tripwire (built); C-27 Tenant isolation of prompts, context, logs and error text (partial); C-25 Data classification and pre-prompt redaction gate (built) |
 | Proof for the individual | IM-02 Time to a human: minutes from Priya's first message to a technician owning her ticket; wrong-client matches per 1,000 tickets (target 0) |
 
 #### `W-SD-02` Ticket triage: category, priority, queue
@@ -289,7 +289,7 @@ R0 · report · repo: planned · persona: P-09 Chris Osei, trader, Fabrikam Capi
 | FN: misses it | Misses an at-risk ticket; the breach happens and Chris waits. |
 | Worse direction | FN |
 | Blast radius | `BR-1` one person per missed ticket |
-| Safeguards | Inventory rule: Read-only alert to the lead; reassignment is a human decision; C-40 Monitoring and alerting on automation behaviour (planned) |
+| Safeguards | Inventory rule: Read-only alert to the lead; reassignment is a human decision; C-40 Monitoring and alerting on automation behaviour (partial) |
 | Proof for the individual | IM-02 Time to a human: minutes to first human response for warned vs unwarned tickets; SLA breaches per month |
 
 #### `W-SD-07` Escalation tier 1 to 2 to 3 with context package
@@ -379,7 +379,7 @@ R2 · write-lever-approval, eval · repo: planned · persona: P-04 Lena Fischer,
 | FN: misses it | Script fails silently and the ticket is closed anyway. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one device; BR-3 if it hits a shared server |
-| Safeguards | Inventory rule: Technician approves each run until the lever's eval and incident record justify a named standard change; dry-run diff shown first; C-01 Lever registry, default deny (built); C-02 Parameter schema validation (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-17 Timeouts and failure containment (built); C-18 Idempotency on write levers (partial); C-32 Blast-radius and rate limits (planned); C-33 Rollback from recorded before-state (partial); C-41 Evaluation gate before promotion (partial) |
+| Safeguards | Inventory rule: Technician approves each run until the lever's eval and incident record justify a named standard change; dry-run diff shown first; C-01 Lever registry, default deny (built); C-02 Parameter schema validation (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-17 Timeouts and failure containment (built); C-18 Idempotency on write levers (partial); C-32 Blast-radius and rate limits (partial); C-33 Rollback from recorded before-state (partial); C-41 Evaluation gate before promotion (partial) |
 | Proof for the individual | IM-01 Time back to work: minutes from ticket to the person working again; fixes confirmed by the person vs closed unconfirmed |
 
 #### `W-SD-12` After-hours and on-call triage
@@ -397,7 +397,7 @@ R1 · agent-triage, report · repo: planned · persona: P-23 Marcus Hale, on-cal
 | FN: misses it | Holds a real emergency until morning; six hours of ransomware spread or a clinic that cannot open. |
 | Worse direction | FN |
 | Blast radius | `BR-3` a missed emergency can cost a whole client |
-| Safeguards | Inventory rule: Agent groups and summarizes; on-call human decides to act. Write levers still need approval (on-call lead may self-approve only where the policy names it, and that is audited); C-13 Prompt-injection tripwire (built); C-40 Monitoring and alerting on automation behaviour (planned) |
+| Safeguards | Inventory rule: Agent groups and summarizes; on-call human decides to act. Write levers still need approval (on-call lead may self-approve only where the policy names it, and that is audited); C-13 Prompt-injection tripwire (built); C-40 Monitoring and alerting on automation behaviour (partial) |
 | Proof for the individual | IM-02 Time to a human: minutes from an after-hours P1 to human acknowledgement; share of pages that were actionable |
 
 #### `W-SD-13` Recurring-issue analysis (problem management)
@@ -472,7 +472,7 @@ R0 · agent-triage, read-lever · repo: planned · persona: P-13 Leo Martins, ne
 | FN: misses it | Rejects a legitimate request (Ana sent it from her phone), delaying Leo's first day. |
 | Worse direction | FP |
 | Blast radius | `BR-2` one tenant's data exposed to an impostor account |
-| Safeguards | Inventory rule: Agent checks the request against the documented authorized-contact list and lists missing fields; a technician confirms. An unlisted requester always goes to a human; C-30 Requester identity verification for access-affecting levers (planned); C-12 Untrusted input wrapping (built); C-13 Prompt-injection tripwire (built); EU-4 verified before changed (05-governance.md section 9) |
+| Safeguards | Inventory rule: Agent checks the request against the documented authorized-contact list and lists missing fields; a technician confirms. An unlisted requester always goes to a human; C-30 Requester identity verification for access-affecting levers (built); C-12 Untrusted input wrapping (built); C-13 Prompt-injection tripwire (built); EU-4 verified before changed (05-governance.md section 9) |
 | Proof for the individual | IM-05 Day-one readiness: share of new hires whose request was verified and complete at least 3 business days before start |
 
 #### `W-ONB-02` Create the user account (cloud or hybrid)
@@ -526,7 +526,7 @@ R2 · write-lever-approval · repo: planned · persona: P-13 Leo Martins, new fr
 | FN: misses it | Missing access; Leo borrows a colleague's login, which is a HIPAA problem in itself. |
 | Worse direction | FP |
 | Blast radius | `BR-2` PHI of many patients reachable by one person |
-| Safeguards | Inventory rule: Only from a client-approved role template. Becomes R3 (lead + client contact approval) if a group grants admin rights or regulated data stores; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-38 Agent and technician access review; least-privilege delegated access (planned) |
+| Safeguards | Inventory rule: Only from a client-approved role template. Becomes R3 (lead + client contact approval) if a group grants admin rights or regulated data stores; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-38 Agent and technician access review; least-privilege delegated access (partial) |
 | Proof for the individual | IM-05 Day-one readiness: access tickets in a new hire's first two weeks; over-grants found at the next review (target 0) |
 
 #### `W-ONB-05` MFA enrollment and Temporary Access Pass
@@ -544,7 +544,7 @@ R3 · write-lever-approval · repo: planned · persona: P-13 Leo Martins, new fr
 | FN: misses it | Leo cannot enroll and is locked out on his first morning. |
 | Worse direction | FP |
 | Blast radius | `BR-2` one account with tenant data behind it |
-| Safeguards | Inventory rule: TAP issued only after a human verifies identity (W-IDM-04); the TAP value is delivered by a human over an approved channel, never written into a ticket or a prompt; C-10 Secret redaction before logging (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-30 Requester identity verification for access-affecting levers (planned); W-IDM-04 Caller identity verification (kept human) |
+| Safeguards | Inventory rule: TAP issued only after a human verifies identity (W-IDM-04); the TAP value is delivered by a human over an approved channel, never written into a ticket or a prompt; C-10 Secret redaction before logging (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-30 Requester identity verification for access-affecting levers (built); W-IDM-04 Caller identity verification (kept human) |
 | Proof for the individual | IM-05 Day-one readiness: minutes from start time to MFA registered |
 
 #### `W-ONB-06` Device provisioning (Autopilot, Intune enrollment, app set)
@@ -598,7 +598,7 @@ R3 · write-lever-approval · repo: exists · persona: P-05 Jamie Chen, former f
 | FN: misses it | Jamie keeps access to patient records for days. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one person wrongly locked out; BR-2 when the miss exposes many patients' records |
-| Safeguards | Inventory rule: Requester verified by a human; lead approves the dry-run; timing comes from the client, never from the agent; C-03 Role-based authorization; agents may only dry-run writes (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-08 Hash-chained audit log with head pin and verifier (built); C-30 Requester identity verification for access-affecting levers (planned); C-33 Rollback from recorded before-state (partial); EU-2 a fast way back (05-governance.md section 9); EU-3 never locked out by a bot alone (05-governance.md section 9) |
+| Safeguards | Inventory rule: Requester verified by a human; lead approves the dry-run; timing comes from the client, never from the agent; C-03 Role-based authorization; agents may only dry-run writes (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-08 Hash-chained audit log with head pin and verifier (built); C-30 Requester identity verification for access-affecting levers (built); C-33 Rollback from recorded before-state (partial); EU-2 a fast way back (05-governance.md section 9); EU-3 never locked out by a bot alone (05-governance.md section 9) |
 | Proof for the individual | IM-06 Exposure window: minutes from the agreed end time to all sign-in and sessions revoked; IM-04 wrongly disabled people (target 0) and minutes to restore them |
 
 #### `W-ONB-09` Offboarding: mailbox conversion, forwarding and auto-reply
@@ -670,7 +670,7 @@ R3 · write-lever-approval · repo: planned · persona: P-05 Jamie Chen, former 
 | FN: misses it | Device keeps cached PHI and is never recovered. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one device |
-| Safeguards | Inventory rule: Retire (company data only) with technician approval; full wipe needs lead approval plus client confirmation that no hold or investigation applies; C-02 Parameter schema validation (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-32 Blast-radius and rate limits (planned) |
+| Safeguards | Inventory rule: Retire (company data only) with technician approval; full wipe needs lead approval plus client confirmation that no hold or investigation applies; C-02 Parameter schema validation (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-32 Blast-radius and rate limits (partial) |
 | Proof for the individual | IM-04 People wrongly acted on: wrong wipes (target 0); devices with cached data not recovered after 30 days |
 
 #### `W-ONB-13` Offboarding: line-of-business and third-party apps
@@ -776,7 +776,7 @@ R3 · write-lever-approval · repo: planned · persona: P-01 Priya Nair, dental 
 | FN: misses it | Priya waits an hour; patients are rescheduled. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one person; BR-2 if an impostor gets in |
-| Safeguards | Inventory rule: Identity verification is human (W-IDM-04). The lever generates no password visible to the agent; technician approves; W-IDM-04 Caller identity verification (kept human); C-30 Requester identity verification for access-affecting levers (planned); C-10 Secret redaction before logging (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); EU-2 a fast way back (05-governance.md section 9); EU-4 verified before changed (05-governance.md section 9) |
+| Safeguards | Inventory rule: Identity verification is human (W-IDM-04). The lever generates no password visible to the agent; technician approves; W-IDM-04 Caller identity verification (kept human); C-30 Requester identity verification for access-affecting levers (built); C-10 Secret redaction before logging (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); EU-2 a fast way back (05-governance.md section 9); EU-4 verified before changed (05-governance.md section 9) |
 | Proof for the individual | IM-01 Time back to work: minutes from Priya's first call to her first successful sign-in |
 
 #### `W-IDM-02` MFA reset (lost or new phone)
@@ -794,7 +794,7 @@ R3 · write-lever-approval · repo: exists · persona: P-07 Morgan Reyes, portfo
 | FN: misses it | Morgan is locked out of Outlook and the research portal all morning. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one person; BR-2 if an impostor gets in |
-| Safeguards | Inventory rule: Human verifies identity; lead approves the dry-run; C-03 Role-based authorization; agents may only dry-run writes (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-08 Hash-chained audit log with head pin and verifier (built); C-30 Requester identity verification for access-affecting levers (planned); C-33 Rollback from recorded before-state (partial); EU-1 clear communication to the person (05-governance.md section 9); EU-4 verified before changed (05-governance.md section 9) |
+| Safeguards | Inventory rule: Human verifies identity; lead approves the dry-run; C-03 Role-based authorization; agents may only dry-run writes (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-08 Hash-chained audit log with head pin and verifier (built); C-30 Requester identity verification for access-affecting levers (built); C-33 Rollback from recorded before-state (partial); EU-1 clear communication to the person (05-governance.md section 9); EU-4 verified before changed (05-governance.md section 9) |
 | Proof for the individual | IM-01 Time back to work: minutes from Morgan's ticket to MFA re-registered and signed in |
 
 #### `W-IDM-03` Sign-in failure and lockout investigation
@@ -866,7 +866,7 @@ R0 · read-lever, report · repo: partial · persona: P-03 Dr. Sam Patel, dentis
 | FN: misses it | Misses an attacker using break-glass, or the account fails when needed. |
 | Worse direction | FN |
 | Blast radius | `BR-3` a whole tenant |
-| Safeguards | Inventory rule: Read-only. Using a break-glass account is NEVER automated; C-20 Read levers cannot write (built); C-40 Monitoring and alerting on automation behaviour (planned) |
+| Safeguards | Inventory rule: Read-only. Using a break-glass account is NEVER automated; C-20 Read levers cannot write (built); C-40 Monitoring and alerting on automation behaviour (partial) |
 | Proof for the individual | IM-15 Silent-failure lead time: minutes from a break-glass sign-in to human acknowledgement; days since the last successful test |
 
 #### `W-IDM-09` Quarterly admin access review across tenants
@@ -884,7 +884,7 @@ R0 · report · repo: planned · persona: P-08 Dana Kim, compliance officer (Saf
 | FN: misses it | Misses a forgotten admin (an ex-technician) with standing access. |
 | Worse direction | FN |
 | Blast radius | `BR-3` a tenant; BR-4 for MSP-wide access |
-| Safeguards | Inventory rule: Read-only review pack; removals by humans with approval; C-21 Output reconciliation (no invented numbers) (built); C-38 Agent and technician access review; least-privilege delegated access (planned) |
+| Safeguards | Inventory rule: Read-only review pack; removals by humans with approval; C-21 Output reconciliation (no invented numbers) (built); C-38 Agent and technician access review; least-privilege delegated access (partial) |
 | Proof for the individual | IM-14 Owner and manager time: Dana's minutes per review; admin accounts with no owner after review (target 0) |
 
 #### `W-IDM-10` Partner delegated access (GDAP) relationship management
@@ -902,7 +902,7 @@ R3 · report · repo: not in blueprint · persona: P-03 Dr. Sam Patel, dentist a
 | FN: misses it | Misses an over-privileged or expired relationship. |
 | Worse direction | FN |
 | Blast radius | `BR-4` many tenants share the same delegation pattern |
-| Safeguards | Inventory rule: Agent reports expiring or over-broad relationships; changes are human (they define the MSP's own reach into client tenants); C-38 Agent and technician access review; least-privilege delegated access (planned); ISO-10 least-privilege delegated access (05-governance.md section 2) |
+| Safeguards | Inventory rule: Agent reports expiring or over-broad relationships; changes are human (they define the MSP's own reach into client tenants); C-38 Agent and technician access review; least-privilege delegated access (partial); ISO-10 least-privilege delegated access (05-governance.md section 2) |
 | Proof for the individual | IM-02 Time to a human: support minutes lost to expired relationships; tenants with standing Global Admin (target 0) |
 
 #### `W-IDM-11` Stale account cleanup
@@ -920,7 +920,7 @@ R3 · report, write-lever-approval · repo: partial · persona: P-06 Tom Baker, 
 | FN: misses it | Stale accounts remain enabled. |
 | Worse direction | FP |
 | Blast radius | `BR-2` many accounts in one bulk run |
-| Safeguards | Inventory rule: Detection is read-only; disable needs client confirmation and lead approval (via W-ONB-08 lever); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-32 Blast-radius and rate limits (planned); C-33 Rollback from recorded before-state (partial); EU-3 never locked out by a bot alone (05-governance.md section 9) |
+| Safeguards | Inventory rule: Detection is read-only; disable needs client confirmation and lead approval (via W-ONB-08 lever); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-32 Blast-radius and rate limits (partial); C-33 Rollback from recorded before-state (partial); EU-3 never locked out by a bot alone (05-governance.md section 9) |
 | Proof for the individual | IM-04 People wrongly acted on: people wrongly disabled (target 0) and minutes to restore; stale enabled accounts per tenant |
 
 #### `W-IDM-12` App registration and service principal secret expiry
@@ -1257,7 +1257,7 @@ R2 · write-lever-approval · repo: planned · persona: P-12 Hannah Ortiz, paral
 | FN: misses it | Hannah waits days for the PDF editor she needs for a filing. |
 | Worse direction | FP |
 | Blast radius | `BR-2` a group of devices |
-| Safeguards | Inventory rule: Only catalog apps; client approval for paid software; technician approves; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-32 Blast-radius and rate limits (planned); CM-5 staged rollout rings (05-governance.md section 8) |
+| Safeguards | Inventory rule: Only catalog apps; client approval for paid software; technician approves; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-32 Blast-radius and rate limits (partial); CM-5 staged rollout rings (05-governance.md section 8) |
 | Proof for the individual | IM-01 Time back to work: minutes from request to installed; failed installs |
 
 #### `W-EP-05` Intune compliance follow-up
@@ -1311,7 +1311,7 @@ R2 · write-lever-approval · repo: planned · persona: P-11 Grace Okafor, bookk
 | FN: misses it | The hung service is not restarted; Grace cannot work in her accounting app until someone remotes in. |
 | Worse direction | FP |
 | Blast radius | `BR-1` one device; BR-3 for a shared server |
-| Safeguards | Inventory rule: Technician approves; lever checks the client's maintenance window; servers need lead approval; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-32 Blast-radius and rate limits (planned) |
+| Safeguards | Inventory rule: Technician approves; lever checks the client's maintenance window; servers need lead approval; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-32 Blast-radius and rate limits (partial) |
 | Proof for the individual | IM-08 Disruption minutes: unplanned disruption minutes caused by restarts (target 0); IM-01 for the requester |
 
 #### `W-EP-08` Lost or stolen device: lock, retire or wipe
@@ -1329,7 +1329,7 @@ R3 · write-lever-approval · repo: planned · persona: P-09 Chris Osei, trader,
 | FN: misses it | The device stays live; a thief has access. |
 | Worse direction | FN |
 | Blast radius | `BR-1` one device |
-| Safeguards | Inventory rule: Lead approves; client contact confirms; the incident is recorded for the human breach assessment (W-SEC-07); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-30 Requester identity verification for access-affecting levers (planned); C-32 Blast-radius and rate limits (planned) |
+| Safeguards | Inventory rule: Lead approves; client contact confirms; the incident is recorded for the human breach assessment (W-SEC-07); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-30 Requester identity verification for access-affecting levers (built); C-32 Blast-radius and rate limits (partial) |
 | Proof for the individual | IM-06 Exposure window: minutes from report to lock; IM-01 minutes to working on a loaner |
 
 #### `W-EP-09` macOS and Linux endpoint scripts
@@ -1708,7 +1708,7 @@ R2 · agent-triage, write-lever-approval · repo: partial · persona: P-04 Lena 
 | FN: misses it | Says safe; Lena clicks. |
 | Worse direction | FN |
 | Blast radius | `BR-2` every mailbox in a tenant |
-| Safeguards | Inventory rule: Agent gives a verdict with indicators (email treated as untrusted input); purge across mailboxes needs analyst approval; C-12 Untrusted input wrapping (built); C-13 Prompt-injection tripwire (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-32 Blast-radius and rate limits (planned) |
+| Safeguards | Inventory rule: Agent gives a verdict with indicators (email treated as untrusted input); purge across mailboxes needs analyst approval; C-12 Untrusted input wrapping (built); C-13 Prompt-injection tripwire (built); C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-32 Blast-radius and rate limits (partial) |
 | Proof for the individual | IM-02 Time to a human: minutes from report to verdict back to the reporter; reporters who got a reply (target 100%) |
 
 #### `W-SEC-04` Business email compromise containment
@@ -1726,7 +1726,7 @@ R3 · write-lever-approval · repo: partial · persona: P-10 Riley Brooks, opera
 | FN: misses it | Attacker keeps access; fraudulent invoices go to customers. |
 | Worse direction | FN |
 | Blast radius | `BR-2` one account; BR-3 with the client's customers |
-| Safeguards | Inventory rule: Playbook of levers, each dry-run then lead-approved; the client is told by a human; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-30 Requester identity verification for access-affecting levers (planned); C-33 Rollback from recorded before-state (partial); EU-1 clear communication to the person (05-governance.md section 9); EU-2 a fast way back (05-governance.md section 9); IR-3 restore the person first (05-governance.md section 7) |
+| Safeguards | Inventory rule: Playbook of levers, each dry-run then lead-approved; the client is told by a human; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-30 Requester identity verification for access-affecting levers (built); C-33 Rollback from recorded before-state (partial); EU-1 clear communication to the person (05-governance.md section 9); EU-2 a fast way back (05-governance.md section 9); IR-3 restore the person first (05-governance.md section 7) |
 | Proof for the individual | IM-06 Exposure window: minutes from confirmed compromise to attacker access removed; IM-01 minutes until Riley can work again |
 
 #### `W-SEC-05` Endpoint isolation
@@ -1901,7 +1901,7 @@ R0 · eval · repo: exists · persona: P-01 Priya Nair, dental hygienist, Contos
 | FN: misses it | Tampering goes unnoticed. |
 | Worse direction | FN |
 | Blast radius | `BR-5` all audit evidence |
-| Safeguards | Inventory rule: Automatic check; a break is a human-investigated incident; C-08 Hash-chained audit log with head pin and verifier (built); C-39 Write-once audit head pinning and retention (planned); EU-5 no silent decisions (05-governance.md section 9) |
+| Safeguards | Inventory rule: Automatic check; a break is a human-investigated incident; C-08 Hash-chained audit log with head pin and verifier (built); C-39 Write-once audit head pinning and retention (partial); EU-5 no silent decisions (05-governance.md section 9) |
 | Proof for the individual | IM-11 Understood and accountable: days the verifier passed; minutes to answer 'who changed my account and why' |
 
 #### `W-CMP-06` Business associate agreements and vendor due diligence tracking
@@ -1919,7 +1919,7 @@ R0 · report · repo: not in blueprint · persona: P-03 Dr. Sam Patel, dentist a
 | FN: misses it | Expired agreements missed. |
 | Worse direction | FP |
 | Blast radius | `BR-3` the client's vendor chain |
-| Safeguards | Inventory rule: Read-only tracker; legal review human; C-21 Output reconciliation (no invented numbers) (built); C-43 AI vendor and subprocessor register (planned) |
+| Safeguards | Inventory rule: Read-only tracker; legal review human; C-21 Output reconciliation (no invented numbers) (built); C-43 AI vendor and subprocessor register (built) |
 | Proof for the individual | IM-14 Owner and manager time: vendors handling PHI or NPI without a current agreement (target 0) |
 
 #### `W-CMP-08` Cyber insurance questionnaires
@@ -2137,7 +2137,7 @@ R0 · report · repo: planned · persona: P-02 Ana Lopez, office manager and HIP
 | FN: misses it | No policy; staff paste PHI into public tools. |
 | Worse direction | FN |
 | Blast radius | `BR-2` one client's staff |
-| Safeguards | Inventory rule: Template draft; client and their counsel own the final policy; HO-9 AI drafts, a human sends (05-governance.md section 6); C-42 Staff training and acceptable use (planned) |
+| Safeguards | Inventory rule: Template draft; client and their counsel own the final policy; HO-9 AI drafts, a human sends (05-governance.md section 6); C-42 Staff training and acceptable use (partial) |
 | Proof for the individual | IM-11 Understood and accountable: staff who can state the rule; observed PHI-in-prompt events |
 
 #### `W-RPT-06` Internal operations metrics (resolution time, first-contact resolution, SLA, backlog)
@@ -2184,7 +2184,7 @@ R1 · report, eval · repo: planned · persona: P-20 tech-ana, Tier 1 technician
 | FN: misses it | Knowledge lost. |
 | Worse direction | FP |
 | Blast radius | `BR-2` everyone who uses the article |
-| Safeguards | Inventory rule: Draft only; a technician reviews and publishes; client data stripped and checked; C-25 Data classification and pre-prompt redaction gate (planned); C-41 Evaluation gate before promotion (partial); C-26 Per-tenant retrieval isolation (partial) |
+| Safeguards | Inventory rule: Draft only; a technician reviews and publishes; client data stripped and checked; C-25 Data classification and pre-prompt redaction gate (built); C-41 Evaluation gate before promotion (partial); C-26 Per-tenant retrieval isolation (partial) |
 | Proof for the individual | IM-13 Right answer with a source: articles accepted without factual edit; PHI in articles (target 0) |
 
 #### `W-KB-02` Client documentation upkeep (network, contacts, configurations)
@@ -2274,7 +2274,7 @@ R0 · read-lever · repo: planned · persona: P-02 Ana Lopez, office manager and
 | FN: misses it | Outdated list lets a departed manager authorize. |
 | Worse direction | FN |
 | Blast radius | `BR-2` one tenant's access decisions |
-| Safeguards | Inventory rule: Agents read the list to check requesters; only a human edits it, on the client's instruction; C-04 Per-client scope at the tool layer (built); C-20 Read levers cannot write (built); C-30 Requester identity verification for access-affecting levers (planned) |
+| Safeguards | Inventory rule: Agents read the list to check requesters; only a human edits it, on the client's instruction; C-04 Per-client scope at the tool layer (built); C-20 Read levers cannot write (built); C-30 Requester identity verification for access-affecting levers (built) |
 | Proof for the individual | IM-04 People wrongly acted on: access changes authorized by a non-authorized contact (target 0); list age |
 
 ### BIL: Billing inputs
@@ -2364,7 +2364,7 @@ R0 · read-lever, report · repo: partial · persona: P-12 Hannah Ortiz, paraleg
 | FN: misses it | Misses a risk. |
 | Worse direction | FN |
 | Blast radius | `BR-3` the new client |
-| Safeguards | Inventory rule: Read-only discovery report; remediation goes through normal approved levers; C-04 Per-client scope at the tool layer (built); C-20 Read levers cannot write (built); C-38 Agent and technician access review; least-privilege delegated access (planned) |
+| Safeguards | Inventory rule: Read-only discovery report; remediation goes through normal approved levers; C-04 Per-client scope at the tool layer (built); C-20 Read levers cannot write (built); C-38 Agent and technician access review; least-privilege delegated access (partial) |
 | Proof for the individual | IM-15 Silent-failure lead time: days from start to baseline MFA coverage |
 
 #### `W-PRJ-03` Microsoft 365 migrations (tenant to tenant, mailbox moves)
@@ -2382,7 +2382,7 @@ R3 · write-lever-approval · repo: not in blueprint · persona: P-11 Grace Okaf
 | FN: misses it | A conflict the pre-flight should have caught (an oversized mailbox, a missing licence) surfaces mid-cutover; Grace loses mail during month-end close. |
 | Worse direction | FP |
 | Blast radius | `BR-3` a tenant |
-| Safeguards | Inventory rule: Scripted batches with dry-run and engineer approval per batch; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-32 Blast-radius and rate limits (planned) |
+| Safeguards | Inventory rule: Scripted batches with dry-run and engineer approval per batch; C-05 Dry-run by default with a diff (built); C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-32 Blast-radius and rate limits (partial) |
 | Proof for the individual | IM-01 Time back to work: share of users signing in successfully Monday morning; items lost (target 0) |
 
 #### `W-PRJ-04` Copilot and AI adoption readiness for clients
@@ -2472,7 +2472,7 @@ R1 · eval · repo: exists · persona: P-27 the AI & Automation Engineer, builds
 | FN: misses it | The lever is never built; toil stays. |
 | Worse direction | FP |
 | Blast radius | `BR-4` all tenants with the lever enabled |
-| Safeguards | Inventory rule: Code review and passing tests before registration; registry changes are reviewed like code; C-01 Lever registry, default deny (built); C-02 Parameter schema validation (built); C-29 Risk class and version on every lever, enforced by class (planned); C-37 Lever change management with staged rollout (partial); C-41 Evaluation gate before promotion (partial); CM-1 PR with tests and reviewer (05-governance.md section 8) |
+| Safeguards | Inventory rule: Code review and passing tests before registration; registry changes are reviewed like code; C-01 Lever registry, default deny (built); C-02 Parameter schema validation (built); C-29 Risk class and version on every lever, enforced by class (partial); C-37 Lever change management with staged rollout (partial); C-41 Evaluation gate before promotion (partial); CM-1 PR with tests and reviewer (05-governance.md section 8) |
 | Proof for the individual | IM-04 People wrongly acted on: wrong-action incidents per 1,000 executes; IM-12 toil minutes removed |
 
 #### `W-TOOL-02` Model gateway and routing configuration
@@ -2490,7 +2490,7 @@ R1 · eval · repo: exists · persona: P-27 the AI & Automation Engineer, builds
 | FN: misses it | Task routed to a weak model; worse suggestions. |
 | Worse direction | FP |
 | Blast radius | `BR-4` all tenants |
-| Safeguards | Inventory rule: Routing thresholds change only on eval evidence; hosted providers stay off unless approved; C-15 Loopback-only model gateway, hosted providers off (built); C-16 Provider abstraction against lock-in (built); C-28 Hosted AI provider approval gate (planned); C-41 Evaluation gate before promotion (partial) |
+| Safeguards | Inventory rule: Routing thresholds change only on eval evidence; hosted providers stay off unless approved; C-15 Loopback-only model gateway, hosted providers off (built); C-16 Provider abstraction against lock-in (built); C-28 Hosted AI provider approval gate (built); C-41 Evaluation gate before promotion (partial) |
 | Proof for the individual | IM-04 People wrongly acted on: regulated items sent off-machine without approval (target 0) |
 
 #### `W-TOOL-03` Prompt library and standards
@@ -2562,7 +2562,7 @@ R1 · write-lever-approval · repo: exists · persona: P-22 lead-lee, service de
 | FN: misses it | Backlog; people wait. |
 | Worse direction | FP |
 | Blast radius | `BR-4` all write levers |
-| Safeguards | Inventory rule: Approver cannot be the requester; approval is recorded in the audit chain; rejection reasons become eval data; C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-19 Approval queue and viewer hardening (built); C-40 Monitoring and alerting on automation behaviour (planned); C-44 Authenticated approvers (planned); AIR-10 rubber-stamp approvals (05-governance.md section 5) |
+| Safeguards | Inventory rule: Approver cannot be the requester; approval is recorded in the audit chain; rejection reasons become eval data; C-06 Lead approval bound to lever, client and params (built); C-07 Four-eyes rule (no self-approval) (built); C-19 Approval queue and viewer hardening (built); C-40 Monitoring and alerting on automation behaviour (partial); C-44 Authenticated approvers (built); AIR-10 rubber-stamp approvals (05-governance.md section 5) |
 | Proof for the individual | IM-01 Time back to work: minutes from proposal to decision; approvals faster than a diff can be read (flagged) |
 
 #### `W-TOOL-07` CI/CD pipelines and release process
@@ -2598,7 +2598,7 @@ R0 · report · repo: planned · persona: P-27 the AI & Automation Engineer, bui
 | FN: misses it | Silent failure across tenants. |
 | Worse direction | FN |
 | Blast radius | `BR-4` all tenants |
-| Safeguards | Inventory rule: Read-only dashboards and alerts; humans respond; C-40 Monitoring and alerting on automation behaviour (planned); C-31 Kill switch per lever and per tenant (planned) |
+| Safeguards | Inventory rule: Read-only dashboards and alerts; humans respond; C-40 Monitoring and alerting on automation behaviour (partial); C-31 Kill switch per lever and per tenant (built) |
 | Proof for the individual | IM-04 People wrongly acted on: minutes from anomaly to human; people affected before detection |
 
 #### `W-TOOL-10` MCP server and Teams technician assistant
@@ -2688,7 +2688,7 @@ R0 · eval, report · repo: planned · persona: P-27 the AI & Automation Enginee
 | FN: misses it | Misses a real gain. |
 | Worse direction | FP |
 | Blast radius | `BR-5` the program's direction |
-| Safeguards | Inventory rule: Recommendations backed by repo evals and cited sources; C-28 Hosted AI provider approval gate (planned); C-43 AI vendor and subprocessor register (planned) |
+| Safeguards | Inventory rule: Recommendations backed by repo evals and cited sources; C-28 Hosted AI provider approval gate (built); C-43 AI vendor and subprocessor register (built) |
 | Proof for the individual | IM-12 Technician toil and growth: evaluations completed with a decision |
 
 ### GOV: AI governance
@@ -2713,7 +2713,7 @@ R0 · report · repo: planned · persona: P-20 tech-ana, Tier 1 technician (repo
 | FN: misses it | Too loose; PHI in prompts. |
 | Worse direction | FN |
 | Blast radius | `BR-5` the program |
-| Safeguards | Inventory rule: Leadership approves the policy; C-42 Staff training and acceptable use (planned); C-25 Data classification and pre-prompt redaction gate (planned) |
+| Safeguards | Inventory rule: Leadership approves the policy; C-42 Staff training and acceptable use (partial); C-25 Data classification and pre-prompt redaction gate (built) |
 | Proof for the individual | IM-11 Understood and accountable: staff who can state the rule; PHI-in-prompt events |
 
 #### `W-GOV-03` Agent identity and lever permission review
@@ -2731,7 +2731,7 @@ R0 · report · repo: partial · persona: P-27 the AI & Automation Engineer, bui
 | FN: misses it | Excess access stays. |
 | Worse direction | FN |
 | Blast radius | `BR-4` all tenants |
-| Safeguards | Inventory rule: Read-only review; changes by human pull request; C-38 Agent and technician access review; least-privilege delegated access (planned); C-03 Role-based authorization; agents may only dry-run writes (built); AIR-2 over-privileged agents (05-governance.md section 5) |
+| Safeguards | Inventory rule: Read-only review; changes by human pull request; C-38 Agent and technician access review; least-privilege delegated access (partial); C-03 Role-based authorization; agents may only dry-run writes (built); AIR-2 over-privileged agents (05-governance.md section 5) |
 | Proof for the individual | IM-04 People wrongly acted on: excess grants found per review |
 
 ### TRN: Staff training on AI
@@ -2757,7 +2757,7 @@ R0 · report · repo: planned · persona: P-30 Theo Grant, new Tier 1 technician
 | FN: misses it | Untrained approvers. |
 | Worse direction | FN |
 | Blast radius | `BR-5` how every approval is made |
-| Safeguards | Inventory rule: Human-led training with synthetic exercises; C-42 Staff training and acceptable use (planned) |
+| Safeguards | Inventory rule: Human-led training with synthetic exercises; C-42 Staff training and acceptable use (partial) |
 | Proof for the individual | IM-12 Technician toil and growth: share of technicians who caught a seeded wrong proposal in a drill |
 
 #### `W-TRN-02` Account manager training: explaining AI to clients
@@ -2775,7 +2775,7 @@ R0 · report · repo: planned · persona: P-25 Owen Price, account manager and v
 | FN: misses it | The account manager cannot explain it, and the client refuses a safe, useful automation. |
 | Worse direction | FP |
 | Blast radius | `BR-5` client trust |
-| Safeguards | Inventory rule: Human-led; claims limited to measured, labelled results; C-42 Staff training and acceptable use (planned); C-45 Synthetic data only and honest labels (partial) |
+| Safeguards | Inventory rule: Human-led; claims limited to measured, labelled results; C-42 Staff training and acceptable use (partial); C-45 Synthetic data only and honest labels (partial) |
 | Proof for the individual | IM-11 Understood and accountable: clients who can say what the AI does for them |
 
 #### `W-TRN-03` Correction feedback loop coaching

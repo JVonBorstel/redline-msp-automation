@@ -26,6 +26,10 @@ no sign-in proof, one global-style serialisation per client only):
     (B28-1, STD-LV-6a);
   - `verification: "requester+contact"` needs a callback-on-file record (number source, never the number) and the
     client's authorized contact, and refuses a target that holds a directory role (B28-8, D6-06).
+  - dual approval in the queue (docs/changes/B-28-dual-approval.md): `attest` checks one lead's approval and sign-in
+    when they approve and returns a `SigninAttestation` (HMAC under a key held only in this runner's memory); the
+    queue keeps it on the partial approval and hands it back with the second lead's approval, so the first token is
+    never stored. An attestation older than the policy's age limit, edited, or from another runner is refused.
 Always on: executes serialise per client, so two clients run side by side (B28-2); every record carries
 request_id, actor_kind and lever_version (B28-4).
 B-42 adds, on an execute of a write lever, inside the per-client lock and before anything is applied:
@@ -52,8 +56,10 @@ from __future__ import annotations
 import copy
 import functools
 import hashlib
+import hmac
 import json
 import re
+import secrets
 import threading
 import time
 from collections.abc import Callable, Mapping, Sequence
@@ -88,6 +94,7 @@ from core.levers.models import (
     InvokeResult,
     LeverDef,
     Mode,
+    SigninAttestation,
     Status,
     Verification,
 )
@@ -132,6 +139,10 @@ SIGNED_IN_RISKS = frozenset({"R2", "R3"})
 
 class PolicyError(ValueError):
     """The runner policy or a client record is invalid, for example an approver minimum below the class default."""
+
+
+class SigninRefused(ValueError):
+    """`LeverRunner.attest` refused an approval: the approver is not allowed, or their sign-in did not check out."""
 
 
 class RunnerPolicy:
@@ -319,6 +330,14 @@ def _approval_id(lever: str, client: str, params: Mapping[str, Any], approvers: 
     return "appr-" + hashlib.sha256(canonical_json(payload)).hexdigest()[:24]
 
 
+def params_sha256(params: Mapping[str, Any]) -> str:
+    return hashlib.sha256(canonical_json(dict(params))).hexdigest()
+
+
+def _attestation_payload(att: SigninAttestation) -> bytes:
+    return canonical_json(att.model_dump(mode="json", exclude={"mac"}))
+
+
 def _as_list(approval: Approval | Sequence[Approval] | None) -> list[Approval]:
     if approval is None:
         return []
@@ -357,10 +376,111 @@ class LeverRunner:
         self.bridge = bridge if bridge is not None else PowerShellBridge(tenant_dir=tenant.root)
         # Runs `runtime: "bash"` levers (B-66) on the synthetic unix hosts under levers/bash/mock.
         self.bash_bridge = bash_bridge if bash_bridge is not None else BashBridge()
+        # B-28 dual approval: signs sign-in attestations. In memory only, never written or logged; a new runner
+        # (another process, or the page after a restart) cannot accept an attestation an earlier one issued.
+        self._attest_key = secrets.token_bytes(32)
 
     def _client_lock(self, client: str) -> threading.Lock:
         with self._locks_guard:
             return self._client_locks.setdefault(client, threading.Lock())
+
+    def now(self) -> datetime:
+        """The runner's clock (UTC); the queue stamps approvals with it so freshness is judged on one clock."""
+        return self._clock()
+
+    # -- dual approval support for the queue (B-28) -----------------------------------------------------------
+
+    def approvers_needed(self, lever: str, client: str) -> int:
+        """How many distinct lead approvals an execute of `lever` for `client` needs. 1 without a policy (W1)."""
+        spec = self.registry.get(lever)
+        if self.policy is None or spec is None or spec.approval != "lead":
+            return 1
+        risk = spec.risk_class or "R1"
+        return max(APPROVER_MINIMUM[risk], spec.min_approvers or 0, self.policy.client_minimum(client, risk))
+
+    def attest(self, approval: Approval, requester: str) -> SigninAttestation:
+        """Check one approval now (approver, scope, four-eyes, binding, sign-in) and return the runner's attestation.
+
+        For a partial approval the queue keeps: the approver's token is checked here, once, and never stored. The
+        attestation is bound to the approver and to this exact lever, client and params. Raises SigninRefused.
+        """
+        if self.policy is None:
+            raise SigninRefused("no runner policy: there is nothing to attest (W1 single approval)")
+        spec = self.registry.get(approval.lever)
+        if spec is None:
+            raise SigninRefused(f"lever {approval.lever!r} is not registered")
+        try:
+            approver = self._check_approval(approval, spec, requester, approval.client, approval.params)
+            if approval.attestation is not None:
+                raise _Denied("an attestation cannot be attested again")
+            signin = self._check_signin(approval, approver)
+        except _Denied as denial:
+            raise SigninRefused(str(denial)) from None
+        unsigned = SigninAttestation(
+            approver=approver,
+            lever=spec.name,
+            client=approval.client,
+            params_sha256=params_sha256(approval.params),
+            auth=signin["auth"],
+            demo=signin["demo"],
+            sid=signin.get("sid"),
+            at=self._clock(),
+            mac="0" * 64,
+        )
+        return unsigned.model_copy(update={"mac": self._mac(unsigned)})
+
+    def attestation_problem(self, att: SigninAttestation, lever: str, client: str, params: Mapping[str, Any]) -> str:
+        """Why `att` cannot back an approval of this exact action now ("" when it can)."""
+        try:
+            self._check_attestation(att, att.approver, lever, client, params)
+        except _Denied as denial:
+            return str(denial)
+        return ""
+
+    def verification_problem(self, approvals: Sequence[Approval]) -> str:
+        """The runner's own requester (and contact) verification check, run early for a partial approval ("" if ok)."""
+        if not approvals:
+            return "no approval to check"
+        first = approvals[0]
+        spec = self.registry.get(first.lever)
+        if spec is None:
+            return f"lever {first.lever!r} is not registered"
+        try:
+            self._check_verification(list(approvals), spec, first.client, first.params)
+        except _Denied as denial:
+            return str(denial)
+        return ""
+
+    def _mac(self, att: SigninAttestation) -> str:
+        return hmac.new(self._attest_key, _attestation_payload(att), hashlib.sha256).hexdigest()
+
+    def _check_attestation(
+        self, att: SigninAttestation, approver: str, lever: str, client: str, params: Mapping[str, Any]
+    ) -> dict[str, Any]:
+        policy = self.policy
+        if policy is None:
+            raise _Denied("an attested approval needs a runner policy")
+        if not hmac.compare_digest(att.mac, self._mac(att)):
+            raise _Denied(
+                "the sign-in attestation was not issued by this runner (edited, or from another process or before a "
+                "restart); the sign-in proof is no longer valid"
+            )
+        same = (att.approver, att.lever, att.client) == (approver, lever, client)
+        if not same or att.params_sha256 != params_sha256(params):
+            raise _Denied("the sign-in attestation is for a different approver or action")
+        if att.demo and not policy.demo:
+            raise _Denied("demo approvals are accepted only when the runner is started with --demo")
+        now = self._clock()
+        if att.at > now + VERIFICATION_CLOCK_SKEW:
+            raise _Denied("the sign-in attestation time is in the future")
+        if now - att.at >= policy.max_irreversible_age:
+            hours = int(policy.max_irreversible_age.total_seconds() // 3600)
+            raise _Denied(f"approval by {approver} is older than the {hours}-hour limit; it must be approved again")
+        signin: dict[str, Any] = {"approver": approver, "auth": att.auth, "demo": att.demo}
+        if att.sid is not None:
+            signin["sid"] = att.sid
+        signin["attested_at"] = att.at.isoformat()
+        return signin
 
     def invoke(
         self,
@@ -735,6 +855,11 @@ class LeverRunner:
         """B28-6: an R2 or R3 approval comes from a signed-in approver, or from the demo picker when allowed."""
         policy = self.policy
         assert policy is not None
+        if approval.attestation is not None:
+            # B-28 dual approval: this runner checked the sign-in when the lead approved; the MAC proves it.
+            return self._check_attestation(
+                approval.attestation, approver, approval.lever, approval.client, approval.params
+            )
         if approval.token is not None:
             if policy.validator is None:
                 raise _Denied("no token validator is configured; approval refused (failing closed)")

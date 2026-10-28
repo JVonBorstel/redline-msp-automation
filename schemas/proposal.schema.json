@@ -106,6 +106,178 @@
       "title": "ApproverAuth",
       "type": "object"
     },
+    "ContactConfirmation": {
+      "additionalProperties": false,
+      "description": "The client's authorized contact confirmed the request (D6-06); a human at the MSP records it.",
+      "properties": {
+        "by": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "By",
+          "type": "string"
+        },
+        "at": {
+          "format": "date-time",
+          "title": "At",
+          "type": "string"
+        },
+        "contact": {
+          "maxLength": 64,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._:#/-]+$",
+          "title": "Contact",
+          "type": "string"
+        }
+      },
+      "required": [
+        "by",
+        "at",
+        "contact"
+      ],
+      "title": "ContactConfirmation",
+      "type": "object"
+    },
+    "RecordedApproval": {
+      "additionalProperties": false,
+      "description": "One lead's approval kept on the proposal (B-28): who, when, how they signed in, and what they approved.",
+      "properties": {
+        "approver": {
+          "pattern": "^[a-z0-9][a-z0-9-]{0,62}$",
+          "title": "Approver",
+          "type": "string"
+        },
+        "approved_at": {
+          "format": "date-time",
+          "title": "Approved At",
+          "type": "string"
+        },
+        "auth": {
+          "$ref": "#/$defs/ApproverAuth"
+        },
+        "attestation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SigninAttestation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Digest",
+          "type": "string"
+        },
+        "verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Verification"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "contact_verification": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ContactConfirmation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "approver",
+        "approved_at",
+        "auth",
+        "digest"
+      ],
+      "title": "RecordedApproval",
+      "type": "object"
+    },
+    "SigninAttestation": {
+      "additionalProperties": false,
+      "description": "The runner's proof that it checked one approver's sign-in for one exact action at `at` (B-28 dual approval).\n\nThe queue keeps it on a partial approval so a second lead can complete the change later without the first lead's\ntoken, which is never stored. `mac` is an HMAC-SHA256 under a key that lives only in the memory of the runner that\nissued it: another process (or the same page after a restart) cannot accept it, and editing any field breaks it.\nIt holds no token, signature or key material of the identity provider.",
+      "properties": {
+        "approver": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Approver",
+          "type": "string"
+        },
+        "lever": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Lever",
+          "type": "string"
+        },
+        "client": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Client",
+          "type": "string"
+        },
+        "params_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Params Sha256",
+          "type": "string"
+        },
+        "auth": {
+          "enum": [
+            "entra-id-token",
+            "demo-picker"
+          ],
+          "title": "Auth",
+          "type": "string"
+        },
+        "demo": {
+          "title": "Demo",
+          "type": "boolean"
+        },
+        "sid": {
+          "anyOf": [
+            {
+              "maxLength": 64,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sid"
+        },
+        "at": {
+          "format": "date-time",
+          "title": "At",
+          "type": "string"
+        },
+        "mac": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Mac",
+          "type": "string"
+        }
+      },
+      "required": [
+        "approver",
+        "lever",
+        "client",
+        "params_sha256",
+        "auth",
+        "demo",
+        "at",
+        "mac"
+      ],
+      "title": "SigninAttestation",
+      "type": "object"
+    },
     "Verification": {
       "additionalProperties": false,
       "description": "How the requester was verified out of band before an approval (C-30, governance HO-4).",
@@ -219,6 +391,7 @@
       "default": "pending",
       "enum": [
         "pending",
+        "awaiting-second-approval",
         "approved",
         "rejected",
         "executed",
@@ -273,6 +446,14 @@
         }
       ],
       "default": null
+    },
+    "approvals": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/RecordedApproval"
+      },
+      "title": "Approvals",
+      "type": "array"
     }
   },
   "required": [

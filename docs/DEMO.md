@@ -106,10 +106,11 @@ uv run --frozen python -m ui --state .tmp/demo --demo
 ```
 Open the `127.0.0.1` address it prints. Signed in as lead-lee, the pending list holds Priya's proposal `P-d01c53bdf1dc` from step 1 and the seeded proposals for lead-lee's clients. Each card shows the person, what it means for her, the masked dry-run diff and the undo (`no undo lever: manual undo`).
 1. Press **Approve** on Priya's card with no verification chosen. The page answers `Refused: user.reset-mfa needs the requester verified out of band first; choose how (C-30)`, and nothing changes.
-2. Under **Requester verified out of band**, choose *called back on the number on file* and, as the source, *PSA contact record for this client*. Press **Approve**. The banner says `Executed P-d01c53bdf1dc`, run as tech-ana, approved by lead-lee, with the verification named.
-3. Reject one seeded baseline proposal to show that nothing changes.
+2. Under **Requester verified out of band**, choose *called back on the number on file* and, as the source, *PSA contact record for this client*. Press **Approve**. The banner says `Approved P-d01c53bdf1dc as lead-lee: waiting for a second lead`: an MFA reset is R3, so it needs two different leads (B-28). Nothing has run, and lead-lee's card now offers only **Reject**.
+3. Switch the picker to lead-mia. Priya's card says `Approved by lead-lee, waiting for a second lead` and shows how she was verified. Press **Approve as second lead**. The banner says `Executed P-d01c53bdf1dc`, run as tech-ana, approved by lead-lee and lead-mia, with the verification named.
+4. Reject one seeded baseline proposal to show that nothing changes.
 
-Say: *"Before I approve, I call Priya back on the number in the PSA, not the one in the ticket, and I record how. There is no box to type a phone number, so it never lands in a log. Without that record the page and the runner both refuse. The approval is bound to this exact lever, client and parameters, a requester can't approve their own call, and it runs against the mock tenant only. Reject, and nothing changes. The page binds to 127.0.0.1 only."*
+Say: *"Before I approve, I call Priya back on the number in the PSA, not the one in the ticket, and I record how. There is no box to type a phone number, so it never lands in a log. Without that record the page and the runner both refuse. An MFA reset needs a second lead, and it can't be me twice or the person who asked; until then nothing runs. Both approvals are bound to this exact lever, client and parameters and are in the audit record, and it runs against the mock tenant only. The picker is a demo stand-in, not sign-in; with `--auth-config` each lead signs in with an Entra ID token instead. Reject, and nothing changes. The page binds to 127.0.0.1 only."*
 
 **6b. Tell Priya (about 20 seconds).** Type:
 ```powershell

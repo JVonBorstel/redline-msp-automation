@@ -329,22 +329,31 @@
    ]
   },
   "C-24": {
-   "tests": [],
+   "tests": [
+    "tests/py/tools/test_b07_ci_wiring.py::test_b07_1_every_action_is_pinned_to_a_full_commit_sha",
+    "tests/py/tools/test_b07_ci_wiring.py::test_b07_1_the_token_stays_read_only"
+   ],
    "files": [
     ".github/workflows/ci.yml"
    ],
    "not_demonstrated": [
-    "Run history lives on the private repository host and is not in this repo, so no test here proves it."
+    "The tests read the committed workflow file; run history lives on the private repository host and is not in this repo."
    ]
   },
   "C-25": {
-   "tests": [],
+   "tests": [
+    "tests/py/guard/test_b55_redaction.py::test_b55_1_unknown_text_takes_the_industry_floor_from_the_client_record",
+    "tests/py/guard/test_b55_redaction.py::test_b55_2_no_labelled_span_of_the_phase2_set_reaches_any_provider",
+    "tests/py/guard/test_b55_redaction.py::test_b55_2_dc6_canaries_block_the_call_before_any_provider"
+   ],
    "files": [
+    "core/guard/classify.py",
+    "core/guard/redact_prompt.py",
     "evals/redaction/report.md",
     "governance/DLP_MAPPING.md"
    ],
    "not_demonstrated": [
-    "Control is planned; the redaction eval is fixture-based and per-tenant class config is not built."
+    "The leak rate is measured on synthetic tickets only; prose with no recognisable shape is trusted at its declared class (known limit)."
    ]
   },
   "C-26": {
@@ -374,38 +383,73 @@
    ]
   },
   "C-28": {
-   "tests": [],
+   "tests": [
+    "tests/py/gateway/test_b90_hosted.py::test_b90_1_a_hosted_provider_without_an_approval_id_in_config_never_runs",
+    "tests/py/gateway/test_b90_hosted.py::test_b90_gate_a_client_whose_record_says_not_hosted_is_refused_even_if_the_approval_names_it",
+    "tests/py/gateway/test_b90_hosted.py::test_b90_3_dc4_and_dc5_are_refused_unless_the_entry_allows_that_class"
+   ],
    "files": [
     "core/gateway/hosted.py",
+    "core/gateway/vendor_register.py",
     "config/models.json"
    ],
    "not_demonstrated": [
-    "Control is planned; only the safe default (hosted providers disabled) exists."
+    "Every register entry is pending: no hosted provider is approved, no BAA or retention terms were checked, and no real call was made."
    ]
   },
   "C-29": {
-   "tests": [],
-   "files": [],
+   "tests": [
+    "tests/py/levers/test_b01_registry_fields.py::test_b01_1_write_lever_without_risk_class_or_impact_fails_naming_the_lever",
+    "tests/py/levers/test_b28_runner3.py::test_b28_4_every_record_carries_request_id_actor_kind_and_lever_version",
+    "tests/py/levers/test_b42_caps.py::test_b42_1_a_lever_without_caps_gets_its_risk_class_default"
+   ],
+   "files": [
+    "core/levers/models.py",
+    "core/levers/runner.py"
+   ],
    "not_demonstrated": [
-    "Control is planned; the registry has no enforced risk_class at this commit in the map."
+    "No owner field and no semantic version per lever; lever_version is a whole number."
    ]
   },
   "C-30": {
-   "tests": [],
-   "files": [],
-   "not_demonstrated": []
+   "tests": [
+    "tests/py/levers/test_b02_runner_gates.py::test_b02_2_execute_without_verification_is_denied_and_audited",
+    "tests/py/levers/test_b02_runner_gates.py::test_b02_2_with_a_verification_the_record_carries_method_by_and_at",
+    "tests/py/levers/test_b28_runner3.py::test_b28_8_the_callback_record_alone_is_not_enough"
+   ],
+   "files": [
+    "core/levers/runner.py",
+    "core/levers/oob.py"
+   ],
+   "not_demonstrated": [
+    "The verification is a record a person makes; no real callback is placed and the number on file is synthetic."
+   ]
   },
   "C-31": {
-   "tests": [],
-   "files": [],
+   "tests": [
+    "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason",
+    "tests/py/levers/test_b02_runner_gates.py::test_b02_1_client_pause_stops_only_that_client",
+    "tests/py/levers/test_b02_runner_gates.py::test_b02_1_pause_and_resume_each_write_one_audit_record"
+   ],
+   "files": [
+    "core/levers/pause.py"
+   ],
    "not_demonstrated": [
-    "Control is planned in the map; later items may have built part of it (map fold pending)."
+    "Only a lead may pause; an on-call engineer role is not modelled."
    ]
   },
   "C-32": {
-   "tests": [],
-   "files": [],
-   "not_demonstrated": []
+   "tests": [
+    "tests/py/levers/test_b42_caps.py::test_b42_1_nplus1_execute_in_hour_is_denied_and_audited",
+    "tests/py/levers/test_b42_caps.py::test_b42_1_targets_per_run_cap",
+    "tests/py/levers/test_b42_caps.py::test_b42_1_clients_per_day_cap"
+   ],
+   "files": [
+    "core/levers/caps.py"
+   ],
+   "not_demonstrated": [
+    "R2 is not limited to one target per approval and bulk or cross-tenant runs do not require R3 approval; thresholds are prototype defaults."
+   ]
   },
   "C-33": {
    "tests": [
@@ -421,7 +465,8 @@
   },
   "C-34": {
    "tests": [
-    "tests/py/governance/test_b94_incident_response.py::test_b94_1_runbook_commands_run_end_to_end_on_a_synthetic_wrong_disable"
+    "tests/py/governance/test_b94_incident_response.py::test_b94_1_runbook_commands_run_end_to_end_on_a_synthetic_wrong_disable",
+    "tests/py/governance/test_b94_incident_response.py::test_b94_3_every_ir_step_is_recorded_with_a_time_in_order"
    ],
    "files": [
     "docs/RUNBOOKS.md",
@@ -429,27 +474,37 @@
     "docs/TABLETOP_2026.md"
    ],
    "not_demonstrated": [
-    "Map status is still planned (fold pending). A runbook and a scripted tabletop exist; no real incident, no people-time exercise."
+    "A runbook and a scripted tabletop exist; no real incident and no exercise with people timed against it."
    ]
   },
   "C-35": {
    "tests": [
+    "tests/py/governance/test_b94_incident_response.py::test_b94_2_one_template_for_each_reader_and_a_person_sends_it",
     "tests/py/governance/test_b94_incident_response.py::test_b94_2_every_timeline_is_listed_as_confirm_with_counsel"
    ],
    "files": [
     "governance/templates/notifications/README.md"
    ],
    "not_demonstrated": [
-    "Map status is still planned (fold pending). Templates are drafts; deadlines are unconfirmed and counsel has not reviewed them."
+    "Templates are drafts; deadlines are unconfirmed and counsel has not reviewed them."
    ]
   },
   "C-36": {
-   "tests": [],
-   "files": [],
-   "not_demonstrated": []
+   "tests": [
+    "tests/py/notify/test_b04_notify.py::test_b04_3_t3101_draft_says_what_why_who_back_and_undo"
+   ],
+   "files": [
+    "workflows/notify/"
+   ],
+   "not_demonstrated": [
+    "Only the notice text is built; no PSA priority rule, agreed restore target or restore-time metric exists."
+   ]
   },
   "C-37": {
-   "tests": [],
+   "tests": [
+    "tests/py/tools/test_b07_ci_wiring.py::test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test",
+    "tests/py/levers/test_b28_runner3.py::test_b28_4_every_record_carries_request_id_actor_kind_and_lever_version"
+   ],
    "files": [
     ".github/workflows/ci.yml"
    ],
@@ -459,27 +514,40 @@
   },
   "C-38": {
    "tests": [
+    "tests/py/access_review/test_b49_access_review.py::test_b49_2_lead_decides_every_row_and_the_decided_file_rebuilds_the_export_hash",
     "tests/py/expiry/test_b54_expiry.py::test_b54_1_gdap_global_administrator_is_listed"
    ],
    "files": [
-    "config/identities.json"
+    "config/identities.json",
+    "workflows/access_review/"
    ],
    "not_demonstrated": [
-    "Only a GDAP Global Administrator listing on fixtures; a dated, hashed review export and sign-off by a person are not shown here."
+    "Fixtures only; no real GDAP relationship was read, and no check ties a lever's scope to the delegated roles."
    ]
   },
   "C-39": {
-   "tests": [],
-   "files": [],
+   "tests": [
+    "tests/py/audit/test_b17_audit_v2.py::test_b17_2_p1_2_deleting_the_last_record_is_caught_by_the_head_pin",
+    "tests/py/storage/test_b82_sqlite.py::test_b82_2_a_pinned_head_held_elsewhere_catches_a_fully_rewound_database"
+   ],
+   "files": [
+    "core/audit/verify.py",
+    "core/audit/sqlite_store.py"
+   ],
    "not_demonstrated": [
-    "Control is planned; the external pin and retention policy do not exist."
+    "The pinned head is a local file in the tests; no write-once storage exists and there is no retention policy document."
    ]
   },
   "C-40": {
-   "tests": [],
-   "files": [],
+   "tests": [
+    "tests/py/obs/test_b83_obs.py::test_b83_2_replayed_synthetic_incidents_fire_exactly_the_expected_alerts",
+    "tests/py/obs/test_b83_obs.py::test_b83_2_a_failed_chain_fires_once_per_scope_and_healthy_ones_stay_quiet"
+   ],
+   "files": [
+    "workflows/monitoring/rules.json"
+   ],
    "not_demonstrated": [
-    "Control is planned; no monitoring runs."
+    "Only five rules exist and they run on synthetic replays; no monitoring runs live and most behaviours in the objective have no rule."
    ]
   },
   "C-41": {
@@ -497,33 +565,41 @@
    ]
   },
   "C-42": {
-   "tests": [],
+   "tests": [
+    "tests/py/governance/test_b96_training_docs.py::test_b96_1_the_training_covers_the_seven_outline_topics_in_order",
+    "tests/py/governance/test_b96_training_docs.py::test_b96_1_the_exercise_answer_key_matches_what_the_commands_print"
+   ],
    "files": [
-    "docs/planned/STAFF_TRAINING.md",
-    "governance/ACCEPTABLE_USE.md",
+    "governance/STAFF_TRAINING.md",
     "governance/ACCEPTABLE_USE.md",
     "governance/AI_POLICY.md"
    ],
    "not_demonstrated": [
-    "Control is planned in the map (policy text exists, B-92); no training completion records exist."
+    "Policy and training text exist; nobody has taken the training and no completion records exist."
    ]
   },
   "C-43": {
-   "tests": [],
+   "tests": [
+    "tests/py/gateway/test_b90_hosted.py::test_b90_1_the_committed_register_is_valid_and_loads",
+    "tests/py/governance/test_b93_approval.py::test_b93_3_an_approved_vendor_entry_with_no_approval_record_fails"
+   ],
    "files": [
-    "docs/planned/TECH_RADAR.md"
+    "governance/ai-vendor-register.json"
    ],
    "not_demonstrated": [
-    "Control is planned; no vendor register and no signed terms in this repo."
+    "Every register entry is pending; no signed terms are in the repo and no annual review has happened."
    ]
   },
   "C-44": {
-   "tests": [],
+   "tests": [
+    "tests/py/auth/test_b89_auth.py::test_b89_3_a_post_with_no_token_cannot_decide",
+    "tests/py/auth/test_b89_auth.py::test_b89_1_a_valid_token_decides_and_the_actor_is_the_signer"
+   ],
    "files": [
-    "ui/app.py"
+    "core/auth/validator.py"
    ],
    "not_demonstrated": [
-    "Control is planned; the UI uses a demo identity picker."
+    "Tokens come from a local mock issuer; no real Entra ID sign-in or MFA was used, and sign-in logs are not joined to approvals."
    ]
   },
   "C-45": {

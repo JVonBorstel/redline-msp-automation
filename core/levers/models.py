@@ -228,6 +228,28 @@ class ContactConfirmation(BaseModel):
     contact: StrictStr = Field(min_length=1, max_length=64, pattern=r"^[A-Za-z0-9._:#/-]+$")
 
 
+class SigninAttestation(BaseModel):
+    """The runner's proof that it checked one approver's sign-in for one exact action at `at` (B-28 dual approval).
+
+    The queue keeps it on a partial approval so a second lead can complete the change later without the first lead's
+    token, which is never stored. `mac` is an HMAC-SHA256 under a key that lives only in the memory of the runner that
+    issued it: another process (or the same page after a restart) cannot accept it, and editing any field breaks it.
+    It holds no token, signature or key material of the identity provider.
+    """
+
+    model_config = _FROZEN
+
+    approver: StrictStr = Field(min_length=1, max_length=64)
+    lever: StrictStr = Field(min_length=1, max_length=64)
+    client: StrictStr = Field(min_length=1, max_length=64)
+    params_sha256: StrictStr = Field(pattern=r"^[0-9a-f]{64}$")
+    auth: Literal["entra-id-token", "demo-picker"]
+    demo: StrictBool
+    sid: StrictStr | None = Field(default=None, max_length=64)
+    at: AwareDatetime
+    mac: StrictStr = Field(pattern=r"^[0-9a-f]{64}$")
+
+
 class Approval(BaseModel):
     """A lead's approval, bound to one exact action (lever, client and params)."""
 
@@ -251,11 +273,15 @@ class Approval(BaseModel):
     on_call: StrictBool = False
     # B-42 (D6-08, RQ-13): a named override of the business-hours or maintenance window. A short name, never free text.
     window_override: StrictStr | None = Field(default=None, pattern=r"^[a-z0-9][a-z0-9-]{0,39}$")
+    # B-28 dual approval: the runner checked this approver's sign-in earlier (a partial approval in the queue).
+    attestation: SigninAttestation | None = None
 
     @model_validator(mode="after")
     def _one_way_to_sign_in(self) -> Approval:
         if self.demo and self.token is not None:
             raise ValueError("an approval is either a demo pick or a token, not both")
+        if self.attestation is not None and (self.demo or self.token is not None):
+            raise ValueError("an attested approval carries no demo pick and no token")
         return self
 
 

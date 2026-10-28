@@ -326,10 +326,11 @@ GUARDED_NOT_EXERCISED = {
     "kb_drafts",
 }
 # No import of the guard. sla, onboarding and notify say in their docstrings that they read no free text; the rest
-# were not reviewed for free text here (listed in docs/changes/B-79.md as not covered).
+# were not reviewed for free text here (listed in docs/changes/B-79.md as not covered). teams_approvals (B-88) reads
+# no free text itself: proposal text reaches its cards only through adapters/m365, which screens it with the guard.
 NO_GUARD_IMPORT = {
     "access_review", "advisories", "baseline_proposals", "client_lifecycle", "device_reconcile", "expiry",
-    "notify", "offboarding", "onboarding", "rollback", "sla",
+    "notify", "offboarding", "onboarding", "rollback", "sla", "teams_approvals",
     "licensing", "evidence", "billing", "assurance", "monitoring", "reporting", "copilot_readiness",
     "regpacks", "device_reports", "training", "restore_tests",
 }  # fmt: skip

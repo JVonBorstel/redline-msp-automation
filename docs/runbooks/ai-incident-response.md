@@ -1,5 +1,8 @@
 # Runbook: AI incident response (wrong automated action)
 
+Owner: on-call lead (runs the incident); the compliance owner owns IR-5 and IR-6
+Last reviewed: 2026-10-27
+
 Status: **document-only** (a procedure for humans; every command in the code blocks below is run against a synthetic state folder by `tests/py/governance/test_b94_incident_response.py`). The MSP's real incident procedure is UNKNOWN; this is the prototype's proposal, to be merged into theirs. Synthetic data only. Not legal advice.
 
 > Independently built prototype. Not affiliated with any vendor's or real company's systems.
@@ -143,7 +146,7 @@ uv run --frozen ruff check .
 
 ## IR-8 Review
 
-A blameless review within five business days: timeline from the audit (IR-4 output), what detected it, what slowed the restore, and the fix. The risk register it should go into (`B-95`) is not built yet; until then the review is a dated section in the incident ticket and a line in `docs/DECISIONS.md` when a rule changes. Trends go to leadership.
+A blameless review within five business days: timeline from the audit (IR-4 output), what detected it, what slowed the restore, and the fix. The review is a dated section in the incident ticket and a line in `docs/DECISIONS.md` when a rule changes; a new or changed risk goes into the risk register (`governance/risk_register.json`, rendered as `governance/RISK_REGISTER.md` by B-95). Trends go to leadership.
 
 ## IR-9 Re-enable
 
@@ -158,6 +161,26 @@ uv run --frozen python -m core.levers paused
 ```
 
 Repeat the first line for each other client (one command per client; a ring-aware resume is not built) and the fourth line ring by ring. `paused` ends with `no levers are paused`. Every pause and resume is one audit record.
+
+## Rollback
+
+Each step of this runbook is itself an audited change and is undone the same way as any other:
+
+- A pause (IR-2) is lifted with the resume command of IR-9, by a lead, with a reason; it is one audit record.
+- A restore approved in IR-3 that turns out to be wrong is undone by running IR-3 again on the restore's own audit record: the rollback workflow proposes the registered undo of any applied execute whose lever names one, for a normal approval.
+- A ring hold from IR-9 is lifted by resuming that client. If the corrected lever misbehaves on the pilot, pause it again for every client and go back to IR-2.
+- A notice sent in IR-6 cannot be recalled. A correction is a new message, written and sent by a person.
+
+## Verification
+
+A second person who did not approve the restore (normally the engineer) confirms, and writes the result in the incident ticket:
+
+- the audit verify command of IR-1 exits 0 for every chain, before and after the restore;
+- the paused command of IR-9 lists only the pauses that are meant to be there (after the last ring, `no levers are paused`);
+- the affected person, called back on the number on file, confirms they can work;
+- every candidate row from IR-4 has an outcome (restored, not wrong, or manual with an owner);
+- the compliance owner's IR-5 decision and the IR-6 notices sent are recorded with who and when;
+- the IR-8 review is dated and its follow-ups have owners, as in the tabletop record `docs/TABLETOP_2026.md`.
 
 ## What this runbook does not do
 
