@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 from collections.abc import Sequence
@@ -221,7 +222,7 @@ def lint_text(
             if target.startswith("#") or re.match(r"^[a-z][a-z0-9+.-]*:", target, re.IGNORECASE):
                 continue
             path = target.split("#", 1)[0].split("?", 1)[0]
-            if path and not (here / path).exists():
+            if path and not Path(os.path.normpath(here / path)).exists():
                 add(number, "broken-link", f"link target does not exist: {path}", "Fix the link or remove it.")
         for match in _CODE_SPAN.finditer(line):
             token = match.group(1).strip()
