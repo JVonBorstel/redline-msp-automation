@@ -15,7 +15,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from core.queue.store import DEFAULT_STATE_DIR, Proposal, QueueError, open_queue
+from core.queue.store import DEFAULT_STATE_DIR, STATUSES, Proposal, QueueError, open_queue
 
 SEED_AGENT = "triage-bot"  # the agent identity that proposes the demo set
 
@@ -60,7 +60,7 @@ def main(argv: list[str] | None = None) -> int:
     seed = sub.add_parser("seed", help="add synthetic pending proposals")
     seed.add_argument("--demo", action="store_true", required=True, help="the built-in demo set (the only one)")
     show = sub.add_parser("list", help="print proposals as JSON lines")
-    show.add_argument("--status", choices=["pending", "approved", "rejected", "executed", "failed"])
+    show.add_argument("--status", choices=STATUSES)
     show.add_argument("--viewer", help="only proposals for clients in this identity's list (DR-12)")
     args = parser.parse_args(argv)
 

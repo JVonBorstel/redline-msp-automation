@@ -188,7 +188,10 @@ def draft_notice(
     values = {
         "first_name": _first_name(tenant, proposal.client, upn),
         "request": _request(proposal, tickets_dir),
-        "approver": _approver(identities, proposal.decided_by),
+        # B-28: on a dual-approved change, the first lead (who verified the requester); R3 templates name the second.
+        "approver": _approver(
+            identities, proposal.approvals[0].approver if proposal.approvals else proposal.decided_by
+        ),
         "team": contact.team,
         "fast_phone": contact.fast_phone,
         "hours": contact.hours,

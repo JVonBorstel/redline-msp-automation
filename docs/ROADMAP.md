@@ -123,7 +123,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 | `B-05` | Triage output shows the impact trace and the verification needed | S | W-SD-02, W-SD-07 | C-14, C-30, C-45 | B-01 |
 | `B-06` | Map integrity test and the Python test suite runner | S | W-TOOL-13, W-TOOL-04 | C-37, C-45 | - |
 | `B-07` | CI for the new suites (owner) | S | W-TOOL-07 | C-24, C-37 | B-06 |
-| `B-08` | GitHub organization: labels, milestones, issue form, PR template, CODEOWNERS (owner) | S | W-TOOL-07, W-TOOL-13 | C-37, C-24 | B-09 |
+| `B-08` | GitHub organization: labels, milestones, issue form, PR template, CODEOWNERS (owner) | S | W-TOOL-07, W-TOOL-13 | C-37, C-24, C-22, C-23 | B-09 |
 | `B-09` | Roadmap-to-issues exporter and change-fragment folder | S | W-TOOL-13 | C-37 | B-06 |
 | `B-10` | Demo v2 and its end-to-end smoke test | M | W-TOOL-06, W-CMP-05, W-SD-02, W-M365-11 | C-41, C-45, C-08 | B-02, B-03, B-04, B-05 |
 | `B-11` | One-ticket trace leave-behind (T-3101, granular to macro) | S | W-IDM-02, W-TRN-02 | C-45, C-08, C-30 | B-03, B-04, B-05 |
@@ -518,7 +518,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-33` MailboxOps and OneDrive transfer**
 - Why: The mailbox half of joiners and leavers, which technicians do by hand many times a month.
-- Owns: `levers/powershell/MailboxOps/`, `levers/registry.d/mailbox.json`, `workflows/notify/templates/mailbox/`, `fixtures/tenant/contoso-dental/mailboxes.json`, `fixtures/tenant/fabrikam-capital/mailboxes.json`, `specs/B-33.md`, `docs/changes/B-33.md`
+- Owns: `levers/powershell/MailboxOps/`, `levers/registry.d/mailbox.json`, `workflows/notify/templates/mailbox.add-dl-member.md`, `workflows/notify/templates/mailbox.clear-auto-reply.md`, `workflows/notify/templates/mailbox.convert-shared.md`, `workflows/notify/templates/mailbox.enable-archive.md`, `workflows/notify/templates/mailbox.grant-full-access.md`, `workflows/notify/templates/mailbox.grant-onedrive-manager.md`, `workflows/notify/templates/mailbox.grant-send-as.md`, `workflows/notify/templates/mailbox.remove-dl-member.md`, `workflows/notify/templates/mailbox.revoke-full-access.md`, `workflows/notify/templates/mailbox.revoke-onedrive-manager.md`, `workflows/notify/templates/mailbox.revoke-send-as.md`, `workflows/notify/templates/mailbox.set-auto-reply.md`, `fixtures/tenant/contoso-dental/mailboxes.json`, `fixtures/tenant/fabrikam-capital/mailboxes.json`, `specs/B-33.md`, `docs/changes/B-33.md`
 - Standards: STD-LV, STD-PS, STD-FX
 - Acceptance:
   - **B33-1** levers for DL membership, Full Access and Send As grants, convert to shared, auto-reply, archive enable, and a time-bound manager grant to a leaver's OneDrive; each with dry-run diff, undo where one exists, and a template
@@ -891,7 +891,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-62` Device remediation script levers**
 - Why: Tier 1 fixes take one approval instead of a remote session.
-- Owns: `levers/powershell/DeviceOps/`, `levers/registry.d/device.json`, `workflows/notify/templates/device/`, `tests/py/devices/test_b62_remed.py`, `specs/B-62.md`, `docs/changes/B-62.md`
+- Owns: `levers/powershell/DeviceOps/`, `levers/registry.d/device.json`, `workflows/notify/templates/device.cleanup-temp.md`, `workflows/notify/templates/device.reboot-server.md`, `workflows/notify/templates/device.reboot.md`, `workflows/notify/templates/device.repair-mapped-drive.md`, `workflows/notify/templates/device.reset-outlook-profile.md`, `workflows/notify/templates/device.restart-service.md`, `workflows/notify/templates/device.restart-spooler.md`, `tests/py/devices/test_b62_remed.py`, `specs/B-62.md`, `docs/changes/B-62.md`
 - Standards: STD-LV, STD-PS, STD-SC, STD-TS
 - Acceptance:
   - **B62-1** levers for print spooler restart, mapped-drive repair, Outlook profile reset, temp cleanup, service restart and reboot run only vetted scripts named in the registry (no free-form script parameter)
@@ -919,7 +919,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-65` Device R3 levers: lock, retire, wipe and isolate with dual approval**
 - Why: A stolen laptop is contained fast, and nobody wipes the wrong device.
-- Owns: `levers/powershell/DeviceR3/`, `levers/registry.d/device-r3.json`, `workflows/notify/templates/device-r3/`, `tests/py/devices/test_b65_device_r3.py`, `specs/B-65.md`, `docs/changes/B-65.md`
+- Owns: `levers/powershell/DeviceR3/`, `levers/registry.d/device-r3.json`, `workflows/notify/templates/device.isolate.md`, `workflows/notify/templates/device.lock.md`, `workflows/notify/templates/device.release.md`, `workflows/notify/templates/device.retire.md`, `workflows/notify/templates/device.unlock.md`, `workflows/notify/templates/device.wipe.md`, `tests/py/devices/test_b65_device_r3.py`, `specs/B-65.md`, `docs/changes/B-65.md`
 - Standards: STD-LV, STD-PS, STD-TS
 - Acceptance:
   - **B65-1** lock, retire, wipe and Defender isolate are R3: two leads approve, the requester is verified, one device per approval
@@ -1270,7 +1270,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-93` Model and tool approval process**
 - Why: New AI tools arrive through a door, not a side window.
-- Owns: `governance/MODEL_TOOL_APPROVAL.md`, `governance/templates/ai-change-request.md`, `specs/B-93.md`, `docs/changes/B-93.md`
+- Owns: `governance/MODEL_TOOL_APPROVAL.md`, `governance/templates/ai-change-request.md`, `workflows/assurance/approvals.py`, `specs/B-93.md`, `docs/changes/B-93.md`
 - Standards: STD-DC
 - Acceptance:
   - **B93-1** the process names who proposes, who approves and what evidence is needed (retention terms, BAA or ZDR status, eval results) for a model, provider, MCP server or tool
@@ -1288,7 +1288,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-95` Use-case intake, ROI tracker, SOC 2 control mapping and risk register**
 - Why: Leadership can rank the next automation by measured value and risk.
-- Owns: `governance/USE_CASE_INTAKE.md`, `docs/ROI_TRACKER.md`, `governance/SOC2_CONTROL_MAPPING.md`, `governance/RISK_REGISTER.md`, `docs/planned/ROI_TRACKER.md`, `specs/B-95.md`, `docs/changes/B-95.md`
+- Owns: `governance/USE_CASE_INTAKE.md`, `governance/ROI_TRACKER.md`, `workflows/assurance/__init__.py`, `workflows/assurance/__main__.py`, `workflows/assurance/rubric.py`, `workflows/assurance/intake.py`, `workflows/assurance/roi.py`, `workflows/assurance/soc2.py`, `workflows/assurance/risk.py`, `workflows/assurance/render.py`, `governance/SOC2_CONTROL_MAPPING.md`, `governance/RISK_REGISTER.md`, `docs/planned/ROI_TRACKER.md`, `specs/B-95.md`, `docs/changes/B-95.md`
 - Standards: STD-DC
 - Acceptance:
   - **B95-1** intake scores a use case by hours (assumed), acceptance rate (measured on fixtures), effort and risk weight, as docs/planned/ROI_TRACKER.md planned; the planned file is moved to docs/ROI_TRACKER.md (move M-07)
@@ -1297,7 +1297,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-96` Staff training, client conversation guide, explainer and data-handling summary**
 - Why: Technicians and clients understand what the AI does and does not do.
-- Owns: `docs/STAFF_TRAINING.md`, `docs/CLIENT_CONVERSATION_GUIDE.md`, `docs/AI_EXPLAINER.md`, `docs/CLIENT_DATA_HANDLING.md`, `docs/planned/STAFF_TRAINING.md`, `docs/planned/CLIENT_CONVERSATION_GUIDE.md`, `specs/B-96.md`, `docs/changes/B-96.md`
+- Owns: `governance/STAFF_TRAINING.md`, `governance/CLIENT_CONVERSATION_GUIDE.md`, `workflows/training/`, `docs/AI_EXPLAINER.md`, `docs/CLIENT_DATA_HANDLING.md`, `docs/planned/STAFF_TRAINING.md`, `docs/planned/CLIENT_CONVERSATION_GUIDE.md`, `specs/B-96.md`, `docs/changes/B-96.md`
 - Standards: STD-DC
 - Acceptance:
   - **B96-1** the planned outlines are filled and moved out of docs/planned (move M-07); the ten-minute exercise uses synthetic tickets from fixtures
@@ -1306,7 +1306,7 @@ An item is done when all of these hold. They extend STD-DD (`docs/STANDARDS.md` 
 
 **`B-97` Tech radar, leadership brief, 30/60/90 plan and automation framework review method**
 - Why: Recommendations are earned by evidence, not enthusiasm.
-- Owns: `docs/TECH_RADAR.md`, `docs/LEADERSHIP_BRIEF.md`, `docs/PLAN_30_60_90.md`, `docs/AUTOMATION_FRAMEWORK_REVIEW.md`, `docs/planned/TECH_RADAR.md`, `specs/B-97.md`, `docs/changes/B-97.md`
+- Owns: `governance/TECH_RADAR.md`, `workflows/assurance/briefs.py`, `docs/LEADERSHIP_BRIEF.md`, `docs/PLAN_30_60_90.md`, `docs/AUTOMATION_FRAMEWORK_REVIEW.md`, `docs/planned/TECH_RADAR.md`, `specs/B-97.md`, `docs/changes/B-97.md`
 - Standards: STD-DC
 - Acceptance:
   - **B97-1** radar rings are assigned only from this repo's eval results or cited sources; every 'adopt' names its evidence

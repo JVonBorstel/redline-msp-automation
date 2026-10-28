@@ -41,7 +41,7 @@ _ALL_TARGETS = (
 # few generic ones that attackers like to guess.
 _LEVER_SPACES = (
     r"(?:user|ticket|kb|mailbox|tenant|group|device|mfa|admin|license|audit|backup|contact|inboxrule|message|"
-    r"quarantine|risk|signins|restore|rag|unix)"
+    r"quarantine|risk|signins|restore|rag|unix|site)"
 )
 _LEVER_NAME = _LEVER_SPACES + r"\.[a-z]+(?:-[a-z]+)*\b(?![@.\w-])"
 

@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "_note": "B-88 (B88-3). SharePoint / Teams site levers on the mock tenant (fixtures/tenant/<client>.json, under sites). Mock only; no Graph or SharePoint call is made. site.new creates one private site with its owners and external sharing off by default; site.remove-empty is its exact undo (only an empty site that site.new created with the same values). Params come from a structured request (levers/python/site.py parse_site_request), never from ticket text. Field names, webTemplate ids and graph_scopes are UNVERIFIED.",
+  "levers": [
+    {
+      "name": "site.get",
+      "description": "Read one SharePoint or Teams site of the client back by its URL slug: name, URL, template, owners, visibility and sharing setting. The check to run after site.new is executed (verify_applied). Mock of a Graph site read.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["slug"],
+      "entry": "levers.python.site:site_get",
+      "params": {
+        "slug": {"type": "string", "required": true, "max_length": 40, "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$", "description": "The site's URL slug (the part after /sites/)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "graph_scopes": ["Sites.Read.All"],
+      "impact": {
+        "L1": "A technician sees who owns one site and whether it is private; nothing about the site changes.",
+        "L2": "The client can confirm a new site is private, owned by the right people and closed to outside sharing.",
+        "L3": "The read-back after a create is registered, scoped and audited like any other read.",
+        "L4": "Sites are read per client from that client's own data, so one office's sites are never listed for another."
+      }
+    },
+    {
+      "name": "site.new",
+      "description": "Create one private SharePoint team site, communication site or Teams team for the client, with one or two owners who are users of that client and external sharing off unless the request asks for existing guests only. The dry-run shows the exact site record. The same request twice changes nothing; the same slug with other values is refused. Mock of a Graph site and group create.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["slug"],
+      "entry": "levers.python.site:site_new",
+      "params": {
+        "display_name": {"type": "string", "required": true, "max_length": 60, "pattern": "^[A-Za-z0-9][A-Za-z0-9 &'-]{0,59}$", "description": "Site name from the request form (letters, digits, spaces, & ' -)"},
+        "slug": {"type": "string", "required": true, "max_length": 40, "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$", "description": "URL slug from the request form; the site is /sites/<slug>"},
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of the owner; must be an enabled member user of this client"},
+        "co_owner_upn": {"type": "string", "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of a second owner of this client (optional)"},
+        "template": {"type": "string", "required": true, "enum": ["teams-team", "team-site", "communication-site"], "description": "Teams team, SharePoint team site, or communication site"},
+        "external_sharing": {"type": "string", "enum": ["disabled", "existing-guests"], "description": "Sharing outside the client (default disabled; anyone links and new guests are not offered)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "site.remove-empty",
+      "lever_version": 1,
+      "graph_scopes": ["Sites.Create.All", "Group.Create"],
+      "impact": {
+        "L1": "The owner gets a new private site they manage; a wrong owner would control who joins it and what is shared there.",
+        "L2": "The client gets a private place for one team's files, closed to outside sharing unless the request says existing guests.",
+        "L3": "Sites are created from a checked form with a lead approval and an exact undo, not by hand in the admin center.",
+        "L4": "Every client's new sites start private with named owners, so client files are not opened to strangers by default."
+      }
+    },
+    {
+      "name": "site.remove-empty",
+      "description": "Remove a site that site.new created, only while it is still empty and exactly as created with the same values. The registered undo of site.new. Mock of a site delete (a real tenant keeps a deleted site in its recycle bin for a while; UNVERIFIED).",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["slug"],
+      "entry": "levers.python.site:site_remove_empty",
+      "params": {
+        "display_name": {"type": "string", "required": true, "max_length": 60, "pattern": "^[A-Za-z0-9][A-Za-z0-9 &'-]{0,59}$", "description": "Site name as created"},
+        "slug": {"type": "string", "required": true, "max_length": 40, "pattern": "^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$", "description": "URL slug of the site to remove"},
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "Owner as created"},
+        "co_owner_upn": {"type": "string", "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "Second owner as created (when there was one)"},
+        "template": {"type": "string", "required": true, "enum": ["teams-team", "team-site", "communication-site"], "description": "Template as created"},
+        "external_sharing": {"type": "string", "enum": ["disabled", "existing-guests"], "description": "Sharing as created (default disabled)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "graph_scopes": ["Sites.FullControl.All"],
+      "impact": {
+        "L1": "The owner loses a site that was made by mistake before anything was put in it; a site with content is never removed.",
+        "L2": "The client gets a wrong or unwanted new site taken away cleanly, with no files lost because it must be empty.",
+        "L3": "The undo half of site creation: dry-run diff, lead approval, audit record, and it reverses site.new exactly.",
+        "L4": "A safe, exact undo keeps site creation reviewable, so a mistaken site does not linger with the wrong owners."
+      },
+      "undo_of": "site.new",
+      "undo": "site.new"
+    }
+  ]
+}
