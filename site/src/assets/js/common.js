@@ -129,9 +129,10 @@ export function initTheme() {
   enhance();
 }
 
-// Progressive polish shared by every page (each page script calls initTheme): the mobile menu, back-to-top, a pointer
-// light on cards, and, when the reader allows motion, scroll reveal and counting stats. None of it changes content.
+// Shared by every page (each page script calls initTheme): the mobile menu, back-to-top, the motion switch and the
+// hero scene's replay. Numbers and text are never animated: what the build wrote is what the reader sees.
 function enhance() {
+  const root = document.documentElement;
   const header = document.querySelector(".site-header");
   const menu = document.getElementById("menu-btn");
   if (header && menu) {
@@ -147,60 +148,34 @@ function enhance() {
     onScroll();
   }
 
-  document.addEventListener("pointermove", (ev) => {
-    const card = ev.target instanceof Element ? ev.target.closest(".card") : null;
-    if (!card) return;
-    const r = card.getBoundingClientRect();
-    card.style.setProperty("--mx", ev.clientX - r.left + "px");
-    card.style.setProperty("--my", ev.clientY - r.top + "px");
-  }, { passive: true });
-
-  const still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (still || !("IntersectionObserver" in window)) return;
-
-  // Only things that start below the fold fade in, so nothing on screen at load ever blinks.
-  const fold = window.innerHeight;
-  const targets = [...document.querySelectorAll(
-    "main .card, main .flow li, main > h2, main .prose > h2, main .table-wrap, main > details, main .wave, main .banner")]
-    .filter((n) => n.getBoundingClientRect().top > fold);
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) {
-      if (!e.isIntersecting) continue;
-      e.target.classList.add("in");
-      io.unobserve(e.target);
-      for (const s of e.target.querySelectorAll(".stat")) countUp(s);
-      if (e.target.classList.contains("stat")) countUp(e.target);
-    }
-  }, { rootMargin: "0px 0px -8% 0px" });
-  const groups = new Map();
-  for (const n of targets) {
-    const i = groups.get(n.parentElement) || 0;
-    groups.set(n.parentElement, i + 1);
-    n.style.setProperty("--d", Math.min(i, 6) * 0.06 + "s");
-    n.classList.add("reveal");
-    io.observe(n);
+  // Motion switch (WCAG 2.3.3): off stops every animation and the page-to-page camera moves, and is remembered.
+  const motion = document.getElementById("motion-btn");
+  if (motion) {
+    const label = () => {
+      const off = root.dataset.motion === "reduce";
+      motion.textContent = off ? "Motion: off" : "Motion: on";
+      motion.setAttribute("aria-pressed", String(!off));
+    };
+    label();
+    motion.addEventListener("click", () => {
+      const off = root.dataset.motion !== "reduce";
+      if (off) root.dataset.motion = "reduce"; else delete root.dataset.motion;
+      try { if (off) window.localStorage.setItem("motion", "reduce"); else window.localStorage.removeItem("motion"); } catch (e) { /* blocked */ }
+      label();
+    });
   }
-  // Stats already on screen count up straight away.
-  for (const s of document.querySelectorAll("main .stat")) {
-    if (s.getBoundingClientRect().top <= fold) countUp(s);
-  }
-}
 
-// Counts a whole-number stat up from zero and always lands on the exact text the page was built with.
-function countUp(node) {
-  if (node.dataset.counted) return;
-  node.dataset.counted = "1";
-  const final = node.textContent;
-  const m = /^(\d{1,6})$/.exec(final.trim());
-  if (!m || Number(m[1]) < 5) return;
-  const target = Number(m[1]);
-  const start = performance.now();
-  const step = (now) => {
-    const t = Math.min(1, (now - start) / 900);
-    node.textContent = t < 1 ? String(Math.round(target * (1 - Math.pow(1 - t, 3)))) : final;
-    if (t < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
+  // The hero scene plays once on load; Replay runs it again (restarting CSS animations by re-adding the class).
+  const replay = document.getElementById("scene-replay");
+  const scene = document.querySelector(".scene");
+  if (replay && scene) {
+    replay.hidden = false;
+    replay.addEventListener("click", () => {
+      scene.classList.remove("play");
+      void scene.getBoundingClientRect();
+      scene.classList.add("play");
+    });
+  }
 }
 
 export function prettyJSON(value) {

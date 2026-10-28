@@ -42,92 +42,96 @@ BRAND_SVG = (
 )
 
 
-# -- the mascot ----------------------------------------------------------------------------------
-# A small robot drawn as inline SVG: no image files, no scripts, and every colour comes from the CSS tokens, so it
-# follows the theme. Motion lives in site.css and stops under prefers-reduced-motion.
+# -- the figure -------------------------------------------------------------------------------------
+# Drawn as inline SVG in the manner of a technical drawing: thin ink lines, numbered callouts, and red used for one
+# thing only, the line the agent cannot cross. Colours come from the CSS tokens, so it follows the theme. It plays its
+# sequence once (CSS, class "play"); the Replay button runs it again; motion off shows the final state.
 
 
 def bot(arm: str = "long") -> str:
-    """The robot in its own 0..230 x 0..175 space. arm: "long" reaches a button, "wave" waves."""
+    """The agent in its own 0..230 x 0..175 space. arm: "long" reaches a button, "rest" hangs at its side."""
     if arm == "long":
         arm_svg = (
-            '<g class="m-arm press"><rect class="m-shell" x="96" y="94" width="100" height="14" rx="7"/>'
-            '<circle class="m-shell" cx="200" cy="101" r="10"/>'
-            '<rect class="m-shell" x="204" y="97" width="16" height="8" rx="4"/></g>'
+            '<g class="m-arm press"><rect class="m-shell" x="96" y="95" width="100" height="12" rx="3"/>'
+            '<rect class="m-shell" x="192" y="92" width="16" height="18" rx="3"/>'
+            '<rect class="m-shell" x="206" y="97" width="14" height="8" rx="2"/></g>'
         )
     else:
-        arm_svg = (
-            '<g class="m-arm wave"><rect class="m-shell" x="96" y="94" width="34" height="14" rx="7"/>'
-            '<circle class="m-shell" cx="134" cy="101" r="10"/></g>'
-        )
+        arm_svg = '<rect class="m-shell" x="100" y="96" width="14" height="44" rx="3"/>'
     return (
-        '<g class="m-bot"><ellipse class="m-jet" cx="60" cy="168" rx="18" ry="6"/>'
-        '<line class="m-stroke" x1="60" y1="18" x2="60" y2="5"/><circle class="m-led" cx="60" cy="5" r="5"/>'
-        '<rect class="m-shell" x="18" y="18" width="84" height="62" rx="18"/>'
-        '<circle class="m-shell" cx="17" cy="49" r="5"/><circle class="m-shell" cx="103" cy="49" r="5"/>'
-        '<rect class="m-visor" x="28" y="30" width="64" height="36" rx="12"/>'
-        '<g class="m-eyes"><rect class="m-eye" x="42" y="40" width="10" height="15" rx="5"/>'
-        '<rect class="m-eye" x="68" y="40" width="10" height="15" rx="5"/></g>'
-        '<rect class="m-shell" x="50" y="78" width="20" height="12" rx="3"/>'
-        '<rect class="m-shell" x="22" y="88" width="76" height="70" rx="18"/>'
-        '<rect class="m-visor" x="38" y="102" width="44" height="24" rx="7"/>'
-        '<circle class="m-light l1" cx="50" cy="114" r="4"/><circle class="m-light l2" cx="60" cy="114" r="4"/>'
-        '<circle class="m-light l3" cx="70" cy="114" r="4"/>'
-        '<rect class="m-shell" x="6" y="96" width="14" height="44" rx="7"/>'
+        '<g class="m-bot">'
+        '<line class="m-stroke" x1="60" y1="18" x2="60" y2="6"/><circle class="m-shell" cx="60" cy="5" r="4"/>'
+        '<rect class="m-shell" x="18" y="18" width="84" height="60" rx="8"/>'
+        '<rect class="m-visor" x="28" y="30" width="64" height="34" rx="4"/>'
+        '<g class="m-eyes"><rect class="m-eye" x="43" y="40" width="9" height="14" rx="1"/>'
+        '<rect class="m-eye" x="68" y="40" width="9" height="14" rx="1"/></g>'
+        '<rect class="m-shell" x="50" y="78" width="20" height="10" rx="2"/>'
+        '<rect class="m-shell" x="22" y="88" width="76" height="70" rx="8"/>'
+        '<text class="m-plate" x="60" y="128" text-anchor="middle">svc-agent</text>'
+        '<rect class="m-shell" x="6" y="96" width="14" height="44" rx="3"/>'
         f"{arm_svg}</g>"
     )
 
 
-def _button(cx: int, kind: str, label: str, n: int) -> str:
+def _button(cx: int, label: str, n: int) -> str:
     return (
-        f'<g class="s-btn b{n}"><ellipse class="m-base" cx="{cx}" cy="208" rx="17" ry="5"/>'
-        f'<path class="m-dome {kind}" d="M{cx - 14} 208 a14 12 0 0 1 28 0 z"/></g>'
-        f'<text class="s-label" x="{cx}" y="246" text-anchor="middle">{label}</text>'
+        f'<g class="s-btn b{n}"><path class="m-dome" d="M{cx - 14} 208 a14 12 0 0 1 28 0 z"/></g>'
+        f'<text class="s-label sm" x="{cx}" y="236" text-anchor="middle">{label}</text>'
     )
 
 
+def _callout(n: int, x: int, y: int) -> str:
+    return f'<g class="s-call c{n}"><circle cx="{x}" cy="{y}" r="10"/><text x="{x}" y="{y + 4}" text-anchor="middle">{n}</text></g>'
+
+
 HERO_SCENE = (
-    '<svg class="scene" viewBox="0 0 480 320" role="img" aria-labelledby="scene-title" focusable="false">'
-    '<title id="scene-title">A robot agent presses an allowed lever button once a lead has approved; the global admin '
-    "button sits locked behind the red line, out of its reach.</title>"
-    '<ellipse class="m-floor" cx="250" cy="298" rx="226" ry="12"/>'
-    '<ellipse class="m-shadow" cx="120" cy="298" rx="46" ry="7"/>'
-    '<g class="s-ticket"><rect class="m-card" x="30" y="16" width="156" height="70" rx="12"/>'
+    '<svg class="scene play" viewBox="0 0 480 300" role="img" aria-labelledby="scene-title" focusable="false">'
+    '<title id="scene-title">Figure 1. A ticket arrives; a lead approves; the agent presses the one lever it was given; '
+    "the admin control stays behind the red line, with no lever that reaches it.</title>"
+    '<line class="s-ground" x1="10" y1="282" x2="470" y2="282"/>'
+    '<g class="s-ticket"><rect class="m-card" x="30" y="16" width="156" height="64" rx="4"/>'
     '<text class="s-mono" x="44" y="40">T-3101</text>'
-    '<rect class="s-pill" x="110" y="27" width="62" height="18" rx="9"/>'
-    '<text class="s-pilltext" x="141" y="40" text-anchor="middle">MFA</text>'
-    '<rect class="s-line" x="44" y="54" width="128" height="6" rx="3"/>'
-    '<rect class="s-line" x="44" y="68" width="86" height="6" rx="3"/></g>'
+    '<text class="s-label" x="44" y="62">MFA reset, Contoso</text></g>'
+    '<line class="s-lead" x1="186" y1="48" x2="226" y2="66"/>'
     '<g class="s-approve"><circle class="s-ok" cx="250" cy="70" r="22"/>'
     '<path class="s-check" d="M240 70 l7 7 l13 -14"/>'
-    '<text class="s-label" x="250" y="110" text-anchor="middle">lead approved</text></g>'
-    f'<g transform="translate(60 92)">{bot("long")}</g>'
-    '<rect class="m-desk" x="248" y="212" width="152" height="78" rx="10"/>'
-    '<rect class="m-desktop" x="244" y="204" width="160" height="12" rx="6"/>'
-    '<circle class="s-ripple" cx="280" cy="200" r="14"/>'
-    + _button(280, "accent", "mfa", 1)
-    + _button(324, "ok", "unlock", 2)
-    + _button(368, "warn", "disable", 3)
-    + '<line class="s-redline" x1="416" y1="104" x2="416" y2="298"/>'
-    '<text class="s-redtext" x="0" y="0" transform="translate(404 150) rotate(-90)" text-anchor="middle">REDLINE</text>'
-    '<rect class="m-desk" x="426" y="232" width="46" height="58" rx="8"/>'
-    '<ellipse class="m-base" cx="449" cy="233" rx="14" ry="4"/>'
-    '<path class="m-dome bad" d="M437 233 a12 10 0 0 1 24 0 z"/>'
-    '<path class="s-glass" d="M429 234 v-24 a20 20 0 0 1 40 0 v24 z"/>'
-    '<g class="s-lock"><path class="s-shackle" d="M443 196 v-5 a6 6 0 0 1 12 0 v5"/>'
-    '<rect class="s-lockbody" x="439" y="195" width="20" height="15" rx="3"/></g>'
-    '<text class="s-label" x="449" y="268" text-anchor="middle">admin</text>'
-    "</svg>"
+    '<text class="s-label" x="250" y="112" text-anchor="middle">lead-lee approves</text></g>'
+    f'<g transform="translate(60 94)">{bot("long")}</g>'
+    '<rect class="m-desk" x="246" y="208" width="156" height="74" rx="3"/>'
+    '<circle class="s-ripple" cx="280" cy="202" r="14"/>'
+    + _button(280, "mfa", 1)
+    + _button(326, "unlock", 2)
+    + _button(370, "disable", 3)
+    + '<text class="s-label sm" x="324" y="262" text-anchor="middle">levers it was given</text>'
+    '<line class="s-redline" x1="416" y1="100" x2="416" y2="282"/>'
+    '<text class="s-redtext" x="0" y="0" transform="translate(408 190) rotate(-90)" text-anchor="middle">REDLINE</text>'
+    '<rect class="m-desk" x="426" y="226" width="46" height="56" rx="3"/>'
+    '<path class="m-dome bad" d="M437 227 a12 10 0 0 1 24 0 z"/>'
+    '<path class="s-glass" d="M429 228 v-24 a20 20 0 0 1 40 0 v24 z"/>'
+    '<g class="s-lock"><path class="s-shackle" d="M443 190 v-5 a6 6 0 0 1 12 0 v5"/>'
+    '<rect class="s-lockbody" x="439" y="189" width="20" height="15" rx="2"/></g>'
+    '<text class="s-label sm" x="449" y="262" text-anchor="middle">admin</text>'
+    + _callout(1, 22, 14)
+    + _callout(2, 282, 46)
+    + _callout(3, 236, 196)
+    + _callout(4, 416, 88)
+    + "</svg>"
+)
+
+FIGURE_CAPTION = (
+    "<strong>Fig. 1.</strong> <span>(1) A ticket arrives. (2) A lead approves it. (3) The agent presses the one lever "
+    "it was given. (4) The admin control sits behind the red line: there is no lever for it, so nothing the model "
+    "says can reach it.</span>"
 )
 
 
-def mascot(kind: str = "wave", label: str = "") -> str:
-    """A standalone robot: "wave" (footer), "lost" (404, with a question mark)."""
-    extra = '<text class="s-q" x="118" y="34">?</text>' if kind == "lost" else ""
+def mascot(kind: str = "lost", label: str = "") -> str:
+    """The agent on its own, for the 404 page: arms down, a question mark."""
+    extra = '<text class="s-q" x="122" y="30">?</text>' if kind == "lost" else ""
     aria = f'role="img" aria-label="{esc(label)}"' if label else 'aria-hidden="true"'
     return (
-        f'<svg class="mascot {kind}" viewBox="0 0 150 190" {aria} focusable="false">'
-        f'<g transform="translate(8 8)">{bot("wave")}</g>{extra}</svg>'
+        f'<svg class="mascot {kind}" viewBox="0 0 150 180" {aria} focusable="false">'
+        f'<g transform="translate(14 8)">{bot("rest")}</g>{extra}</svg>'
     )
 
 
@@ -252,17 +256,19 @@ def layout(
 <a class="brand" href="index.html">{BRAND_SVG}<span>{site}<small>{esc(config["tagline"])}</small></span></a>
 <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="burger" aria-hidden="true"></span>Menu</button>
 <button class="theme-btn" id="theme-btn" type="button">Theme: auto</button>
-<nav aria-label="Main" id="site-nav"><ul class="nav">{nav}</ul></nav>
+<nav aria-label="Main" id="site-nav"><div class="nav-panel"><ul class="nav">{nav}</ul>
+<button class="theme-btn motion-btn" id="motion-btn" type="button" aria-pressed="true">Motion: on</button></div></nav>
 </div></header>
 <main id="main" tabindex="-1">
 {body}
 </main>
 <a class="to-top" id="to-top" href="#main" aria-label="Back to top"><span aria-hidden="true">↑</span></a>
 <footer class="site-footer"><div class="inner">
-<div class="footer-bot">{mascot("wave")}<p class="small">Agents press buttons. People hold the keys.</p></div>
 <p>Independently built prototype. All tenants, people and tickets are synthetic.</p>
 <p>Generated {esc(build["built_at"][:10])} by running the project's own code (live replays run from commit <code>{esc(src["commit"][:7])}</code>; roadmap and proof counts are read from the project's main branch and name their own commit) over its fixtures. No cookies, no analytics, no third-party requests. <a href="about.html#how">How this site was built</a>.</p>
 {author_html}
+<p class="colophon">Plain HTML, CSS and a little JavaScript. System fonts, no libraries, no trackers. Motion follows your
+device setting and the switch at the top.</p>
 </div></footer>
 </body>
 </html>
@@ -333,31 +339,32 @@ def page_index(d: dict[str, Any]) -> tuple[str, str, str]:
 <p class="lede">An AI and automation program for a managed service provider, built as runnable, tested software.
 Deterministic, tested scripts (“levers”) do the work. A model only chooses which lever to press and fills in
 validated parameters. Permissions, approvals and the audit trail live on the lever, not on the model.</p>
-<div class="btn-row"><a class="btn" href="#tour">Take the 2-minute tour</a>
+<div class="btn-row"><a class="btn" href="#tour">Follow ticket T-3101, step by step</a>
 <a class="btn secondary" href="triage.html">Triage a ticket yourself</a></div>
 </div>
 <figure class="hero-art">{HERO_SCENE}
-<figcaption class="small muted">The robot may press the buttons it was given, after a lead approves. The admin button is behind the red line.</figcaption></figure>
+<figcaption class="small">{FIGURE_CAPTION}
+<button class="link-btn" id="scene-replay" type="button" hidden>Replay</button></figcaption></figure>
 </section>
 
-<p class="banner warn"><strong>Everything here is synthetic.</strong> The clients (Contoso Dental, Fabrikam Capital,
-Litware Legal), the people and the tickets are invented, and the Microsoft 365 data is mock data shaped like
-Microsoft Graph. This site was generated by running the project's real code over those fixtures. Nothing has been
-used in production or run against a real tenant.</p>
+<p class="note"><strong>Real code, invented world.</strong> Contoso Dental, Fabrikam Capital, Litware Legal, their
+people and tickets are made up, and the Microsoft 365 data is mock data shaped like Microsoft Graph. Every result on
+this site came from running the project's code over them at build time.</p>
 
 <div class="stats">{stat_html}</div>
 
 <h2>How one request flows</h2>
 <ol class="flow" aria-label="The pipeline, in order">
-<li><strong>Ticket arrives</strong>Free text is untrusted data.</li>
-<li class="guard"><strong>Tripwire and wrapper</strong>Hidden instructions are flagged; the text is wrapped as data.</li>
-<li><strong>Small model classifies</strong>Category only. It never picks a lever.</li>
-<li><strong>Rules pick one lever</strong>From a fixed table, with parameters from form fields.</li>
-<li class="guard"><strong>Runner checks</strong>Role, client scope, approval, pause switch. Dry-run first.</li>
-<li class="guard"><strong>A lead decides</strong>Callback on the number on file; four-eyes.</li>
-<li><strong>Lever runs</strong>Against the mock tenant only.</li>
-<li class="guard"><strong>Hash-chained audit</strong>Every call, allowed or denied. Tamper shows.</li>
+<li><a href="triage.html"><span class="n">01</span><strong>Ticket arrives</strong><span class="d">Free text is untrusted data.</span></a></li>
+<li class="guard"><a href="injection.html"><span class="n">02</span><strong>Tripwire and wrapper</strong><span class="tag">control</span><span class="d">Hidden instructions are flagged; the text is wrapped as data.</span></a></li>
+<li><a href="triage.html"><span class="n">03</span><strong>Small model classifies</strong><span class="d">Category only. It never picks a lever.</span></a></li>
+<li><a href="levers.html"><span class="n">04</span><strong>Rules pick one lever</strong><span class="d">From a fixed table, with parameters from form fields.</span></a></li>
+<li class="guard"><a href="approvals.html"><span class="n">05</span><strong>Runner checks</strong><span class="tag">control</span><span class="d">Role, client scope, approval, pause switch. Dry-run first.</span></a></li>
+<li class="guard"><a href="approvals.html"><span class="n">06</span><strong>A lead decides</strong><span class="tag">control</span><span class="d">Callback on the number on file; four-eyes.</span></a></li>
+<li><a href="levers.html"><span class="n">07</span><strong>Lever runs</strong><span class="d">Against the mock tenant only.</span></a></li>
+<li><a href="approvals.html"><span class="n">08</span><strong>Hash-chained audit</strong><span class="d">Every call, allowed or denied. Tamper shows.</span></a></li>
 </ol>
+<p class="small muted">Steps marked <span class="tag">control</span> are where a request can be stopped. Each step opens the page that shows it working.</p>
 
 <h2 id="tour">The 2-minute story</h2>
 <p class="muted">One person, one client: Priya Nair (synthetic) at Contoso Dental, ticket <code>T-3101</code>. About 20 seconds a step.</p>
@@ -778,8 +785,9 @@ paths and anything shaped like a credential, and it must come back clean.</p>
 
 
 def page_404() -> tuple[str, str, str]:
-    body = f"""<section class="lost">{mascot("lost", "A puzzled robot")}<div>
-<h1>Page not found</h1><p>That page is not part of this site, and the robot has no lever for finding it.</p>
+    body = f"""<section class="lost">{mascot("lost", "The agent, unsure")}<div>
+<h1>Page not found</h1><p>There is no page at this address. The agent would stop here and ask a person, so this page
+does the same: pick where to go.</p>
 <p class="btn-row"><a class="btn" href="index.html">Back to the overview</a> <a class="btn secondary" href="levers.html">See the levers it does have</a></p></div></section>"""
     return ("404", "Not found", body)
 

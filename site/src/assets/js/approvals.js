@@ -1,5 +1,5 @@
 import { el, clear, pill, loadData, markReady, hashParams, setHash, initTheme, short, prettyJSON } from "./common.js";
-import { verifyLines } from "./chain.js";
+import { verifyLines, recordHash } from "./chain.js";
 
 initTheme();
 const queueRoot = document.getElementById("queue-root");
@@ -133,7 +133,7 @@ function save() {
 }
 
 // ---------------------------------------------------------------- chain column
-async function renderChain() {
+async function renderChain(fromTamper = false) {
   const ls = lines();
   const verdict = await verifyLines(ls, headPin());
   clear(chainRoot);
@@ -150,7 +150,7 @@ async function renderChain() {
   const body = el("div", { class: "body" });
   const quickIdx = original.findIndex((l) => l.includes(D.tamper.find));
   const quick = el("button", { class: "btn danger", type: "button", disabled: quickIdx < 0 }, "Change one letter of who approved it (lead-lee → lead-leo)");
-  quick.addEventListener("click", () => { edits.set(quickIdx + 1, original[quickIdx].replace(D.tamper.find, D.tamper.replace)); renderChain(); });
+  quick.addEventListener("click", () => { edits.set(quickIdx + 1, original[quickIdx].replace(D.tamper.find, D.tamper.replace)); renderChain(true); });
   const restore = el("button", { class: "btn secondary", type: "button", disabled: edits.size === 0 }, "Restore the original log");
   restore.addEventListener("click", () => { edits = new Map(); renderChain(); });
   body.append(el("p", { class: "small" }, "This is step 8 of the demo script: edit one record, then verify. The quick button needs an executed approval in the log."),
@@ -160,10 +160,27 @@ async function renderChain() {
   const load = () => { const i = Number(sel.value); area.value = edits.get(i) ?? original[i - 1]; };
   sel.addEventListener("change", load);
   const saveBtn = el("button", { class: "btn secondary", type: "button" }, "Save my edit and verify");
-  saveBtn.addEventListener("click", () => { const i = Number(sel.value); if (area.value !== original[i - 1]) edits.set(i, area.value); else edits.delete(i); renderChain(); });
+  saveBtn.addEventListener("click", () => { const i = Number(sel.value); if (area.value !== original[i - 1]) edits.set(i, area.value); else edits.delete(i); renderChain(true); });
   body.append(el("label", { for: "edit-seq", class: "small" }, "Or edit any record yourself: "), sel, area, el("div", { class: "btn-row" }, saveBtn));
   body.append(el("p", { class: "small muted" }, "At build time the real Python verifier was given the same one-letter edit on the plain approve path. It printed: ",
     el("code", null, D.tamper.python_verifier_output)));
+  // The verdict is repeated next to the button that caused it, with a way to fly to the record it names, so the
+  // reader sees the result where they are looking instead of 400px above.
+  if (fromTamper) {
+    const echo = el("div", { class: "banner " + (verdict.ok ? "ok" : "bad") }, el("strong", null, "Result: "), verdict.line);
+    if (!verdict.ok && verdict.broken_seq) {
+      const go = el("button", { class: "btn secondary", type: "button" }, "Show record #" + verdict.broken_seq);
+      go.addEventListener("click", () => {
+        const target = document.getElementById("rec-" + verdict.broken_seq);
+        if (!target) return;
+        const still = document.documentElement.dataset.motion === "reduce" || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        target.scrollIntoView({ behavior: still ? "auto" : "smooth", block: "center" });
+        target.classList.remove("focus-pulse"); void target.offsetWidth; target.classList.add("focus-pulse");
+      });
+      echo.append(el("div", { class: "btn-row" }, go));
+    }
+    body.append(echo);
+  }
   tamper.append(body);
   chainRoot.append(tamper);
   if (original.length) { sel.value = String(original.length); load(); }
@@ -173,29 +190,40 @@ async function renderChain() {
     return;
   }
   const list = el("ol", { class: "chain", "aria-label": "Audit records, oldest first" });
-  ls.forEach((raw, i) => {
+  for (const [i, raw] of ls.entries()) {
     let r = null;
     try { r = JSON.parse(raw); } catch (e) { r = null; }
     const seq = i + 1;
     const broken = !verdict.ok && verdict.broken_seq !== null && seq >= verdict.broken_seq;
-    const li = el("li", { class: (seq > seen ? "new " : "") + (broken ? "bad" : "") });
+    const li = el("li", { id: "rec-" + seq, class: (seq > seen ? "new " : "") + (broken ? "bad" : "") });
     if (!r) {
       li.append(el("div", { class: "card rec" }, el("strong", null, "seq " + seq + ": "), "not valid JSON (edited)"));
     } else {
       const res = r.result || {};
       li.append(el("div", { class: "card rec" },
         el("div", { class: "rec-head" }, el("strong", null, "#" + r.seq), pill(r.mode, "info"), el("code", null, r.lever),
-          pill(res.status || "?", statusKind(res.status)), edits.has(seq) ? pill("edited by you", "bad") : null),
+          edits.has(seq) ? pill("edited by you", "bad") : pill(res.status || "?", statusKind(res.status))),
         el("div", { class: "small" }, "by ", el("strong", null, r.agent), " (" + r.actor_kind + ") for ", r.client || "all clients",
           r.approver ? [" · approved by ", el("strong", null, r.approver)] : null),
         res.reason ? el("div", { class: "small muted" }, res.reason) : null,
         el("div", { class: "hashes" }, el("span", null, "prev " + short(r.prev_hash, 12)), " → ", el("span", null, "hash " + short(r.hash, 12))),
+        broken && seq === verdict.broken_seq ? await mismatch(r) : null,
         el("details", null, el("summary", { class: "small" }, "Raw record"), el("div", { class: "body" }, el("pre", { class: "small" }, prettyJSON(r))))));
     }
     list.append(li);
-  });
+  }
   chainRoot.append(list);
   seen = ls.length;
+}
+
+// Stored hash next to the one recomputed from the record as it now reads: the evidence behind "BROKEN".
+async function mismatch(r) {
+  let again = "";
+  try { again = await recordHash(r); } catch (e) { return null; }
+  if (again === r.hash) return null;
+  return el("dl", { class: "mismatch" },
+    el("dt", null, "stored hash"), el("dd", null, el("code", null, short(r.hash, 16))),
+    el("dt", null, "recomputed"), el("dd", null, el("code", null, short(again, 16)), " ", pill("does not match", "bad")));
 }
 
 // ---------------------------------------------------------------- after approval
