@@ -42,6 +42,95 @@ BRAND_SVG = (
 )
 
 
+# -- the mascot ----------------------------------------------------------------------------------
+# A small robot drawn as inline SVG: no image files, no scripts, and every colour comes from the CSS tokens, so it
+# follows the theme. Motion lives in site.css and stops under prefers-reduced-motion.
+
+
+def bot(arm: str = "long") -> str:
+    """The robot in its own 0..230 x 0..175 space. arm: "long" reaches a button, "wave" waves."""
+    if arm == "long":
+        arm_svg = (
+            '<g class="m-arm press"><rect class="m-shell" x="96" y="94" width="100" height="14" rx="7"/>'
+            '<circle class="m-shell" cx="200" cy="101" r="10"/>'
+            '<rect class="m-shell" x="204" y="97" width="16" height="8" rx="4"/></g>'
+        )
+    else:
+        arm_svg = (
+            '<g class="m-arm wave"><rect class="m-shell" x="96" y="94" width="34" height="14" rx="7"/>'
+            '<circle class="m-shell" cx="134" cy="101" r="10"/></g>'
+        )
+    return (
+        '<g class="m-bot"><ellipse class="m-jet" cx="60" cy="168" rx="18" ry="6"/>'
+        '<line class="m-stroke" x1="60" y1="18" x2="60" y2="5"/><circle class="m-led" cx="60" cy="5" r="5"/>'
+        '<rect class="m-shell" x="18" y="18" width="84" height="62" rx="18"/>'
+        '<circle class="m-shell" cx="17" cy="49" r="5"/><circle class="m-shell" cx="103" cy="49" r="5"/>'
+        '<rect class="m-visor" x="28" y="30" width="64" height="36" rx="12"/>'
+        '<g class="m-eyes"><rect class="m-eye" x="42" y="40" width="10" height="15" rx="5"/>'
+        '<rect class="m-eye" x="68" y="40" width="10" height="15" rx="5"/></g>'
+        '<rect class="m-shell" x="50" y="78" width="20" height="12" rx="3"/>'
+        '<rect class="m-shell" x="22" y="88" width="76" height="70" rx="18"/>'
+        '<rect class="m-visor" x="38" y="102" width="44" height="24" rx="7"/>'
+        '<circle class="m-light l1" cx="50" cy="114" r="4"/><circle class="m-light l2" cx="60" cy="114" r="4"/>'
+        '<circle class="m-light l3" cx="70" cy="114" r="4"/>'
+        '<rect class="m-shell" x="6" y="96" width="14" height="44" rx="7"/>'
+        f"{arm_svg}</g>"
+    )
+
+
+def _button(cx: int, kind: str, label: str, n: int) -> str:
+    return (
+        f'<g class="s-btn b{n}"><ellipse class="m-base" cx="{cx}" cy="208" rx="17" ry="5"/>'
+        f'<path class="m-dome {kind}" d="M{cx - 14} 208 a14 12 0 0 1 28 0 z"/></g>'
+        f'<text class="s-label" x="{cx}" y="246" text-anchor="middle">{label}</text>'
+    )
+
+
+HERO_SCENE = (
+    '<svg class="scene" viewBox="0 0 480 320" role="img" aria-labelledby="scene-title" focusable="false">'
+    '<title id="scene-title">A robot agent presses an allowed lever button once a lead has approved; the global admin '
+    "button sits locked behind the red line, out of its reach.</title>"
+    '<ellipse class="m-floor" cx="250" cy="298" rx="226" ry="12"/>'
+    '<ellipse class="m-shadow" cx="120" cy="298" rx="46" ry="7"/>'
+    '<g class="s-ticket"><rect class="m-card" x="30" y="16" width="156" height="70" rx="12"/>'
+    '<text class="s-mono" x="44" y="40">T-3101</text>'
+    '<rect class="s-pill" x="110" y="27" width="62" height="18" rx="9"/>'
+    '<text class="s-pilltext" x="141" y="40" text-anchor="middle">MFA</text>'
+    '<rect class="s-line" x="44" y="54" width="128" height="6" rx="3"/>'
+    '<rect class="s-line" x="44" y="68" width="86" height="6" rx="3"/></g>'
+    '<g class="s-approve"><circle class="s-ok" cx="250" cy="70" r="22"/>'
+    '<path class="s-check" d="M240 70 l7 7 l13 -14"/>'
+    '<text class="s-label" x="250" y="110" text-anchor="middle">lead approved</text></g>'
+    f'<g transform="translate(60 92)">{bot("long")}</g>'
+    '<rect class="m-desk" x="248" y="212" width="152" height="78" rx="10"/>'
+    '<rect class="m-desktop" x="244" y="204" width="160" height="12" rx="6"/>'
+    '<circle class="s-ripple" cx="280" cy="200" r="14"/>'
+    + _button(280, "accent", "mfa", 1)
+    + _button(324, "ok", "unlock", 2)
+    + _button(368, "warn", "disable", 3)
+    + '<line class="s-redline" x1="416" y1="104" x2="416" y2="298"/>'
+    '<text class="s-redtext" x="0" y="0" transform="translate(404 150) rotate(-90)" text-anchor="middle">REDLINE</text>'
+    '<rect class="m-desk" x="426" y="232" width="46" height="58" rx="8"/>'
+    '<ellipse class="m-base" cx="449" cy="233" rx="14" ry="4"/>'
+    '<path class="m-dome bad" d="M437 233 a12 10 0 0 1 24 0 z"/>'
+    '<path class="s-glass" d="M429 234 v-24 a20 20 0 0 1 40 0 v24 z"/>'
+    '<g class="s-lock"><path class="s-shackle" d="M443 196 v-5 a6 6 0 0 1 12 0 v5"/>'
+    '<rect class="s-lockbody" x="439" y="195" width="20" height="15" rx="3"/></g>'
+    '<text class="s-label" x="449" y="268" text-anchor="middle">admin</text>'
+    "</svg>"
+)
+
+
+def mascot(kind: str = "wave", label: str = "") -> str:
+    """A standalone robot: "wave" (footer), "lost" (404, with a question mark)."""
+    extra = '<text class="s-q" x="118" y="34">?</text>' if kind == "lost" else ""
+    aria = f'role="img" aria-label="{esc(label)}"' if label else 'aria-hidden="true"'
+    return (
+        f'<svg class="mascot {kind}" viewBox="0 0 150 190" {aria} focusable="false">'
+        f'<g transform="translate(8 8)">{bot("wave")}</g>{extra}</svg>'
+    )
+
+
 def esc(value: object) -> str:
     return html.escape("" if value is None else str(value), quote=True)
 
@@ -155,18 +244,22 @@ def layout(
 <script src="assets/js/theme.js"></script>
 <script type="module" src="assets/js/{script}"></script>
 </head>
-<body>
+<body data-page="{esc(page)}">
 <a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
 <div class="proto-bar"><strong>Prototype.</strong> Synthetic data only: every client, person, ticket and number here is invented or fixture-based. Nothing ran against a real tenant.</div>
 <header class="site-header"><div class="inner">
 <a class="brand" href="index.html">{BRAND_SVG}<span>{site}<small>{esc(config["tagline"])}</small></span></a>
-<nav aria-label="Main"><ul class="nav">{nav}</ul></nav>
+<button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="site-nav"><span class="burger" aria-hidden="true"></span>Menu</button>
 <button class="theme-btn" id="theme-btn" type="button">Theme: auto</button>
+<nav aria-label="Main" id="site-nav"><ul class="nav">{nav}</ul></nav>
 </div></header>
 <main id="main" tabindex="-1">
 {body}
 </main>
+<a class="to-top" id="to-top" href="#main" aria-label="Back to top"><span aria-hidden="true">↑</span></a>
 <footer class="site-footer"><div class="inner">
+<div class="footer-bot">{mascot("wave")}<p class="small">Agents press buttons. People hold the keys.</p></div>
 <p>Independently built prototype. All tenants, people and tickets are synthetic.</p>
 <p>Generated {esc(build["built_at"][:10])} by running the project's own code (live replays run from commit <code>{esc(src["commit"][:7])}</code>; roadmap and proof counts are read from the project's main branch and name their own commit) over its fixtures. No cookies, no analytics, no third-party requests. <a href="about.html#how">How this site was built</a>.</p>
 {author_html}
@@ -234,6 +327,7 @@ def page_index(d: dict[str, Any]) -> tuple[str, str, str]:
     priya = next(t for t in tickets if t["id"] == "T-3101")
     body = f"""
 <section class="hero">
+<div class="hero-copy">
 <p class="kicker">Prototype · AI and automation for an MSP</p>
 <h1>Agents are button-pushers.</h1>
 <p class="lede">An AI and automation program for a managed service provider, built as runnable, tested software.
@@ -241,6 +335,9 @@ Deterministic, tested scripts (“levers”) do the work. A model only chooses w
 validated parameters. Permissions, approvals and the audit trail live on the lever, not on the model.</p>
 <div class="btn-row"><a class="btn" href="#tour">Take the 2-minute tour</a>
 <a class="btn secondary" href="triage.html">Triage a ticket yourself</a></div>
+</div>
+<figure class="hero-art">{HERO_SCENE}
+<figcaption class="small muted">The robot may press the buttons it was given, after a lead approves. The admin button is behind the red line.</figcaption></figure>
 </section>
 
 <p class="banner warn"><strong>Everything here is synthetic.</strong> The clients (Contoso Dental, Fabrikam Capital,
@@ -681,7 +778,9 @@ paths and anything shaped like a credential, and it must come back clean.</p>
 
 
 def page_404() -> tuple[str, str, str]:
-    body = """<h1>Page not found</h1><p>That page is not part of this site. Try the <a href="index.html">overview</a>.</p>"""
+    body = f"""<section class="lost">{mascot("lost", "A puzzled robot")}<div>
+<h1>Page not found</h1><p>That page is not part of this site, and the robot has no lever for finding it.</p>
+<p class="btn-row"><a class="btn" href="index.html">Back to the overview</a> <a class="btn secondary" href="levers.html">See the levers it does have</a></p></div></section>"""
     return ("404", "Not found", body)
 
 

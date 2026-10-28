@@ -2,6 +2,7 @@
 // Order: ?theme=light|dark in the address (not saved; used for screenshots and shared links), then the saved
 // choice (storage may be blocked: then "auto", which follows the device setting).
 (function () {
+  document.documentElement.classList.add("js"); // lets the CSS fold the nav behind a Menu button only when it can open
   var t = null;
   try { t = new URLSearchParams(window.location.search).get("theme"); } catch (e) { t = null; }
   if (t !== "light" && t !== "dark") {

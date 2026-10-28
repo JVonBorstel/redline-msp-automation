@@ -325,6 +325,24 @@ class TestHtml(unittest.TestCase):
                 if t == "button":
                     self.assertTrue(a.get("type"), f"{page}: every button has a type")
 
+    def test_no_inline_style_attributes(self) -> None:
+        # The CSP (style-src 'self') makes browsers drop style="" attributes, so anything drawn with one silently
+        # disappears (the roadmap bars once did). Sizes go in SVG attributes or classes instead.
+        for page in PAGES:
+            for t, a in self.parse(DIST / f"{page}.html").tags:
+                self.assertNotIn("style", a, f"{page}: <{t}> has an inline style the CSP would block")
+
+    def test_hero_scene_and_mascot(self) -> None:
+        c = self.parse(DIST / "index.html")
+        scene = [a for t, a in c.tags if t == "svg" and "scene" in (a.get("class") or "").split()]
+        self.assertEqual(len(scene), 1, "the overview has one hero scene")
+        self.assertEqual(scene[0].get("role"), "img")
+        self.assertIn("scene-title", c.ids, "the scene is described for screen readers")
+        for page in PAGES:
+            text = (DIST / f"{page}.html").read_text(encoding="utf-8")
+            self.assertIn('class="mascot', text, f"{page}: the footer robot")
+            self.assertIn('id="menu-btn"', text, page)
+
     def test_nav_marks_the_current_page(self) -> None:
         for page in PAGES[:-1]:
             c = self.parse(DIST / f"{page}.html")
