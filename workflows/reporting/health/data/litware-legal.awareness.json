@@ -1,0 +1,30 @@
+{
+  "_note": "Synthetic security-awareness figures for Litware Legal, service-level (invented). They stand in for the phishing-simulation and password-vault services (roadmap MP-24, MP-23); the real vendors are UNVERIFIED (U-04) and no vendor export format is claimed. Campaigns are counted by launch date. Fixture-based, not results from a real client.",
+  "client": "litware-legal",
+  "as_of": "2026-10-22T12:00:00Z",
+  "level": "service",
+  "services": {
+    "phishing_simulation": {
+      "inventory_id": "MP-24",
+      "vendor": "UNVERIFIED",
+      "campaigns": [
+        {
+          "id": "PS-2609-A",
+          "name": "Fake court e-filing notice",
+          "launched": "2026-09-14",
+          "sent": 18,
+          "clicked": 4,
+          "reported": 5
+        }
+      ]
+    },
+    "password_vault": {
+      "inventory_id": "MP-23",
+      "vendor": "UNVERIFIED",
+      "audit_score": 64,
+      "users_total": 15,
+      "users_enrolled": 11,
+      "mfa_enforced": false
+    }
+  }
+}

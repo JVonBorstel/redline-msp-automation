@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "_note": "B-62. The only scripts the DeviceOps levers can run, one per lever. A step list is what a person approves; sha256 pins script_id, version and steps (script_id, version, then each step, joined by newlines). The steps are plain-language descriptions: the mock RMM runs none of them and no real script is stored here.",
+  "scripts": {
+    "device.restart-spooler": {
+      "script_id": "dev-spooler-restart",
+      "version": 1,
+      "steps": [
+        "Stop the Print Spooler service",
+        "Remove the stuck jobs from the spool folder",
+        "Start the Print Spooler service",
+        "Confirm the service is Running, healthy, and the queue is empty"
+      ],
+      "sha256": "cedca4b88e1ca34435d3e61bbd6a8cdea045316339e27a6bfc2bea02494b1344"
+    },
+    "device.repair-mapped-drive": {
+      "script_id": "dev-drive-repair",
+      "version": 1,
+      "steps": [
+        "Read the saved path of the named drive letter from the device",
+        "Disconnect the stale mapping",
+        "Reconnect the saved path in the user's own session",
+        "Confirm the drive letter reports Connected"
+      ],
+      "sha256": "7feba4710fa3bcde3a02a9f933d14898f6e5336121b89f67665f10df1454cdf9"
+    },
+    "device.reset-outlook-profile": {
+      "script_id": "dev-outlook-reset",
+      "version": 1,
+      "steps": [
+        "Close Outlook for the named user",
+        "Rename the user's Outlook profile data to a dated backup name",
+        "Leave a new profile to be built at the next Outlook start",
+        "Confirm the profile is marked Reset and the backup name is recorded"
+      ],
+      "sha256": "8c637009ccac793413b5f43833030d987f9e0b428796fbe45d23df5d046386dc"
+    },
+    "device.cleanup-temp": {
+      "script_id": "dev-temp-cleanup",
+      "version": 1,
+      "steps": [
+        "List the files in the temp folders that are older than 7 days",
+        "Move them to a dated quarantine folder; nothing is deleted",
+        "Confirm no stale bytes are left and the quarantine holds them"
+      ],
+      "sha256": "1af570a60db5700050a7bd0cffac4225dc40ae28b4d11c2960cbb1ac30ce81ba"
+    },
+    "device.restart-service": {
+      "script_id": "dev-service-restart",
+      "version": 1,
+      "steps": [
+        "Check the service is on the approved list and exists on the device",
+        "Restart the named service",
+        "Confirm the service is Running and healthy"
+      ],
+      "sha256": "df1d377a08d66a62a5894b2149e1565db7736f51eb3a7e75cc3f88b1fc7849ab"
+    },
+    "device.reboot": {
+      "script_id": "dev-reboot-workstation",
+      "version": 1,
+      "steps": [
+        "Check the device is a workstation and online",
+        "Restart the workstation",
+        "Confirm a new boot time is reported and no restart is pending"
+      ],
+      "sha256": "b44a760ba4ee1c3458f4c2b7665d5cd846b6dad2e38b7c3ba57ec0da1bdf1b92"
+    },
+    "device.reboot-server": {
+      "script_id": "dev-reboot-server",
+      "version": 1,
+      "steps": [
+        "Check the device is a server and online",
+        "Restart the server",
+        "Confirm a new boot time is reported and no restart is pending"
+      ],
+      "sha256": "7963f8bc13fe5c35d16ff18a1d873aec22559bff7825afbb2ce1d7f37f1b1f52"
+    }
+  }
+}

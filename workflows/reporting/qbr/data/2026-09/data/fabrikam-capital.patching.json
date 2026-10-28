@@ -1,0 +1,91 @@
+{
+  "_note": "Synthetic September 2026 patch status for Fabrikam Capital (invented devices), written by script from the October fixture with dates moved back 30 days and one device given a waiting critical update. Neutral shape of this repository's own (UNVERIFIED). Fixture-based.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-09-22T12:00:00Z",
+  "devices": [
+    {
+      "id": "FC-SER01",
+      "kind": "server",
+      "last_patched": "2026-09-17",
+      "pending_critical": 1,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-SER02",
+      "kind": "server",
+      "last_patched": "2026-09-17",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-SER03",
+      "kind": "server",
+      "last_patched": "2026-09-17",
+      "pending_critical": 0,
+      "pending_other": 1
+    },
+    {
+      "id": "FC-SER04",
+      "kind": "server",
+      "last_patched": "2026-09-10",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-WOR05",
+      "kind": "workstation",
+      "last_patched": "2026-09-15",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-WOR06",
+      "kind": "workstation",
+      "last_patched": "2026-09-15",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-WOR07",
+      "kind": "workstation",
+      "last_patched": "2026-09-15",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-WOR08",
+      "kind": "workstation",
+      "last_patched": "2026-09-15",
+      "pending_critical": 0,
+      "pending_other": 2
+    },
+    {
+      "id": "FC-LAP09",
+      "kind": "laptop",
+      "last_patched": "2026-09-11",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-LAP10",
+      "kind": "laptop",
+      "last_patched": "2026-09-11",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-LAP11",
+      "kind": "laptop",
+      "last_patched": "2026-09-11",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "FC-LAP12",
+      "kind": "laptop",
+      "last_patched": "2026-09-11",
+      "pending_critical": 0,
+      "pending_other": 1
+    }
+  ]
+}

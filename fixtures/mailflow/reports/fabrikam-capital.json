@@ -1,0 +1,33 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "as_of": "2026-10-22T09:00:00Z",
+    "accepted_domains": ["fabrikamcapital.example"],
+    "note": "Synthetic clean twin for B-45 (STD-FX-4): one legitimate message reported in both the Microsoft Defender user-reported shape and the INKY Report Phish shape (MP-21). It triggers no finding and no injection flag. Shapes are UNVERIFIED; see fixtures/mailflow/SOURCES.md."
+  },
+  "reports": [
+    {"id": "R-2001", "shape": "defender", "payload": {
+      "reportedBy": "morgan.reyes@fabrikamcapital.example", "reportedDateTime": "2026-10-21T13:00:00Z",
+      "internetMessageId": "<s2001.4410@woodgrovebank.example>",
+      "headers": [
+        {"name": "From", "value": "Woodgrove Bank Statements <statements@woodgrovebank.example>"},
+        {"name": "Return-Path", "value": "<statements@woodgrovebank.example>"},
+        {"name": "Subject", "value": "Your October statement"},
+        {"name": "Authentication-Results", "value": "mx.fabrikamcapital.example; spf=pass smtp.mailfrom=woodgrovebank.example; dkim=pass; dmarc=pass header.from=woodgrovebank.example"}
+      ],
+      "urls": [{"url": "https://www.woodgrovebank.example/statements", "displayText": "www.woodgrovebank.example"}],
+      "attachments": [],
+      "body": "<p>Your statement is ready to view online.</p>"
+    }},
+    {"id": "R-2001", "shape": "inky", "payload": {
+      "reporter": {"email": "morgan.reyes@fabrikamcapital.example"}, "reported_at": "2026-10-21T13:00:00Z",
+      "message": {
+        "message_id": "<s2001.4410@woodgrovebank.example>",
+        "raw_headers": "From: Woodgrove Bank Statements <statements@woodgrovebank.example>\nReturn-Path: <statements@woodgrovebank.example>\nSubject: Your October statement\nAuthentication-Results: mx.fabrikamcapital.example; spf=pass smtp.mailfrom=woodgrovebank.example; dkim=pass; dmarc=pass header.from=woodgrovebank.example\n",
+        "links": [{"href": "https://www.woodgrovebank.example/statements", "text": "www.woodgrovebank.example"}],
+        "attachments": [],
+        "body_html": "<p>Your statement is ready to view online.</p>"
+      }
+    }}
+  ]
+}

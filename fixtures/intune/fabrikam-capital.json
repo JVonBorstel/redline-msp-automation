@@ -1,0 +1,68 @@
+{
+  "_note": "Synthetic Intune data for Fabrikam Capital (invented). Shaped like the Microsoft Graph v1.0 response of GET /deviceManagement/managedDevices (managedDevice resource); field status in fixtures/intune/SOURCES.md. Pinned to asOf. Not a capture from a real tenant.",
+  "client": "fabrikam-capital",
+  "asOf": "2026-10-22T12:00:00Z",
+  "tenantId": "f0000000-0000-4000-8000-000000000002",
+  "managedDevices": {
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#deviceManagement/managedDevices",
+    "value": [
+      {
+        "id": "f0000000-0000-4000-8000-0000000e0001",
+        "deviceName": "FAB-WS01",
+        "managedDeviceOwnerType": "company",
+        "enrolledDateTime": "2025-03-02T09:00:00Z",
+        "lastSyncDateTime": "2026-10-22T05:00:00Z",
+        "operatingSystem": "Windows",
+        "osVersion": "10.0.26100.2033",
+        "complianceState": "compliant",
+        "managementAgent": "mdm",
+        "isEncrypted": true,
+        "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+        "userDisplayName": "Morgan Reyes (synthetic)",
+        "model": "Model S-100 (synthetic)",
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "serialNumber": "FC-0001-WS",
+        "azureADDeviceId": "f0000000-0000-4000-8000-0000000f0001",
+        "deviceEnrollmentType": "windowsAzureADJoin"
+      },
+      {
+        "id": "f0000000-0000-4000-8000-0000000e0002",
+        "deviceName": "FAB-WS02",
+        "managedDeviceOwnerType": "company",
+        "enrolledDateTime": "2025-03-02T09:00:00Z",
+        "lastSyncDateTime": "2026-10-22T05:10:00Z",
+        "operatingSystem": "Windows",
+        "osVersion": "10.0.26100.2033",
+        "complianceState": "compliant",
+        "managementAgent": "mdm",
+        "isEncrypted": true,
+        "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+        "userDisplayName": "Riley Brooks (synthetic)",
+        "model": "Model S-100 (synthetic)",
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "serialNumber": "FC-0002-WS",
+        "azureADDeviceId": "f0000000-0000-4000-8000-0000000f0002",
+        "deviceEnrollmentType": "windowsAzureADJoin"
+      },
+      {
+        "id": "f0000000-0000-4000-8000-0000000e0003",
+        "deviceName": "FAB-WS03",
+        "managedDeviceOwnerType": "company",
+        "enrolledDateTime": "2025-03-02T09:00:00Z",
+        "lastSyncDateTime": "2026-10-22T05:20:00Z",
+        "operatingSystem": "Windows",
+        "osVersion": "10.0.26100.2033",
+        "complianceState": "compliant",
+        "managementAgent": "mdm",
+        "isEncrypted": true,
+        "userPrincipalName": "dana.kim@fabrikamcapital.example",
+        "userDisplayName": "Dana Kim (synthetic)",
+        "model": "Model S-100 (synthetic)",
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "serialNumber": "FC-0003-WS",
+        "azureADDeviceId": "f0000000-0000-4000-8000-0000000f0003",
+        "deviceEnrollmentType": "windowsAzureADJoin"
+      }
+    ]
+  }
+}

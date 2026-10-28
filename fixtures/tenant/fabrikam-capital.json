@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "note": "Synthetic. users and authentication.methods are mock data shaped like Microsoft Graph v1.0 (user, authentication method resources); not verified against a live tenant. tickets and kb are synthetic PSA and knowledge-base shapes."
+  },
+  "users": [
+    {
+      "id": "9a1b3c5d-7e9f-4a1b-8c3d-5e7f9a1b3c5d",
+      "displayName": "Morgan Reyes",
+      "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+      "jobTitle": "Portfolio Analyst",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "0b2d4f6a-8c0e-4b2d-9f4a-6c8e0b2d4f6a"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "6e8a0c2e-4b6d-4f8a-8c0e-2a4c6e8a0c2e", "displayName": "Galaxy S24 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "2b4d6f8a-0c2e-4d6f-9a0c-4e6a8c0e2b4d",
+      "displayName": "Riley Brooks",
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "jobTitle": "Operations",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "8c0e2a4c-6e8a-4c0e-8b2d-4f6a8c0e2a4c"}
+        ]
+      }
+    },
+    {
+      "id": "9e747b41-1d29-50f8-aa16-1666927b4b83",
+      "displayName": "Dana Kim",
+      "userPrincipalName": "dana.kim@fabrikamcapital.example",
+      "jobTitle": "Compliance Officer",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "20b1cf57-e278-5885-97c7-f232d1270fca"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "86e280b2-5e36-580c-9458-a4ba80c273c3", "displayName": "iPhone 15 Pro (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "defb8bf1-594b-508e-8b3e-523151e0d96b",
+      "displayName": "Alex Ward",
+      "userPrincipalName": "alex.ward@fabrikamcapital.example",
+      "jobTitle": "Associate",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "130487d4-2e1c-5a66-82f7-d8f8ebd9f2a7"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "b953f95d-7e65-5dbc-b1ad-afa0c48929f8", "displayName": "Galaxy S23 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "b893117d-8e51-59ec-b9e9-ec09f1c94660",
+      "displayName": "Chris Osei",
+      "userPrincipalName": "chris.osei@fabrikamcapital.example",
+      "jobTitle": "Trader",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "339e2ad5-1e0f-5717-846b-ea151dd93ecb"},
+          {"@odata.type": "#microsoft.graph.phoneAuthenticationMethod", "id": "bf68feef-6d7a-5c2e-a855-97ddd16452d8", "phoneNumber": "+1 555 0177", "phoneType": "mobile"}
+        ]
+      }
+    }
+  ],
+  "tickets": [
+    {
+      "id": "T-2001",
+      "title": "Shared mailbox missing for new analyst",
+      "requester": "morgan.reyes@fabrikamcapital.example",
+      "status": "new",
+      "priority": "medium",
+      "category": "email",
+      "body": "I can't see the Deals shared mailbox in Outlook since I joined."
+    },
+    {
+      "id": "T-2002",
+      "title": "VPN drops every hour",
+      "requester": "riley.brooks@fabrikamcapital.example",
+      "status": "open",
+      "priority": "medium",
+      "category": "network",
+      "body": "The VPN disconnects roughly every 60 minutes while working from home."
+    }
+  ],
+  "kb": [
+    {
+      "id": "KB-FC-001",
+      "title": "Grant access to a shared mailbox",
+      "category": "email",
+      "tags": ["shared", "mailbox", "outlook"],
+      "body": "Confirm the request with the mailbox owner, add Full Access, and allow up to an hour for Outlook to show it."
+    },
+    {
+      "id": "KB-FC-002",
+      "title": "VPN disconnects on a schedule",
+      "category": "network",
+      "tags": ["vpn", "disconnect"],
+      "body": "Check the session timeout on the VPN profile before touching the client."
+    }
+  ]
+}

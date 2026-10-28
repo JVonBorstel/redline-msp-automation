@@ -1,0 +1,1 @@
+{"status":"ok","reason":"dry-run: nothing applied","lever":"unix.restart-service","client":"contoso-dental","mode":"dry-run","data":{"service":"chronyd"},"diff":[{"op":"replace","path":"/services/chronyd/restarts","before":0,"after":1},{"op":"replace","path":"/services/chronyd/state","before":"stopped","after":"running"}],"applied":false}

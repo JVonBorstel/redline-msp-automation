@@ -1,0 +1,830 @@
+--- a/map/inventory.json
++++ b/map/inventory.json
+@@ -72,7 +72,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent suggests the match with reasons; a technician merges. Never auto-merge across clients.",
+-    "repo_status": "planned: Phase 2"
++    "repo_status": "exists: built by B-21, B-23 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2"
+   },
+   {
+     "id": "W-SD-04",
+@@ -96,7 +96,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only summary shown with the ticket entries it used; the receiving technician reads the source when it matters.",
+-    "repo_status": "planned: Phase 2"
++    "repo_status": "exists: built by B-21, B-22 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2"
+   },
+   {
+     "id": "W-SD-05",
+@@ -147,7 +147,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only alert to the lead; reassignment is a human decision.",
+-    "repo_status": "planned: Phase 2"
++    "repo_status": "exists: built by B-21, B-24 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2"
+   },
+   {
+     "id": "W-SD-07",
+@@ -174,7 +174,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent gathers read-only evidence (device health, sign-in history); the technician decides to escalate.",
+-    "repo_status": "planned: Phase 2 (summary), Phase 4 (enrichment levers)"
++    "repo_status": "exists: built by B-05, B-22, B-44 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (summary), Phase 4 (enrichment levers)"
+   },
+   {
+     "id": "W-SD-08",
+@@ -201,7 +201,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent proposes grouping; the lead declares the incident and approves any client notice.",
+-    "repo_status": "planned: Phase 2 (alert grouping)"
++    "repo_status": "exists: built by B-23 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (alert grouping)"
+   },
+   {
+     "id": "W-SD-09",
+@@ -225,7 +225,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Template reminders may be pre-approved as a standard change; closing a ticket the user disputes is human.",
+-    "repo_status": "not in blueprint; proposed Phase 2"
++    "repo_status": "exists: built by B-04, B-25 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 2"
+   },
+   {
+     "id": "W-SD-10",
+@@ -249,7 +249,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only weekly list; humans act.",
+-    "repo_status": "planned: Phase 2 (SLA watch); grooming list proposed Phase 6"
++    "repo_status": "exists: built by B-24 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (SLA watch); grooming list proposed Phase 6"
+   },
+   {
+     "id": "W-SD-11",
+@@ -302,7 +302,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent groups and summarizes; on-call human decides to act. Write levers still need approval (on-call lead may self-approve only where the policy names it, and that is audited).",
+-    "repo_status": "planned: Phase 2 (alert grouping)"
++    "repo_status": "exists (mocked): built by B-43 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (alert grouping)"
+   },
+   {
+     "id": "W-SD-13",
+@@ -327,7 +327,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only clustering; root cause and fix plan are human.",
+-    "repo_status": "not in blueprint; proposed Phase 6"
++    "repo_status": "exists: built by B-74 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 6"
+   },
+   {
+     "id": "W-SD-14",
+@@ -352,7 +352,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only routing of negative feedback to a manager; no automated reply.",
+-    "repo_status": "not in blueprint; proposed Phase 6"
++    "repo_status": "exists: built by B-74 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 6"
+   },
+   {
+     "id": "W-ONB-01",
+@@ -379,7 +379,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent checks the request against the documented authorized-contact list and lists missing fields; a technician confirms. An unlisted requester always goes to a human.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-34, B-35 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-02",
+@@ -404,7 +404,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Dry-run diff from the approved request; lead approves. Identity creation is never triggered by ticket text alone.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-28, B-35 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-03",
+@@ -430,7 +430,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Assigning from existing seats needs technician approval; buying seats is W-VND-02 (human).",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-31 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-04",
+@@ -456,7 +456,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Only from a client-approved role template. Becomes R3 (lead + client contact approval) if a group grants admin rights or regulated data stores.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-32 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-05",
+@@ -480,7 +480,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "TAP issued only after a human verifies identity (W-IDM-04); the TAP value is delivered by a human over an approved channel, never written into a ticket or a prompt.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-30 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-06",
+@@ -507,7 +507,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Technician approves group and profile assignment; dry-run shows which policies will apply.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists (mocked): built by B-64 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-07",
+@@ -532,7 +532,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent drafts the note without any secret; a technician sends it.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-35 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-08",
+@@ -631,7 +631,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Agent lists due removals; technician approves each.",
+-    "repo_status": "planned: Phase 3 (lever), Phase 6 (license alerts)"
++    "repo_status": "exists: built by B-31, B-36 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (lever), Phase 6 (license alerts)"
+   },
+   {
+     "id": "W-ONB-12",
+@@ -681,7 +681,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Agent produces the per-client checklist from documentation; a human does each removal (no stored vendor credentials reach an agent).",
+-    "repo_status": "not in blueprint; proposed Phase 3 (checklist only)"
++    "repo_status": "exists: built by B-36 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 3 (checklist only)"
+   },
+   {
+     "id": "W-ONB-14",
+@@ -706,7 +706,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only verification against live state, written to the ticket and the audit log.",
+-    "repo_status": "planned: Phase 3 (verify), Phase 4 (evidence bundle)"
++    "repo_status": "exists: built by B-36 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (verify), Phase 4 (evidence bundle)"
+   },
+   {
+     "id": "W-ONB-15",
+@@ -733,7 +733,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "NEVER AUTOMATE the decision or the timing. Humans run it; they may press pre-built levers (W-ONB-08, W-EP-08) with approval.",
+-    "repo_status": "planned: Phase 3 (runbook)"
++    "repo_status": "exists: built by B-14, B-37 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (runbook)"
+   },
+   {
+     "id": "W-ONB-16",
+@@ -758,7 +758,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Diff of add and remove against role templates; technician approves; R3 if admin or regulated stores.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-29, B-32 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-ONB-17",
+@@ -811,7 +811,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Identity verification is human (W-IDM-04). The lever generates no password visible to the agent; technician approves.",
+-    "repo_status": "planned: Phase 3"
++    "repo_status": "exists: built by B-30 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3"
+   },
+   {
+     "id": "W-IDM-02",
+@@ -862,7 +862,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only explanation with the log entries cited; any action goes through W-IDM-01/W-IDM-02 or W-SEC-04.",
+-    "repo_status": "planned: Phase 3/4"
++    "repo_status": "exists: built by B-39 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3/4"
+   },
+   {
+     "id": "W-IDM-04",
+@@ -888,7 +888,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "NEVER AUTOMATE the decision. Tooling may show the documented callback number and record that verification happened; a model never judges whether a person is who they claim.",
+-    "repo_status": "planned: Phase 3 (recording field only)"
++    "repo_status": "exists: built by B-01, B-03, B-14, B-34, B-37 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (recording field only)"
+   },
+   {
+     "id": "W-IDM-05",
+@@ -915,7 +915,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent groups and explains; remediation goes through W-SEC-04 with approval.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists: built by B-44 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-IDM-06",
+@@ -1013,7 +1013,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only review pack; removals by humans with approval.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists: built by B-49, B-81 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-IDM-10",
+@@ -1037,7 +1037,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Agent reports expiring or over-broad relationships; changes are human (they define the MSP's own reach into client tenants).",
+-    "repo_status": "not in blueprint; proposed Phase 4 (report only)"
++    "repo_status": "exists: built by B-54 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 4 (report only)"
+   },
+   {
+     "id": "W-IDM-11",
+@@ -1088,7 +1088,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only expiry report (metadata only, never secret values). Rotation is human or a Key Vault-managed process.",
+-    "repo_status": "planned: Phase 4 (report), Phase 8 (Key Vault)"
++    "repo_status": "exists: built by B-54 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4 (report), Phase 8 (Key Vault)"
+   },
+   {
+     "id": "W-IDM-13",
+@@ -1183,7 +1183,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only. Message bodies are never pulled into a prompt; metadata only.",
+-    "repo_status": "not in blueprint; proposed Phase 3 (adapters/m365)"
++    "repo_status": "exists (mocked): built by B-45 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 3 (adapters/m365)"
+   },
+   {
+     "id": "W-M365-04",
+@@ -1209,7 +1209,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Agent summarizes verdict and indicators; technician decides; high-confidence phish is never released by request alone.",
+-    "repo_status": "not in blueprint; proposed Phase 4"
++    "repo_status": "exists (mocked): built by B-45 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 4"
+   },
+   {
+     "id": "W-M365-05",
+@@ -1234,7 +1234,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only detection; removal is part of W-SEC-04 with approval.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists (mocked): built by B-46 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-M365-06",
+@@ -1286,7 +1286,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only assessment; fixes are human with client sign-off.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists: built by B-53 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-M365-08",
+@@ -1311,7 +1311,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Agent may report current state and simulation results; policy changes are human with change approval.",
+-    "repo_status": "planned: Phase 4 (assessment), Phase 10 (governance/DLP_MAPPING.md)"
++    "repo_status": "exists: built by B-53 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4 (assessment), Phase 10 (governance/DLP_MAPPING.md)"
+   },
+   {
+     "id": "W-M365-09",
+@@ -1359,7 +1359,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only summaries. DNS changes are human (W-VND-06).",
+-    "repo_status": "not in blueprint; proposed Phase 4"
++    "repo_status": "exists: built by B-54 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 4"
+   },
+   {
+     "id": "W-M365-11",
+@@ -1438,7 +1438,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only reconciliation; fixes are human.",
+-    "repo_status": "not in blueprint; proposed Phase 6"
++    "repo_status": "exists (mocked): built by B-61 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 6"
+   },
+   {
+     "id": "W-EP-02",
+@@ -1464,7 +1464,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Grouping and explanation only; reinstall goes through W-EP-04.",
+-    "repo_status": "planned: Phase 2 (alert grouping)"
++    "repo_status": "exists (mocked): built by B-43 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (alert grouping)"
+   },
+   {
+     "id": "W-EP-03",
+@@ -1515,7 +1515,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Only catalog apps; client approval for paid software; technician approves.",
+-    "repo_status": "planned: Phase 3 (levers), Phase 8 (deployment automation)"
++    "repo_status": "exists (mocked): built by B-63 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (levers), Phase 8 (deployment automation)"
+   },
+   {
+     "id": "W-EP-05",
+@@ -1539,7 +1539,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent explains the reason and drafts a user note; technician sends.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists (mocked): built by B-64 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-EP-06",
+@@ -1566,7 +1566,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Encryption status report is R0. Key retrieval is human only after identity verification; key values never reach a model, a ticket body or a log.",
+-    "repo_status": "planned: Phase 4 (status report only)"
++    "repo_status": "exists (mocked): built by B-64 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4 (status report only)"
+   },
+   {
+     "id": "W-EP-07",
+@@ -1637,7 +1637,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Same lever rules as Windows; technician approves.",
+-    "repo_status": "planned: Phase 3 (levers/bash)"
++    "repo_status": "exists: built by B-66 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (levers/bash)"
+   },
+   {
+     "id": "W-EP-10",
+@@ -1662,7 +1662,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only forecast; recommendations reviewed by the account manager.",
+-    "repo_status": "planned: Phase 6 (renewal alerts)"
++    "repo_status": "exists: built by B-75 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6 (renewal alerts)"
+   },
+   {
+     "id": "W-EP-11",
+@@ -1712,7 +1712,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Agent summarizes notes and known issues with citations; ring promotion is an engineer decision.",
+-    "repo_status": "not in blueprint; proposed Phase 4"
++    "repo_status": "exists (mocked): built by B-67 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 4"
+   },
+   {
+     "id": "W-PAT-02",
+@@ -1738,7 +1738,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only; numbers reconcile to source exports (validator).",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists (mocked): built by B-67 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-PAT-03",
+@@ -1763,7 +1763,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Agent groups by error code; technician approves the retry lever per batch.",
+-    "repo_status": "planned: Phase 3/4"
++    "repo_status": "exists (mocked): built by B-67 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3/4"
+   },
+   {
+     "id": "W-PAT-04",
+@@ -1787,7 +1787,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Catalog-driven; technician approves new versions.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists (mocked): built by B-63 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-PAT-05",
+@@ -1815,7 +1815,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Agent matches the public KEV catalog to inventory (read-only); deployment is approved by an engineer.",
+-    "repo_status": "not in blueprint; proposed Phase 4"
++    "repo_status": "exists (mocked): built by B-47 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 4"
+   },
+   {
+     "id": "W-PAT-06",
+@@ -1842,7 +1842,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Lead approves; agent drafts notices for human send; post-patch checks read-only.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists (mocked): built by B-67 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-PAT-07",
+@@ -1868,7 +1868,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Agent may report versions against advisories; upgrades are human.",
+-    "repo_status": "not in blueprint; report proposed Phase 4"
++    "repo_status": "exists (mocked): built by B-67 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; report proposed Phase 4"
+   },
+   {
+     "id": "W-BDR-01",
+@@ -1894,7 +1894,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only grouping and ticket draft; technician confirms.",
+-    "repo_status": "not in blueprint: no backup adapter is listed; proposed Phase 4 (adapters/backup)"
++    "repo_status": "exists: built by B-68 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint: no backup adapter is listed; proposed Phase 4 (adapters/backup)"
+   },
+   {
+     "id": "W-BDR-02",
+@@ -1918,7 +1918,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Rerun lever with technician approval; configuration changes are human.",
+-    "repo_status": "proposed Phase 4"
++    "repo_status": "exists: built by B-68 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 4"
+   },
+   {
+     "id": "W-BDR-03",
+@@ -1943,7 +1943,7 @@
+     ],
+     "risk_class": "R2",
+     "human_in_the_loop_rule": "Restore to an alternate location with technician approval. In-place restore (overwrite) is R3 and human-run.",
+-    "repo_status": "proposed Phase 4"
++    "repo_status": "exists: built by B-69 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 4"
+   },
+   {
+     "id": "W-BDR-04",
+@@ -1969,7 +1969,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Restore to an isolated sandbox only; evidence written to the audit log; technician approves.",
+-    "repo_status": "proposed Phase 4 (evidence bundle)"
++    "repo_status": "exists: built by B-69 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 4 (evidence bundle)"
+   },
+   {
+     "id": "W-BDR-05",
+@@ -1992,7 +1992,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only gap report.",
+-    "repo_status": "proposed Phase 4"
++    "repo_status": "exists: built by B-70 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 4"
+   },
+   {
+     "id": "W-BDR-06",
+@@ -2015,7 +2015,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent drafts from current documentation and flags stale sections; humans own the plan and run the exercise.",
+-    "repo_status": "not in blueprint; proposed Phase 6"
++    "repo_status": "exists: built by B-70 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 6"
+   },
+   {
+     "id": "W-BDR-07",
+@@ -2063,7 +2063,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only report; changes are human.",
+-    "repo_status": "proposed Phase 4"
++    "repo_status": "exists: built by B-70 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 4"
+   },
+   {
+     "id": "W-SEC-01",
+@@ -2090,7 +2090,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Grouping and severity suggestion with reasons; analyst decides. Closing an alert as benign stays human until evals justify a rule.",
+-    "repo_status": "planned: Phase 2 (grouping), Phase 4 (security)"
++    "repo_status": "exists (mocked): built by B-43 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (grouping), Phase 4 (security)"
+   },
+   {
+     "id": "W-SEC-02",
+@@ -2116,7 +2116,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only enrichment shown with sources.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists: built by B-44 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-SEC-03",
+@@ -2223,7 +2223,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only ranking with exploitability source (for example KEV); humans pick what to fix.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists (mocked): built by B-47 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-SEC-07",
+@@ -2273,7 +2273,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only match against inventory; humans decide action.",
+-    "repo_status": "proposed Phase 4"
++    "repo_status": "exists (mocked): built by B-47 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 4"
+   },
+   {
+     "id": "W-SEC-09",
+@@ -2322,7 +2322,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Aggregate report; per-person results shared only with the client's named contact; never used by the MSP to rate individuals.",
+-    "repo_status": "proposed Phase 6"
++    "repo_status": "exists: built by B-71 (evidence in docs/COVERAGE_AUDIT.md); the map said: proposed Phase 6"
+   },
+   {
+     "id": "W-CMP-01",
+@@ -2376,7 +2376,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent gathers technical evidence only; the risk analysis and its conclusions belong to the client (the covered entity) and a human assessor.",
+-    "repo_status": "planned: Phase 4 (evidence), Phase 10 (mapping)"
++    "repo_status": "exists: built by B-52 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4 (evidence), Phase 10 (mapping)"
+   },
+   {
+     "id": "W-CMP-03",
+@@ -2400,7 +2400,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only evidence; the client's Qualified Individual owns the program and the report.",
+-    "repo_status": "planned: Phase 4, Phase 10"
++    "repo_status": "exists: built by B-52 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4, Phase 10"
+   },
+   {
+     "id": "W-CMP-04",
+@@ -2471,7 +2471,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only tracker; legal review human.",
+-    "repo_status": "not in blueprint; proposed Phase 10"
++    "repo_status": "exists: built by B-52 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 10"
+   },
+   {
+     "id": "W-CMP-07",
+@@ -2517,7 +2517,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent drafts answers with evidence links; a human checks every answer; unsupported answers are left blank, not guessed.",
+-    "repo_status": "not in blueprint; proposed Phase 6"
++    "repo_status": "exists: built by B-60 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 6"
+   },
+   {
+     "id": "W-CMP-09",
+@@ -2541,7 +2541,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "RAG over approved answers with citations; a human approves and sends.",
+-    "repo_status": "planned: Phase 5 (RAG)"
++    "repo_status": "exists: built by B-60 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 5 (RAG)"
+   },
+   {
+     "id": "W-VND-01",
+@@ -2565,7 +2565,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only; recommendations reviewed by billing.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-75 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-VND-02",
+@@ -2614,7 +2614,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only alerts.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-75 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-VND-04",
+@@ -2640,7 +2640,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent drafts the case summary without client secrets; a human submits.",
+-    "repo_status": "not in blueprint; proposed Phase 2 (summaries)"
++    "repo_status": "exists: built by B-22 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 2 (summaries)"
+   },
+   {
+     "id": "W-VND-05",
+@@ -2665,7 +2665,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only alerts; renewal human.",
+-    "repo_status": "planned: Phase 6 (renewal alerts)"
++    "repo_status": "exists: built by B-54 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6 (renewal alerts)"
+   },
+   {
+     "id": "W-VND-06",
+@@ -2717,7 +2717,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Every number reconciles to source data (validator gate); account manager reviews and sends.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-71 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-RPT-02",
+@@ -2744,7 +2744,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Draft only; the account manager owns the story and the recommendations.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-72 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-RPT-03",
+@@ -2792,7 +2792,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent assembles facts; recommendations and pricing are human.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-73 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-RPT-05",
+@@ -2814,7 +2814,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Template draft; client and their counsel own the final policy.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-73 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-RPT-06",
+@@ -2836,7 +2836,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only; metrics describe the queue, not individual performance reviews (see W-TRN-04 note).",
+-    "repo_status": "planned: Phase 6 (Power BI exports)"
++    "repo_status": "exists: built by B-74 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6 (Power BI exports)"
+   },
+   {
+     "id": "W-KB-01",
+@@ -2861,7 +2861,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Draft only; a technician reviews and publishes; client data stripped and checked.",
+-    "repo_status": "planned: Phase 2"
++    "repo_status": "exists: built by B-58 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2"
+   },
+   {
+     "id": "W-KB-02",
+@@ -2884,7 +2884,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent flags stale pages against live data and drafts updates; human approves.",
+-    "repo_status": "planned: Phase 5"
++    "repo_status": "exists: built by B-59 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 5"
+   },
+   {
+     "id": "W-KB-03",
+@@ -2953,7 +2953,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only report; owner fixes.",
+-    "repo_status": "planned: Phase 5"
++    "repo_status": "exists: built by B-58 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 5"
+   },
+   {
+     "id": "W-KB-06",
+@@ -2976,7 +2976,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agents read the list to check requesters; only a human edits it, on the client's instruction.",
+-    "repo_status": "planned: Phase 3 (read lever)"
++    "repo_status": "exists: built by B-34 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 3 (read lever)"
+   },
+   {
+     "id": "W-KB-07",
+@@ -3021,7 +3021,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Agent drafts notes from lever and ticket activity; the technician confirms time and wording.",
+-    "repo_status": "not in blueprint; proposed Phase 2"
++    "repo_status": "exists: built by B-76 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 2"
+   },
+   {
+     "id": "W-BIL-02",
+@@ -3048,7 +3048,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only reconciliation; billing approves every change.",
+-    "repo_status": "planned: Phase 6"
++    "repo_status": "exists: built by B-75 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 6"
+   },
+   {
+     "id": "W-BIL-03",
+@@ -3072,7 +3072,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Suggestion with the agreement clause; a human decides.",
+-    "repo_status": "not in blueprint; proposed Phase 6"
++    "repo_status": "exists: built by B-76 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 6"
+   },
+   {
+     "id": "W-BIL-04",
+@@ -3148,7 +3148,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Human-run; agents may produce the checklist and the read-only proof that MSP access is gone.",
+-    "repo_status": "not in blueprint; checklist proposed Phase 10"
++    "repo_status": "exists (mocked): built by B-77 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; checklist proposed Phase 10"
+   },
+   {
+     "id": "W-PRJ-03",
+@@ -3175,7 +3175,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Scripted batches with dry-run and engineer approval per batch.",
+-    "repo_status": "not in blueprint; proposed after Phase 3"
++    "repo_status": "exists (mocked): built by B-77 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed after Phase 3"
+   },
+   {
+     "id": "W-PRJ-04",
+@@ -3200,7 +3200,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only assessment and score; recommendation reviewed by a human.",
+-    "repo_status": "planned: Phase 4"
++    "repo_status": "exists: built by B-53 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 4"
+   },
+   {
+     "id": "W-PRJ-05",
+@@ -3245,7 +3245,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Agent finds similar past projects (RAG); the estimate is human.",
+-    "repo_status": "not in blueprint; proposed Phase 5/6"
++    "repo_status": "exists: built by B-60 (evidence in docs/COVERAGE_AUDIT.md); the map said: not in blueprint; proposed Phase 5/6"
+   },
+   {
+     "id": "W-TOOL-01",
+@@ -3315,7 +3315,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Prompt changes need passing prompt tests.",
+-    "repo_status": "planned: Phase 2 (prompts/)"
++    "repo_status": "exists: built by B-20 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2 (prompts/)"
+   },
+   {
+     "id": "W-TOOL-04",
+@@ -3459,7 +3459,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Read-only dashboards and alerts; humans respond.",
+-    "repo_status": "planned: Phase 8"
++    "repo_status": "exists: built by B-80, B-81, B-83 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 8"
+   },
+   {
+     "id": "W-TOOL-10",
+@@ -3509,7 +3509,7 @@
+     ],
+     "risk_class": "R1",
+     "human_in_the_loop_rule": "Contract tests against mocks; changes through CI.",
+-    "repo_status": "planned: Phase 2/3/9 (adapters/)"
++    "repo_status": "exists (mocked): built by B-18, B-19, B-91 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 2/3/9 (adapters/)"
+   },
+   {
+     "id": "W-TOOL-12",
+@@ -3608,7 +3608,7 @@
+     ],
+     "risk_class": "R0",
+     "human_in_the_loop_rule": "Leadership approves the policy.",
+-    "repo_status": "planned: Phase 10 (governance/AI_POLICY.md, governance/DLP_MAPPING.md)"
++    "repo_status": "exists: built by B-55, B-92 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 10 (governance/AI_POLICY.md, governance/DLP_MAPPING.md)"
+   },
+   {
+     "id": "W-GOV-02",
+@@ -3631,7 +3631,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Approval of a provider or tool is a human decision recorded in DECISIONS.",
+-    "repo_status": "planned: Phase 10"
++    "repo_status": "exists: built by B-90, B-93 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 10"
+   },
+   {
+     "id": "W-GOV-03",
+@@ -3680,7 +3680,7 @@
+     ],
+     "risk_class": "R3",
+     "human_in_the_loop_rule": "Humans lead; agents can be switched off by a single config change and supply the audit timeline.",
+-    "repo_status": "planned: Phase 10"
++    "repo_status": "exists: built by B-02, B-41, B-94 (evidence in docs/COVERAGE_AUDIT.md); the map said: planned: Phase 10"
+   },
+   {
+     "id": "W-TRN-01",

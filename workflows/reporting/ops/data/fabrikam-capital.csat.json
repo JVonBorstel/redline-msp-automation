@@ -1,0 +1,144 @@
+{
+ "_note": "Synthetic, hand-generated overlay for B-74 (invented; fixture-based). Mock CSAT-tool export: ticket id, score 1-5, free-text comment (untrusted), submitted time. No technician field, by design (D6-21). Not a capture from a real CSAT tool.",
+ "client": "fabrikam-capital",
+ "responses": [
+  {
+   "ticket_id": "T-5203",
+   "score": 4,
+   "comment": "Fixed quickly, thank you.",
+   "submitted_at": "2026-10-11T11:46:00Z"
+  },
+  {
+   "ticket_id": "T-5206",
+   "score": 1,
+   "comment": "Slow, I waited most of the day.",
+   "submitted_at": "2026-10-15T05:25:00Z"
+  },
+  {
+   "ticket_id": "T-5213",
+   "score": 4,
+   "comment": "Problem solved and stayed solved.",
+   "submitted_at": "2026-10-12T04:36:00Z"
+  },
+  {
+   "ticket_id": "T-5216",
+   "score": 2,
+   "comment": "Clear explanation of what was done.",
+   "submitted_at": "2026-10-13T08:15:00Z"
+  },
+  {
+   "ticket_id": "T-5217",
+   "score": 1,
+   "comment": "Not really fixed, I had to ask again.",
+   "submitted_at": "2026-10-10T11:08:00Z"
+  },
+  {
+   "ticket_id": "T-5219",
+   "score": 3,
+   "comment": "Nobody told me what was happening.",
+   "submitted_at": "2026-10-15T21:54:00Z"
+  },
+  {
+   "ticket_id": "T-5223",
+   "score": 3,
+   "comment": "Very friendly and patient.",
+   "submitted_at": "2026-10-11T11:26:00Z"
+  },
+  {
+   "ticket_id": "T-5227",
+   "score": 2,
+   "comment": "Works properly now.",
+   "submitted_at": "2026-10-10T05:58:00Z"
+  },
+  {
+   "ticket_id": "T-5229",
+   "score": 2,
+   "comment": "It took far too long to get this fixed.",
+   "submitted_at": "2026-10-15T21:44:00Z"
+  },
+  {
+   "ticket_id": "T-5230",
+   "score": 1,
+   "comment": "OK.",
+   "submitted_at": "2026-10-10T22:37:00Z"
+  },
+  {
+   "ticket_id": "T-5233",
+   "score": 1,
+   "comment": "Works properly now.",
+   "submitted_at": "2026-10-11T07:16:00Z"
+  },
+  {
+   "ticket_id": "T-5234",
+   "score": 5,
+   "comment": "OK.",
+   "submitted_at": "2026-10-09T20:09:00Z"
+  },
+  {
+   "ticket_id": "T-5240",
+   "score": 3,
+   "comment": "Not really fixed, I had to ask again.",
+   "submitted_at": "2026-10-10T02:40:00Z"
+  },
+  {
+   "ticket_id": "T-5242",
+   "score": 5,
+   "comment": "Fine.",
+   "submitted_at": "2026-10-16T08:36:00Z"
+  },
+  {
+   "ticket_id": "T-5243",
+   "score": 2,
+   "comment": "Nobody told me what was happening.",
+   "submitted_at": "2026-10-14T23:41:00Z"
+  },
+  {
+   "ticket_id": "T-5249",
+   "score": 5,
+   "comment": "I did not hear anything back for ages.",
+   "submitted_at": "2026-10-17T10:24:00Z"
+  },
+  {
+   "ticket_id": "T-5250",
+   "score": 4,
+   "comment": "I did not hear anything back for ages.",
+   "submitted_at": "2026-10-12T09:17:00Z"
+  },
+  {
+   "ticket_id": "T-5255",
+   "score": 1,
+   "comment": "It took far too long to get this fixed.",
+   "submitted_at": "2026-10-10T23:05:00Z"
+  },
+  {
+   "ticket_id": "T-5256",
+   "score": 1,
+   "comment": "It took far too long to get this fixed.",
+   "submitted_at": "2026-10-10T22:40:00Z"
+  },
+  {
+   "ticket_id": "T-5260",
+   "score": 3,
+   "comment": "Fine.",
+   "submitted_at": "2026-10-11T11:07:00Z"
+  },
+  {
+   "ticket_id": "T-5261",
+   "score": 4,
+   "comment": "Problem solved and stayed solved.",
+   "submitted_at": "2026-10-08T03:00:00Z"
+  },
+  {
+   "ticket_id": "T-5263",
+   "score": 2,
+   "comment": "No comment.",
+   "submitted_at": "2026-10-12T16:46:00Z"
+  },
+  {
+   "ticket_id": "T-5280",
+   "score": 1,
+   "comment": "Clear explanation of what was done.",
+   "submitted_at": "2026-10-09T07:47:00Z"
+  }
+ ]
+}

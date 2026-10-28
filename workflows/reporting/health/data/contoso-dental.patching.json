@@ -1,0 +1,77 @@
+{
+  "_note": "Synthetic patch status for Contoso Dental (invented devices). A neutral shape of this repo's own, standing in for an RMM patch report; no RMM or patch-tool schema is claimed (UNVERIFIED). last_patched is the date of the last successful patch run; pending_critical and pending_other count updates waiting. Fixture-based, not a capture.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-22T12:00:00Z",
+  "devices": [
+    {
+      "id": "CD-WOR01",
+      "kind": "workstation",
+      "last_patched": "2026-10-14",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-WOR02",
+      "kind": "workstation",
+      "last_patched": "2026-10-14",
+      "pending_critical": 0,
+      "pending_other": 1
+    },
+    {
+      "id": "CD-WOR03",
+      "kind": "workstation",
+      "last_patched": "2026-10-14",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-WOR04",
+      "kind": "workstation",
+      "last_patched": "2026-09-02",
+      "pending_critical": 1,
+      "pending_other": 3
+    },
+    {
+      "id": "CD-WOR05",
+      "kind": "workstation",
+      "last_patched": "2026-10-14",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-LAP06",
+      "kind": "laptop",
+      "last_patched": "2026-10-12",
+      "pending_critical": 0,
+      "pending_other": 2
+    },
+    {
+      "id": "CD-LAP07",
+      "kind": "laptop",
+      "last_patched": "2026-08-28",
+      "pending_critical": 2,
+      "pending_other": 4
+    },
+    {
+      "id": "CD-SER08",
+      "kind": "server",
+      "last_patched": "2026-10-18",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-SER09",
+      "kind": "server",
+      "last_patched": "2026-10-18",
+      "pending_critical": 1,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-LAP10",
+      "kind": "laptop",
+      "last_patched": "2026-10-12",
+      "pending_critical": 0,
+      "pending_other": 0
+    }
+  ]
+}

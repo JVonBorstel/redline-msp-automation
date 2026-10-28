@@ -1,0 +1,1 @@
+{"status":"ok","reason":"service restarted","lever":"unix.restart-service","client":"contoso-dental","mode":"execute","data":{"service":"chronyd"},"diff":[{"op":"replace","path":"/services/chronyd/restarts","before":0,"after":1},{"op":"replace","path":"/services/chronyd/state","before":"stopped","after":"running"}],"applied":true}

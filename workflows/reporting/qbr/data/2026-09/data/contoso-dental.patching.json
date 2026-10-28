@@ -1,0 +1,77 @@
+{
+  "_note": "Synthetic September 2026 patch status for Contoso Dental (invented devices), written by script from the October fixture with dates moved back 30 days and one device given a waiting critical update. Neutral shape of this repository's own (UNVERIFIED). Fixture-based.",
+  "client": "contoso-dental",
+  "as_of": "2026-09-22T12:00:00Z",
+  "devices": [
+    {
+      "id": "CD-WOR01",
+      "kind": "workstation",
+      "last_patched": "2026-09-14",
+      "pending_critical": 1,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-WOR02",
+      "kind": "workstation",
+      "last_patched": "2026-09-14",
+      "pending_critical": 0,
+      "pending_other": 1
+    },
+    {
+      "id": "CD-WOR03",
+      "kind": "workstation",
+      "last_patched": "2026-09-14",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-WOR04",
+      "kind": "workstation",
+      "last_patched": "2026-08-03",
+      "pending_critical": 1,
+      "pending_other": 3
+    },
+    {
+      "id": "CD-WOR05",
+      "kind": "workstation",
+      "last_patched": "2026-09-14",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-LAP06",
+      "kind": "laptop",
+      "last_patched": "2026-09-12",
+      "pending_critical": 0,
+      "pending_other": 2
+    },
+    {
+      "id": "CD-LAP07",
+      "kind": "laptop",
+      "last_patched": "2026-07-29",
+      "pending_critical": 2,
+      "pending_other": 4
+    },
+    {
+      "id": "CD-SER08",
+      "kind": "server",
+      "last_patched": "2026-09-18",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-SER09",
+      "kind": "server",
+      "last_patched": "2026-09-18",
+      "pending_critical": 1,
+      "pending_other": 0
+    },
+    {
+      "id": "CD-LAP10",
+      "kind": "laptop",
+      "last_patched": "2026-09-12",
+      "pending_critical": 0,
+      "pending_other": 0
+    }
+  ]
+}

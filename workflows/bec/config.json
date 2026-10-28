@@ -1,0 +1,14 @@
+{
+  "_note": "B-46 business email compromise containment plan. `order` is the order of the steps; `steps` names the lever each one dry-runs. Lever param names were read from levers/registry.json and levers/registry.d/*.json. The disable-rules step expands to one inboxrule.disable per flagged rule that is on. Nothing here is per person or per client.",
+  "queue_source": "triage",
+  "order": ["block-sign-in", "revoke-sessions", "reset-mfa", "disable-rules"],
+  "steps": {
+    "block-sign-in": {"lever": "user.disable", "label": "Block sign-in"},
+    "revoke-sessions": {"lever": "user.revoke-sessions", "label": "Revoke sign-in sessions"},
+    "reset-mfa": {"lever": "user.reset-mfa", "label": "Reset MFA methods"},
+    "disable-rules": {"lever": "inboxrule.disable", "label": "Turn off flagged inbox rule"}
+  },
+  "block_reason": "Containment: suspected business email compromise",
+  "timeline_format": "incident-timeline/1",
+  "timeline_notice": "Facts only. Whether this is a reportable incident or breach, and who is notified, is decided by the client and its counsel, not by this tool or the MSP."
+}

@@ -1,0 +1,22 @@
+{
+  "id": "P-d01c53bdf1dc",
+  "source": "triage",
+  "ref": "T-3101",
+  "lever": "user.reset-mfa",
+  "client": "contoso-dental",
+  "params": {
+    "upn": "priya.nair@contosodental.example"
+  },
+  "requested_by": "triage-bot",
+  "reason": "Lost phone; MFA reset after a callback to the number on file.",
+  "created": "2026-10-21T09:00:00Z",
+  "status": "approved",
+  "decided_by": "lead-lee",
+  "decided_at": "2026-10-21T09:05:00Z",
+  "verification": {
+    "method": "callback-on-file",
+    "by": "lead-lee",
+    "at": "2026-10-21T09:04:00Z",
+    "ref": "number-on-file:psa-contact"
+  }
+}

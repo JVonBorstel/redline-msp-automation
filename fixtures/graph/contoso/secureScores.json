@@ -1,0 +1,24 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#security/secureScores",
+  "value": [
+    {
+      "id": "c0000000-0000-4000-8000-000000000000_2026-10-01",
+      "azureTenantId": "c0000000-0000-4000-8000-000000000000",
+      "activeUserCount": 17,
+      "createdDateTime": "2026-10-01T00:00:00Z",
+      "currentScore": 41.25,
+      "maxScore": 120.0,
+      "licensedUserCount": 18,
+      "enabledServices": ["HasExchange", "HasSharePoint"],
+      "averageComparativeScores": [
+        { "basis": "AllTenants", "averageScore": 52.0 },
+        { "basis": "TotalSeats", "averageScore": 47.0 }
+      ],
+      "controlScores": [
+        { "controlCategory": "Identity", "controlName": "AdminMFA", "description": "Synthetic fixture entry: MFA for privileged roles.", "score": 10.0 },
+        { "controlCategory": "Identity", "controlName": "BlockLegacyAuthentication", "description": "Synthetic fixture entry: legacy authentication blocked.", "score": 0.0 }
+      ],
+      "vendorInformation": { "provider": "SecureScore", "providerVersion": null, "subProvider": null, "vendor": "Microsoft" }
+    }
+  ]
+}

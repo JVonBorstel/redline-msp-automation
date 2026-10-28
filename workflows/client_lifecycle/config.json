@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "_note": "B-77 client lifecycle settings. Synthetic data only. baseline_timeout_s bounds the child pwsh that runs the read-only TenantBaseline module. migrations_dir holds one synthetic migration plan per client (data/migrations/<client>.json).",
+  "baseline_timeout_s": 180,
+  "migrations_dir": "data/migrations"
+}

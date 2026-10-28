@@ -1,0 +1,236 @@
+{
+  "label": "MEASURED ON THIS MACHINE ONLY, ONCE. Synthetic harness on temporary SQLite files; fixture-based; not a capacity claim for any real deployment.",
+  "basis": "fixture-based: synthetic clients and lever calls, a seeded fault plan, a local SQLite file standing in for the external adapter, stores in synchronous=FULL mode (one fsync per commit).",
+  "generated_utc": "2026-10-28T00:03:43+00:00",
+  "machine": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.12.15",
+    "sqlite": "3.53.1",
+    "cpu_count": 16
+  },
+  "config": {
+    "seed": 84,
+    "clients": 300,
+    "jobs": 10000,
+    "threads": 4,
+    "workers": 8
+  },
+  "scenarios": [
+    {
+      "name": "clean-sequential",
+      "mode": "sequential",
+      "faults": false,
+      "wall_s": 280.528,
+      "jobs_created": 10000,
+      "done": 10000,
+      "dead": 0,
+      "finished": true,
+      "jobs_per_s": 35.65,
+      "audit_records": 10000,
+      "adapter_deliveries": 10000,
+      "invariants": {
+        "chain_breaks": 0,
+        "cross_client_results": 0,
+        "double_applies": 0,
+        "lost_jobs": 0
+      },
+      "latency_ms": {
+        "enqueue": {
+          "count": 10000,
+          "p50_ms": 5.514,
+          "p95_ms": 6.471,
+          "p99_ms": 7.649,
+          "max_ms": 170.406,
+          "mean_ms": 5.62
+        },
+        "claim": {
+          "count": 10000,
+          "p50_ms": 4.408,
+          "p95_ms": 5.213,
+          "p99_ms": 11.52,
+          "max_ms": 28.482,
+          "mean_ms": 4.635
+        },
+        "adapter": {
+          "count": 10000,
+          "p50_ms": 2.908,
+          "p95_ms": 3.36,
+          "p99_ms": 3.696,
+          "max_ms": 26.166,
+          "mean_ms": 2.958
+        },
+        "audit": {
+          "count": 10000,
+          "p50_ms": 5.335,
+          "p95_ms": 6.468,
+          "p99_ms": 12.6,
+          "max_ms": 25.902,
+          "mean_ms": 5.584
+        },
+        "complete": {
+          "count": 10000,
+          "p50_ms": 5.163,
+          "p95_ms": 6.087,
+          "p99_ms": 12.308,
+          "max_ms": 27.762,
+          "mean_ms": 5.392
+        },
+        "fail": {
+          "count": 0,
+          "p50_ms": null,
+          "p95_ms": null,
+          "p99_ms": null,
+          "max_ms": null,
+          "mean_ms": null
+        }
+      }
+    },
+    {
+      "name": "faulty-sequential",
+      "mode": "sequential",
+      "faults": true,
+      "wall_s": 342.695,
+      "jobs_created": 10000,
+      "done": 9797,
+      "dead": 203,
+      "finished": true,
+      "jobs_per_s": 29.18,
+      "audit_records": 12535,
+      "adapter_deliveries": 12834,
+      "invariants": {
+        "chain_breaks": 0,
+        "cross_client_results": 0,
+        "double_applies": 0,
+        "lost_jobs": 0
+      },
+      "latency_ms": {
+        "enqueue": {
+          "count": 10000,
+          "p50_ms": 5.391,
+          "p95_ms": 6.765,
+          "p99_ms": 13.044,
+          "max_ms": 44.311,
+          "mean_ms": 5.69
+        },
+        "claim": {
+          "count": 14998,
+          "p50_ms": 4.366,
+          "p95_ms": 5.25,
+          "p99_ms": 11.913,
+          "max_ms": 33.376,
+          "mean_ms": 4.332
+        },
+        "adapter": {
+          "count": 13197,
+          "p50_ms": 2.832,
+          "p95_ms": 3.327,
+          "p99_ms": 3.693,
+          "max_ms": 17.319,
+          "mean_ms": 2.304
+        },
+        "audit": {
+          "count": 12535,
+          "p50_ms": 5.333,
+          "p95_ms": 6.61,
+          "p99_ms": 13.036,
+          "max_ms": 29.286,
+          "mean_ms": 5.612
+        },
+        "complete": {
+          "count": 9797,
+          "p50_ms": 5.164,
+          "p95_ms": 6.29,
+          "p99_ms": 13.294,
+          "max_ms": 33.192,
+          "mean_ms": 5.459
+        },
+        "fail": {
+          "count": 2535,
+          "p50_ms": 5.128,
+          "p95_ms": 5.971,
+          "p99_ms": 12.136,
+          "max_ms": 16.361,
+          "mean_ms": 5.327
+        }
+      }
+    },
+    {
+      "name": "faulty-threaded",
+      "mode": "threaded",
+      "faults": true,
+      "wall_s": 265.096,
+      "jobs_created": 10000,
+      "done": 9797,
+      "dead": 203,
+      "finished": true,
+      "jobs_per_s": 37.72,
+      "audit_records": 12558,
+      "adapter_deliveries": 12858,
+      "invariants": {
+        "chain_breaks": 0,
+        "cross_client_results": 0,
+        "double_applies": 0,
+        "lost_jobs": 0
+      },
+      "latency_ms": {
+        "enqueue": {
+          "count": 10000,
+          "p50_ms": 5.481,
+          "p95_ms": 7.343,
+          "p99_ms": 12.066,
+          "max_ms": 173.176,
+          "mean_ms": 5.801
+        },
+        "claim": {
+          "count": 13316,
+          "p50_ms": 9.387,
+          "p95_ms": 53.384,
+          "p99_ms": 115.242,
+          "max_ms": 542.934,
+          "mean_ms": 18.19
+        },
+        "adapter": {
+          "count": 13223,
+          "p50_ms": 3.051,
+          "p95_ms": 5.023,
+          "p99_ms": 15.441,
+          "max_ms": 909.831,
+          "mean_ms": 4.743
+        },
+        "audit": {
+          "count": 12558,
+          "p50_ms": 5.885,
+          "p95_ms": 16.024,
+          "p99_ms": 33.371,
+          "max_ms": 1702.921,
+          "mean_ms": 10.806
+        },
+        "complete": {
+          "count": 9818,
+          "p50_ms": 10.21,
+          "p95_ms": 54.176,
+          "p99_ms": 122.99,
+          "max_ms": 440.138,
+          "mean_ms": 18.714
+        },
+        "fail": {
+          "count": 2537,
+          "p50_ms": 9.917,
+          "p95_ms": 53.606,
+          "p99_ms": 128.31,
+          "max_ms": 448.546,
+          "mean_ms": 18.535
+        }
+      }
+    }
+  ],
+  "caveats": [
+    "One run per scenario, no repeats, no variance estimate: treat differences under about 2x as noise.",
+    "Latency is wall time around each store call (time.perf_counter), including the fsync. It depends on this machine's disk and the temp folder's filesystem; a CI runner or a server will differ, possibly a lot.",
+    "The adapter is a local SQLite file with synchronous=OFF, so its latency says nothing about a real adapter (Graph, PSA, RMM) which would add network time and rate limits.",
+    "Backoff and lease waits run on a simulated clock and cost no wall time, so end-to-end jobs per second is the cost of the work, not what a deployment waiting out real backoff would see.",
+    "SQLite allows one writer at a time. The threaded scenario shows lock contention on one file; it is not a claim that more threads give more throughput.",
+    "The real LeverRunner (identity, approval and registry checks) is not in this loop.",
+    "Not measured: memory, CPU use, database size, multi-process contention on this scale, Linux behaviour."
+  ]
+}

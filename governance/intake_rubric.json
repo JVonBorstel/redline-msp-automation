@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "label": "Synthetic prototype. The weights and bars are proposals for leadership to set (UNVERIFIED: no the MSP value, risk-appetite or ranking policy is known, GQ-01).",
+  "risk_weights": {"R0": 1, "R1": 2, "R2": 4, "R3": 8},
+  "effect_base": {
+    "read-only": "R0",
+    "reversible-one-object": "R1",
+    "reversible-access-or-many": "R2",
+    "irreversible-or-identity-or-tenant-wide": "R3"
+  },
+  "sensitivity": {
+    "DC-0": "low", "DC-1": "low", "DC-2": "moderate", "DC-3": "moderate",
+    "DC-4": "high", "DC-5": "high", "DC-6": "prohibited"
+  },
+  "value_bands_hours_per_month": {"high": 20, "medium": 5},
+  "acceptance_bar": 0.9,
+  "hosted_refused_from_class": "DC-4"
+}

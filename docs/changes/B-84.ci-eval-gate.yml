@@ -1,0 +1,43 @@
+# PROPOSAL for a human to apply (B-84). Not active: it lives under docs/changes/, not .github/workflows/.
+# To adopt: copy to .github/workflows/eval-gate.yml (the owner reviews .github changes), keep the action versions below in step
+# with ci.yml, then add the check as required on main if wanted.
+# What it runs: tools/eval_gate.py, which runs the routing, guard (injection, redaction, phishing) and seeded load
+# sources offline and compares them with evals/gates.json. Exit 1 on any regression. No network beyond installing uv's
+# locked dependencies, no secrets, read-only token. UNVERIFIED: this workflow has never run on GitHub Actions.
+name: eval-gate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: eval-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Eval gates (routing, guard, load invariants)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: uv.lock
+
+      - name: Eval gates
+        run: uv run --frozen python tools/eval_gate.py
+
+      - name: Eval gates (JSON, on failure)
+        if: failure()
+        run: uv run --frozen python tools/eval_gate.py --json

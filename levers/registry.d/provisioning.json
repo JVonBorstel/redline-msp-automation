@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "_note": "B-35. Provisioning PowerShell lever over the offline mock tenant (fixtures/tenant/<client>.json and <client>/mailboxes.json). user.new is R3 with two distinct lead approvals and the requester+contact verification, like user.new-tap. The Graph permission in graph_scopes is UNVERIFIED. It has no registered undo: user.disable stops the account but does not remove it, so it is not offered as an undo. Mock only; no real tenant is called.",
+  "levers": [
+    {
+      "name": "user.new",
+      "runtime": "powershell",
+      "entry": "Provisioning\\New-UserAccount",
+      "description": "Create one member user and its mailbox record for a new hire: enabled, with no credential and no license. The first sign-in is a separate approved step (user.new-tap). The same upn with the same values changes nothing; the same upn with different values is refused. Mock of a Graph user create.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the new hire"
+        },
+        "display_name": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ,&'.@_%+-]{0,112}$",
+          "description": "Display name from the new-hire form"
+        },
+        "job_title": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ,&'.@_%+-]{0,112}$",
+          "description": "Job title from the new-hire form"
+        },
+        "department": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ,&'.@_%+-]{0,112}$",
+          "description": "Department from the new-hire form"
+        },
+        "manager_upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the manager; must already be a user of this client"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R3",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "verification": "requester+contact",
+      "graph_scopes": [
+        "User.ReadWrite.All"
+      ],
+      "impact": {
+        "L1": "A new hire gets an account that can sign in on day one once the pass is issued; a wrong name, title or manager follows them into mail, approvals and group rules until it is fixed.",
+        "L2": "The client gets a working account for a named person; an account made for an impostor is a way into the client's data, so the request must come from the client's own authorized contact.",
+        "L3": "Joiners get one checked plan with two lead approvals instead of six admin screens; the audit holds no secret and the account has no credential until the pass step.",
+        "L4": "Every client's joiners go through the same checked path, and an account is never created from free text or on one person's say-so."
+      }
+    }
+  ]
+}

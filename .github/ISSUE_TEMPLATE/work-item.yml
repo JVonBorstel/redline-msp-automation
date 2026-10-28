@@ -1,0 +1,97 @@
+name: Work item
+description: One roadmap item (docs/ROADMAP.md, map/roadmap.json). Every issue traces one person at one client up to the community.
+title: "B-nn: "
+body:
+  - type: input
+    id: roadmap
+    attributes:
+      label: Roadmap id
+      description: The item id from map/roadmap.json. The issue title is "B-nn: <title>".
+      placeholder: B-03
+    validations:
+      required: true
+  - type: input
+    id: inventory
+    attributes:
+      label: Inventory ids
+      description: Work-inventory items this covers (map/inventory.json).
+      placeholder: W-IDM-04, W-SD-02
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact chain (individual to macro)
+      description: The inventory id of each impact chain touched (map/impact.json), then one line per level (STD-DD-10).
+      value: |
+        Chains:
+        L1 one person at one client:
+        L2 the client business:
+        L3 the MSP:
+        L4 the community:
+    validations:
+      required: true
+  - type: input
+    id: controls
+    attributes:
+      label: Controls
+      description: Control ids from map/controls.json.
+      placeholder: C-02, C-06
+    validations:
+      required: true
+  - type: input
+    id: standards
+    attributes:
+      label: Standards
+      description: STANDARDS sections this item follows (docs/STANDARDS.md).
+      placeholder: STD-LV, STD-TS
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance tests
+      description: One checkbox per acceptance id; each becomes at least one test named after it.
+      placeholder: "- [ ] B03-1: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: owns
+    attributes:
+      label: Owned paths
+      description: Copied from the roadmap. The PR may touch nothing else.
+    validations:
+      required: true
+  - type: input
+    id: depends
+    attributes:
+      label: Depends on
+      placeholder: B-01, B-02
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk class
+      description: Governance definitions (docs/map/05-governance.md). Identity changes are R3 (D-024).
+      options: [R0 read-only, R1 low, R2 reversible change, R3 identity or destructive]
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: Size
+      description: L is not allowed; split it first.
+      options: [S, M]
+    validations:
+      required: true
+  - type: input
+    id: questions
+    attributes:
+      label: Blocking questions
+      description: Question ids from any map (index in docs/map/README.md).
+  - type: checkboxes
+    id: synthetic
+    attributes:
+      label: Data
+      options:
+        - label: This work uses only synthetic data and invented names.
+          required: true

@@ -1,0 +1,43 @@
+{
+  "_note": "Monitoring alert rules (B-83) as versioned data. Thresholds are prototype defaults, not tuned on real traffic. Change a number here, never in code. 'version' is the file format version.",
+  "version": 1,
+  "rules": [
+    {
+      "id": "audit-chain-failure",
+      "kind": "audit-chain-failure",
+      "severity": "critical",
+      "summary": "An audit chain failed verification: a record was edited, removed or reordered."
+    },
+    {
+      "id": "breaker-open",
+      "kind": "breaker-open",
+      "severity": "critical",
+      "summary": "A model provider's circuit breaker is open and calls are failing fast.",
+      "window_s": 600,
+      "min_events": 5
+    },
+    {
+      "id": "budget-exhaustion",
+      "kind": "budget-exhaustion",
+      "severity": "warning",
+      "summary": "Model-call budget denials: a scope has used its calls or tokens for the window.",
+      "window_s": 600,
+      "min_events": 3
+    },
+    {
+      "id": "approval-backlog-age",
+      "kind": "approval-backlog-age",
+      "severity": "warning",
+      "summary": "A proposal has waited for a lead's decision longer than the allowed age.",
+      "max_age_s": 7200
+    },
+    {
+      "id": "dead-letter-growth",
+      "kind": "dead-letter-growth",
+      "severity": "warning",
+      "summary": "Dead-lettered jobs for a client grew faster than the allowed rate.",
+      "window_s": 3600,
+      "min_growth": 5
+    }
+  ]
+}

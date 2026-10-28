@@ -1,0 +1,27 @@
+{
+  "_note": "SYNTHETIC. Imitates a Tenable Nessus CSV export (column names as commonly exported; UNVERIFIED, see SOURCES.md). One JSON object per CSV row. Hosts and CVE ids are invented.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-21T12:00:00Z",
+  "rows": [
+    {
+      "Plugin ID": "900001",
+      "CVE": "CVE-2099-0003",
+      "CVSS v2.0 Base Score": "9.3",
+      "Risk": "Critical",
+      "Host": "CD-FW01",
+      "Protocol": "tcp",
+      "Port": "443",
+      "Name": "Synthetic EdgeVPN Gateway path traversal"
+    },
+    {
+      "Plugin ID": "900100",
+      "CVE": "CVE-2099-0900",
+      "CVSS v2.0 Base Score": "4.3",
+      "Risk": "Medium",
+      "Host": "CD-PC02",
+      "Protocol": "tcp",
+      "Port": "445",
+      "Name": "Synthetic SMB signing not required"
+    }
+  ]
+}

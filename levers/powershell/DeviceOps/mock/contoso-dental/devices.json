@@ -1,0 +1,268 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+    "as_of": "2026-10-22T12:00:00Z",
+    "note": "Synthetic mock RMM device state for B-62 (specs/B-62.md). Invented machines; shapes follow fixtures/rmm. Every field status is in levers/powershell/DeviceOps/SOURCES.md. Nothing here came from a real RMM."
+  },
+  "devices": [
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0001",
+      "hostname": "FRONTDESK-01",
+      "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+      "deviceType": {
+        "category": "Desktop",
+        "type": "Windows"
+      },
+      "online": true,
+      "lastBoot": "2026-10-12T07:30:00Z",
+      "pendingReboot": true,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Hung"
+        },
+        "Dnscache": {
+          "status": "Running",
+          "health": "Ok"
+        },
+        "W32Time": {
+          "status": "Running",
+          "health": "Hung"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 3
+      },
+      "mappedDrives": {
+        "S": {
+          "path": "\\\\DENTAL-SRV01\\Shared",
+          "state": "Disconnected"
+        },
+        "P": {
+          "path": "\\\\DENTAL-SRV01\\Forms",
+          "state": "Connected"
+        }
+      },
+      "outlookProfiles": {
+        "ana.lopez": {
+          "state": "Corrupt",
+          "backup": null
+        }
+      },
+      "tempBytes": 4800000000,
+      "tempStaleBytes": 4100000000,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0002",
+      "hostname": "OPERATORY-02",
+      "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+      "deviceType": {
+        "category": "Desktop",
+        "type": "Windows"
+      },
+      "online": true,
+      "lastBoot": "2026-10-21T06:50:00Z",
+      "pendingReboot": false,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Ok"
+        },
+        "BITS": {
+          "status": "Stopped",
+          "health": "Ok"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 0
+      },
+      "mappedDrives": {
+        "S": {
+          "path": "\\\\DENTAL-SRV01\\Shared",
+          "state": "Connected"
+        }
+      },
+      "outlookProfiles": {
+        "sam.patel": {
+          "state": "Healthy",
+          "backup": null
+        }
+      },
+      "tempBytes": 900000000,
+      "tempStaleBytes": 0,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0003",
+      "hostname": "DENTAL-SRV01",
+      "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+      "deviceType": {
+        "category": "Server",
+        "type": "Windows Server"
+      },
+      "online": true,
+      "lastBoot": "2026-10-04T02:00:00Z",
+      "pendingReboot": true,
+      "services": {
+        "Spooler": {
+          "status": "Stopped",
+          "health": "Ok"
+        },
+        "W32Time": {
+          "status": "Running",
+          "health": "Ok"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 0
+      },
+      "mappedDrives": {},
+      "outlookProfiles": {},
+      "tempBytes": 12000000000,
+      "tempStaleBytes": 9000000000,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0004",
+      "hostname": "XRAY-WS01",
+      "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+      "deviceType": {
+        "category": "Desktop",
+        "type": "Windows"
+      },
+      "online": false,
+      "lastBoot": "2026-09-30T08:00:00Z",
+      "pendingReboot": false,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Hung"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 1
+      },
+      "mappedDrives": {},
+      "outlookProfiles": {},
+      "tempBytes": 900000000,
+      "tempStaleBytes": 0,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0006",
+      "hostname": "OFFICE-MGR",
+      "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+      "deviceType": {
+        "category": "Laptop",
+        "type": "Windows"
+      },
+      "online": true,
+      "lastBoot": "2026-10-10T07:45:00Z",
+      "pendingReboot": true,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Hung"
+        },
+        "W32Time": {
+          "status": "Running",
+          "health": "Hung"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 2
+      },
+      "mappedDrives": {
+        "S": {
+          "path": "\\\\DENTAL-SRV01\\Shared",
+          "state": "Disconnected"
+        }
+      },
+      "outlookProfiles": {
+        "ana.lopez": {
+          "state": "Corrupt",
+          "backup": null
+        }
+      },
+      "tempBytes": 2000000000,
+      "tempStaleBytes": 500000000,
+      "tempQuarantineBytes": 0,
+      "faults": [
+        "spooler-fails",
+        "drive-fails",
+        "outlook-fails",
+        "temp-fails",
+        "service-fails",
+        "reboot-fails"
+      ]
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0009",
+      "hostname": "CHAIRSIDE-04",
+      "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+      "deviceType": {
+        "category": "Desktop",
+        "type": "Windows"
+      },
+      "online": true,
+      "lastBoot": "2026-10-15T07:30:00Z",
+      "pendingReboot": false,
+      "services": {
+        "wuauserv": {
+          "status": "Running",
+          "health": "Hung"
+        },
+        "LanmanWorkstation": {
+          "status": "Running",
+          "health": "Hung"
+        },
+        "BITS": {
+          "status": "Stopped",
+          "health": "Ok"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 0
+      },
+      "mappedDrives": {},
+      "outlookProfiles": {},
+      "tempBytes": 900000000,
+      "tempStaleBytes": 0,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0900",
+      "hostname": "FRONTDESK-01",
+      "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+      "deviceType": {
+        "category": "Desktop",
+        "type": "Windows"
+      },
+      "online": true,
+      "lastBoot": "2026-10-15T07:30:00Z",
+      "pendingReboot": false,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Hung"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 9
+      },
+      "mappedDrives": {},
+      "outlookProfiles": {},
+      "tempBytes": 900000000,
+      "tempStaleBytes": 0,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    }
+  ]
+}

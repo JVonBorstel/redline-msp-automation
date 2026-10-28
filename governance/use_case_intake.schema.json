@@ -1,0 +1,176 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "description": "Intake format version.",
+      "title": "Version",
+      "type": "integer"
+    },
+    "data_basis": {
+      "const": "synthetic",
+      "description": "Must be synthetic: no real client or ticket data.",
+      "title": "Data Basis",
+      "type": "string"
+    },
+    "id": {
+      "description": "Intake id, UC-nnn.",
+      "pattern": "^UC-\\d{3}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "title": {
+      "description": "Short name of the idea.",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "Title",
+      "type": "string"
+    },
+    "submitter_role": {
+      "description": "Role of the submitter, never a person's name.",
+      "maxLength": 80,
+      "minLength": 1,
+      "title": "Submitter Role",
+      "type": "string"
+    },
+    "client_scope": {
+      "description": "Whose work or data the idea touches.",
+      "enum": [
+        "msp-internal",
+        "one-client",
+        "many-clients"
+      ],
+      "title": "Client Scope",
+      "type": "string"
+    },
+    "client": {
+      "anyOf": [
+        {
+          "pattern": "^[a-z][a-z0-9-]{1,40}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Synthetic client id; required for one-client, else null.",
+      "title": "Client"
+    },
+    "problem": {
+      "description": "The work today and what would change. Free text, read by a person.",
+      "maxLength": 600,
+      "minLength": 1,
+      "title": "Problem",
+      "type": "string"
+    },
+    "effect": {
+      "description": "What the automation would do to state: the base of the risk class.",
+      "enum": [
+        "read-only",
+        "reversible-one-object",
+        "reversible-access-or-many",
+        "irreversible-or-identity-or-tenant-wide"
+      ],
+      "title": "Effect",
+      "type": "string"
+    },
+    "data_classes": {
+      "description": "Every data class the idea touches (DC-0 to DC-6).",
+      "items": {
+        "enum": [
+          "DC-0",
+          "DC-1",
+          "DC-2",
+          "DC-3",
+          "DC-4",
+          "DC-5",
+          "DC-6"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Data Classes",
+      "type": "array"
+    },
+    "model_route": {
+      "description": "Where any model call would run.",
+      "enum": [
+        "none",
+        "local",
+        "hosted"
+      ],
+      "title": "Model Route",
+      "type": "string"
+    },
+    "proposed_levers": {
+      "description": "Lever names the idea would use or add.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Proposed Levers",
+      "type": "array"
+    },
+    "inventory_ids": {
+      "description": "Work inventory ids (W-AREA-nn) the idea automates.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Inventory Ids",
+      "type": "array"
+    },
+    "minutes_per_run": {
+      "description": "ASSUMED minutes of human work per occurrence.",
+      "exclusiveMinimum": 0,
+      "maximum": 1440,
+      "title": "Minutes Per Run",
+      "type": "number"
+    },
+    "runs_per_month": {
+      "description": "ASSUMED occurrences per month.",
+      "maximum": 1000000,
+      "minimum": 1,
+      "title": "Runs Per Month",
+      "type": "integer"
+    },
+    "effort_days": {
+      "description": "ASSUMED build effort in days.",
+      "exclusiveMinimum": 0,
+      "maximum": 365,
+      "title": "Effort Days",
+      "type": "number"
+    },
+    "roi_row": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Id of a row in governance/roi_fixtures.json whose fixture rate applies; null if unmeasured.",
+      "title": "Roi Row"
+    }
+  },
+  "required": [
+    "version",
+    "data_basis",
+    "id",
+    "title",
+    "submitter_role",
+    "client_scope",
+    "client",
+    "problem",
+    "effect",
+    "data_classes",
+    "model_route",
+    "proposed_levers",
+    "inventory_ids",
+    "minutes_per_run",
+    "runs_per_month",
+    "effort_days",
+    "roi_row"
+  ],
+  "title": "UseCaseIntake",
+  "type": "object"
+}

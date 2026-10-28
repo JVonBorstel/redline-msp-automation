@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "_note": "Synthetic client record for the B-55 redaction eval only (the real config/clients/ files are the owner step W2-E1). Contoso Dental (synthetic) is invented. The eval reads industry for the unknown-text floor (D6-12); regimes are illustrative, not a compliance decision.",
+  "id": "contoso-dental",
+  "display_name": "Contoso Dental (synthetic)",
+  "psa_company_id": "29684001",
+  "industry": "dental",
+  "regimes": ["hipaa"],
+  "model_processing": "local",
+  "retention_class": "standard",
+  "enabled_levers": [],
+  "bindings": {
+    "psa": {"implementation": "mock", "external_id": "29684001"}
+  }
+}

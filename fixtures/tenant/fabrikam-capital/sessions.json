@@ -1,0 +1,40 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "sessions",
+    "note": "Synthetic. One entry per user: userId and userPrincipalName match fixtures/tenant/fabrikam-capital.json; userType is the Graph user property (Member or Guest). activeSessionCount is INVENTED for this mock (Graph exposes no such counter; revokeSignInSessions invalidates refresh tokens and resets signInSessionsValidFromDateTime, and the tokens already issued can keep working for a short lag). Not captured from a real tenant."
+  },
+  "value": [
+    {
+      "userId": "9a1b3c5d-7e9f-4a1b-8c3d-5e7f9a1b3c5d",
+      "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+      "userType": "Member",
+      "activeSessionCount": 2
+    },
+    {
+      "userId": "2b4d6f8a-0c2e-4d6f-9a0c-4e6a8c0e2b4d",
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "userType": "Member",
+      "activeSessionCount": 1
+    },
+    {
+      "userId": "9e747b41-1d29-50f8-aa16-1666927b4b83",
+      "userPrincipalName": "dana.kim@fabrikamcapital.example",
+      "userType": "Member",
+      "activeSessionCount": 3
+    },
+    {
+      "userId": "defb8bf1-594b-508e-8b3e-523151e0d96b",
+      "userPrincipalName": "alex.ward@fabrikamcapital.example",
+      "userType": "Guest",
+      "activeSessionCount": 1
+    },
+    {
+      "userId": "b893117d-8e51-59ec-b9e9-ec09f1c94660",
+      "userPrincipalName": "chris.osei@fabrikamcapital.example",
+      "userType": "Member",
+      "activeSessionCount": 0
+    }
+  ]
+}

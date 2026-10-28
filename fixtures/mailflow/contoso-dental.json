@@ -1,0 +1,27 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "as_of": "2026-10-22T09:00:00Z",
+    "note": "Synthetic mail-flow state for the offline MailFlowOps levers (B-45): message trace rows and quarantined messages. Shapes imitate Exchange Online message trace and quarantine output; every field name is UNVERIFIED (see fixtures/mailflow/SOURCES.md)."
+  },
+  "messageTrace": [
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a101", "messageId": "<r1001.7781@contos0dental.example>", "received": "2026-10-21T14:02:11Z", "senderAddress": "it-support@contos0dental.example", "recipientAddress": "sam.patel@contosodental.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a102", "messageId": "<r1001.7781@contos0dental.example>", "received": "2026-10-21T14:02:12Z", "senderAddress": "it-support@contos0dental.example", "recipientAddress": "priya.nair@contosodental.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a103", "messageId": "<r1001.7781@contos0dental.example>", "received": "2026-10-21T14:02:12Z", "senderAddress": "it-support@contos0dental.example", "recipientAddress": "tom.baker@contosodental.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a201", "messageId": "<r1002.5310@northwind-traders.example>", "received": "2026-10-21T14:58:40Z", "senderAddress": "billing@northwind-traders.example", "recipientAddress": "ana.lopez@contosodental.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a202", "messageId": "<r1002.5310@northwind-traders.example>", "received": "2026-10-21T14:58:41Z", "senderAddress": "billing@northwind-traders.example", "recipientAddress": "lena.fischer@contosodental.example", "status": "Quarantined", "quarantineId": "Q-1002"},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a301", "messageId": "<r1003.2207@fourthcoffee.example>", "received": "2026-10-21T15:40:03Z", "senderAddress": "news@fourthcoffee.example", "recipientAddress": "priya.nair@contosodental.example", "status": "Quarantined", "quarantineId": "Q-1003"},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a302", "messageId": "<r1003.2207@fourthcoffee.example>", "received": "2026-10-21T15:40:03Z", "senderAddress": "news@fourthcoffee.example", "recipientAddress": "tom.baker@contosodental.example", "status": "Quarantined", "quarantineId": "Q-1003"},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a401", "messageId": "<r1004.9034@adatum-payroll.example>", "received": "2026-10-21T17:12:30Z", "senderAddress": "payroll@adatum-payroll.example", "recipientAddress": "sam.patel@contosodental.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a402", "messageId": "<r1004.9034@adatum-payroll.example>", "received": "2026-10-21T17:12:31Z", "senderAddress": "payroll@adatum-payroll.example", "recipientAddress": "jamie.chen@contosodental.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a501", "messageId": "<r1005.6620@m365-notice.example>", "received": "2026-10-21T18:30:00Z", "senderAddress": "no-reply@m365-notice.example", "recipientAddress": "jamie.chen@contosodental.example", "status": "Quarantined", "quarantineId": "Q-1005"},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a502", "messageId": "<r1005.6620@m365-notice.example>", "received": "2026-10-21T18:30:01Z", "senderAddress": "no-reply@m365-notice.example", "recipientAddress": "lena.fischer@contosodental.example", "status": "Quarantined", "quarantineId": "Q-1005"},
+    {"messageTraceId": "c0000000-0000-4000-8000-00000000a601", "messageId": "<r1006.1148@wingtiptoys.example>", "received": "2026-10-21T19:01:15Z", "senderAddress": "events@wingtiptoys.example", "recipientAddress": "tom.baker@contosodental.example", "status": "Quarantined", "quarantineId": "Q-1006"}
+  ],
+  "quarantine": [
+    {"id": "Q-1002", "messageId": "<r1002.5310@northwind-traders.example>", "quarantineType": "Malware", "senderAddress": "billing@northwind-traders.example", "recipients": ["lena.fischer@contosodental.example"], "releasedTo": []},
+    {"id": "Q-1003", "messageId": "<r1003.2207@fourthcoffee.example>", "quarantineType": "Bulk", "senderAddress": "news@fourthcoffee.example", "recipients": ["priya.nair@contosodental.example", "tom.baker@contosodental.example"], "releasedTo": []},
+    {"id": "Q-1005", "messageId": "<r1005.6620@m365-notice.example>", "quarantineType": "HighConfPhish", "senderAddress": "no-reply@m365-notice.example", "recipients": ["jamie.chen@contosodental.example", "lena.fischer@contosodental.example"], "releasedTo": []},
+    {"id": "Q-1006", "messageId": "<r1006.1148@wingtiptoys.example>", "quarantineType": "Phish", "senderAddress": "events@wingtiptoys.example", "recipients": ["tom.baker@contosodental.example"], "releasedTo": []}
+  ]
+}

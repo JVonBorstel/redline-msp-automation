@@ -1,0 +1,2662 @@
+[
+ {
+  "inventory_id": "W-SD-01",
+  "persona": "P-01 Priya Nair, dental hygienist, Contoso Dental (synthetic)",
+  "individual": "Priya emails 'can't sign in' at 7:46 from her personal phone; a correct client and contact match means the identity technician sees it in minutes, not after it sits in a general inbox.",
+  "business": "Contoso Dental's 8:00 patient is seen on time; patient details Priya pasted into the email are flagged instead of being copied into the ticket record.",
+  "msp": "Dispatcher minutes per ticket drop; fewer wrong-client tickets, each of which is a confidentiality incident between two tenants.",
+  "macro": "Across thousands of users the first minutes of every problem are the minutes automation can give back; done carelessly, it is also where cross-client exposure starts.",
+  "good_outcome": "Ticket created, matched to Contoso Dental and Priya, short summary written, possible PHI flagged, dispatcher confirms in one click.",
+  "harm_false_positive": "Matches the message to the wrong client or a same-named contact at another tenant; that tenant's technician reads Priya's details, or her ticket merges into someone else's.",
+  "harm_false_negative": "Parsing fails or confidence is low and the ticket waits unassigned; Priya waits with patients in the lobby.",
+  "blast_radius": "BR-1: one person; a wrong-client match is BR-2 (a confidentiality event between two tenants)",
+  "safeguards": [
+   "Inventory rule: Agent proposes client, contact and summary; dispatcher confirms before the ticket is saved. Free text is untrusted input.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)",
+   "C-25 Data classification and pre-prompt redaction gate (planned)"
+  ],
+  "individual_metric": "IM-02 Time to a human: minutes from Priya's first message to a technician owning her ticket; wrong-client matches per 1,000 tickets (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-02",
+  "persona": "P-01 Priya Nair, dental hygienist, Contoso Dental (synthetic)",
+  "individual": "Priya's MFA ticket lands in the identity queue at high priority instead of normal, so her phone rings back before the first patient.",
+  "business": "The clinical schedule is protected; a misclassified urgent ticket at a dental office is a patient-care delay, not just an IT delay.",
+  "msp": "SLA is met without a lead sorting every ticket by hand; lead time moves to the edge cases and approvals.",
+  "macro": "Triage touches every ticket, so its accuracy is the floor under every other automation; a systematic error ships to every tenant at once.",
+  "good_outcome": "Category, priority and queue right first time (fixture-based: 96.7% category on the mock gateway); at most one lever proposed by rules, in dry-run.",
+  "harm_false_positive": "Over-prioritizes, or proposes a lever for a ticket that should not have one (for example injected text asking for an MFA reset); rules and approval stop it at a wasted approval or a social-engineering attempt reaching a lead.",
+  "harm_false_negative": "Under-prioritizes a lockout as low; Priya waits behind password-expiry reminders and printer toner.",
+  "blast_radius": "BR-1: one ticket per error; BR-4 if a systematic misclassification ships to all tenants in one release",
+  "safeguards": [
+   "Inventory rule: Suggestion only. Technician accepts or corrects; corrections become eval data. Ticket text can raise priority but can never change what may be done.",
+   "C-14 Model output cannot choose the lever or its parameters (built)",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-41 Evaluation gate before promotion (partial)",
+   "C-03 Role-based authorization; agents may only dry-run writes (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes until the person can work again for high-priority tickets, split by triage correct vs corrected; urgent tickets under-prioritized per 1,000 (trend to 0)",
+  "leverage_rank": 3
+ },
+ {
+  "inventory_id": "W-SD-03",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena emails, then calls, then uses the portal about the insurance portal failing; follow-ups attach to her one ticket and she explains once.",
+  "business": "Two technicians do not apply conflicting fixes to the billing PC during claims day.",
+  "msp": "Less duplicate work; cleaner ticket counts for reporting and billing.",
+  "macro": "Small per person, but repeat explaining is one of the most common complaints about help desks; removing it is a trust gain.",
+  "good_outcome": "Duplicate proposed and linked; dispatcher confirms; Lena gets one reply.",
+  "harm_false_positive": "Merges two different problems (Lena's portal and Tom's scanner) so Tom's issue vanishes into Lena's ticket.",
+  "harm_false_negative": "Duplicates remain; two technicians call Lena about the same thing.",
+  "blast_radius": "BR-1: one or two people in one client",
+  "safeguards": [
+   "Inventory rule: Agent suggests the match with reasons; a technician merges. Never auto-merge across clients.",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-03 Repeat contacts: times a person had to re-contact or re-explain the same issue; wrongly merged tickets (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-04",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Morgan's research-portal issue is escalated with an accurate summary, so Tier 2 does not make him tell the story again on a trading morning.",
+  "business": "Less disruption to Fabrikam's analysts during market hours.",
+  "msp": "Escalations start faster; Tier 2 time goes to the fix, not to re-reading the thread.",
+  "macro": "Good handoffs are what make a multi-tier desk feel like one team to a small business.",
+  "good_outcome": "Summary of what happened, what was tried and what the user said, citing the ticket entries.",
+  "harm_false_positive": "Summary asserts something false (for example 'user already rebooted'), so Tier 2 skips a step and the outage lasts longer.",
+  "harm_false_negative": "Summary omits the key fact (it started right after a password change), so Tier 2 starts from zero.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Read-only summary shown with the ticket entries it used; the receiving technician reads the source when it matters.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)",
+   "C-11 Data minimisation in the audit log (partial)"
+  ],
+  "individual_metric": "IM-03 Repeat contacts: times Morgan was asked to repeat information after escalation; minutes from escalation to Tier 2 first action",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-05",
+  "persona": "P-12 Hannah Ortiz, paralegal, Litware Legal (14 staff) (synthetic)",
+  "individual": "Hannah cannot print a court filing at 3:40 pm; a technician sends her correct, cited steps in minutes and she files before the 5:00 deadline.",
+  "business": "Litware Legal meets its filing deadline; a missed deadline is a client-matter risk for the firm.",
+  "msp": "Reply time falls on the 1,500-3,000 monthly replies; technicians edit instead of writing from scratch.",
+  "macro": "Trust in AI at small businesses depends on replies being right, from the client's own knowledge base, and sent by a person who stands behind them.",
+  "good_outcome": "Draft reply grounded in Litware's own KB article, reviewed and sent by a technician (HO-9).",
+  "harm_false_positive": "Confident wrong instructions (for example clearing a cache that deletes offline files), or a reply drawing on another client's article.",
+  "harm_false_negative": "No draft; the technician writes it by hand and Hannah waits longer.",
+  "blast_radius": "BR-1: one person; BR-2 if another tenant's KB content leaks into the reply",
+  "safeguards": [
+   "Inventory rule: Draft only, with citations to the client's own KB; a technician edits and sends. No reply is sent by an agent.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-26 Per-tenant retrieval isolation (partial)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)",
+   "C-41 Evaluation gate before promotion (partial)",
+   "EU-7 a human when you ask (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes until the person can work again on tickets resolved by a reply; share of drafts sent without a factual edit; reopen rate within 7 days",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-06",
+  "persona": "P-09 Chris Osei, trader, Fabrikam Capital (synthetic)",
+  "individual": "Chris's ticket about his trading terminal has aged 50 minutes; the lead is warned before the SLA breaches and before the market opens.",
+  "business": "Fabrikam gets the response time it pays for on the hours that matter to it.",
+  "msp": "Fewer SLA breaches and service credits; leads intervene earlier.",
+  "macro": "Clients judge an MSP by the worst wait, not the average one.",
+  "good_outcome": "Lead warned before breach with the ticket, the person and why it is stuck.",
+  "harm_false_positive": "Too many warnings; leads learn to ignore them (alert fatigue).",
+  "harm_false_negative": "Misses an at-risk ticket; the breach happens and Chris waits.",
+  "blast_radius": "BR-1: one person per missed ticket",
+  "safeguards": [
+   "Inventory rule: Read-only alert to the lead; reassignment is a human decision.",
+   "C-40 Monitoring and alerting on automation behaviour (planned)"
+  ],
+  "individual_metric": "IM-02 Time to a human: minutes to first human response for warned vs unwarned tickets; SLA breaches per month",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-07",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "When Morgan's ticket goes to Tier 2, his sign-in logs and device status are already attached, so the fix starts at minute one.",
+  "business": "Shorter outages for Fabrikam staff.",
+  "msp": "Tier 2 minutes saved per escalation; fewer back-and-forth questions.",
+  "macro": "Faster escalations lower the cost of good service for small clients.",
+  "good_outcome": "Scoped read levers pull the facts for this client and this person only.",
+  "harm_false_positive": "Pulls more personal data than the escalation needs, or data from the wrong tenant into the package.",
+  "harm_false_negative": "Package is missing the decisive log; Tier 2 repeats the collection.",
+  "blast_radius": "BR-1: one person; BR-2 if the wrong tenant's data is pulled",
+  "safeguards": [
+   "Inventory rule: Agent gathers read-only evidence (device health, sign-in history); the technician decides to escalate.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-11 Data minimisation in the audit log (partial)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from escalation to the person working again",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-08",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Five Contoso staff report email down within ten minutes; Ana gets one honest message ('we know, here is what we know, next update at 9:15') instead of each person calling.",
+  "business": "The front desk switches to the paper schedule early; patients are told calmly; no one wastes the morning rebooting.",
+  "msp": "One incident instead of 40 tickets; phone queue protected; detects a Microsoft 365 or ISP incident across many tenants.",
+  "macro": "At 500 tenants a regional ISP or Microsoft 365 outage hits hundreds of small businesses at once; fast, honest status is community resilience.",
+  "good_outcome": "Widespread issue proposed after related tickets cluster; lead declares it; status text drafted by AI and sent by a person.",
+  "harm_false_positive": "Declares a false outage: alarming messages go to clients, and unrelated tickets get linked and closed with the parent.",
+  "harm_false_negative": "Misses the pattern; technicians troubleshoot each user separately for an hour.",
+  "blast_radius": "BR-3: a whole client; BR-4 when the same outage spans many tenants",
+  "safeguards": [
+   "Inventory rule: Agent proposes grouping; the lead declares the incident and approves any client notice.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-02 Time to a human: minutes from the first affected person reporting to every affected person receiving a status message; IM-01 per affected person",
+  "leverage_rank": 5
+ },
+ {
+  "inventory_id": "W-SD-09",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "Tom's ticket is not closed until he confirms it works; if he is chairside and does not answer, he gets one polite follow-up and a one-click reopen link.",
+  "business": "Fewer silent unresolved problems in the operatories.",
+  "msp": "Clean backlog; better first-contact data.",
+  "macro": "Closing tickets is not the same as helping people; this item measures the difference.",
+  "good_outcome": "Confirmation and follow-up sent after technician approval; reopen is one click.",
+  "harm_false_positive": "Closes a ticket while the problem persists; Tom assumes no one is coming.",
+  "harm_false_negative": "Ticket stays open for weeks and clutters the queue.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Template reminders may be pre-approved as a standard change; closing a ticket the user disputes is human.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "EU-7 a human when you ask (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-03 Repeat contacts: tickets reopened within 7 days; share of closures confirmed by the person",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-10",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "Grace's ticket waiting on the accounting-software vendor is nudged every few days instead of being forgotten during month-end close.",
+  "business": "Northwind's blocked work is visible and chased.",
+  "msp": "Weekly grooming takes minutes; aging tickets are found early.",
+  "macro": "Forgotten tickets are where small-business trust in an MSP erodes quietly.",
+  "good_outcome": "Weekly list of stale tickets with the next action for each; humans act.",
+  "harm_false_positive": "Flags legitimately waiting tickets as closable and a technician closes them.",
+  "harm_false_negative": "A waiting ticket is forgotten for weeks.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Read-only weekly list; humans act."
+  ],
+  "individual_metric": "IM-02 Time to a human: age of the oldest untouched ticket per person; tickets older than 14 days without a touch",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-11",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena's print spooler jams during claims; an approved script fixes it in three minutes without a remote session.",
+  "business": "Claims go out the same day; the practice's cash flow is not delayed.",
+  "msp": "Tier 1 toil on 300-600 repeat fixes a month drops; technicians spend time on problems that need thought.",
+  "macro": "Repetitive fixes are the toil automation should remove first; that frees people, it does not replace them.",
+  "good_outcome": "Scripted fix proposed, diff shown, technician approves, result verified with Lena.",
+  "harm_false_positive": "Runs on the wrong device (a chairside PC mid-procedure), restarts a service on the server for the whole office, or resets an Outlook profile and loses local data.",
+  "harm_false_negative": "Script fails silently and the ticket is closed anyway.",
+  "blast_radius": "BR-1: one device; BR-3 if it hits a shared server",
+  "safeguards": [
+   "Inventory rule: Technician approves each run until the lever's eval and incident record justify a named standard change; dry-run diff shown first.",
+   "C-01 Lever registry, default deny (built)",
+   "C-02 Parameter schema validation (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-17 Timeouts and failure containment (built)",
+   "C-18 Idempotency on write levers (partial)",
+   "C-32 Blast-radius and rate limits (planned)",
+   "C-33 Rollback from recorded before-state (partial)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from ticket to the person working again; fixes confirmed by the person vs closed unconfirmed",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-12",
+  "persona": "P-23 Marcus Hale, on-call engineer, the MSP (synthetic)",
+  "individual": "Marcus, on call, is woken at 2 am only for real emergencies; the rest wait for morning with a summary ready.",
+  "business": "A real after-hours emergency (a server down before a 7 am clinic, a ransomware note) still reaches a human at once.",
+  "msp": "Less on-call burnout and turnover; better decisions from rested engineers.",
+  "macro": "Humane on-call is part of job design; burned-out technicians make the mistakes that hurt clients.",
+  "good_outcome": "Correct page or hold; security-flagged or multi-user tickets always page.",
+  "harm_false_positive": "Pages for a non-urgent ticket; Marcus loses sleep.",
+  "harm_false_negative": "Holds a real emergency until morning; six hours of ransomware spread or a clinic that cannot open.",
+  "blast_radius": "BR-3: a missed emergency can cost a whole client",
+  "safeguards": [
+   "Inventory rule: Agent groups and summarizes; on-call human decides to act. Write levers still need approval (on-call lead may self-approve only where the policy names it, and that is audited).",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-40 Monitoring and alerting on automation behaviour (planned)"
+  ],
+  "individual_metric": "IM-02 Time to a human: minutes from an after-hours P1 to human acknowledgement; share of pages that were actionable",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-13",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "The scanner at Contoso's front desk fails every week; problem analysis finds the cause and Ana stops logging the same ticket.",
+  "business": "Recurring friction is removed; spend goes to the right fix.",
+  "msp": "Fewer repeat tickets; root causes fixed once.",
+  "macro": "Recurring problems are a hidden tax on small businesses; finding them is cheap with data.",
+  "good_outcome": "Monthly recurring-issue report per client; engineer decides the fix.",
+  "harm_false_positive": "Blames the wrong cause; the client buys hardware it did not need.",
+  "harm_false_negative": "Misses the pattern; the weekly ticket continues.",
+  "blast_radius": "BR-2: a team in one client",
+  "safeguards": [
+   "Inventory rule: Read-only clustering; root cause and fix plan are human."
+  ],
+  "individual_metric": "IM-03 Repeat contacts: recurring tickets per person per quarter",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SD-14",
+  "persona": "P-10 Riley Brooks, operations, Fabrikam Capital (synthetic)",
+  "individual": "Riley leaves a frustrated comment about a slow fix; a manager calls her the same day.",
+  "business": "Fabrikam feels heard; small complaints do not become a cancellation.",
+  "msp": "Churn signals found early.",
+  "macro": "Feedback is about service, never a score to rank individual technicians (W-TRN-04 stays human).",
+  "good_outcome": "Comments grouped and summarized; the manager reads and follows up.",
+  "harm_false_positive": "Summary misreads sarcasm, or the scores get used to judge one technician.",
+  "harm_false_negative": "An angry comment that predicts churn is missed.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Read-only routing of negative feedback to a manager; no automated reply.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-02 Time to a human: hours from negative feedback to a human follow-up call",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-01",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Ana requests Leo's account for Monday; the request is checked against Contoso's authorized contacts, so Leo is ready and no one can invent a fake hire.",
+  "business": "No account is created for an impostor inside a tenant full of PHI.",
+  "msp": "Fewer last-minute onboarding fire drills; fewer social-engineering openings.",
+  "macro": "Fake new-hire requests are a cheap attack; a consistent check across all tenants closes it everywhere.",
+  "good_outcome": "Request parsed, requester checked against the authorized-contacts list, missing fields asked for early.",
+  "harm_false_positive": "Accepts a forged request and an account is made for an attacker.",
+  "harm_false_negative": "Rejects a legitimate request (Ana sent it from her phone), delaying Leo's first day.",
+  "blast_radius": "BR-2: one tenant's data exposed to an impostor account",
+  "safeguards": [
+   "Inventory rule: Agent checks the request against the documented authorized-contact list and lists missing fields; a technician confirms. An unlisted requester always goes to a human.",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "EU-4 verified before changed (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: share of new hires whose request was verified and complete at least 3 business days before start",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-02",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Leo signs in at 8:00 on his first Monday instead of watching others work.",
+  "business": "Contoso does not pay a new employee to wait; check-in runs at full speed.",
+  "msp": "Onboarding becomes a reviewed template instead of a hand-typed checklist.",
+  "macro": "A good first day is a small, real part of whether people stay in jobs at small businesses.",
+  "good_outcome": "Account created from the approved template after dry-run diff and lead approval.",
+  "harm_false_positive": "Wrong or duplicate account, an account in the wrong tenant, or an account created weeks early that sits as an attack surface.",
+  "harm_false_negative": "No account on day one.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Dry-run diff from the approved request; lead approves. Identity creation is never triggered by ticket text alone.",
+   "C-02 Parameter schema validation (built)",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-33 Rollback from recorded before-state (partial)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: share of new hires who sign in successfully within 15 minutes of their start time",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-03",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Leo has Outlook and Teams when he first signs in.",
+  "business": "The practice pays only for the license it chose.",
+  "msp": "Fewer day-one 'no mailbox' tickets.",
+  "macro": "Small, but it removes the most common first-day failure.",
+  "good_outcome": "License from free stock assigned after approval.",
+  "harm_false_positive": "Assigns the wrong or a premium license, or buys one without consent (purchase stays human, W-VND-02).",
+  "harm_false_negative": "No license, so no mailbox on day one.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Assigning from existing seats needs technician approval; buying seats is W-VND-02 (human).",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: share of new hires with working mail at start time",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-04",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Leo sees the front-desk shared mailbox and schedule and nothing more.",
+  "business": "Minimum-necessary access protects Contoso under HIPAA.",
+  "msp": "Fewer access tickets; reviewable role templates.",
+  "macro": "Over-granted access is how one compromised account becomes a large breach.",
+  "good_outcome": "Role template per client, reviewed by Ana, diff shown before approval.",
+  "harm_false_positive": "Over-grants ('same as Jamie', who had billing access), giving Leo PHI he does not need.",
+  "harm_false_negative": "Missing access; Leo borrows a colleague's login, which is a HIPAA problem in itself.",
+  "blast_radius": "BR-2: PHI of many patients reachable by one person",
+  "safeguards": [
+   "Inventory rule: Only from a client-approved role template. Becomes R3 (lead + client contact approval) if a group grants admin rights or regulated data stores.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-38 Agent and technician access review; least-privilege delegated access (planned)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: access tickets in a new hire's first two weeks; over-grants found at the next review (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-05",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Leo enrolls MFA in five minutes with a Temporary Access Pass handed to him in person by Ana.",
+  "business": "Contoso's newest account is protected from the first minute.",
+  "msp": "Fewer day-one lockouts; secrets never pass through chat or tickets.",
+  "macro": "New accounts are a favored target; consistent protected enrollment closes that door at every tenant.",
+  "good_outcome": "TAP created after approval and delivered out of band; the value never enters a prompt or log.",
+  "harm_false_positive": "TAP issued to the wrong person or an attacker, who owns the account from day one.",
+  "harm_false_negative": "Leo cannot enroll and is locked out on his first morning.",
+  "blast_radius": "BR-2: one account with tenant data behind it",
+  "safeguards": [
+   "Inventory rule: TAP issued only after a human verifies identity (W-IDM-04); the TAP value is delivered by a human over an approved channel, never written into a ticket or a prompt.",
+   "C-10 Secret redaction before logging (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "W-IDM-04 Caller identity verification (kept human)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: minutes from start time to MFA registered",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-06",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Leo's laptop is enrolled, encrypted and has the practice-management client on it before he arrives.",
+  "business": "No device without encryption ever touches patient data.",
+  "msp": "Bench time per device falls.",
+  "macro": "Standard, compliant devices are a baseline that small businesses rarely get on their own.",
+  "good_outcome": "Autopilot/Intune assignment proposed and approved.",
+  "harm_false_positive": "Device enrolled into the wrong tenant or group, or a profile without encryption.",
+  "harm_false_negative": "Device not ready on day one.",
+  "blast_radius": "BR-1: one device",
+  "safeguards": [
+   "Inventory rule: Technician approves group and profile assignment; dry-run shows which policies will apply.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: share of new hires with a compliant device at start time",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-07",
+  "persona": "P-13 Leo Martins, new front-desk hire, Contoso Dental (synthetic)",
+  "individual": "Leo gets a plain one-page welcome: how to sign in, who to call; Ana gets a checklist.",
+  "business": "New staff are productive sooner.",
+  "msp": "Fewer 'how do I' calls in week one.",
+  "macro": "Clear, kind instructions are part of treating people well.",
+  "good_outcome": "Welcome drafted, never containing secrets, sent by a technician.",
+  "harm_false_positive": "Sent to the wrong person or to a personal address.",
+  "harm_false_negative": "No welcome; Leo calls the help desk confused.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Agent drafts the note without any secret; a technician sends it.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-10 Secret redaction before logging (built)"
+  ],
+  "individual_metric": "IM-05 Day-one readiness: 'how do I' tickets per new hire in the first week",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-08",
+  "persona": "P-05 Jamie Chen, former front desk, Contoso Dental (synthetic)",
+  "individual": "Jamie's access ends at the agreed minute, respectfully, and the patients whose records she could open are protected from that minute on.",
+  "business": "Contoso closes the most common insider path to PHI; no reportable incident from a former employee.",
+  "msp": "Clear evidence for the client's HIPAA file and the MSP's SOC 2 audit; lower liability as a business associate.",
+  "macro": "Former-employee access is a common breach path; doing this the same way at every tenant protects many patients.",
+  "good_outcome": "Sign-in blocked and sessions revoked after dry-run diff, lead approval and requester verification.",
+  "harm_false_positive": "Disables the wrong person (Priya instead of Jamie), locking out a hygienist with patients waiting, or acts before the termination meeting.",
+  "harm_false_negative": "Jamie keeps access to patient records for days.",
+  "blast_radius": "BR-1: one person wrongly locked out; BR-2 when the miss exposes many patients' records",
+  "safeguards": [
+   "Inventory rule: Requester verified by a human; lead approves the dry-run; timing comes from the client, never from the agent.",
+   "C-03 Role-based authorization; agents may only dry-run writes (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-08 Hash-chained audit log with head pin and verifier (built)",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-33 Rollback from recorded before-state (partial)",
+   "EU-2 a fast way back (05-governance.md section 9)",
+   "EU-3 never locked out by a bot alone (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from the agreed end time to all sign-in and sessions revoked; IM-04 wrongly disabled people (target 0) and minutes to restore them",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-09",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Patients who email Jamie get an auto-reply pointing to the front desk; Ana can read the mailbox.",
+  "business": "Appointment changes and referrals are not lost in a dead mailbox.",
+  "msp": "Standard offboarding with fewer missed steps.",
+  "macro": "Missed messages to departed staff are a quiet source of patient and customer harm.",
+  "good_outcome": "Shared-mailbox conversion and auto-reply after approval; no external forwarding.",
+  "harm_false_positive": "Forwards to an external personal address (data leaving the practice) or converts the wrong mailbox.",
+  "harm_false_negative": "Messages from patients pile up unread.",
+  "blast_radius": "BR-2: patients writing to the departed person",
+  "safeguards": [
+   "Inventory rule: Delegate named by the client contact; technician approves.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "W-M365-05 Suspicious inbox rule and external forwarding audit (related item)"
+  ],
+  "individual_metric": "IM-02 Time to a human: unanswered inbound messages to departed mailboxes after 7 days",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-10",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana receives Jamie's working files before retention deletes them.",
+  "business": "Business records are kept; nothing needed is destroyed.",
+  "msp": "Fewer 'we need that file back' restores later.",
+  "macro": "Small businesses often lose institutional memory when one person leaves.",
+  "good_outcome": "Ownership transfer to the named manager after approval.",
+  "harm_false_positive": "Transfers to the wrong person, exposing HR or patient files.",
+  "harm_false_negative": "Files deleted at retention end.",
+  "blast_radius": "BR-2: one person's files; whoever receives them",
+  "safeguards": [
+   "Inventory rule: Delegate named by the client contact; technician approves.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)"
+  ],
+  "individual_metric": "IM-07 Recoverability: share of leavers whose files were transferred before retention expiry",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-11",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel stops paying for Jamie's license once her data is preserved.",
+  "business": "Money back to a small practice every month.",
+  "msp": "Accurate billing; fewer disputes.",
+  "macro": "Small savings across many clients are real money for local businesses.",
+  "good_outcome": "Removal proposed only after the retention check passes; approved.",
+  "harm_false_positive": "Removes a license before data is preserved, or from an active user who then loses email.",
+  "harm_false_negative": "The practice pays for unused licenses for months.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Agent lists due removals; technician approves each.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-33 Rollback from recorded before-state (partial)",
+   "EU-3 never locked out by a bot alone (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: days a leaver's license stays billed after retention ends; wrong removals (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-12",
+  "persona": "P-05 Jamie Chen, former front desk, Contoso Dental (synthetic)",
+  "individual": "Jamie's practice laptop is wiped after her files are kept; her personal phone gets a selective retire, so her own photos are untouched.",
+  "business": "No cached PHI walks out on an unmanaged device.",
+  "msp": "Hardware recovered and tracked.",
+  "macro": "Respecting a departing person's personal data is part of trust in workplace technology.",
+  "good_outcome": "Retire vs wipe chosen explicitly, one device per approval, lead approval.",
+  "harm_false_positive": "Full wipe of a personal phone, or the wrong device wiped while someone is using it.",
+  "harm_false_negative": "Device keeps cached PHI and is never recovered.",
+  "blast_radius": "BR-1: one device",
+  "safeguards": [
+   "Inventory rule: Retire (company data only) with technician approval; full wipe needs lead approval plus client confirmation that no hold or investigation applies.",
+   "C-02 Parameter schema validation (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-32 Blast-radius and rate limits (planned)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: wrong wipes (target 0); devices with cached data not recovered after 30 days",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-13",
+  "persona": "P-05 Jamie Chen, former front desk, Contoso Dental (synthetic)",
+  "individual": "Jamie is also removed from the claims clearinghouse and the imaging portal, which Microsoft 365 does not control.",
+  "business": "No back door into patient billing from home.",
+  "msp": "Complete offboarding, not just the Microsoft part.",
+  "macro": "Third-party apps are where offboarding most often fails at small businesses.",
+  "good_outcome": "Checklist of the client's line-of-business apps per role; a human removes each.",
+  "harm_false_positive": "Lists apps Jamie never used; a technician spends time confirming removals that were not needed.",
+  "harm_false_negative": "Misses an app; Jamie, who has left, can still sign in to the claims clearinghouse and see patients' insurance details (a possible HIPAA breach for Contoso Dental).",
+  "blast_radius": "BR-2: patient billing data",
+  "safeguards": [
+   "Inventory rule: Agent produces the per-client checklist from documentation; a human does each removal (no stored vendor credentials reach an agent).",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-06 Exposure window: leavers with any active line-of-business account 7 days after leaving (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-14",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana gets proof that Jamie's access is gone for her HIPAA file.",
+  "business": "Evidence the practice can show its auditor or OCR.",
+  "msp": "SOC 2 evidence of access removal, ready without searching.",
+  "macro": "Proof, not promises, is what lets small businesses trust automation.",
+  "good_outcome": "Read-only checks confirm each step and reconcile with the record.",
+  "harm_false_positive": "Reports complete when a step is missing (false assurance, the worst outcome here).",
+  "harm_false_negative": "Reports incomplete when it is complete; rework.",
+  "blast_radius": "BR-2: the whole offboarding",
+  "safeguards": [
+   "Inventory rule: Read-only verification against live state, written to the ticket and the audit log.",
+   "C-20 Read levers cannot write (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "C-08 Hash-chained audit log with head pin and verifier (built)"
+  ],
+  "individual_metric": "IM-06 Exposure window: hours from end time to verified-complete offboarding; false 'complete' found at audit (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-16",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena moves from front desk to billing; she gets billing access the same day and loses front-desk access once the handover is done.",
+  "business": "No privilege creep across years of role changes.",
+  "msp": "Fewer access tickets; cleaner reviews.",
+  "macro": "People change roles often at small businesses; access should follow the person, not pile up.",
+  "good_outcome": "Diff of adds and removes, approved by the manager and a lead.",
+  "harm_false_positive": "Removes old access before the new access works, so Lena cannot work; or keeps both sets.",
+  "harm_false_negative": "Old access stays for years.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Diff of add and remove against role templates; technician approves; R3 if admin or regulated stores.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-33 Rollback from recorded before-state (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes Lena could not work during the move; days with both old and new access",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-ONB-17",
+  "persona": "P-08 Dana Kim, compliance officer (Safeguards Rule Qualified Individual), Fabrikam Capital (synthetic)",
+  "individual": "Dana sponsors an outside auditor as a guest; the guest sees one site and loses access when the engagement ends.",
+  "business": "Customer NPI is not reachable by stale guests.",
+  "msp": "Guest sprawl measured and reduced.",
+  "macro": "Stale guest access is a common, invisible exposure across many small tenants.",
+  "good_outcome": "Guest report with sponsors; removals approved.",
+  "harm_false_positive": "Removes an active guest mid-engagement.",
+  "harm_false_negative": "Guest access lingers for years.",
+  "blast_radius": "BR-2: files shared with the guest",
+  "safeguards": [
+   "Inventory rule: Read-only expiry report; removal approved by technician after the client contact confirms.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)"
+  ],
+  "individual_metric": "IM-06 Exposure window: guests with access past their end date",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-01",
+  "persona": "P-01 Priya Nair, dental hygienist, Contoso Dental (synthetic)",
+  "individual": "Priya calls at 7:45 locked out with an 8:00 patient; she is verified by callback to the number on file and working by 7:55.",
+  "business": "The morning schedule holds; each rescheduled appointment is lost chair time for a small practice.",
+  "msp": "The highest-volume identity task becomes faster and safer at once.",
+  "macro": "Help-desk social engineering is a known mass attack path; a consistent verify-then-reset pattern at every tenant blunts it.",
+  "good_outcome": "Verified reset, password never seen by any model, log or ticket; Priya signs in.",
+  "harm_false_positive": "Resets for a caller who is not Priya; an attacker is in a mailbox full of PHI.",
+  "harm_false_negative": "Priya waits an hour; patients are rescheduled.",
+  "blast_radius": "BR-1: one person; BR-2 if an impostor gets in",
+  "safeguards": [
+   "Inventory rule: Identity verification is human (W-IDM-04). The lever generates no password visible to the agent; technician approves.",
+   "W-IDM-04 Caller identity verification (kept human)",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-10 Secret redaction before logging (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "EU-2 a fast way back (05-governance.md section 9)",
+   "EU-4 verified before changed (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from Priya's first call to her first successful sign-in",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-02",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Morgan's new Galaxy has an empty Authenticator; his MFA is reset after verification and he registers before the market opens.",
+  "business": "Fabrikam's analyst is working; customer NPI is protected.",
+  "msp": "A built, tested lever (user.reset-mfa) with dry-run diff, approval and audit.",
+  "macro": "MFA resets are the step attackers try to talk their way through; doing it right everywhere matters.",
+  "good_outcome": "Old method removed, new one registered, Morgan told what changed and how to get help.",
+  "harm_false_positive": "Removes MFA for an attacker posing as the owner of a stolen phone (see ticket T-3202).",
+  "harm_false_negative": "Morgan is locked out of Outlook and the research portal all morning.",
+  "blast_radius": "BR-1: one person; BR-2 if an impostor gets in",
+  "safeguards": [
+   "Inventory rule: Human verifies identity; lead approves the dry-run.",
+   "C-03 Role-based authorization; agents may only dry-run writes (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-08 Hash-chained audit log with head pin and verifier (built)",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-33 Rollback from recorded before-state (partial)",
+   "EU-1 clear communication to the person (05-governance.md section 9)",
+   "EU-4 verified before changed (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from Morgan's ticket to MFA re-registered and signed in",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-03",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "Grace is locked out on the last day of close; the technician sees 'blocked by Conditional Access: unfamiliar location (VPN)' in one minute instead of guessing.",
+  "business": "Northwind's close finishes on time.",
+  "msp": "Fewer unnecessary password resets; faster first-contact resolution.",
+  "macro": "Explaining why someone is locked out is the difference between a guess and a fix.",
+  "good_outcome": "Scoped read of sign-in logs with a plain cause.",
+  "harm_false_positive": "Shows the wrong cause; the technician resets a password that was not the problem.",
+  "harm_false_negative": "Misses that the lockout is a password-spray attack, and the technician just unlocks.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Read-only explanation with the log entries cited; any action goes through W-IDM-01/W-IDM-02 or W-SEC-04.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-11 Data minimisation in the audit log (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes until the person can work again; share of lockouts where the first cause found was right",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-05",
+  "persona": "P-10 Riley Brooks, operations, Fabrikam Capital (synthetic)",
+  "individual": "An impossible-travel sign-in on Riley's account is confirmed with her by phone within the hour; it was her VPN, and she keeps working.",
+  "business": "If it had been real, the pending wire would have been stopped before money left.",
+  "msp": "Analysts see a short, enriched list instead of raw events.",
+  "macro": "Business email compromise caused about $2.77B in reported US losses in 2024 (FBI IC3); early detection protects small firms' money.",
+  "good_outcome": "Risky event enriched and proposed to an analyst; any containment goes through W-SEC-04 with approval.",
+  "harm_false_positive": "Flags real travel and a technician blocks Riley on payroll day.",
+  "harm_false_negative": "A real compromise is dismissed; fraudulent wire instructions go out.",
+  "blast_radius": "BR-2: one account and the customers it can email",
+  "safeguards": [
+   "Inventory rule: Agent groups and explains; remediation goes through W-SEC-04 with approval.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-03 Role-based authorization; agents may only dry-run writes (built)",
+   "W-SEC-04 Business email compromise containment (related item)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from a risky sign-in to a human verdict; compromises first noticed by the user or a customer (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-06",
+  "persona": "P-09 Chris Osei, trader, Fabrikam Capital (synthetic)",
+  "individual": "A planned Conditional Access change is shown in report-only mode first, and the report shows Chris's trading terminal would be blocked; it is fixed before enforcement.",
+  "business": "Fabrikam is not locked out of trading by its own security policy.",
+  "msp": "Fewer self-inflicted outages; change records ready.",
+  "macro": "One bad policy can lock out a whole client; preview before enforce is the safe pattern.",
+  "good_outcome": "Impact report from report-only results; the change stays human and dual-approved.",
+  "harm_false_positive": "Report says safe when it is not; a whole tenant is locked out.",
+  "harm_false_negative": "Report flags harmless changes; a needed protection is delayed.",
+  "blast_radius": "BR-3: a whole tenant",
+  "safeguards": [
+   "Inventory rule: NEVER AUTOMATE the change. Drift detection is read-only; a change needs a change record, report-only testing and engineer sign-off.",
+   "HO-3 approval by class (05-governance.md section 6)",
+   "HO-6 blast-radius limit by class (05-governance.md section 6)",
+   "W-IDM-06 Conditional Access policy change (change human-only)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: people wrongly blocked by a CA change (target 0); days in report-only before enforcement",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-08",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "If Contoso's admin access is ever lost, the break-glass account works; if anyone uses it, a human knows within minutes.",
+  "business": "The practice can always get back into its own tenant.",
+  "msp": "Quarterly test evidence for audits.",
+  "macro": "Emergency access is rarely tested at small businesses; testing it everywhere is cheap insurance.",
+  "good_outcome": "Alert on any break-glass sign-in; quarterly test result recorded.",
+  "harm_false_positive": "Alert on a planned test pages someone (minor).",
+  "harm_false_negative": "Misses an attacker using break-glass, or the account fails when needed.",
+  "blast_radius": "BR-3: a whole tenant",
+  "safeguards": [
+   "Inventory rule: Read-only. Using a break-glass account is NEVER automated.",
+   "C-20 Read levers cannot write (built)",
+   "C-40 Monitoring and alerting on automation behaviour (planned)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: minutes from a break-glass sign-in to human acknowledgement; days since the last successful test",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-09",
+  "persona": "P-08 Dana Kim, compliance officer (Safeguards Rule Qualified Individual), Fabrikam Capital (synthetic)",
+  "individual": "Dana gets a clear list of who holds admin in Fabrikam and signs off in an hour.",
+  "business": "Fewer standing admins; Safeguards Rule evidence for access control.",
+  "msp": "MSP technician access across tenants is reviewed, not assumed.",
+  "macro": "Forgotten admin accounts across many tenants are a supply-chain risk to every client.",
+  "good_outcome": "Report per tenant; the client and MSP decide removals.",
+  "harm_false_positive": "Lists someone as admin who is not; time wasted.",
+  "harm_false_negative": "Misses a forgotten admin (an ex-technician) with standing access.",
+  "blast_radius": "BR-3: a tenant; BR-4 for MSP-wide access",
+  "safeguards": [
+   "Inventory rule: Read-only review pack; removals by humans with approval.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "C-38 Agent and technician access review; least-privilege delegated access (planned)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: Dana's minutes per review; admin accounts with no owner after review (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-10",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Contoso's admin delegation to the MSP is least privilege and time-bound, and Dr. Patel can see who at the MSP can do what.",
+  "business": "The practice is not exposed by standing Global Admin rights held by a provider.",
+  "msp": "Lower liability; cleaner GDAP hygiene.",
+  "macro": "MSPs are targeted because one foothold reaches many clients (CISA AA22-131A); least privilege limits that.",
+  "good_outcome": "Report of relationships, roles and expiry; changes stay human.",
+  "harm_false_positive": "Recommends removing a relationship still needed; technicians cannot help Priya at 7:45.",
+  "harm_false_negative": "Misses an over-privileged or expired relationship.",
+  "blast_radius": "BR-4: many tenants share the same delegation pattern",
+  "safeguards": [
+   "Inventory rule: Agent reports expiring or over-broad relationships; changes are human (they define the MSP's own reach into client tenants).",
+   "C-38 Agent and technician access review; least-privilege delegated access (planned)",
+   "ISO-10 least-privilege delegated access (05-governance.md section 2)"
+  ],
+  "individual_metric": "IM-02 Time to a human: support minutes lost to expired relationships; tenants with standing Global Admin (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-11",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "Jamie's forgotten account is disabled; Tom, on parental leave, is left alone because Ana confirmed the list.",
+  "business": "Fewer dormant accounts to be taken over.",
+  "msp": "Monthly hygiene across tenants with evidence.",
+  "macro": "Dormant accounts are a common attack path across small tenants.",
+  "good_outcome": "Stale report, client confirms names, approved disables within caps.",
+  "harm_false_positive": "Disables a person on leave or a seasonal worker, who returns to a dead account.",
+  "harm_false_negative": "Stale accounts remain enabled.",
+  "blast_radius": "BR-2: many accounts in one bulk run",
+  "safeguards": [
+   "Inventory rule: Detection is read-only; disable needs client confirmation and lead approval (via W-ONB-08 lever).",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-32 Blast-radius and rate limits (planned)",
+   "C-33 Rollback from recorded before-state (partial)",
+   "EU-3 never locked out by a bot alone (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: people wrongly disabled (target 0) and minutes to restore; stale enabled accounts per tenant",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-12",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "The claims integration's app secret is renewed before it expires, so Lena's claims keep flowing.",
+  "business": "No Friday-afternoon integration outage.",
+  "msp": "Expiry found weeks ahead, not on the day.",
+  "macro": "Silent expiries are a common, avoidable outage.",
+  "good_outcome": "Expiry report; the rotation itself stays human (W-TOOL-08).",
+  "harm_false_positive": "Alerts on an unused app; noise.",
+  "harm_false_negative": "Integration breaks without warning.",
+  "blast_radius": "BR-2: everyone who relies on the integration",
+  "safeguards": [
+   "Inventory rule: Read-only expiry report (metadata only, never secret values). Rotation is human or a Key Vault-managed process.",
+   "C-20 Read levers cannot write (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: days of warning before expiry; outages caused by expired secrets (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-IDM-13",
+  "persona": "P-01 Priya Nair, dental hygienist, Contoso Dental (synthetic)",
+  "individual": "Priya is enrolled in self-service reset, so next time she fixes it herself in three minutes at 7:45.",
+  "business": "Fewer lockouts that stop clinical work.",
+  "msp": "Fewer resets on the desk; the risky manual path is used less.",
+  "macro": "Self-service puts people in control of their own access; at scale it is the cheapest time-back-to-work there is.",
+  "good_outcome": "Coverage report per tenant; technicians enroll the gaps.",
+  "harm_false_positive": "Counts Priya as covered when her methods are stale.",
+  "harm_false_negative": "Low coverage goes unnoticed.",
+  "blast_radius": "BR-3: coverage across a tenant",
+  "safeguards": [
+   "Inventory rule: Read-only report; nudge emails drafted for human send.",
+   "C-20 Read levers cannot write (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-01 Time back to work: share of users able to self-recover; median minutes to work again for self-service vs help desk",
+  "leverage_rank": 8
+ },
+ {
+  "inventory_id": "W-M365-01",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena is added to the insurance@ shared mailbox the morning she asks, so payer emails reach her.",
+  "business": "Remittances are handled on time.",
+  "msp": "A frequent, simple change becomes a reviewed one-click proposal.",
+  "macro": "Small, frequent changes are where consistency pays most.",
+  "good_outcome": "Membership change from a form, diff shown, approved.",
+  "harm_false_positive": "Adds her to the wrong list (an external partners list), so PHI emails go to the wrong people.",
+  "harm_false_negative": "Lena misses payer emails for days.",
+  "blast_radius": "BR-2: everyone on the list",
+  "safeguards": [
+   "Inventory rule: Authorized requester check; technician approves.",
+   "C-02 Parameter schema validation (built)",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from request to working; wrong-membership incidents (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-02",
+  "persona": "P-10 Riley Brooks, operations, Fabrikam Capital (synthetic)",
+  "individual": "Riley gets Send As on ops@ after the mailbox owner approves.",
+  "business": "No one gets the CEO's mailbox by mistake.",
+  "msp": "Delegation is consistent and recorded.",
+  "macro": "Mailbox delegation is a classic quiet over-grant.",
+  "good_outcome": "Grant proposed, owner confirms, lead approves.",
+  "harm_false_positive": "Grants Full Access to the wrong mailbox, exposing NPI or privileged mail.",
+  "harm_false_negative": "Riley cannot send as ops@; wire confirmations wait or go from a personal mailbox.",
+  "blast_radius": "BR-2: one mailbox's contents",
+  "safeguards": [
+   "Inventory rule: Mailbox owner or authorized contact approves; technician approves. R3 for executive or regulated mailboxes.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "HO-4 requester verification (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from request to working; grants confirmed by the mailbox owner (target 100%)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-03",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "Grace is waiting for a client's bank statement during close; a message trace shows in one minute that it is in quarantine.",
+  "business": "Close is not held up by a missing email.",
+  "msp": "Mail tickets resolved at first contact.",
+  "macro": "Knowing where a message went is basic and saves hours across thousands of users.",
+  "good_outcome": "Scoped trace with a plain answer.",
+  "harm_false_positive": "Wrong conclusion ('never sent'), and the client resends by an insecure channel.",
+  "harm_false_negative": "Trace misses the message; the search continues by hand.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Read-only. Message bodies are never pulled into a prompt; metadata only.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-11 Data minimisation in the audit log (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from 'I did not get it' to an answer",
+  "leverage_rank": 10
+ },
+ {
+  "inventory_id": "W-M365-04",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "A payer remittance is stuck in quarantine; it is released to Lena within minutes after a technician checks it.",
+  "business": "Claims are paid on time.",
+  "msp": "Release requests are triaged, not blindly approved.",
+  "macro": "Releasing phishing on request is how many compromises start; doing it carefully protects people who trust the 'release' button.",
+  "good_outcome": "Agent groups and assesses; release needs approval; high-confidence phishing or malware is never released.",
+  "harm_false_positive": "Releases a phishing email to Lena, who enters her password.",
+  "harm_false_negative": "The legitimate remittance stays stuck.",
+  "blast_radius": "BR-1: one person; BR-2 if the phish leads to account compromise",
+  "safeguards": [
+   "Inventory rule: Agent summarizes verdict and indicators; technician decides; high-confidence phish is never released by request alone.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes until wanted mail is delivered; phishing released (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-05",
+  "persona": "P-10 Riley Brooks, operations, Fabrikam Capital (synthetic)",
+  "individual": "An attacker's rule moving 'wire' emails out of Riley's inbox is found the next morning, before anyone acts on a fake payment instruction.",
+  "business": "Fabrikam and its customers do not lose money to a changed bank account.",
+  "msp": "BEC caught early is an hour of work instead of a crisis and a liability claim.",
+  "macro": "BEC caused about $2.77B in reported US losses in 2024 (FBI IC3); weekly rule audits across all tenants cut that risk for local firms.",
+  "good_outcome": "Weekly scan; suspicious rules reported to an analyst; containment via W-SEC-04.",
+  "harm_false_positive": "Flags Riley's own rule forwarding to her assistant; one question to her.",
+  "harm_false_negative": "Misses the rule; a fraudulent wire goes out.",
+  "blast_radius": "BR-2: one mailbox and the customers it emails",
+  "safeguards": [
+   "Inventory rule: Read-only detection; removal is part of W-SEC-04 with approval.",
+   "C-20 Read levers cannot write (built)",
+   "C-04 Per-client scope at the tool layer (built)",
+   "W-SEC-04 Business email compromise containment (related item)"
+  ],
+  "individual_metric": "IM-09 Fraud caught before loss: hours from rule creation to human review; payments made after a detectable rule (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-06",
+  "persona": "P-12 Hannah Ortiz, paralegal, Litware Legal (14 staff) (synthetic)",
+  "individual": "Hannah gets a matter site for a new case, shared only with the case team and co-counsel.",
+  "business": "Client-privileged files stay inside the matter.",
+  "msp": "Sites follow a reviewed template.",
+  "macro": "Law and financial firms depend on confidentiality; small permission mistakes are big harms.",
+  "good_outcome": "Template-based site with permissions diff, approved.",
+  "harm_false_positive": "Site shared to everyone in the firm or to 'anyone with the link'.",
+  "harm_false_negative": "Site delayed; files go to email attachments instead.",
+  "blast_radius": "BR-2: the matter's files",
+  "safeguards": [
+   "Inventory rule: Standard template only; technician approves.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-02 Parameter schema validation (built)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from request to working site; sites with Everyone or anonymous access (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-07",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana finds that a staff payroll sheet and a patient list are shared 'anyone with the link' and fixes it before Copilot or a stranger finds them.",
+  "business": "PHI and salaries are not exposed.",
+  "msp": "A repeatable Copilot-readiness assessment the vCIO can sell honestly.",
+  "macro": "AI assistants surface whatever a user can reach; oversharing becomes everyone's problem when AI arrives.",
+  "good_outcome": "Report of risky shares; the client owner decides.",
+  "harm_false_positive": "Flags legitimate shares; noise.",
+  "harm_false_negative": "Misses an anonymous link to regulated data.",
+  "blast_radius": "BR-3: a tenant's shared files",
+  "safeguards": [
+   "Inventory rule: Read-only assessment; fixes are human with client sign-off.",
+   "C-20 Read levers cannot write (built)",
+   "C-11 Data minimisation in the audit log (partial)"
+  ],
+  "individual_metric": "IM-06 Exposure window: anonymous links to regulated data (target 0); days from finding to fix",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-08",
+  "persona": "P-08 Dana Kim, compliance officer (Safeguards Rule Qualified Individual), Fabrikam Capital (synthetic)",
+  "individual": "Dana sees a DLP policy simulated before enforcement, and it would have blocked Fabrikam's monthly statements to customers; it is tuned first.",
+  "business": "NPI is protected without stopping normal business.",
+  "msp": "Fewer self-inflicted blocks; change evidence.",
+  "macro": "Good DLP protects customers; bad DLP teaches staff to work around security.",
+  "good_outcome": "Simulation report; policy change stays human.",
+  "harm_false_positive": "Report says safe; statements are blocked on the 1st of the month.",
+  "harm_false_negative": "Report flags harmless rules; protection delayed.",
+  "blast_radius": "BR-3: a tenant's mail flow",
+  "safeguards": [
+   "Inventory rule: Agent may report current state and simulation results; policy changes are human with change approval.",
+   "HO-3 approval by class (05-governance.md section 6)",
+   "W-M365-08 Sensitivity labels and DLP policy changes (change human-only)"
+  ],
+  "individual_metric": "IM-10 Wrong blocks: legitimate messages blocked per person per week; NPI leaks caught",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-09",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel's mailbox is full and referral letters bounce; archiving is turned on before more are lost.",
+  "business": "Referrals and patient emails arrive.",
+  "msp": "Quota alerts handled before the bounce.",
+  "macro": "Lost referrals are a direct patient-care harm.",
+  "good_outcome": "Archive proposal with the policy shown, approved.",
+  "harm_false_positive": "Archive policy moves recent mail away or deletes it.",
+  "harm_false_negative": "Mailbox stays full; emails bounce.",
+  "blast_radius": "BR-1: one person and their correspondents",
+  "safeguards": [
+   "Inventory rule: Technician approves; no retention-policy deletion.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: messages bounced due to quota (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-10",
+  "persona": "P-10 Riley Brooks, operations, Fabrikam Capital (synthetic)",
+  "individual": "Fabrikam's customers stop receiving spoofed invoices from its domain, and Riley's real mail still lands.",
+  "business": "Fabrikam's name is not used to defraud its customers.",
+  "msp": "Daily monitoring across 50-500 domains without a person reading XML.",
+  "macro": "Spoofed domains harm the client's customers, people who never chose the MSP.",
+  "good_outcome": "Daily report from DMARC data; DNS changes stay human (W-VND-06).",
+  "harm_false_positive": "Recommends p=reject too early; legitimate vendor mail bounces.",
+  "harm_false_negative": "Spoofing continues.",
+  "blast_radius": "BR-3: the domain and everyone who receives its mail",
+  "safeguards": [
+   "Inventory rule: Read-only summaries. DNS changes are human (W-VND-06).",
+   "W-VND-06 Domain and DNS registrar changes (kept human)"
+  ],
+  "individual_metric": "IM-09 Fraud caught before loss: spoofed messages reaching customers (from aggregate reports); legitimate mail failing authentication",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-M365-11",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "The monthly baseline finds Tom without MFA and an old legacy-auth setting; both are fixed before an attacker finds them.",
+  "business": "Contoso closes the gaps insurers and auditors ask about.",
+  "msp": "One built check (TenantBaseline) runs across every tenant with machine-checked numbers.",
+  "macro": "Baseline gaps are the same at many small tenants; finding them everywhere is protection at scale.",
+  "good_outcome": "Findings report, reconciled summary, Power BI-ready CSV.",
+  "harm_false_positive": "A false finding, or a summary with an invented number (blocked by C-21).",
+  "harm_false_negative": "Misses a gap such as legacy auth.",
+  "blast_radius": "BR-3: a tenant's security posture",
+  "safeguards": [
+   "Inventory rule: Read-only; every number in the summary is machine-checked; fix suggestions are dry-run levers only.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: days a baseline gap stays open; users without MFA per tenant",
+  "leverage_rank": 4
+ },
+ {
+  "inventory_id": "W-EP-01",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "Tom's operatory PC is found missing from the RMM and enrolled, so it gets patches.",
+  "business": "No unmanaged PC touching PHI.",
+  "msp": "Billing and coverage match reality.",
+  "macro": "Unmanaged devices are where small-business breaches start.",
+  "good_outcome": "Monthly reconciliation across RMM, Intune and PSA.",
+  "harm_false_positive": "Flags a retired device as missing; wasted visit.",
+  "harm_false_negative": "An unmanaged, unpatched PC with PHI stays unknown.",
+  "blast_radius": "BR-2: devices across a tenant",
+  "safeguards": [
+   "Inventory rule: Read-only reconciliation; fixes are human.",
+   "C-20 Read levers cannot write (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: unmanaged devices touching tenant data; days to enroll",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-02",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "Tom's PC's Defender sensor went offline yesterday; a technician fixes it before anything gets through.",
+  "business": "No silent gaps in protection.",
+  "msp": "Alerts grouped so NOC time goes to real gaps.",
+  "macro": "Silent protection failures are invisible until they matter.",
+  "good_outcome": "Agent groups health alerts; technician acts.",
+  "harm_false_positive": "Flags healthy sensors; technicians learn to ignore the group and miss the real one.",
+  "harm_false_negative": "An unprotected device stays unprotected.",
+  "blast_radius": "BR-1: one device; BR-2 if many sensors fail together",
+  "safeguards": [
+   "Inventory rule: Grouping and explanation only; reinstall goes through W-EP-04.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-20 Read levers cannot write (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: hours a sensor is offline before a human knows",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-03",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "The imaging PC by Tom's chair is nearly full; temp files are cleared before an x-ray capture fails mid-appointment.",
+  "business": "No patient waiting in the chair for IT.",
+  "msp": "200-600 alerts a month handled with a safe, standard fix.",
+  "macro": "Clearing disk space is pure toil; removing it moves technicians to better work.",
+  "good_outcome": "Allow-listed cleanup paths only, diff lists files, run outside procedures.",
+  "harm_false_positive": "Deletes needed data (an imaging cache not yet synced) or runs during a procedure.",
+  "harm_false_negative": "Disk fills; imaging fails with a patient in the chair.",
+  "blast_radius": "BR-1: one device",
+  "safeguards": [
+   "Inventory rule: Technician approves per run; may become a named standard change after eval; never deletes user data folders.",
+   "C-02 Parameter schema validation (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-17 Timeouts and failure containment (built)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: disk-full incidents that interrupted work; minutes of downtime",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-04",
+  "persona": "P-12 Hannah Ortiz, paralegal, Litware Legal (14 staff) (synthetic)",
+  "individual": "Hannah needs a PDF editor for a filing; it installs within the hour.",
+  "business": "Work is not blocked by software requests.",
+  "msp": "Requests handled as approved packages.",
+  "macro": "Standard software is a quiet productivity gain.",
+  "good_outcome": "Packaged deployment to one device or group, approved, rolled out in rings.",
+  "harm_false_positive": "Deploys to the wrong group or a version that breaks a line-of-business app.",
+  "harm_false_negative": "Hannah waits days for the PDF editor she needs for a filing.",
+  "blast_radius": "BR-2: a group of devices",
+  "safeguards": [
+   "Inventory rule: Only catalog apps; client approval for paid software; technician approves.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-32 Blast-radius and rate limits (planned)",
+   "CM-5 staged rollout rings (05-governance.md section 8)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from request to installed; failed installs",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-05",
+  "persona": "P-09 Chris Osei, trader, Fabrikam Capital (synthetic)",
+  "individual": "Chris is told in plain words that his laptop needs an update before Conditional Access would block it, not after.",
+  "business": "No trader blocked at market open.",
+  "msp": "Fewer surprise compliance lockouts.",
+  "macro": "Warning people first is respect; blocking without notice is a broken promise.",
+  "good_outcome": "Notice drafted; technician sends and follows up.",
+  "harm_false_positive": "Nags compliant users with stale data; they learn to ignore notices.",
+  "harm_false_negative": "Chris is blocked without warning.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Agent explains the reason and drafts a user note; technician sends.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "EU-1 clear communication to the person (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: people blocked by compliance without prior notice (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-06",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Morgan's laptop shows the BitLocker recovery screen at 7 am; after verification a technician reads him the key and he is working by 7:15.",
+  "business": "No lost morning; the key is not exposed.",
+  "msp": "Key retrieval is fast and audited.",
+  "macro": "Recovery keys unlock everything on a device; handling them carefully protects the person and the firm.",
+  "good_outcome": "Read lever fetches the key for a human; release stays human; key never enters a prompt or log.",
+  "harm_false_positive": "Key given to someone who stole the laptop and called in.",
+  "harm_false_negative": "Morgan sits at the BitLocker recovery screen while the market opens.",
+  "blast_radius": "BR-1: one device; BR-2 if given to a thief",
+  "safeguards": [
+   "Inventory rule: Encryption status report is R0. Key retrieval is human only after identity verification; key values never reach a model, a ticket body or a log.",
+   "W-IDM-04 Caller identity verification (kept human)",
+   "C-10 Secret redaction before logging (built)",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-11 Data minimisation in the audit log (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from call to working",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-07",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "Grace's accounting service hangs; an approved restart fixes it in two minutes.",
+  "business": "Close continues.",
+  "msp": "Restarts are fast, logged and bounded.",
+  "macro": "Turning it off and on again should not need a human dialing in, but it should need a human saying yes.",
+  "good_outcome": "Restart proposed; user warned; servers in business hours need a second approval.",
+  "harm_false_positive": "Reboots the wrong machine (the server hosting the practice database during clinic hours) or kills unsaved work.",
+  "harm_false_negative": "The hung service is not restarted; Grace cannot work in her accounting app until someone remotes in.",
+  "blast_radius": "BR-1: one device; BR-3 for a shared server",
+  "safeguards": [
+   "Inventory rule: Technician approves; lever checks the client's maintenance window; servers need lead approval.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-32 Blast-radius and rate limits (planned)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: unplanned disruption minutes caused by restarts (target 0); IM-01 for the requester",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-08",
+  "persona": "P-09 Chris Osei, trader, Fabrikam Capital (synthetic)",
+  "individual": "Chris's laptop is stolen from his car; it is locked within the hour and he works on a loaner.",
+  "business": "Customer NPI on the device is protected; encryption plus a fast lock can keep this from being a notification event.",
+  "msp": "A clean, fast, evidenced response.",
+  "macro": "Lost devices are routine; good handling keeps them from becoming breaches.",
+  "good_outcome": "Lock first, wipe when confirmed, approved by a lead.",
+  "harm_false_positive": "Wipes a device that was only left at home, losing unsynced work, or wipes the wrong one.",
+  "harm_false_negative": "The device stays live; a thief has access.",
+  "blast_radius": "BR-1: one device",
+  "safeguards": [
+   "Inventory rule: Lead approves; client contact confirms; the incident is recorded for the human breach assessment (W-SEC-07).",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-32 Blast-radius and rate limits (planned)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from report to lock; IM-01 minutes to working on a loaner",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-09",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel's MacBook gets the same managed fixes as the Windows PCs.",
+  "business": "Mac users are not second-class in security.",
+  "msp": "Fewer one-off manual fixes.",
+  "macro": "Mixed fleets are normal in small offices.",
+  "good_outcome": "Approved scripts tested per platform.",
+  "harm_false_positive": "A script written for Windows assumptions misbehaves on macOS.",
+  "harm_false_negative": "Mac issues handled late or not at all.",
+  "blast_radius": "BR-1: one device",
+  "safeguards": [
+   "Inventory rule: Same lever rules as Windows; technician approves.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes to fixed",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-EP-10",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel budgets four operatory PC replacements for Q1 instead of losing one on a Tuesday.",
+  "business": "Planned spend, no surprise downtime.",
+  "msp": "Honest vCIO advice backed by data.",
+  "macro": "Planning instead of panic is resilience for small businesses.",
+  "good_outcome": "Forecast report from warranty and age data.",
+  "harm_false_positive": "Recommends replacing healthy hardware; spend wasted and trust hurt.",
+  "harm_false_negative": "Misses failing hardware.",
+  "blast_radius": "BR-2: a client's fleet",
+  "safeguards": [
+   "Inventory rule: Read-only forecast; recommendations reviewed by the account manager.",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: unplanned hardware failures per year; owner budget surprises",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PAT-01",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "A patch that breaks the x-ray sensor driver is caught on pilot devices before Tom's chairside PC gets it.",
+  "business": "No clinic day lost to a bad update.",
+  "msp": "Ring approvals backed by a review, not habit.",
+  "macro": "A bad patch reaches every client at once; ring review is a community safeguard.",
+  "good_outcome": "Review report with known issues; engineer approves rings.",
+  "harm_false_positive": "Recommends approving a known-bad patch; breakage across tenants.",
+  "harm_false_negative": "Holds a security patch too long; exposure.",
+  "blast_radius": "BR-4: every tenant in the ring",
+  "safeguards": [
+   "Inventory rule: Agent summarizes notes and known issues with citations; ring promotion is an engineer decision.",
+   "CM-5 staged rollout rings (05-governance.md section 8)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: devices broken by patches per cycle; days to deploy critical patches",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PAT-02",
+  "persona": "P-08 Dana Kim, compliance officer (Safeguards Rule Qualified Individual), Fabrikam Capital (synthetic)",
+  "individual": "Dana gets accurate patch numbers for her Safeguards evidence in minutes.",
+  "business": "Honest evidence for regulators and insurers.",
+  "msp": "Monthly reports without manual spreadsheet work.",
+  "macro": "False assurance is worse than no report.",
+  "good_outcome": "Reconciled compliance report.",
+  "harm_false_positive": "Overstates compliance; Dana signs her Safeguards evidence on a number that is wrong.",
+  "harm_false_negative": "Understates compliance; Dana spends days chasing devices that were already patched.",
+  "blast_radius": "BR-2: one client's evidence",
+  "safeguards": [
+   "Inventory rule: Read-only; numbers reconcile to source exports (validator).",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: Dana's minutes to evidence; share of devices patched within policy (reconciled)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PAT-03",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Morgan's laptop has failed the same update three times and restarts daily; it is fixed and he stops losing his morning.",
+  "business": "Patched and stable.",
+  "msp": "60-1,500 failures a month triaged by cause.",
+  "macro": "Removes a large, dull queue from technicians.",
+  "good_outcome": "Agent groups failures by cause; standard fix approved.",
+  "harm_false_positive": "Remediation runs on the wrong device or reboots mid-day.",
+  "harm_false_negative": "Device stays vulnerable.",
+  "blast_radius": "BR-1: one device",
+  "safeguards": [
+   "Inventory rule: Agent groups by error code; technician approves the retry lever per batch.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-12 Untrusted input wrapping (built)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: days a device stays unpatched after a failure; restart interruptions",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PAT-04",
+  "persona": "P-12 Hannah Ortiz, paralegal, Litware Legal (14 staff) (synthetic)",
+  "individual": "Hannah's browser and PDF tools are kept current without breaking the court e-filing plugin.",
+  "business": "Fewer exploitable apps.",
+  "msp": "Third-party patching without hand-holding.",
+  "macro": "Third-party apps are a top exploited surface.",
+  "good_outcome": "Approved catalog, rings, deferral during filing deadlines.",
+  "harm_false_positive": "Forces an update during a filing; plugin breaks.",
+  "harm_false_negative": "Vulnerable versions stay.",
+  "blast_radius": "BR-2: a group of devices",
+  "safeguards": [
+   "Inventory rule: Catalog-driven; technician approves new versions.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "CM-5 staged rollout rings (05-governance.md section 8)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: minutes of work interrupted by third-party updates; days vulnerable versions remain",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PAT-05",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "CISA adds a firewall VPN flaw to its exploited list; within hours the MSP knows Contoso is exposed and patches that night.",
+  "business": "The practice does not become a ransomware victim through a known hole.",
+  "msp": "Exposure answered across all tenants in hours, not days.",
+  "macro": "Known exploited flaws hit many small businesses at once; MSP speed is community protection.",
+  "good_outcome": "Read across inventories, matched to CISA KEV, human decides and schedules.",
+  "harm_false_positive": "Says exposed when not; an unneeded emergency window disrupts the client.",
+  "harm_false_negative": "Says not exposed when exposed; the door stays open.",
+  "blast_radius": "BR-4: every exposed tenant",
+  "safeguards": [
+   "Inventory rule: Agent matches the public KEV catalog to inventory (read-only); deployment is approved by an engineer.",
+   "C-20 Read levers cannot write (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: hours from KEV publication to every exposed client identified and patched",
+  "leverage_rank": 2
+ },
+ {
+  "inventory_id": "W-PAT-06",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana gets notice that the server reboots Saturday at 10 pm, not Monday at 8 am.",
+  "business": "No surprise downtime.",
+  "msp": "Server patching on schedule with notices sent.",
+  "macro": "Predictability is a form of respect.",
+  "good_outcome": "Window and notice drafted, approved, sent by a person.",
+  "harm_false_positive": "Patches during hours or without notice.",
+  "harm_false_negative": "Servers go unpatched.",
+  "blast_radius": "BR-3: everyone using the server",
+  "safeguards": [
+   "Inventory rule: Lead approves; agent drafts notices for human send; post-patch checks read-only.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: minutes of business-hours disruption from server patching (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PAT-07",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Contoso's firewall firmware plan is laid out with risk and rollback.",
+  "business": "Network protection current.",
+  "msp": "Firmware risk visible.",
+  "macro": "Edge devices are prime targets.",
+  "good_outcome": "Report; upgrades stay human.",
+  "harm_false_positive": "Understates upgrade risk; outage.",
+  "harm_false_negative": "Misses outdated firmware.",
+  "blast_radius": "BR-3: a site's network",
+  "safeguards": [
+   "Inventory rule: Agent may report versions against advisories; upgrades are human.",
+   "W-PAT-07 Network device firmware (firewalls, switches, access points) (upgrade human-only)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: devices on firmware with known exploited flaws",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BDR-01",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "A silently failing backup of Northwind's file server is caught on day one, not on day forty when Grace needs last year's ledgers.",
+  "business": "The firm can recover from ransomware or a mistake.",
+  "msp": "1,000-10,000 jobs a day reviewed without a person scrolling.",
+  "macro": "Ransomware recovery at small businesses depends on backups that were checked.",
+  "good_outcome": "Agent groups failures; technician fixes.",
+  "harm_false_positive": "Flags a transient failure; noise.",
+  "harm_false_negative": "Misses a failing job; data is unrecoverable when needed.",
+  "blast_radius": "BR-3: a client's data",
+  "safeguards": [
+   "Inventory rule: Read-only grouping and ticket draft; technician confirms.",
+   "C-20 Read levers cannot write (built)",
+   "C-12 Untrusted input wrapping (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: hours from the first failed job to a human acting; days any protected system had no good backup",
+  "leverage_rank": 1
+ },
+ {
+  "inventory_id": "W-BDR-02",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "The failing job is fixed the same day.",
+  "business": "Protection restored.",
+  "msp": "300-3,000 failures a month handled faster.",
+  "macro": "Same macro effect as W-BDR-01; see that chain.",
+  "good_outcome": "Standard fix proposed and approved.",
+  "harm_false_positive": "Changes job scope (excludes a folder) or deletes restore points to free space.",
+  "harm_false_negative": "Job stays failed.",
+  "blast_radius": "BR-3: a client's backups",
+  "safeguards": [
+   "Inventory rule: Rerun lever with technician approval; configuration changes are human.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-33 Rollback from recorded before-state (partial)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: days a system stays without a good backup",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BDR-03",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena deletes the claims spreadsheet; it is restored to a safe location in twenty minutes.",
+  "business": "Work continues.",
+  "msp": "Restores faster and recorded.",
+  "macro": "Getting your work back is one of the moments people remember their IT team for.",
+  "good_outcome": "Restore to an alternate location after approval; in-place restore stays human.",
+  "harm_false_positive": "Restores over the current file, or into the wrong person's folder.",
+  "harm_false_negative": "The spreadsheet is not restored; Lena rebuilds it by hand and claims go out late.",
+  "blast_radius": "BR-1: one person's files",
+  "safeguards": [
+   "Inventory rule: Restore to an alternate location with technician approval. In-place restore (overwrite) is R3 and human-run.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-04 Per-client scope at the tool layer (built)"
+  ],
+  "individual_metric": "IM-07 Recoverability: minutes to restore; share of restores to the requested point",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BDR-04",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel sees proof every quarter that the practice could recover.",
+  "business": "Real recovery confidence.",
+  "msp": "Restore tests done and evidenced.",
+  "macro": "Tested backups are rare at small businesses.",
+  "good_outcome": "Test restore to an isolated location; report.",
+  "harm_false_positive": "Test restores into production, or reports false success.",
+  "harm_false_negative": "Restore tests are skipped; nobody learns the practice's backup cannot be restored until Dr. Patel needs it.",
+  "blast_radius": "BR-3: a client's recovery",
+  "safeguards": [
+   "Inventory rule: Restore to an isolated sandbox only; evidence written to the audit log; technician approves.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-07 Recoverability: days since the last successful restore test per client; measured restore time",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BDR-05",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Morgan's new colleagues' mailboxes are found missing from the backup policy and added.",
+  "business": "No unprotected users.",
+  "msp": "Coverage drift caught weekly.",
+  "macro": "Coverage gaps grow silently with every new hire.",
+  "good_outcome": "Coverage report.",
+  "harm_false_positive": "Flags covered users; time goes to re-checking and real gaps get lost in the list.",
+  "harm_false_negative": "A new colleague's mailbox stays outside the backup; a deleted folder of client correspondence cannot be recovered.",
+  "blast_radius": "BR-2: unprotected users",
+  "safeguards": [
+   "Inventory rule: Read-only gap report.",
+   "C-20 Read levers cannot write (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: users, mailboxes and sites without backup",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BDR-06",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana knows the first three steps if ransomware hits, and the contacts on the plan are right.",
+  "business": "Faster, calmer recovery.",
+  "msp": "Plans and tabletops kept current.",
+  "macro": "Prepared small businesses recover; unprepared ones sometimes close.",
+  "good_outcome": "Plan draft and tabletop script; humans review.",
+  "harm_false_positive": "Plan lists wrong contacts.",
+  "harm_false_negative": "Plan stale.",
+  "blast_radius": "BR-3: a client's recovery",
+  "safeguards": [
+   "Inventory rule: Agent drafts from current documentation and flags stale sections; humans own the plan and run the exercise.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-07 Recoverability: staff who know the first step; plan contact accuracy",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BDR-08",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Contoso's backups have an immutable copy an attacker cannot delete.",
+  "business": "Recovery survives ransomware.",
+  "msp": "Retention reviewed quarterly.",
+  "macro": "Attackers target backups first.",
+  "good_outcome": "Review report.",
+  "harm_false_positive": "Flags compliant policies; review time is wasted.",
+  "harm_false_negative": "Backups stay deletable; ransomware that reaches the backup console deletes Contoso's restore points along with the server.",
+  "blast_radius": "BR-3: a client's backups",
+  "safeguards": [
+   "Inventory rule: Read-only report; changes are human.",
+   "C-20 Read levers cannot write (built)"
+  ],
+  "individual_metric": "IM-07 Recoverability: clients with an immutable copy",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-01",
+  "persona": "P-24 Nia Watts, security analyst, the MSP (synthetic)",
+  "individual": "Nia sees 30 grouped incidents instead of 3,000 alerts, and the real attack on Riley's account is at the top.",
+  "business": "Real attacks on clients are seen in minutes.",
+  "msp": "Analyst time goes to judgment, not sorting.",
+  "macro": "Alert fatigue is how real attacks are missed; better grouping protects every tenant.",
+  "good_outcome": "Agent groups and ranks; it never closes or suppresses alerts on its own.",
+  "harm_false_positive": "Escalates benign clusters; analyst time wasted.",
+  "harm_false_negative": "Groups a real alert into a benign cluster; the attack is buried.",
+  "blast_radius": "BR-3: a client; BR-4 for a campaign across tenants",
+  "safeguards": [
+   "Inventory rule: Grouping and severity suggestion with reasons; analyst decides. Closing an alert as benign stays human until evals justify a rule.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-41 Evaluation gate before promotion (partial)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from the first alert of a true incident to an analyst looking at it; alerts per analyst per shift",
+  "leverage_rank": 7
+ },
+ {
+  "inventory_id": "W-SEC-02",
+  "persona": "P-24 Nia Watts, security analyst, the MSP (synthetic)",
+  "individual": "Each alert arrives with the user, device and recent sign-ins attached.",
+  "business": "Faster verdicts on client incidents.",
+  "msp": "Enrichment minutes saved per alert.",
+  "macro": "Same macro effect as W-SEC-01; see that chain.",
+  "good_outcome": "Read-only enrichment.",
+  "harm_false_positive": "Pulls more personal data than needed.",
+  "harm_false_negative": "Missing context; slower verdict.",
+  "blast_radius": "BR-1: one alert",
+  "safeguards": [
+   "Inventory rule: Read-only enrichment shown with sources.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-11 Data minimisation in the audit log (partial)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from alert to verdict",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-03",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena reports a suspicious email and gets an answer within ten minutes, with thanks; the same email is pulled from six other mailboxes.",
+  "business": "Staff keep reporting, which is the cheapest defense a practice has.",
+  "msp": "200-800 reports a month triaged fast.",
+  "macro": "People report when they are thanked and answered; that habit protects whole communities of small offices.",
+  "good_outcome": "Agent verdict proposed; purge across mailboxes needs approval.",
+  "harm_false_positive": "Purges a legitimate payer email from every mailbox.",
+  "harm_false_negative": "Says safe; Lena clicks.",
+  "blast_radius": "BR-2: every mailbox in a tenant",
+  "safeguards": [
+   "Inventory rule: Agent gives a verdict with indicators (email treated as untrusted input); purge across mailboxes needs analyst approval.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-32 Blast-radius and rate limits (planned)"
+  ],
+  "individual_metric": "IM-02 Time to a human: minutes from report to verdict back to the reporter; reporters who got a reply (target 100%)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-04",
+  "persona": "P-10 Riley Brooks, operations, Fabrikam Capital (synthetic)",
+  "individual": "Riley's account is compromised; sessions are revoked, the rule removed and she is back with new credentials within the hour, and the pending wire is stopped.",
+  "business": "Fabrikam's customers are not defrauded.",
+  "msp": "A fast, evidenced containment.",
+  "macro": "Fast reporting helps recovery: IC3 reports freezing funds in about 66% of BEC cases its Recovery Asset Team handled in 2024.",
+  "good_outcome": "Containment steps proposed, diff shown, lead approval, notification decision stays human (W-SEC-07).",
+  "harm_false_positive": "Contains the wrong user or a false positive; Riley locked out on payroll day.",
+  "harm_false_negative": "Attacker keeps access; fraudulent invoices go to customers.",
+  "blast_radius": "BR-2: one account; BR-3 with the client's customers",
+  "safeguards": [
+   "Inventory rule: Playbook of levers, each dry-run then lead-approved; the client is told by a human.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-33 Rollback from recorded before-state (partial)",
+   "EU-1 clear communication to the person (05-governance.md section 9)",
+   "EU-2 a fast way back (05-governance.md section 9)",
+   "IR-3 restore the person first (05-governance.md section 7)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from confirmed compromise to attacker access removed; IM-01 minutes until Riley can work again",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-05",
+  "persona": "P-06 Tom Baker, dental assistant, Contoso Dental (synthetic)",
+  "individual": "Tom's PC shows ransomware behavior at 2 pm; it is isolated before it spreads and Tom moves to another workstation.",
+  "business": "The practice stays open.",
+  "msp": "Containment in minutes.",
+  "macro": "Stopping one device saves the business.",
+  "good_outcome": "Isolation proposed with approval; after-hours rules agreed with the MSP (inventory Q-10).",
+  "harm_false_positive": "Isolates the front-desk PC on a false positive; check-in stops.",
+  "harm_false_negative": "Ransomware spreads across the practice.",
+  "blast_radius": "BR-1: one device; BR-3 if missed",
+  "safeguards": [
+   "Inventory rule: Lead approval (on-call may self-approve under written policy, audited); client told by a human.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-33 Rollback from recorded before-state (partial)"
+  ],
+  "individual_metric": "IM-06 Exposure window: minutes from detection to isolation; IM-08 minutes lost to false isolations",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-06",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "The ten findings that matter (exploited, internet-facing) are fixed first instead of drowning in thousands.",
+  "business": "Real risk reduced.",
+  "msp": "Prioritization done in minutes.",
+  "macro": "Focus is how small teams protect many clients.",
+  "good_outcome": "Ranked report.",
+  "harm_false_positive": "Over-prioritizes noise.",
+  "harm_false_negative": "Buries a known exploited flaw.",
+  "blast_radius": "BR-3: a client",
+  "safeguards": [
+   "Inventory rule: Read-only ranking with exploitability source (for example KEV); humans pick what to fix.",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: days KEV-listed findings stay open",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-08",
+  "persona": "P-24 Nia Watts, security analyst, the MSP (synthetic)",
+  "individual": "Nia knows within hours which clients a new advisory affects.",
+  "business": "Exposed clients warned first.",
+  "msp": "Advisory triage fast and consistent.",
+  "macro": "Same macro effect as W-PAT-05; see that chain.",
+  "good_outcome": "Relevance report.",
+  "harm_false_positive": "Says relevant when not; wasted effort.",
+  "harm_false_negative": "Misses that an advisory applies; an exploited product at a client stays unpatched.",
+  "blast_radius": "BR-4: exposed tenants",
+  "safeguards": [
+   "Inventory rule: Read-only match against inventory; humans decide action.",
+   "C-20 Read levers cannot write (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: hours from advisory to exposed clients identified",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-SEC-10",
+  "persona": "P-04 Lena Fischer, billing coordinator, Contoso Dental (synthetic)",
+  "individual": "Lena clicked a simulated phish; she gets two minutes of kind training, not a public shaming.",
+  "business": "Better habits across the practice.",
+  "msp": "Clear training reports per client.",
+  "macro": "Shaming kills reporting; kindness builds it.",
+  "good_outcome": "Results report; no punitive use of individual names without the client's agreed policy.",
+  "harm_false_positive": "Report names people punitively to their own company.",
+  "harm_false_negative": "Repeat clickers unhelped.",
+  "blast_radius": "BR-1: one person",
+  "safeguards": [
+   "Inventory rule: Aggregate report; per-person results shared only with the client's named contact; never used by the MSP to rate individuals.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: repeat-click rate and report rate per client",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-01",
+  "persona": "P-29 Elena Park, service delivery manager, the MSP (synthetic)",
+  "individual": "Elena gathers SOC 2 evidence in hours instead of weeks, from records the system already keeps.",
+  "business": "Clients rely on the MSP's SOC 2 report to vet it; a clean report protects their own vendor reviews.",
+  "msp": "Fewer audit exceptions; audit cost down.",
+  "macro": "Honest evidence is how an MSP earns trust from regulated small businesses.",
+  "good_outcome": "Evidence pack drafted from the audit chain and change records; management assertions stay human (W-CMP-07).",
+  "harm_false_positive": "Evidence claims a control operated when it did not.",
+  "harm_false_negative": "Missing evidence produces an exception.",
+  "blast_radius": "BR-5: the MSP's audit opinion, relied on by every client",
+  "safeguards": [
+   "Inventory rule: Read-only dated, hashed evidence bundle; the compliance lead reviews before it goes to the auditor.",
+   "C-08 Hash-chained audit log with head pin and verifier (built)",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "C-45 Synthetic data only and honest labels (partial)",
+   "W-CMP-07 Policy attestations and management assertions (kept human)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: Elena's hours per audit cycle; audit exceptions",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-02",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana, Contoso's privacy contact, gets a risk-analysis draft built from the tenant's real configuration and spends two hours on it instead of two days.",
+  "business": "The practice meets its HIPAA Security Rule risk-analysis duty with an accurate picture.",
+  "msp": "A repeatable vCIO service for healthcare clients.",
+  "macro": "Accurate risk analyses at small practices protect patients' records across the community.",
+  "good_outcome": "Draft from facts; the client reviews and owns it.",
+  "harm_false_positive": "Draft claims safeguards that do not exist, giving false assurance before an OCR inquiry.",
+  "harm_false_negative": "Draft misses risks.",
+  "blast_radius": "BR-3: the client's compliance position",
+  "safeguards": [
+   "Inventory rule: Agent gathers technical evidence only; the risk analysis and its conclusions belong to the client (the covered entity) and a human assessor.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "W-CMP-07 Policy attestations and management assertions (kept human)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: Ana's hours on the risk analysis; findings closed by the next review",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-03",
+  "persona": "P-08 Dana Kim, compliance officer (Safeguards Rule Qualified Individual), Fabrikam Capital (synthetic)",
+  "individual": "Dana, Fabrikam's Qualified Individual under the Safeguards Rule, gets evidence for MFA, encryption and logging in one pack.",
+  "business": "Fabrikam can show its program works.",
+  "msp": "Repeatable financial-client service.",
+  "macro": "Customers of small financial firms are protected by programs that are real, not paper.",
+  "good_outcome": "Evidence pack; Dana reviews and owns it.",
+  "harm_false_positive": "Overstates controls.",
+  "harm_false_negative": "Misses gaps.",
+  "blast_radius": "BR-3: the client's compliance position",
+  "safeguards": [
+   "Inventory rule: Read-only evidence; the client's Qualified Individual owns the program and the report.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: Dana's hours on yearly evidence; gaps found and closed",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-04",
+  "persona": "P-28 Kai Turner, Tier 3 and project engineer, the MSP (synthetic)",
+  "individual": "Kai's change records write themselves from the dry-run diffs, so Ana can see exactly what changed in her tenant.",
+  "business": "Clients see every change made for them.",
+  "msp": "Change evidence complete without extra typing.",
+  "macro": "Transparency about change is part of trustworthy automation.",
+  "good_outcome": "Draft change record from the diff; engineer confirms.",
+  "harm_false_positive": "Record misdescribes the change.",
+  "harm_false_negative": "A change goes unrecorded.",
+  "blast_radius": "BR-2: one tenant's change history",
+  "safeguards": [
+   "Inventory rule: Agent drafts the change record from the lever dry-run diff; approval is human.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-08 Hash-chained audit log with head pin and verifier (built)",
+   "C-37 Lever change management with staged rollout (partial)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: share of changes with a complete record (target 100%)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-05",
+  "persona": "P-01 Priya Nair, dental hygienist, Contoso Dental (synthetic)",
+  "individual": "If Priya asks who reset her MFA and why, the answer is provable from a tamper-evident record.",
+  "business": "The practice can answer its patients and auditors.",
+  "msp": "Daily verification that the audit log was not altered.",
+  "macro": "Provable records are what make automated decisions accountable to the people they affect.",
+  "good_outcome": "Daily verifier run; failures alert.",
+  "harm_false_positive": "Verifier flags tampering falsely; an incident drill for nothing.",
+  "harm_false_negative": "Tampering goes unnoticed.",
+  "blast_radius": "BR-5: all audit evidence",
+  "safeguards": [
+   "Inventory rule: Automatic check; a break is a human-investigated incident.",
+   "C-08 Hash-chained audit log with head pin and verifier (built)",
+   "C-39 Write-once audit head pinning and retention (planned)",
+   "EU-5 no silent decisions (05-governance.md section 9)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: days the verifier passed; minutes to answer 'who changed my account and why'",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-06",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel knows which vendors touching patient data have a BAA on file.",
+  "business": "No unknown processors of PHI.",
+  "msp": "Tracking without spreadsheets.",
+  "macro": "Fourth-party risk is where small practices lose sight of their data.",
+  "good_outcome": "Tracker report.",
+  "harm_false_positive": "Says a BAA exists when it does not.",
+  "harm_false_negative": "Expired agreements missed.",
+  "blast_radius": "BR-3: the client's vendor chain",
+  "safeguards": [
+   "Inventory rule: Read-only tracker; legal review human.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "C-43 AI vendor and subprocessor register (planned)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: vendors handling PHI or NPI without a current agreement (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-08",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel's cyber-insurance answers are backed by evidence, so a claim after ransomware is not denied over a false 'yes, MFA everywhere'.",
+  "business": "The practice's insurance actually pays when needed; that can decide whether it survives an incident.",
+  "msp": "Questionnaires done in an hour with evidence links.",
+  "macro": "Insurance that pays out keeps local businesses open after attacks.",
+  "good_outcome": "Draft answers with evidence; the owner signs.",
+  "harm_false_positive": "Answers 'yes' when the truth is 'partly'; the claim may be denied.",
+  "harm_false_negative": "Answers 'no' when 'yes'; higher premium.",
+  "blast_radius": "BR-3: the client's financial survival after an incident",
+  "safeguards": [
+   "Inventory rule: Agent drafts answers with evidence links; a human checks every answer; unsupported answers are left blank, not guessed.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "W-CMP-07 Policy attestations and management assertions (kept human)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: share of answers backed by evidence (target 100%); owner hours per questionnaire",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-CMP-09",
+  "persona": "P-25 Owen Price, account manager and vCIO, the MSP (synthetic)",
+  "individual": "Owen answers a prospect's security questionnaire about the MSP in an hour with accurate answers.",
+  "business": "Clients get honest answers about their provider.",
+  "msp": "Faster sales cycle without overclaiming.",
+  "macro": "Honest vendor answers keep the whole supply chain truthful.",
+  "good_outcome": "Draft from approved answers; human sends.",
+  "harm_false_positive": "Overclaims a control.",
+  "harm_false_negative": "Slow or incomplete answers.",
+  "blast_radius": "BR-5: the MSP's reputation",
+  "safeguards": [
+   "Inventory rule: RAG over approved answers with citations; a human approves and sends.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "C-45 Synthetic data only and honest labels (partial)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: hours per questionnaire; answers corrected after review",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-VND-01",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel stops paying for three licenses no one uses.",
+  "business": "Money back to the practice.",
+  "msp": "Accurate license data.",
+  "macro": "Small savings across many small clients add up.",
+  "good_outcome": "Reconciliation report; purchase or reduction stays human (W-VND-02).",
+  "harm_false_positive": "Calls a license unused when it is used; acting on it would cut someone off.",
+  "harm_false_negative": "Overpaying continues.",
+  "blast_radius": "BR-1: a person if acted on wrongly",
+  "safeguards": [
+   "Inventory rule: Read-only; recommendations reviewed by billing.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "W-VND-02 License purchase or reduction (kept human)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: unused license spend per client per month; wrong 'unused' calls",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-VND-03",
+  "persona": "P-12 Hannah Ortiz, paralegal, Litware Legal (14 staff) (synthetic)",
+  "individual": "Litware's domain renewal is flagged 60 days early, so the firm's email never goes dark.",
+  "business": "No lapsed domains, warranties or subscriptions.",
+  "msp": "Renewals planned.",
+  "macro": "A lapsed domain can take a small firm offline for days.",
+  "good_outcome": "Renewal report.",
+  "harm_false_positive": "Noise.",
+  "harm_false_negative": "The domain lapses; Litware's email stops, possibly on a filing day for Hannah.",
+  "blast_radius": "BR-3: a client's email or website",
+  "safeguards": [
+   "Inventory rule: Read-only alerts.",
+   "C-20 Read levers cannot write (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: lapses (target 0); days of warning",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-VND-04",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Contoso's internet is down; a ticket with the circuit ID is opened with the ISP within five minutes.",
+  "business": "Faster restoration.",
+  "msp": "Vendor escalations packaged.",
+  "macro": "Fast ISP escalation matters most for small offices with one line.",
+  "good_outcome": "Escalation drafted; technician sends.",
+  "harm_false_positive": "Escalates to the wrong vendor.",
+  "harm_false_negative": "Slow escalation.",
+  "blast_radius": "BR-3: a site",
+  "safeguards": [
+   "Inventory rule: Agent drafts the case summary without client secrets; a human submits.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from outage to vendor ticket; outage minutes",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-VND-05",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Fabrikam's client portal certificate is renewed before customers see a warning.",
+  "business": "No 'not secure' warnings to customers.",
+  "msp": "Expiry tracked.",
+  "macro": "Warnings teach customers to click through warnings.",
+  "good_outcome": "Expiry report.",
+  "harm_false_positive": "Noise.",
+  "harm_false_negative": "The certificate expires; Fabrikam's customers see a security warning on the client portal and some stop using it.",
+  "blast_radius": "BR-3: the client's customers",
+  "safeguards": [
+   "Inventory rule: Read-only alerts; renewal human.",
+   "C-20 Read levers cannot write (built)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: expired-certificate incidents (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-RPT-01",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel reads one page in plain words with true numbers, in five minutes.",
+  "business": "An owner who understands IT risk makes better decisions.",
+  "msp": "50-500 reports a month without hand assembly.",
+  "macro": "Honest reporting builds trust in the MSP and in AI.",
+  "good_outcome": "Reconciled report draft; account manager reviews and sends.",
+  "harm_false_positive": "Invents or overstates a number (blocked by C-21).",
+  "harm_false_negative": "The report hides a real problem; Dr. Patel thinks the practice is fine until it fails.",
+  "blast_radius": "BR-2: one client's understanding",
+  "safeguards": [
+   "Inventory rule: Every number reconciles to source data (validator gate); account manager reviews and sends.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: owner minutes to understand the report; numbers that reconcile (target 100%)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-RPT-02",
+  "persona": "P-08 Dana Kim, compliance officer (Safeguards Rule Qualified Individual), Fabrikam Capital (synthetic)",
+  "individual": "Dana's quarterly review shows what changed and what to do next.",
+  "business": "Planned improvements.",
+  "msp": "QBR prep in an hour.",
+  "macro": "Same macro effect as W-RPT-01; see that chain.",
+  "good_outcome": "Draft; human presents.",
+  "harm_false_positive": "Overclaims progress.",
+  "harm_false_negative": "Omits a risk.",
+  "blast_radius": "BR-2: one client",
+  "safeguards": [
+   "Inventory rule: Draft only; the account manager owns the story and the recommendations.",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: preparation hours; actions agreed and done by next QBR",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-RPT-03",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana gets a short weekly note of what was done for Contoso.",
+  "business": "Visible value.",
+  "msp": "Client retention.",
+  "macro": "Showing the work builds trust.",
+  "good_outcome": "Digest drafted; account manager sends.",
+  "harm_false_positive": "Includes another client's data.",
+  "harm_false_negative": "No digest goes out; Ana cannot see what the MSP did for Contoso, and the value of the service is invisible at renewal.",
+  "blast_radius": "BR-2: cross-tenant exposure if wrong",
+  "safeguards": [
+   "Inventory rule: Draft for human send.",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: cross-tenant items in digests (target 0); client read rate",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-RPT-04",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel gets a three-year plan with costs that fit the practice.",
+  "business": "Predictable spend.",
+  "msp": "vCIO time on advice, not formatting.",
+  "macro": "Planning is resilience.",
+  "good_outcome": "Draft; vCIO owns it.",
+  "harm_false_positive": "Recommends spend the client does not need.",
+  "harm_false_negative": "Misses a needed upgrade.",
+  "blast_radius": "BR-2: one client",
+  "safeguards": [
+   "Inventory rule: Agent assembles facts; recommendations and pricing are human.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: budget surprises per year",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-RPT-05",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana gets a starter AI-use policy for Contoso that says, plainly, no patient details in public chatbots.",
+  "business": "PHI stays out of consumer AI tools.",
+  "msp": "A useful, honest service for clients asking about AI.",
+  "macro": "Small businesses need simple AI rules; giving them good ones raises trust in AI locally.",
+  "good_outcome": "Starter template labeled not legal advice; client adopts.",
+  "harm_false_positive": "Template is taken as legal advice and is wrong for the client.",
+  "harm_false_negative": "No policy; staff paste PHI into public tools.",
+  "blast_radius": "BR-2: one client's staff",
+  "safeguards": [
+   "Inventory rule: Template draft; client and their counsel own the final policy.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)",
+   "C-42 Staff training and acceptable use (planned)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: staff who can state the rule; observed PHI-in-prompt events",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-RPT-06",
+  "persona": "P-29 Elena Park, service delivery manager, the MSP (synthetic)",
+  "individual": "Elena's weekly metrics include minutes until people can work again, not only tickets closed.",
+  "business": "Clients get service measured by their experience.",
+  "msp": "Leaders steer by outcomes for people.",
+  "macro": "What an MSP measures shapes how its technicians treat people.",
+  "good_outcome": "Metrics report.",
+  "harm_false_positive": "Metrics used to rank individual technicians (stays human, W-TRN-04).",
+  "harm_false_negative": "Metrics miss what matters.",
+  "blast_radius": "BR-5: how the MSP is run",
+  "safeguards": [
+   "Inventory rule: Read-only; metrics describe the queue, not individual performance reviews (see W-TRN-04 note).",
+   "C-21 Output reconciliation (no invented numbers) (built)",
+   "W-TRN-04 New technician onboarding and performance coaching (kept human)"
+  ],
+  "individual_metric": "IM-01 Time back to work: median minutes until people can work again, per client and per month",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-KB-01",
+  "persona": "P-20 tech-ana, Tier 1 technician (repo identity), the MSP (synthetic)",
+  "individual": "tech-ana turns a solved ticket into a KB draft in two minutes.",
+  "business": "Fixes are reused.",
+  "msp": "Knowledge kept as people move on.",
+  "macro": "Shared knowledge lifts every technician.",
+  "good_outcome": "Draft from the resolved ticket; technician edits and publishes.",
+  "harm_false_positive": "Draft contains PHI or a wrong fix.",
+  "harm_false_negative": "Knowledge lost.",
+  "blast_radius": "BR-2: everyone who uses the article",
+  "safeguards": [
+   "Inventory rule: Draft only; a technician reviews and publishes; client data stripped and checked.",
+   "C-25 Data classification and pre-prompt redaction gate (planned)",
+   "C-41 Evaluation gate before promotion (partial)",
+   "C-26 Per-tenant retrieval isolation (partial)"
+  ],
+  "individual_metric": "IM-13 Right answer with a source: articles accepted without factual edit; PHI in articles (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-KB-02",
+  "persona": "P-30 Theo Grant, new Tier 1 technician, first month, the MSP (synthetic)",
+  "individual": "Theo, a new technician, finds Contoso's correct network notes at 7:45 when Priya calls.",
+  "business": "Faster fixes.",
+  "msp": "Current documentation.",
+  "macro": "Documentation is the memory of a small MSP.",
+  "good_outcome": "Change suggestions; technician confirms.",
+  "harm_false_positive": "Writes a wrong value (an old IP), leading to a bad change.",
+  "harm_false_negative": "Docs stay stale.",
+  "blast_radius": "BR-2: one client",
+  "safeguards": [
+   "Inventory rule: Agent flags stale pages against live data and drafts updates; human approves.",
+   "C-26 Per-tenant retrieval isolation (partial)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)"
+  ],
+  "individual_metric": "IM-13 Right answer with a source: docs found wrong during tickets",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-KB-03",
+  "persona": "P-30 Theo Grant, new Tier 1 technician, first month, the MSP (synthetic)",
+  "individual": "Theo follows a clear runbook instead of guessing.",
+  "business": "Consistent service.",
+  "msp": "Runbooks exist.",
+  "macro": "Good runbooks let newer people do skilled work safely.",
+  "good_outcome": "Draft; engineer reviews.",
+  "harm_false_positive": "A drafted runbook has a wrong step that a new technician follows on a client system.",
+  "harm_false_negative": "No runbook; Theo improvises on a task he has never done.",
+  "blast_radius": "BR-2: everyone who follows it",
+  "safeguards": [
+   "Inventory rule: AI-assisted drafts; author owns the content.",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-13 Right answer with a source: runbook steps corrected after use",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-KB-04",
+  "persona": "P-30 Theo Grant, new Tier 1 technician, first month, the MSP (synthetic)",
+  "individual": "Theo asks how Contoso's imaging bridge reconnects and gets a cited answer in one minute; Priya is back to work sooner.",
+  "business": "Faster fixes at the first call.",
+  "msp": "2,000-6,000 questions a month answered from the MSP's own knowledge.",
+  "macro": "New technicians become effective fast: automation moves people up.",
+  "good_outcome": "Retrieval from the client's own sources only; refuses when there is no source.",
+  "harm_false_positive": "Confident wrong answer, or another client's procedure in the answer.",
+  "harm_false_negative": "'No source' refusal; Theo escalates (acceptable).",
+  "blast_radius": "BR-1: one ticket; BR-2 on cross-tenant leakage",
+  "safeguards": [
+   "Inventory rule: Answers cite the client's own documents; refuses when there is no source; client A never sees client B.",
+   "C-26 Per-tenant retrieval isolation (partial)",
+   "C-27 Tenant isolation of prompts, context, logs and error text (partial)",
+   "C-12 Untrusted input wrapping (built)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-13 Right answer with a source: share of answers correct with a cited source; minutes to answer; IM-01 for tickets where it was used",
+  "leverage_rank": 6
+ },
+ {
+  "inventory_id": "W-KB-05",
+  "persona": "P-30 Theo Grant, new Tier 1 technician, first month, the MSP (synthetic)",
+  "individual": "Conflicting articles are found before Theo follows the wrong one.",
+  "business": "Fewer wrong fixes.",
+  "msp": "KB stays trustworthy.",
+  "macro": "Same macro effect as W-KB-04; see that chain.",
+  "good_outcome": "Report.",
+  "harm_false_positive": "Flags fine articles.",
+  "harm_false_negative": "Conflicting articles remain; Theo follows the outdated one.",
+  "blast_radius": "BR-2: users of the article",
+  "safeguards": [
+   "Inventory rule: Read-only report; owner fixes.",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-13 Right answer with a source: conflicting article pairs open",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-KB-06",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Only Ana and Dr. Patel may authorize new hires and access at Contoso, and the list is current, so a request from anyone else is caught.",
+  "business": "No access granted on a stranger's say-so.",
+  "msp": "Verification is consistent.",
+  "macro": "Authorized-contact lists are the root of trust for every access change.",
+  "good_outcome": "Read lever returns the current list to a human.",
+  "harm_false_positive": "List wrong; a legitimate requester is rejected.",
+  "harm_false_negative": "Outdated list lets a departed manager authorize.",
+  "blast_radius": "BR-2: one tenant's access decisions",
+  "safeguards": [
+   "Inventory rule: Agents read the list to check requesters; only a human edits it, on the client's instruction.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-30 Requester identity verification for access-affecting levers (planned)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: access changes authorized by a non-authorized contact (target 0); list age",
+  "leverage_rank": 9
+ },
+ {
+  "inventory_id": "W-BIL-01",
+  "persona": "P-20 tech-ana, Tier 1 technician (repo identity), the MSP (synthetic)",
+  "individual": "tech-ana spends two minutes on notes at day's end instead of ten.",
+  "business": "Clients see accurate notes.",
+  "msp": "Better billing data.",
+  "macro": "Less admin is more time for people.",
+  "good_outcome": "Note draft from ticket activity; technician confirms.",
+  "harm_false_positive": "The draft claims work tech-ana did not do; if she confirms it unread, the client is billed for it under her name.",
+  "harm_false_negative": "Notes stay thin; when the client disputes the invoice weeks later, tech-ana has no record and rebuilds it from memory.",
+  "blast_radius": "BR-1: one ticket",
+  "safeguards": [
+   "Inventory rule: Agent drafts notes from lever and ticket activity; the technician confirms time and wording.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-12 Technician toil and growth: technician minutes per day on notes; notes disputed by clients",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BIL-02",
+  "persona": "P-26 Rosa Diaz, billing specialist, the MSP (synthetic)",
+  "individual": "Rosa's monthly true-up is right, so Dr. Patel is billed for the seats he has.",
+  "business": "Fair bills.",
+  "msp": "Margin protected.",
+  "macro": "Fair billing is trust.",
+  "good_outcome": "Reconciled count.",
+  "harm_false_positive": "Overbills for seats or devices the client no longer has; Rosa issues a credit and trust drops.",
+  "harm_false_negative": "Underbills; the MSP absorbs the cost without anyone noticing.",
+  "blast_radius": "BR-2: one invoice",
+  "safeguards": [
+   "Inventory rule: Read-only reconciliation; billing approves every change.",
+   "C-21 Output reconciliation (no invented numbers) (built)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: billing corrections per month",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-BIL-03",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana is not surprised by a bill for work her contract covers.",
+  "business": "Fair invoices.",
+  "msp": "Fewer disputes.",
+  "macro": "Same macro effect as W-BIL-02; see that chain.",
+  "good_outcome": "Suggestion; a human decides.",
+  "harm_false_positive": "Covered work classified as billable.",
+  "harm_false_negative": "MSP absorbs project cost.",
+  "blast_radius": "BR-2: one invoice",
+  "safeguards": [
+   "Inventory rule: Suggestion with the agreement clause; a human decides.",
+   "C-12 Untrusted input wrapping (built)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: disputed charges per client",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PRJ-01",
+  "persona": "P-12 Hannah Ortiz, paralegal, Litware Legal (14 staff) (synthetic)",
+  "individual": "Litware joins the MSP and Hannah's account has MFA within the first two weeks.",
+  "business": "Risks fixed early.",
+  "msp": "Onboarding discovery is fast and consistent.",
+  "macro": "Every new client raises the community baseline.",
+  "good_outcome": "Read-only discovery, findings report.",
+  "harm_false_positive": "Discovery uses broader rights than needed.",
+  "harm_false_negative": "Misses a risk.",
+  "blast_radius": "BR-3: the new client",
+  "safeguards": [
+   "Inventory rule: Read-only discovery report; remediation goes through normal approved levers.",
+   "C-04 Per-client scope at the tool layer (built)",
+   "C-20 Read levers cannot write (built)",
+   "C-38 Agent and technician access review; least-privilege delegated access (planned)"
+  ],
+  "individual_metric": "IM-15 Silent-failure lead time: days from start to baseline MFA coverage",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PRJ-03",
+  "persona": "P-11 Grace Okafor, bookkeeper, Northwind Bookkeeping (9 staff) (synthetic)",
+  "individual": "Grace's mailbox moves over a weekend and works Monday morning.",
+  "business": "No lost email.",
+  "msp": "Migrations predictable.",
+  "macro": "Clean migrations keep small firms running.",
+  "good_outcome": "Dry-run plan and staged cutover with approvals.",
+  "harm_false_positive": "Wrong mailbox cut over; data loss.",
+  "harm_false_negative": "A conflict the pre-flight should have caught (an oversized mailbox, a missing licence) surfaces mid-cutover; Grace loses mail during month-end close.",
+  "blast_radius": "BR-3: a tenant",
+  "safeguards": [
+   "Inventory rule: Scripted batches with dry-run and engineer approval per batch.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-32 Blast-radius and rate limits (planned)"
+  ],
+  "individual_metric": "IM-01 Time back to work: share of users signing in successfully Monday morning; items lost (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PRJ-04",
+  "persona": "P-02 Ana Lopez, office manager and HIPAA privacy contact, Contoso Dental (synthetic)",
+  "individual": "Ana learns what must be fixed before Contoso turns on Copilot.",
+  "business": "AI adopted safely.",
+  "msp": "A credible service.",
+  "macro": "Safe AI adoption at small businesses is how trust in AI is earned.",
+  "good_outcome": "Readiness report.",
+  "harm_false_positive": "Says ready when not.",
+  "harm_false_negative": "Overcautious.",
+  "blast_radius": "BR-3: a tenant",
+  "safeguards": [
+   "Inventory rule: Read-only assessment and score; recommendation reviewed by a human.",
+   "W-M365-07 Oversharing and external sharing review (Copilot readiness) (related item)"
+  ],
+  "individual_metric": "IM-06 Exposure window: overshared items found and fixed before rollout",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PRJ-05",
+  "persona": "P-07 Morgan Reyes, portfolio analyst, Fabrikam Capital (synthetic)",
+  "individual": "Fabrikam's file server moves to Azure with a weekend cutover.",
+  "business": "Modern infrastructure.",
+  "msp": "Repeatable projects.",
+  "macro": "Same macro effect as W-PRJ-03; see that chain.",
+  "good_outcome": "Validated templates; approvals.",
+  "harm_false_positive": "Wrong resource changed.",
+  "harm_false_negative": "Validation misses a template error; the weekend cutover fails and Morgan starts Monday without the file share.",
+  "blast_radius": "BR-3: a tenant",
+  "safeguards": [
+   "Inventory rule: Infrastructure as code, validate and what-if first; engineer approves the deployment.",
+   "C-05 Dry-run by default with a diff (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-24 CI with least-privilege token and pinned actions (built)"
+  ],
+  "individual_metric": "IM-08 Disruption minutes: minutes of unplanned downtime",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-PRJ-06",
+  "persona": "P-03 Dr. Sam Patel, dentist and practice owner, Contoso Dental (synthetic)",
+  "individual": "Dr. Patel gets an estimate that matches the final bill.",
+  "business": "No surprise costs.",
+  "msp": "Better margins.",
+  "macro": "Honest estimates are trust.",
+  "good_outcome": "Draft from past projects.",
+  "harm_false_positive": "Underestimates; Dr. Patel gets a bill far above the quote, or the MSP absorbs the overrun.",
+  "harm_false_negative": "No similar project is found; the quote takes days and Dr. Patel delays a needed upgrade.",
+  "blast_radius": "BR-2: one client",
+  "safeguards": [
+   "Inventory rule: Agent finds similar past projects (RAG); the estimate is human.",
+   "HO-9 AI drafts, a human sends (05-governance.md section 6)"
+  ],
+  "individual_metric": "IM-14 Owner and manager time: final cost vs estimate",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-01",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "Each new lever is tested on fixtures, so when Priya's MFA is reset the change is exactly the diff the lead saw.",
+  "business": "Every client gets the same tested action.",
+  "msp": "4-12 levers a month without new risk.",
+  "macro": "Each lever is a multiplier for good or harm across all tenants.",
+  "good_outcome": "PR with tests, eval and review.",
+  "harm_false_positive": "A buggy lever passes tests and acts wrongly at scale.",
+  "harm_false_negative": "The lever is never built; toil stays.",
+  "blast_radius": "BR-4: all tenants with the lever enabled",
+  "safeguards": [
+   "Inventory rule: Code review and passing tests before registration; registry changes are reviewed like code.",
+   "C-01 Lever registry, default deny (built)",
+   "C-02 Parameter schema validation (built)",
+   "C-29 Risk class and version on every lever, enforced by class (planned)",
+   "C-37 Lever change management with staged rollout (partial)",
+   "C-41 Evaluation gate before promotion (partial)",
+   "CM-1 PR with tests and reviewer (05-governance.md section 8)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: wrong-action incidents per 1,000 executes; IM-12 toil minutes removed",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-02",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "Routing sends each task to an approved model; regulated data never goes to a hosted provider without approval.",
+  "business": "PHI and NPI stay inside agreed boundaries.",
+  "msp": "Provider changes are config, not code.",
+  "macro": "Routing discipline keeps AI benefits without data leakage.",
+  "good_outcome": "Config change with eval.",
+  "harm_false_positive": "Routes regulated data to an unapproved provider.",
+  "harm_false_negative": "Task routed to a weak model; worse suggestions.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Routing thresholds change only on eval evidence; hosted providers stay off unless approved.",
+   "C-15 Loopback-only model gateway, hosted providers off (built)",
+   "C-16 Provider abstraction against lock-in (built)",
+   "C-28 Hosted AI provider approval gate (planned)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: regulated items sent off-machine without approval (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-03",
+  "persona": "P-20 tech-ana, Tier 1 technician (repo identity), the MSP (synthetic)",
+  "individual": "tech-ana uses a tested prompt for replies instead of writing her own.",
+  "business": "Consistent quality.",
+  "msp": "Prompt standards.",
+  "macro": "Shared standards lift everyone.",
+  "good_outcome": "Library with evals.",
+  "harm_false_positive": "Bad prompt spreads.",
+  "harm_false_negative": "Ad-hoc prompts.",
+  "blast_radius": "BR-4: all users of the prompt",
+  "safeguards": [
+   "Inventory rule: Prompt changes need passing prompt tests.",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-13 Right answer with a source: prompt changes passing evals",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-04",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "Every change is measured on golden sets before it reaches Priya's ticket.",
+  "business": "Fewer AI mistakes on clients.",
+  "msp": "Evidence of accuracy.",
+  "macro": "Measured AI is trustworthy AI.",
+  "good_outcome": "Weekly eval reports.",
+  "harm_false_positive": "Overfit evals give false confidence.",
+  "harm_false_negative": "No measurement.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Reports labelled fixture-based; humans review labels.",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: regressions caught before release",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-05",
+  "persona": "P-01 Priya Nair, dental hygienist, Contoso Dental (synthetic)",
+  "individual": "A malicious email pasted into Priya's ticket cannot make the agent reset her MFA.",
+  "business": "Clients are protected from prompt injection.",
+  "msp": "Guard measured monthly.",
+  "macro": "Injection is the new social engineering; guarding it protects everyone.",
+  "good_outcome": "Corpus and guard updated with new cases.",
+  "harm_false_positive": "Flags harmless tickets; they go to the security queue (safe direction).",
+  "harm_false_negative": "A new injection pattern gets through to a proposal.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Tripwire only; the lever registry is the control.",
+   "C-12 Untrusted input wrapping (built)",
+   "C-13 Prompt-injection tripwire (built)",
+   "C-14 Model output cannot choose the lever or its parameters (built)",
+   "AIR-1 prompt injection (05-governance.md section 5)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: injection cases that reached a lever proposal (target 0)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-06",
+  "persona": "P-22 lead-lee, service desk lead and approver (repo identity), the MSP (synthetic)",
+  "individual": "lead-lee reviews a clear diff in 30 seconds; Priya's reset is approved quickly and correctly.",
+  "business": "Every write has a human owner.",
+  "msp": "Approvals are fast and meaningful.",
+  "macro": "Real human review is the backbone of safe automation.",
+  "good_outcome": "Queue with diffs, bound approvals, four-eyes.",
+  "harm_false_positive": "Rubber-stamp approvals.",
+  "harm_false_negative": "Backlog; people wait.",
+  "blast_radius": "BR-4: all write levers",
+  "safeguards": [
+   "Inventory rule: Approver cannot be the requester; approval is recorded in the audit chain; rejection reasons become eval data.",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "C-07 Four-eyes rule (no self-approval) (built)",
+   "C-19 Approval queue and viewer hardening (built)",
+   "C-40 Monitoring and alerting on automation behaviour (planned)",
+   "C-44 Authenticated approvers (planned)",
+   "AIR-10 rubber-stamp approvals (05-governance.md section 5)"
+  ],
+  "individual_metric": "IM-01 Time back to work: minutes from proposal to decision; approvals faster than a diff can be read (flagged)",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-07",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "A broken change cannot merge, so Monday's release does not break Priya's reset.",
+  "business": "Stable service.",
+  "msp": "Release discipline.",
+  "macro": "Same macro effect as W-TOOL-04; see that chain.",
+  "good_outcome": "CI gates.",
+  "harm_false_positive": "Flaky gates block good changes.",
+  "harm_false_negative": "Bad changes merge.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Pull request review and green CI before merge.",
+   "C-24 CI with least-privilege token and pinned actions (built)",
+   "C-23 Commit-time secret scan (built)",
+   "C-37 Lever change management with staged rollout (partial)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: incidents traced to releases",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-09",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "A spike in wrong suggestions or after-hours executes is seen within minutes.",
+  "business": "Problems stopped early.",
+  "msp": "Operational visibility.",
+  "macro": "Monitoring makes automation's harm small and short.",
+  "good_outcome": "Monitoring and alerts.",
+  "harm_false_positive": "Noise.",
+  "harm_false_negative": "Silent failure across tenants.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Read-only dashboards and alerts; humans respond.",
+   "C-40 Monitoring and alerting on automation behaviour (planned)",
+   "C-31 Kill switch per lever and per tenant (planned)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: minutes from anomaly to human; people affected before detection",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-10",
+  "persona": "P-20 tech-ana, Tier 1 technician (repo identity), the MSP (synthetic)",
+  "individual": "tech-ana asks in Teams for a sign-in check and gets it without leaving the ticket.",
+  "business": "Faster help.",
+  "msp": "Tools where technicians work.",
+  "macro": "Same macro effect as W-KB-04; see that chain.",
+  "good_outcome": "MCP tools with the same lever rules.",
+  "harm_false_positive": "A tool exposes a write without approval.",
+  "harm_false_negative": "No assistant.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Read-only by default; write levers keep their approval rules.",
+   "C-01 Lever registry, default deny (built)",
+   "C-03 Role-based authorization; agents may only dry-run writes (built)",
+   "C-06 Lead approval bound to lever, client and params (built)",
+   "AIR-12 AI supply chain (05-governance.md section 5)"
+  ],
+  "individual_metric": "IM-12 Technician toil and growth: technician minutes saved per day",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-11",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "A Graph API change is caught before levers start failing silently.",
+  "business": "No broken automations.",
+  "msp": "Integrations maintained.",
+  "macro": "Same macro effect as W-TOOL-09; see that chain.",
+  "good_outcome": "Contract tests.",
+  "harm_false_positive": "False alarms.",
+  "harm_false_negative": "Silent breakage.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Contract tests against mocks; changes through CI.",
+   "C-17 Timeouts and failure containment (built)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: integration failures reaching users",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-12",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "An old RMM script with a hard-coded password running across all clients is found and fixed.",
+  "business": "Hidden risk removed.",
+  "msp": "Script inventory.",
+  "macro": "Old scripts are a supply-chain risk to every client.",
+  "good_outcome": "Review report.",
+  "harm_false_positive": "Flags harmless scripts.",
+  "harm_false_negative": "Misses a risky one.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Read-only review; migration through normal lever process.",
+   "C-22 Protected paths need owner review (built)",
+   "C-23 Commit-time secret scan (built)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: risky scripts found and fixed",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-13",
+  "persona": "P-30 Theo Grant, new Tier 1 technician, first month, the MSP (synthetic)",
+  "individual": "Theo's idea for removing his worst toil is scored and credited.",
+  "business": "Automation picked for real benefit.",
+  "msp": "Pipeline of good ideas.",
+  "macro": "People who do the work shape the automation.",
+  "good_outcome": "Scoring report.",
+  "harm_false_positive": "Prioritizes cost cutting over people.",
+  "harm_false_negative": "Good ideas lost.",
+  "blast_radius": "BR-5: the program's direction",
+  "safeguards": [
+   "Inventory rule: Scores are inputs; leadership decides priority.",
+   "W-TRN-04 New technician onboarding and performance coaching (kept human)"
+  ],
+  "individual_metric": "IM-12 Technician toil and growth: ideas from technicians shipped; time-to-work gains per shipped idea",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TOOL-14",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "New tools are tried on fixtures before anyone's data touches them.",
+  "business": "Safe adoption.",
+  "msp": "Informed choices.",
+  "macro": "Measured adoption.",
+  "good_outcome": "Evaluation report.",
+  "harm_false_positive": "Adopts hype.",
+  "harm_false_negative": "Misses a real gain.",
+  "blast_radius": "BR-5: the program's direction",
+  "safeguards": [
+   "Inventory rule: Recommendations backed by repo evals and cited sources.",
+   "C-28 Hosted AI provider approval gate (planned)",
+   "C-43 AI vendor and subprocessor register (planned)"
+  ],
+  "individual_metric": "IM-12 Technician toil and growth: evaluations completed with a decision",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-GOV-01",
+  "persona": "P-20 tech-ana, Tier 1 technician (repo identity), the MSP (synthetic)",
+  "individual": "tech-ana knows exactly what may go into a prompt.",
+  "business": "Client data protected by habit.",
+  "msp": "Policy in place.",
+  "macro": "Clear rules make AI trustworthy.",
+  "good_outcome": "Policy draft; leadership adopts.",
+  "harm_false_positive": "Too strict; useful work blocked.",
+  "harm_false_negative": "Too loose; PHI in prompts.",
+  "blast_radius": "BR-5: the program",
+  "safeguards": [
+   "Inventory rule: Leadership approves the policy.",
+   "C-42 Staff training and acceptable use (planned)",
+   "C-25 Data classification and pre-prompt redaction gate (planned)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: staff who can state the rule; PHI-in-prompt events",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-GOV-03",
+  "persona": "P-27 the AI & Automation Engineer, builds and runs the platform, the MSP (synthetic)",
+  "individual": "The triage agent can still only dry-run, and no technician holds tenants they do not serve.",
+  "business": "Least privilege kept.",
+  "msp": "Access reviewed quarterly.",
+  "macro": "Over-privileged agents are the scaled version of an over-privileged admin.",
+  "good_outcome": "Review report.",
+  "harm_false_positive": "Removes needed access.",
+  "harm_false_negative": "Excess access stays.",
+  "blast_radius": "BR-4: all tenants",
+  "safeguards": [
+   "Inventory rule: Read-only review; changes by human pull request.",
+   "C-38 Agent and technician access review; least-privilege delegated access (planned)",
+   "C-03 Role-based authorization; agents may only dry-run writes (built)",
+   "AIR-2 over-privileged agents (05-governance.md section 5)"
+  ],
+  "individual_metric": "IM-04 People wrongly acted on: excess grants found per review",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TRN-01",
+  "persona": "P-30 Theo Grant, new Tier 1 technician, first month, the MSP (synthetic)",
+  "individual": "Theo learns to read a diff and to reject a wrong proposal, and sees the program as a promotion path, not a threat.",
+  "business": "Better approvals for clients.",
+  "msp": "Skilled reviewers.",
+  "macro": "Automation moves people up, not out, only if people are trained to move up.",
+  "good_outcome": "Training sessions.",
+  "harm_false_positive": "Training teaches over-trust.",
+  "harm_false_negative": "Untrained approvers.",
+  "blast_radius": "BR-5: how every approval is made",
+  "safeguards": [
+   "Inventory rule: Human-led training with synthetic exercises.",
+   "C-42 Staff training and acceptable use (planned)"
+  ],
+  "individual_metric": "IM-12 Technician toil and growth: share of technicians who caught a seeded wrong proposal in a drill",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TRN-02",
+  "persona": "P-25 Owen Price, account manager and vCIO, the MSP (synthetic)",
+  "individual": "Owen explains to Dr. Patel what the AI does and does not do, honestly.",
+  "business": "Clients choose what the AI may touch with real understanding, including which data stays out of it.",
+  "msp": "Account managers sell what exists, labeled as it is; no overclaim becomes a contract dispute.",
+  "macro": "Honest explanations at hundreds of small businesses are how local trust in AI is earned or lost.",
+  "good_outcome": "Quarterly session with a plain script and the repo's honest labels.",
+  "harm_false_positive": "The account manager oversells ('the AI handles security') and the client relaxes its own vigilance.",
+  "harm_false_negative": "The account manager cannot explain it, and the client refuses a safe, useful automation.",
+  "blast_radius": "BR-5: client trust",
+  "safeguards": [
+   "Inventory rule: Human-led; claims limited to measured, labelled results.",
+   "C-42 Staff training and acceptable use (planned)",
+   "C-45 Synthetic data only and honest labels (partial)"
+  ],
+  "individual_metric": "IM-11 Understood and accountable: clients who can say what the AI does for them",
+  "leverage_rank": null
+ },
+ {
+  "inventory_id": "W-TRN-03",
+  "persona": "P-20 tech-ana, Tier 1 technician (repo identity), the MSP (synthetic)",
+  "individual": "tech-ana's corrections improve triage and are never used to judge her.",
+  "business": "Better suggestions.",
+  "msp": "Learning loop.",
+  "macro": "Feedback without fear.",
+  "good_outcome": "Coaching on corrections.",
+  "harm_false_positive": "Corrections used to judge individuals.",
+  "harm_false_negative": "No feedback.",
+  "blast_radius": "BR-5: the learning loop",
+  "safeguards": [
+   "Inventory rule: Corrections are about the system's accuracy, not a score of the technician.",
+   "W-TRN-04 New technician onboarding and performance coaching (kept human)",
+   "C-41 Evaluation gate before promotion (partial)"
+  ],
+  "individual_metric": "IM-12 Technician toil and growth: corrections per week; correction-driven accuracy gains",
+  "leverage_rank": null
+ }
+]

@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "basis": "fixture-based: synthetic tickets, mock backends and a seeded synthetic load harness. A gate is a regression alarm for these fixtures, not a quality target for real data or real models. Timings are never gated.",
+  "gates": [
+    {
+      "id": "routing.cascade_accuracy_in_sample",
+      "workflow": "routing",
+      "source": "routing",
+      "metric": "cascade_accuracy_in_sample",
+      "op": ">=",
+      "threshold": 0.95,
+      "why": "B-78 derives thresholds for a 95% target; measured 0.9833 on 2026-10-27, so 3 points of room."
+    },
+    {
+      "id": "routing.cascade_accuracy_holdout",
+      "workflow": "routing",
+      "source": "routing",
+      "metric": "cascade_accuracy_holdout",
+      "op": ">=",
+      "threshold": 0.95,
+      "why": "Holdout half of the gold tickets; measured 1.0. Falling here means the thresholds no longer generalise even on fixtures."
+    },
+    {
+      "id": "routing.cascade_cost_vs_always_strong",
+      "workflow": "routing",
+      "source": "routing",
+      "metric": "cascade_cost_vs_always_strong",
+      "op": "<=",
+      "threshold": 0.25,
+      "why": "The cascade must stay clearly cheaper than strong-on-everything; measured 0.2075 (relative cost units, assumed)."
+    },
+    {
+      "id": "routing.rules_accuracy",
+      "workflow": "routing",
+      "source": "routing",
+      "metric": "rules_accuracy",
+      "op": ">=",
+      "threshold": 0.7,
+      "why": "The rules-first tier does most of the work; measured 0.7833."
+    },
+    {
+      "id": "routing.small_accuracy",
+      "workflow": "routing",
+      "source": "routing",
+      "metric": "small_accuracy",
+      "op": ">=",
+      "threshold": 0.9,
+      "why": "Small tier on the gold tickets; measured 0.95."
+    },
+    {
+      "id": "routing.strong_accuracy",
+      "workflow": "routing",
+      "source": "routing",
+      "metric": "strong_accuracy",
+      "op": ">=",
+      "threshold": 0.9,
+      "why": "Strong tier on the gold tickets; measured 0.95."
+    },
+    {
+      "id": "injection.precision",
+      "workflow": "guard",
+      "source": "injection",
+      "metric": "precision",
+      "op": ">=",
+      "threshold": 0.95,
+      "why": "Injection detector on the synthetic corpus; measured 1.0."
+    },
+    {
+      "id": "injection.recall",
+      "workflow": "guard",
+      "source": "injection",
+      "metric": "recall",
+      "op": ">=",
+      "threshold": 0.95,
+      "why": "Injection detector on the synthetic corpus; measured 1.0."
+    },
+    {
+      "id": "injection.false_negatives",
+      "workflow": "guard",
+      "source": "injection",
+      "metric": "false_negatives",
+      "op": "<=",
+      "threshold": 0,
+      "why": "A missed injection in the corpus is a regression to look at, not noise; measured 0."
+    },
+    {
+      "id": "redaction.phi_npi_leaked",
+      "workflow": "guard",
+      "source": "redaction",
+      "metric": "phi_npi_leaked",
+      "op": "<=",
+      "threshold": 0,
+      "why": "No labelled PHI/NPI span may reach the prompt text; measured 0 of 34."
+    },
+    {
+      "id": "redaction.pii_leaked",
+      "workflow": "guard",
+      "source": "redaction",
+      "metric": "pii_leaked",
+      "op": "<=",
+      "threshold": 0,
+      "why": "No labelled PII span may reach the prompt text; measured 0 of 15."
+    },
+    {
+      "id": "redaction.hosted_route_refused_rate",
+      "workflow": "guard",
+      "source": "redaction",
+      "metric": "hosted_route_refused_rate",
+      "op": ">=",
+      "threshold": 1.0,
+      "why": "Every ticket must be refused on the hosted route when its class forbids it; measured 1.0."
+    },
+    {
+      "id": "redaction.local_route_ok_rate",
+      "workflow": "guard",
+      "source": "redaction",
+      "metric": "local_route_ok_rate",
+      "op": ">=",
+      "threshold": 1.0,
+      "why": "The local route must still answer every ticket; measured 1.0."
+    },
+    {
+      "id": "phishing.verdict_accuracy",
+      "workflow": "guard",
+      "source": "phishing",
+      "metric": "verdict_accuracy",
+      "op": ">=",
+      "threshold": 0.9,
+      "why": "Phishing verdicts against gold; measured 1.0 on 14 reports."
+    },
+    {
+      "id": "phishing.corpus_injection_flag_rate",
+      "workflow": "guard",
+      "source": "phishing",
+      "metric": "corpus_injection_flag_rate",
+      "op": ">=",
+      "threshold": 0.95,
+      "why": "Injected email bodies must still be flagged; measured 1.0."
+    },
+    {
+      "id": "phishing.corpus_benign_flagged",
+      "workflow": "guard",
+      "source": "phishing",
+      "metric": "corpus_benign_flagged",
+      "op": "<=",
+      "threshold": 0,
+      "why": "Benign corpus emails must not be flagged; measured 0."
+    },
+    {
+      "id": "load.finished",
+      "workflow": "load",
+      "source": "load",
+      "metric": "finished",
+      "op": ">=",
+      "threshold": 1,
+      "why": "The seeded load run must drain every job inside its sweep budget. Gate size: 120 calls, 20 clients, seed 84; the 10,000-call run is tests/py/load (B84_FULL_SCALE=1)."
+    },
+    {
+      "id": "load.chain_breaks",
+      "workflow": "load",
+      "source": "load",
+      "metric": "chain_breaks",
+      "op": "<=",
+      "threshold": 0,
+      "why": "Every audit chain must verify after the run."
+    },
+    {
+      "id": "load.cross_client_results",
+      "workflow": "load",
+      "source": "load",
+      "metric": "cross_client_results",
+      "op": "<=",
+      "threshold": 0,
+      "why": "No result, record or effect may carry another client's marker."
+    },
+    {
+      "id": "load.double_applies",
+      "workflow": "load",
+      "source": "load",
+      "metric": "double_applies",
+      "op": "<=",
+      "threshold": 0,
+      "why": "A retry or replay must never apply an effect twice."
+    },
+    {
+      "id": "load.lost_jobs",
+      "workflow": "load",
+      "source": "load",
+      "metric": "lost_jobs",
+      "op": "<=",
+      "threshold": 0,
+      "why": "Every job must end done or dead-lettered, none left queued or leased."
+    },
+    {
+      "id": "load.audit_count_mismatches",
+      "workflow": "load",
+      "source": "load",
+      "metric": "audit_count_mismatches",
+      "op": "<=",
+      "threshold": 0,
+      "why": "Records written must equal records in each chain (nothing lost, nothing extra)."
+    },
+    {
+      "id": "load.oracle_mismatches",
+      "workflow": "load",
+      "source": "load",
+      "metric": "oracle_mismatches",
+      "op": "<=",
+      "threshold": 0,
+      "why": "Every job must end as the seeded fault oracle says (status, attempts, effect, audit records)."
+    },
+    {
+      "id": "load.submission_violations",
+      "workflow": "load",
+      "source": "load",
+      "metric": "submission_violations",
+      "op": "<=",
+      "threshold": 0,
+      "why": "A repeated key must collapse to one job and a changed request under a used key must be refused."
+    }
+  ],
+  "note": "Edit a threshold only with a DECISIONS entry that says why; lowering one needs the owner's review. Add to CI with the file docs/changes/B-84.ci-eval-gate.yml."
+}

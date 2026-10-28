@@ -1,0 +1,115 @@
+{
+  "_note": "Synthetic PSA asset data for Contoso Dental (invented). Shaped like the public Autotask REST API entity ConfigurationItems (a query response {\"items\": [...]}); field status in workflows/device_reconcile/psa_assets/SOURCES.md. Pinned to asOf. Holds one decoy item of the other client's company on purpose. Not a capture from a real PSA.",
+  "client": "contoso-dental",
+  "asOf": "2026-10-22T12:00:00Z",
+  "companyID": 30001,
+  "configurationItems": {
+    "items": [
+      {
+        "id": 70001,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "FRONTDESK-01",
+        "serialNumber": "CD-0001-FD",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70002,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "OPERATORY-02",
+        "serialNumber": "CD-0002-OP",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70003,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "DENTAL-SRV01",
+        "serialNumber": "cd-0003-sv",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70004,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "xray-ws01.contosodental.example",
+        "serialNumber": "",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70005,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "OFFICE-MGR",
+        "serialNumber": "CD-0007-OM",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70006,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "HYGIENE-03",
+        "serialNumber": "CD-0008-HY",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70007,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "SPARE-LT02",
+        "serialNumber": "CD-0009-SP",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70008,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "CHAIRSIDE-04",
+        "serialNumber": "CD-0099-XX",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70099,
+        "companyID": 30002,
+        "configurationItemType": 1,
+        "referenceTitle": "FRONTDESK-01",
+        "serialNumber": "CD-0001-FD",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      }
+    ],
+    "pageDetails": {
+      "count": 9,
+      "requestCount": 500,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    }
+  }
+}

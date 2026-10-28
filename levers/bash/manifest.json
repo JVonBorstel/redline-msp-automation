@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "_note": "B-66. The allowlist for runtime bash: a lever may name only a script listed here, and only while its bytes still hash to this value. Regenerate after a reviewed edit with: sha256sum scripts/*.sh lib/*.sh (LF line endings; .gitattributes pins *.sh to LF). Human-reviewed change, like a registry edit.",
+  "scripts": {
+    "clear-cache.sh": "ea981f8ddb00a4594f50ff948cfa0ac57a5063f68beeacd5ec69f4a0a39d5672",
+    "disk-usage-report.sh": "f1aed351c86b5afa9faa64c60ddf6b3cfd43b1e9d887ea271587c49abb17be5e",
+    "restart-service.sh": "01e145409e333e769a04c70e605028d68342efa86822fc60a11e1d7e929fe320"
+  },
+  "libs": {
+    "lever.sh": "4a7c2051f285d22c4820fff9d898a120af9a5d526a0008e1f68a3cb033783c8e"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "mailboxes",
+    "as_of": "2026-10-21T07:00:00Z",
+    "note": "Synthetic. Mailbox state for the MailboxOps levers (B-33), shaped after Exchange Online PowerShell output (Get-Mailbox, Get-MailboxPermission, Get-RecipientPermission, Get-MailboxAutoReplyConfiguration, Get-DistributionGroupMember) plus a OneDrive access list. Every field name is UNVERIFIED against vendor docs (see levers/powershell/MailboxOps/SOURCES.md). Invented people, .example domains; not captured from a real tenant."
+  },
+  "mailboxes": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000201",
+      "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+      "displayName": "Morgan Reyes (synthetic)",
+      "recipientTypeDetails": "UserMailbox",
+      "totalItemSizeGb": 14.0,
+      "archiveStatus": "Active",
+      "autoReply": {
+        "state": "Disabled",
+        "internalMessage": null,
+        "externalMessage": null,
+        "externalAudience": "None"
+      },
+      "forwardingSmtpAddress": null,
+      "fullAccess": [],
+      "sendAs": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000202",
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "displayName": "Riley Brooks (synthetic)",
+      "recipientTypeDetails": "UserMailbox",
+      "totalItemSizeGb": 8.0,
+      "archiveStatus": "None",
+      "autoReply": {
+        "state": "Disabled",
+        "internalMessage": null,
+        "externalMessage": null,
+        "externalAudience": "None"
+      },
+      "forwardingSmtpAddress": null,
+      "fullAccess": [],
+      "sendAs": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000203",
+      "userPrincipalName": "dana.kim@fabrikamcapital.example",
+      "displayName": "Dana Kim (synthetic)",
+      "recipientTypeDetails": "UserMailbox",
+      "totalItemSizeGb": 30.0,
+      "archiveStatus": "Active",
+      "autoReply": {
+        "state": "Disabled",
+        "internalMessage": null,
+        "externalMessage": null,
+        "externalAudience": "None"
+      },
+      "forwardingSmtpAddress": null,
+      "fullAccess": [],
+      "sendAs": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000204",
+      "userPrincipalName": "alex.ward@fabrikamcapital.example",
+      "displayName": "Alex Ward (synthetic)",
+      "recipientTypeDetails": "UserMailbox",
+      "totalItemSizeGb": 61.5,
+      "archiveStatus": "None",
+      "autoReply": {
+        "state": "Disabled",
+        "internalMessage": null,
+        "externalMessage": null,
+        "externalAudience": "None"
+      },
+      "forwardingSmtpAddress": null,
+      "fullAccess": [],
+      "sendAs": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000205",
+      "userPrincipalName": "chris.osei@fabrikamcapital.example",
+      "displayName": "Chris Osei (synthetic)",
+      "recipientTypeDetails": "UserMailbox",
+      "totalItemSizeGb": 18.0,
+      "archiveStatus": "None",
+      "autoReply": {
+        "state": "Disabled",
+        "internalMessage": null,
+        "externalMessage": null,
+        "externalAudience": "None"
+      },
+      "forwardingSmtpAddress": null,
+      "fullAccess": [],
+      "sendAs": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000206",
+      "userPrincipalName": "compliance@fabrikamcapital.example",
+      "displayName": "Fabrikam Compliance (synthetic)",
+      "recipientTypeDetails": "SharedMailbox",
+      "totalItemSizeGb": 33.0,
+      "archiveStatus": "None",
+      "autoReply": {
+        "state": "Disabled",
+        "internalMessage": null,
+        "externalMessage": null,
+        "externalAudience": "None"
+      },
+      "forwardingSmtpAddress": null,
+      "fullAccess": [
+        "dana.kim@fabrikamcapital.example"
+      ],
+      "sendAs": [
+        "dana.kim@fabrikamcapital.example"
+      ]
+    }
+  ],
+  "distributionLists": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000301",
+      "primarySmtpAddress": "desk@fabrikamcapital.example",
+      "displayName": "Trading Desk (synthetic)",
+      "members": [
+        "chris.osei@fabrikamcapital.example",
+        "alex.ward@fabrikamcapital.example"
+      ]
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000302",
+      "primarySmtpAddress": "all@fabrikamcapital.example",
+      "displayName": "All Staff (synthetic)",
+      "members": [
+        "morgan.reyes@fabrikamcapital.example",
+        "riley.brooks@fabrikamcapital.example",
+        "dana.kim@fabrikamcapital.example",
+        "alex.ward@fabrikamcapital.example",
+        "chris.osei@fabrikamcapital.example"
+      ]
+    }
+  ],
+  "oneDrive": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000401",
+      "owner": "alex.ward@fabrikamcapital.example",
+      "access": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000402",
+      "owner": "morgan.reyes@fabrikamcapital.example",
+      "access": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000403",
+      "owner": "chris.osei@fabrikamcapital.example",
+      "access": []
+    }
+  ]
+}

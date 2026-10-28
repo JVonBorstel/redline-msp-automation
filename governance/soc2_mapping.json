@@ -1,0 +1,540 @@
+{
+ "version": 1,
+ "label": "claims with backing; not a certification, not an attestation; fixture-based",
+ "controls": {
+  "C-01": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_4_unregistered_lever_denied_and_logged",
+    "tests/phase1/test_levers.py::test_bad_registry_fails_closed",
+    "tests/phase1/test_levers.py::test_missing_registry_fails_closed"
+   ],
+   "files": [
+    "core/levers/registry.py",
+    "levers/registry.json",
+    "core/levers/runner.py"
+   ],
+   "not_demonstrated": [
+    "Default-deny is shown on the registry and runner paths only; no review that every future lever is registered with correct scope.",
+    "Operating over a period: not tested."
+   ]
+  },
+  "C-02": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_6_schema_violations_denied_with_a_clear_reason",
+    "tests/phase1/test_levers.py::test_odd_param_values_are_denied_and_still_audited"
+   ],
+   "files": [
+    "core/levers/schema.py"
+   ],
+   "not_demonstrated": [
+    "Schema checks run on fixture parameters; no fuzzing campaign and no review of every lever's schema."
+   ]
+  },
+  "C-03": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_4_agent_cannot_execute_a_write_lever_even_with_approval",
+    "tests/phase1/test_levers.py::test_p1_4_agent_may_propose_a_write_in_dry_run",
+    "tests/phase1/test_levers.py::test_unknown_identity_denied_and_logged"
+   ],
+   "files": [
+    "core/identity/store.py",
+    "core/levers/runner.py"
+   ],
+   "not_demonstrated": [
+    "Roles come from a static synthetic file (config/identities.json); no real identity provider is tested."
+   ]
+  },
+  "C-04": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_1_cross_client_refused",
+    "tests/phase1/test_levers.py::test_p1_4_lever_client_scope_is_enforced",
+    "tests/phase1/test_levers.py::test_p1_1_kb_search_only_sees_the_clients_own_articles",
+    "tests/phase1/test_triage.py::test_sa2_a_user_from_the_other_client_is_refused_even_when_nothing_is_flagged"
+   ],
+   "files": [
+    "core/levers/runner.py",
+    "core/identity/store.py"
+   ],
+   "not_demonstrated": [
+    "Isolation is shown for the sample levers and fixtures; no real multi-tenant data and no penetration test."
+   ]
+  },
+  "C-05": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_3_dry_run_changes_nothing",
+    "tests/phase1/test_levers.py::test_p1_3_execute_applies_exactly_the_dry_run_diff",
+    "tests/py/levers/test_b31_license.py::test_b31_1_add_dry_run_with_a_free_seat_proposes_the_assignment_and_writes_nothing",
+    "tests/py/levers/test_b31_license.py::test_b31_1_execute_assigns_once_the_second_run_is_empty_and_the_pool_runs_dry",
+    "tests/py/mailbox/test_b33_mailboxops.py::test_b33_1_each_lever_dry_runs_with_a_diff_executes_once_and_is_convergent"
+   ],
+   "files": [
+    "core/levers/runner.py",
+    "core/levers/diff.py"
+   ],
+   "not_demonstrated": [
+    "Dry-run diffs are shown for sample levers on mocks; no real tenant was changed or compared."
+   ]
+  },
+  "C-06": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_5_execute_without_lead_approval_denied",
+    "tests/phase1/test_levers.py::test_p1_5_execute_with_lead_approval_allowed_and_approver_recorded",
+    "tests/phase1/test_levers.py::test_p1_5_invalid_approvals_denied",
+    "tests/phase1/test_levers.py::test_p1_5_approver_must_be_scoped_to_the_client",
+    "tests/py/backup/test_b68_backup.py::test_b68_2_executing_needs_a_technician_and_a_leads_approval_bound_to_the_job",
+    "tests/py/groups/test_b32_groupops.py::test_b32_1_execute_without_an_approval_is_denied_and_changes_nothing",
+    "tests/py/groups/test_b32_groupops.py::test_b32_1_execute_adds_the_member_with_an_approval_and_an_audit_record",
+    "tests/py/mailbox/test_b33_mailboxops.py::test_b33_1_a_failed_dry_run_or_a_refused_execute_leaves_the_file_byte_identical"
+   ],
+   "files": [
+    "core/levers/runner.py",
+    "core/levers/models.py"
+   ],
+   "not_demonstrated": [
+    "Approval binding is tested in code; the approver's identity is asserted, not authenticated (see C-44)."
+   ]
+  },
+  "C-07": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_5_invalid_approvals_denied",
+    "tests/phase1/test_queue.py::test_only_a_lead_for_the_client_other_than_the_requester_may_decide"
+   ],
+   "files": [
+    "core/levers/runner.py",
+    "core/queue/store.py",
+    "docs/DEMO.md"
+   ],
+   "not_demonstrated": [
+    "Four-eyes is enforced in code on fixtures; no evidence of real approvers or of approval fatigue."
+   ]
+  },
+  "C-08": {
+   "tests": [
+    "tests/phase1/test_audit.py::test_p1_2_one_byte_changed_in_a_middle_record_names_its_seq",
+    "tests/phase1/test_audit.py::test_p1_2_deleting_the_last_record_is_caught_by_the_head_pin",
+    "tests/phase1/test_levers.py::test_every_call_allowed_or_denied_is_audited_in_one_intact_chain"
+   ],
+   "files": [
+    "core/audit/chain.py",
+    "core/audit/verify.py"
+   ],
+   "not_demonstrated": [
+    "The chain proves tampering inside the file and head pin; the head pin sits beside the log (C-39 is planned), so a full rewrite of both is not prevented."
+   ]
+  },
+  "C-09": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_5_execute_with_lead_approval_allowed_and_approver_recorded"
+   ],
+   "files": [
+    "core/levers/runner.py"
+   ],
+   "not_demonstrated": [
+    "Only a code-path citation and one test; no test proves a failed audit write blocks every execute path."
+   ]
+  },
+  "C-10": {
+   "tests": [
+    "tests/phase1/test_audit.py::test_p1_9_secret_named_params_are_redacted",
+    "tests/phase1/test_audit.py::test_p1_9_secret_shaped_values_are_redacted",
+    "tests/phase1/test_levers.py::test_p1_9_secret_params_are_redacted_in_the_audit_log"
+   ],
+   "files": [
+    "core/audit/redact.py"
+   ],
+   "not_demonstrated": [
+    "Redaction is heuristic and errs toward over-redaction; unknown secret shapes are not covered."
+   ]
+  },
+  "C-11": {
+   "tests": [],
+   "files": [
+    "core/levers/runner.py",
+    "docs/DECISIONS.md"
+   ],
+   "not_demonstrated": [
+    "No dedicated test asserts that read data is absent from the audit log (a gap named in the map)."
+   ]
+  },
+  "C-12": {
+   "tests": [
+    "tests/phase1/test_guard.py::test_wrap_labels_and_delimits_the_data",
+    "tests/phase1/test_guard.py::test_wrap_neutralises_forged_delimiters",
+    "tests/phase1/test_guard.py::test_wrap_neutralises_fullwidth_and_zero_width_delimiter_lookalikes",
+    "tests/py/alerts/test_b43_alerts.py::test_b43_2_alert_text_is_wrapped_untrusted",
+    "tests/py/alerts/test_b43_alerts.py::test_b43_2_an_injection_flagged_alert_is_grouped_but_its_text_is_withheld",
+    "tests/py/lockout/test_b39_lockout.py::test_b39_3_untrusted_log_text_is_flagged_and_never_copied"
+   ],
+   "files": [
+    "core/guard/wrap.py",
+    "core/guard/normalise.py"
+   ],
+   "not_demonstrated": [
+    "Wrapping is tested against synthetic attack strings; no live model was tested against it."
+   ]
+  },
+  "C-13": {
+   "tests": [
+    "tests/phase1/test_guard.py::test_p1_7_every_injection_case_is_flagged",
+    "tests/phase1/test_guard.py::test_p1_7_no_benign_ticket_is_flagged",
+    "tests/phase1/test_triage.py::test_sa2_every_injection_ticket_is_flagged_reported_and_gets_no_lever"
+   ],
+   "files": [
+    "core/guard/detect.py",
+    "evals/injection/corpus.jsonl",
+    "evals/injection/report.py",
+    "workflows/triage/triage.py"
+   ],
+   "not_demonstrated": [
+    "The detector is 100% only on its own 50-case synthetic corpus; no real attacker input."
+   ]
+  },
+  "C-14": {
+   "tests": [
+    "tests/phase1/test_triage.py::test_sa2_model_output_cannot_choose_the_lever",
+    "tests/phase1/test_triage.py::test_sa2_no_proposal_names_a_lever_outside_the_registry_or_the_tickets_client",
+    "tests/phase1/test_triage.py::test_lever_rules_only_name_registered_writes_behind_lead_approval",
+    "tests/phase1/test_gateway.py::test_model_output_is_returned_as_text_only"
+   ],
+   "files": [
+    "workflows/triage/rules.py",
+    "workflows/triage/triage.py",
+    "core/gateway/gateway.py"
+   ],
+   "not_demonstrated": [
+    "The structural control is built for triage only; RAG and email paths are planned."
+   ]
+  },
+  "C-15": {
+   "tests": [
+    "tests/phase1/test_gateway.py::test_non_loopback_or_tricky_urls_are_refused",
+    "tests/phase1/test_gateway.py::test_redirects_off_the_box_are_not_followed",
+    "tests/phase1/test_gateway.py::test_hosted_stubs_are_disabled_by_default",
+    "tests/phase1/test_gateway.py::test_shipped_config_keeps_hosted_providers_off"
+   ],
+   "files": [
+    "core/gateway/loopback.py",
+    "core/gateway/hosted.py",
+    "config/models.json"
+   ],
+   "not_demonstrated": [
+    "Loopback-only is tested for the gateway code; hosted providers are disabled stubs, so no hosted egress path was exercised."
+   ]
+  },
+  "C-16": {
+   "tests": [
+    "tests/phase1/test_gateway.py::test_shipped_routing_uses_the_configured_provider_and_model",
+    "tests/phase1/test_gateway.py::test_routing_to_ollama_sends_the_configured_model",
+    "tests/phase1/test_gateway.py::test_route_with_an_unknown_model_alias_is_rejected_at_load"
+   ],
+   "files": [
+    "core/gateway/gateway.py",
+    "core/gateway/config.py",
+    "config/routing.json",
+    "config/models.json"
+   ],
+   "not_demonstrated": [
+    "Provider swap is tested with mocks; no real second provider was run."
+   ]
+  },
+  "C-17": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_timeout_is_enforced_and_nothing_is_applied",
+    "tests/phase1/test_levers.py::test_a_crashing_lever_is_reported_not_raised",
+    "tests/phase1/test_gateway.py::test_down_provider_returns_an_error_completion",
+    "tests/phase1/test_gateway.py::test_timed_out_provider_returns_an_error_completion"
+   ],
+   "files": [
+    "core/levers/runner.py",
+    "core/gateway/gateway.py"
+   ],
+   "not_demonstrated": [
+    "Timeouts are tested with synthetic slow handlers; real tenant latency is not measured."
+   ]
+  },
+  "C-18": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_execute_twice_is_idempotent",
+    "tests/phase1/test_levers.py::test_concurrent_executes_do_not_lose_updates",
+    "tests/phase1/test_queue.py::test_two_concurrent_approvals_execute_once"
+   ],
+   "files": [
+    "core/levers/runner.py"
+   ],
+   "not_demonstrated": [
+    "Idempotency is per process; no persistent replay store across restarts."
+   ]
+  },
+  "C-19": {
+   "tests": [
+    "tests/phase1/test_ui.py::test_sc3_refuses_any_host_but_ipv4_loopback",
+    "tests/phase1/test_ui.py::test_csrf_token_is_required",
+    "tests/phase1/test_ui.py::test_every_page_has_the_csp_and_no_script",
+    "tests/phase1/test_ui.py::test_hostile_values_are_escaped_everywhere",
+    "tests/phase1/test_queue.py::test_sc1_reject_changes_nothing_and_is_audited"
+   ],
+   "files": [
+    "ui/app.py",
+    "core/queue/store.py"
+   ],
+   "not_demonstrated": [
+    "Local review UI only; no real network exposure and no external web test."
+   ]
+  },
+  "C-20": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_a_read_lever_cannot_write",
+    "tests/py/lockout/test_b39_lockout.py::test_b39_2_it_never_executes_anything",
+    "tests/py/expiry/test_b54_expiry.py::test_b54_1_one_client_never_sees_the_other"
+   ],
+   "files": [
+    "core/levers/runner.py"
+   ],
+   "not_demonstrated": [
+    "Read-only is shown for the sample read levers, not for every future read lever."
+   ]
+  },
+  "C-21": {
+   "tests": [
+    "tests/py/advisories/test_b47_advisories.py::test_b47_2_no_number_is_invented_counts_reconcile_to_the_fixtures"
+   ],
+   "files": [
+    "levers/powershell/TenantBaseline/Test-SummaryReconciles.ps1",
+    "tests/sliceb/Test-SliceB.ps1",
+    "docs/DEMO.md"
+   ],
+   "not_demonstrated": [
+    "The summary is template-filled, not model-written (D-020); reconciliation of a model-written summary is not exercised."
+   ]
+  },
+  "C-22": {
+   "tests": [],
+   "files": [
+    ".github/CODEOWNERS",
+    "docs/BRANCHING_RELEASE.md",
+    "docs/THREAT_MODEL.md"
+   ],
+   "not_demonstrated": [
+    "CODEOWNERS is advisory until branch protection is enabled in the repository settings."
+   ]
+  },
+  "C-23": {
+   "tests": [],
+   "files": [
+    "scripts/hooks/",
+    "scripts/install-hooks.ps1"
+   ],
+   "not_demonstrated": [
+    "Heuristic scan; it is off until install-hooks runs."
+   ]
+  },
+  "C-24": {
+   "tests": [],
+   "files": [
+    ".github/workflows/ci.yml"
+   ],
+   "not_demonstrated": [
+    "Run history lives on the private repository host and is not in this repo, so no test here proves it."
+   ]
+  },
+  "C-25": {
+   "tests": [],
+   "files": [
+    "evals/redaction/report.md",
+    "governance/DLP_MAPPING.md"
+   ],
+   "not_demonstrated": [
+    "Control is planned; the redaction eval is fixture-based and per-tenant class config is not built."
+   ]
+  },
+  "C-26": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_1_kb_search_only_sees_the_clients_own_articles"
+   ],
+   "files": [
+    "core/levers/handlers.py"
+   ],
+   "not_demonstrated": [
+    "Only kb.search is client-scoped; retrieval across a vector index is planned."
+   ]
+  },
+  "C-27": {
+   "tests": [
+    "tests/py/backup/test_b68_backup.py::test_b68_3_a_job_of_another_client_is_never_listed_counted_drafted_or_printed",
+    "tests/py/alerts/test_b43_alerts.py::test_b43_1_a_group_never_mixes_clients",
+    "tests/py/lockout/test_b39_lockout.py::test_b39_1_another_clients_user_answers_like_an_absent_one",
+    "tests/py/advisories/test_b47_advisories.py::test_b47_1_a_file_for_another_client_is_refused_and_never_joined"
+   ],
+   "files": [
+    "workflows/triage/triage.py",
+    "core/audit/chain.py"
+   ],
+   "not_demonstrated": [
+    "Isolation is shown for specific workflows only; no model-memory or few-shot leakage test."
+   ]
+  },
+  "C-28": {
+   "tests": [],
+   "files": [
+    "core/gateway/hosted.py",
+    "config/models.json"
+   ],
+   "not_demonstrated": [
+    "Control is planned; only the safe default (hosted providers disabled) exists."
+   ]
+  },
+  "C-29": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": [
+    "Control is planned; the registry has no enforced risk_class at this commit in the map."
+   ]
+  },
+  "C-30": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": []
+  },
+  "C-31": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": [
+    "Control is planned in the map; later items may have built part of it (map fold pending)."
+   ]
+  },
+  "C-32": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": []
+  },
+  "C-33": {
+   "tests": [
+    "tests/phase1/test_levers.py::test_p1_3_execute_applies_exactly_the_dry_run_diff"
+   ],
+   "files": [
+    "core/levers/diff.py",
+    "core/levers/runner.py"
+   ],
+   "not_demonstrated": [
+    "The audit diff holds the before-state; an undo-lever round trip is planned in the map."
+   ]
+  },
+  "C-34": {
+   "tests": [
+    "tests/py/governance/test_b94_incident_response.py::test_b94_1_runbook_commands_run_end_to_end_on_a_synthetic_wrong_disable"
+   ],
+   "files": [
+    "docs/RUNBOOKS.md",
+    "docs/runbooks/ai-incident-response.md",
+    "docs/TABLETOP_2026.md"
+   ],
+   "not_demonstrated": [
+    "Map status is still planned (fold pending). A runbook and a scripted tabletop exist; no real incident, no people-time exercise."
+   ]
+  },
+  "C-35": {
+   "tests": [
+    "tests/py/governance/test_b94_incident_response.py::test_b94_2_every_timeline_is_listed_as_confirm_with_counsel"
+   ],
+   "files": [
+    "governance/templates/notifications/README.md"
+   ],
+   "not_demonstrated": [
+    "Map status is still planned (fold pending). Templates are drafts; deadlines are unconfirmed and counsel has not reviewed them."
+   ]
+  },
+  "C-36": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": []
+  },
+  "C-37": {
+   "tests": [],
+   "files": [
+    ".github/workflows/ci.yml"
+   ],
+   "not_demonstrated": [
+    "Merge history and CI runs are on the private repository host, not in this repo; ring assignment is planned."
+   ]
+  },
+  "C-38": {
+   "tests": [
+    "tests/py/expiry/test_b54_expiry.py::test_b54_1_gdap_global_administrator_is_listed"
+   ],
+   "files": [
+    "config/identities.json"
+   ],
+   "not_demonstrated": [
+    "Only a GDAP Global Administrator listing on fixtures; a dated, hashed review export and sign-off by a person are not shown here."
+   ]
+  },
+  "C-39": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": [
+    "Control is planned; the external pin and retention policy do not exist."
+   ]
+  },
+  "C-40": {
+   "tests": [],
+   "files": [],
+   "not_demonstrated": [
+    "Control is planned; no monitoring runs."
+   ]
+  },
+  "C-41": {
+   "tests": [
+    "tests/phase1/test_triage.py::test_sa1_category_accuracy_on_the_mock_is_at_least_90_percent_and_deterministic"
+   ],
+   "files": [
+    "evals/triage/report.py",
+    "evals/injection/report.py",
+    "workflows/triage/corrections.py",
+    "evals/triage/report.md"
+   ],
+   "not_demonstrated": [
+    "Mock-provider accuracy on author-written fixtures; no real model, no threshold gate."
+   ]
+  },
+  "C-42": {
+   "tests": [],
+   "files": [
+    "docs/planned/STAFF_TRAINING.md",
+    "governance/ACCEPTABLE_USE.md",
+    "governance/ACCEPTABLE_USE.md",
+    "governance/AI_POLICY.md"
+   ],
+   "not_demonstrated": [
+    "Control is planned in the map (policy text exists, B-92); no training completion records exist."
+   ]
+  },
+  "C-43": {
+   "tests": [],
+   "files": [
+    "docs/planned/TECH_RADAR.md"
+   ],
+   "not_demonstrated": [
+    "Control is planned; no vendor register and no signed terms in this repo."
+   ]
+  },
+  "C-44": {
+   "tests": [],
+   "files": [
+    "ui/app.py"
+   ],
+   "not_demonstrated": [
+    "Control is planned; the UI uses a demo identity picker."
+   ]
+  },
+  "C-45": {
+   "tests": [],
+   "files": [
+    "fixtures/",
+    "fixtures/graph/SOURCES.md"
+   ],
+   "not_demonstrated": [
+    "Labels and a secret scan are tested on this repo; they do not prove a later change stays synthetic."
+   ]
+  }
+ }
+}

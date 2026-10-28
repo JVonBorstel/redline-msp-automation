@@ -1,0 +1,13 @@
+{
+  "_note": "Synthetic restorable items (invented) for B-69. Each item stands for something a backup holds: a file, a mailbox item or a VM. content is a short invented text; sha256 is its hash recorded 'at backup time'. Every field name and value is UNVERIFIED: none was checked against a vendor API (workflows/restore_tests/catalog/SOURCES.md). Not a capture.",
+  "client": "fabrikam-capital",
+  "asOf": "2026-10-21T07:00:00Z",
+  "organizationId": 81002,
+  "items": [
+    {"id": "RI-2001", "organizationId": 81002, "kind": "file", "name": "quarterly-summary.txt", "originalLocation": "//FAB-DC01/Finance/quarterly-summary.txt", "sourceJobId": "BJ-2001", "content": "Quarterly summary (synthetic)\nRevenue: 0\nNote: invented numbers only\n", "sha256": "5113f9b734bb4a3273116280acb64c0978ebb963864b2177dd6ed7055f1edb5b"},
+    {"id": "RI-2002", "organizationId": 81002, "kind": "mailbox-item", "name": "Engagement letter draft", "originalLocation": "mailbox:partner@fabrikam-capital.example/Drafts/Engagement letter", "sourceJobId": "BJ-2009", "content": "Subject: Engagement letter (synthetic draft)\nDear client, this is a placeholder.\n", "sha256": "afa682cf9dc8a0eb5ff52058d5a5327801aec4c6007dc9a12c398914c641fb03"},
+    {"id": "RI-2003", "organizationId": 81002, "kind": "vm", "name": "FAB-DC01 image", "originalLocation": "image:FAB-DC01", "sourceJobId": "BJ-2001", "content": "image manifest (synthetic)\nvolume C: 200 GB\nboot: ok\n", "sha256": "48198917f1fc5b12599cbc16c4a06aad5f8176ed1cdc5f15117751e909ddf5a8"},
+    {"id": "RI-2004", "organizationId": 81002, "kind": "file", "name": "fs-share-index.csv", "originalLocation": "//FAB-FS01/Shared/index.csv", "sourceJobId": "BJ-2004", "content": "name,size\nbudget.xlsx,1\nplan.docx,2\n", "sha256": "6dab0de3cc19fb2598f0a7ec9b6b5d1c17568be016efcf6ff35b04361c1f2975"},
+    {"id": "RI-9002", "organizationId": 81001, "kind": "file", "name": "dental-schedule.txt", "originalLocation": "//DENTAL-SRV01/Shared/schedule.txt", "sourceJobId": "BJ-1001", "content": "Another client's file (synthetic decoy)\n", "sha256": "c2ba8dac38b5cee635083c5e026e5277142d26ce45e68e85573e4018211cc1e8"}
+  ]
+}

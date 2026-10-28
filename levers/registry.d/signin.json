@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "_note": "B-39. Sign-in log read lever on the mock tenant's signins family file (fixtures/tenant/<client>/signins.json). Mock only; no real Entra sign-in log is called.",
+  "levers": [
+    {
+      "name": "signins.list",
+      "description": "Read one user's recent sign-ins (time, app, result code, IP address, location) for the client. Mock of the Entra sign-in log; technician view only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["upn", "limit"],
+      "entry": "levers.python.signin:signins_list",
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of one user of this client"},
+        "limit": {"type": "integer", "minimum": 1, "maximum": 50, "description": "How many of the newest sign-ins to return (default 10)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A technician sees one person's recent sign-ins, including where they came from; nothing about the person changes, but the IP addresses and places are personal data.",
+        "L2": "The client's sign-in history is read only by staff scoped to that client, and only for the one user asked about.",
+        "L3": "Every read is registered, scoped and audited by who asked about whom; the results themselves are not copied into the audit.",
+        "L4": "Sign-in logs never mix across tenants, and IP addresses and places stay out of prompts, so one office's staff are not profiled."
+      }
+    }
+  ]
+}

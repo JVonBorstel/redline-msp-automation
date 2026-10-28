@@ -1,0 +1,24 @@
+{
+  "lede": "What I would build next, ranked by how much it makes the system more real. Each idea says why it matters and which roadmap items it builds on. Ideas are not promises; the status says where each one stands.",
+  "groups": [
+    {"id": "next", "label": "Next", "text": "Closest to the evidence a reader can check."},
+    {"id": "later", "label": "Later", "text": "Valuable, but needs a decision or an input first."},
+    {"id": "parked", "label": "Parked on purpose", "text": "Deliberately not automated or not yet safe to."}
+  ],
+  "ideas": [
+    {"id": "I-01", "group": "next", "title": "Wire two signed-in approvers into the page and queue", "why": "The rule is enforced and tested in the runner, but the shipped page still takes one approval. Wiring it makes the strongest control visible end to end.", "builds_on": ["B-28", "B-65", "B-89"], "effort": "M"},
+    {"id": "I-02", "group": "next", "title": "Replay the approval flow against the per-client audit chains", "why": "Audit chains are now one per client. The site's replay and the browser verifier should show that, so the proof matches the current design.", "builds_on": ["B-42", "B-17"], "effort": "M"},
+    {"id": "I-03", "group": "next", "title": "Type-your-own-text injection check in the browser", "why": "Lets a visitor try to fool the tripwire themselves. Needs the detector ported to the browser or a small WebAssembly build; measured cost and compatibility are still unknown.", "builds_on": ["B-79"], "effort": "M"},
+    {"id": "I-04", "group": "next", "title": "Security evidence bundle per client", "why": "Turns audit records, approvals and change notes into a reviewable pack. Shows how the program supports an audit without claiming one.", "builds_on": ["B-51", "B-52", "B-48"], "effort": "M"},
+    {"id": "I-05", "group": "next", "title": "Monthly client health report with reconciliation", "why": "A report whose every number is re-derived from raw records fails loudly when it is wrong. It is the clearest example of verified output.", "builds_on": ["B-71", "B-72"], "effort": "M"},
+    {"id": "I-06", "group": "later", "title": "Real Entra sign-in test against a test tenant", "why": "Replaces the mock issuer with a Microsoft-issued token and checks the assumed claim names. Needs a test tenant and an explicit yes.", "builds_on": ["B-89", "B-91"], "effort": "M"},
+    {"id": "I-07", "group": "later", "title": "Cited retrieval with per-client namespaces", "why": "Answers drafted only from the right client's documents, with refusal and leakage evals. Needs a retrieval store decision.", "builds_on": ["B-55", "B-56", "B-57"], "effort": "L"},
+    {"id": "I-08", "group": "later", "title": "MCP server over approved levers", "why": "Exposes only registered, scoped, audited levers to any compatible assistant, so the safety model travels with the tool.", "builds_on": ["B-87", "B-14"], "effort": "M"},
+    {"id": "I-09", "group": "later", "title": "Eval gates in CI with routing thresholds", "why": "A change that makes triage worse should fail before merge. Needs labelled data that more than one person wrote.", "builds_on": ["B-78", "B-84"], "effort": "M"},
+    {"id": "I-10", "group": "later", "title": "Teams approval card and Outlook draft mocks", "why": "Meets approvers where they work while keeping the same checks. Mock first; no real tenant.", "builds_on": ["B-88"], "effort": "M"},
+    {"id": "I-11", "group": "later", "title": "Project timeline page for the whole portfolio", "why": "Shows how projects relate and what each taught the next one.", "builds_on": ["portfolio data file"], "effort": "S"},
+    {"id": "I-12", "group": "parked", "title": "Any connection to a real tenant, PSA or backup system", "why": "Synthetic data only until there is a test tenant and written approval.", "builds_on": ["B-91"], "effort": "n/a"},
+    {"id": "I-13", "group": "parked", "title": "Hosted models on client data", "why": "The gate stays closed until a provider's retention and contract terms are approved in writing.", "builds_on": ["B-90"], "effort": "n/a"},
+    {"id": "I-14", "group": "parked", "title": "Ranking people from AI output or ticket metrics", "why": "Deliberately not built. A test is planned to ensure no export carries a per-person column.", "builds_on": ["B-74"], "effort": "n/a"}
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "identities": [
+    {
+      "id": "tech-ana",
+      "display_name": "Ana (technician, synthetic)",
+      "role": "technician",
+      "clients": [
+        "contoso-dental"
+      ]
+    }
+  ]
+}

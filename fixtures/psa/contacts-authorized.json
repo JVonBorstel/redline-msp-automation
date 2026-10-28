@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "note": "Synthetic authorized-contacts lists (invented), one per client: who may ask the MSP to make which kind of change. Shape is this prototype's own, not a vendor entity. contactId points at the Autotask-shaped Contacts record in the client's PSA fixture where one exists (field names there: see fixtures/psa/SOURCES.md; ids 40003, 40009, 41001 and 41002 are invented and have no PSA record). The authorization list itself (changeTypes, primary) is UNVERIFIED as a PSA field: a real PSA may hold it as a user-defined field, a contact role or a separate onboarding document. Pinned to as_of 2026-10-20."
+  },
+  "clients": {
+    "contoso-dental": {
+      "primaryContact": "Sam Patel",
+      "contacts": [
+        {"contactId": 40002, "name": "Sam Patel", "email": "sam.patel@contosodental.example", "primary": true, "active": true, "changeTypes": ["new-account", "access-change", "mfa-reset", "password-reset", "disable-account"]},
+        {"contactId": 40003, "name": "Ana Lopez", "email": "ana.lopez@contosodental.example", "primary": false, "active": true, "changeTypes": ["new-account", "access-change", "password-reset"]},
+        {"contactId": 40001, "name": "Priya Nair", "email": "priya.nair@contosodental.example", "primary": false, "active": true, "changeTypes": ["password-reset"]},
+        {"contactId": 40009, "name": "Tom Baker (left the practice)", "email": "tom.baker@contosodental.example", "primary": false, "active": false, "changeTypes": ["new-account", "access-change"]}
+      ]
+    },
+    "fabrikam-capital": {
+      "primaryContact": "Morgan Reyes",
+      "contacts": [
+        {"contactId": 41001, "name": "Morgan Reyes", "email": "morgan.reyes@fabrikamcapital.example", "primary": true, "active": true, "changeTypes": ["new-account", "access-change", "mfa-reset", "password-reset", "disable-account"]},
+        {"contactId": 41002, "name": "Riley Brooks", "email": "riley.brooks@fabrikamcapital.example", "primary": false, "active": true, "changeTypes": ["password-reset", "mfa-reset"]}
+      ]
+    }
+  }
+}

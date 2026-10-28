@@ -1,0 +1,506 @@
+{
+  "version": 1,
+  "_note": "B-33. MailboxOps write levers (PowerShell, offline mock mailbox state; no Exchange Online is called). All R2 per the work inventory (W-M365-01, W-M365-02, W-M365-09, W-ONB-09, W-ONB-10). External forwarding is deliberately not a lever (W-M365-05 flags it). Exchange cmdlet names in the module are UNVERIFIED stand-ins; see levers/powershell/MailboxOps/SOURCES.md.",
+  "levers": [
+    {
+      "name": "mailbox.add-dl-member",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Add-MailboxDlMember",
+      "description": "Add one person's mailbox to a distribution list of the client. Mock of an Exchange Online distribution group membership change.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "list"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "list": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "Primary address of the distribution list, e.g. frontdesk@contosodental.example"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.remove-dl-member",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A new starter or a person who moved gets the group's mail from day one; a wrong list means they read mail meant for others, so the list is named in the approval.",
+        "L2": "The client's front desk or team address reaches the right people; adding someone to the wrong list can expose a team's mail to them.",
+        "L3": "A request technicians do many times a month becomes a checked, approved and audited change, one list and one person at a time.",
+        "L4": "The list must belong to the same client as the person; a list or person of another client is answered as not found, so no office's list is touched for another's."
+      }
+    },
+    {
+      "name": "mailbox.remove-dl-member",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Remove-MailboxDlMember",
+      "description": "Remove one person's mailbox from a distribution list of the client. Undo of mailbox.add-dl-member.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "list"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "list": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "Primary address of the distribution list"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.add-dl-member",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A leaver or a person who moved stops getting a team's mail; removing the wrong person means they miss mail they need.",
+        "L2": "The client's group addresses stay accurate after people leave or move, so private team mail does not keep going to someone who changed roles.",
+        "L3": "Cleanup after a leaver is one approved, audited change instead of an edit nobody records.",
+        "L4": "Same-client list and person only; nothing outside the client's own lists can be changed."
+      }
+    },
+    {
+      "name": "mailbox.grant-full-access",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Grant-MailboxFullAccess",
+      "description": "Give one named person of the client Full Access to a mailbox. Mock of an Exchange Online mailbox permission grant.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "delegate"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "delegate": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "The person of the same client who gets Full Access"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.revoke-full-access",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A shared or leaver's mailbox is opened by the one person who needs it, not by whoever asks; the delegate is named in the approval and a mailbox holds private mail, so a wrong grant exposes it.",
+        "L2": "A manager can cover a leaver's mail without the client sharing a password; a grant to the wrong person exposes confidential or regulated mail.",
+        "L3": "Every access grant to a mailbox is a registered, approved and audited change with an undo, which an auditor can ask to see.",
+        "L4": "The delegate must be a user of the same client; a person of another client or an outside address cannot be named."
+      }
+    },
+    {
+      "name": "mailbox.revoke-full-access",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Revoke-MailboxFullAccess",
+      "description": "Remove one person's Full Access to a mailbox of the client. Undo of mailbox.grant-full-access.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "delegate"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "delegate": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "The person of the same client whose Full Access ends"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.grant-full-access",
+      "lever_version": 1,
+      "impact": {
+        "L1": "Access that was only needed for a hand-over ends when the hand-over does; removing the wrong person stops someone doing their job.",
+        "L2": "Temporary access does not quietly become permanent, which is how mailbox access spreads in small offices.",
+        "L3": "Ending access is as controlled as granting it: approved, audited and convergent.",
+        "L4": "Same-client mailbox and person only."
+      }
+    },
+    {
+      "name": "mailbox.grant-send-as",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Grant-MailboxSendAs",
+      "description": "Let one named person of the client send mail as a mailbox. Mock of an Exchange Online Send As grant.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "delegate"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "delegate": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "The person of the same client who may send as this mailbox"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.revoke-send-as",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A colleague can answer from a shared address such as info@ without a password; a wrong grant lets someone send mail that looks like it came from another person.",
+        "L2": "Mail from the practice's shared address comes from the right people; a wrong grant is a way to send believable mail in someone else's name.",
+        "L3": "Send As is a registered, approved and audited change with an undo and a dry-run diff.",
+        "L4": "Same-client delegate only; an outside address cannot be named."
+      }
+    },
+    {
+      "name": "mailbox.revoke-send-as",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Revoke-MailboxSendAs",
+      "description": "Remove one person's right to send as a mailbox of the client. Undo of mailbox.grant-send-as.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "delegate"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "delegate": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "The person of the same client whose Send As ends"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.grant-send-as",
+      "lever_version": 1,
+      "impact": {
+        "L1": "Someone who changed roles can no longer send in another person's name; removing the wrong person stops them answering from a shared address.",
+        "L2": "Send As rights do not outlive the need for them.",
+        "L3": "Ending a Send As right is approved and audited like granting it.",
+        "L4": "Same-client mailbox and person only."
+      }
+    },
+    {
+      "name": "mailbox.convert-shared",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Convert-MailboxToShared",
+      "description": "Convert a user mailbox of the client to a shared mailbox, so a leaver's mail is kept without a licence. Mock of an Exchange Online mailbox type change.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A leaver's mail is kept for the people who need it and the account can be closed; done too early, the person loses sign-in to their mailbox. Over 50 GB is refused (limit UNVERIFIED).",
+        "L2": "The client stops paying for a leaver's licence without losing the mail, and an oversized mailbox is stopped for a licence decision instead of failing later.",
+        "L3": "A step technicians do by hand in every offboarding becomes one approved, audited change; there is no automated undo because converting back needs a licence.",
+        "L4": "Same-client mailbox only; the lever does not touch forwarding, litigation hold or retention, which stay with people."
+      }
+    },
+    {
+      "name": "mailbox.set-auto-reply",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Set-MailboxAutoReply",
+      "description": "Turn on an automatic reply with the same text inside and outside the client for one mailbox. Mock of an Exchange Online auto-reply setting.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "message"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "message": {
+          "type": "string",
+          "required": true,
+          "max_length": 400,
+          "pattern": "^[A-Za-z0-9 ,.'!?:;()-]{5,400}$",
+          "description": "The reply text: letters, digits and basic punctuation only, no links or markup"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.clear-auto-reply",
+      "lever_version": 1,
+      "impact": {
+        "L1": "People who write to a leaver hear who to contact instead of waiting; the text goes to outside senders, so it is plain text with no links and the approver reads it.",
+        "L2": "Customers and vendors of the client are told whom to contact the day a person leaves.",
+        "L3": "The reply text is checked against a safe pattern and approved, so an auto-reply cannot carry a link or markup.",
+        "L4": "One mailbox of the client; no forwarding is set, only a reply."
+      }
+    },
+    {
+      "name": "mailbox.clear-auto-reply",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Clear-MailboxAutoReply",
+      "description": "Turn off the automatic reply on one mailbox of the client. Undo of mailbox.set-auto-reply.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.set-auto-reply",
+      "lever_version": 1,
+      "impact": {
+        "L1": "An out-of-date reply stops going to everyone who writes; turning it off too early means senders hear nothing.",
+        "L2": "A reply about a leaver does not stay on for years after the mailbox has a new owner.",
+        "L3": "Ending an auto-reply is approved and audited like setting one.",
+        "L4": "One mailbox of the client."
+      }
+    },
+    {
+      "name": "mailbox.enable-archive",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Enable-MailboxArchive",
+      "description": "Switch on the online archive for one mailbox of the client. Mock of an Exchange Online archive enablement.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A person whose mailbox is full can keep working; enabling an archive is quiet but turning it off later can delete mail, so no undo lever is offered.",
+        "L2": "Full mailboxes stop bouncing client mail; the larger mailbox may need a licence level the client already pays for (UNVERIFIED).",
+        "L3": "A routine size fix becomes an approved, audited change instead of an unrecorded click.",
+        "L4": "One mailbox of the client; no content is moved or deleted."
+      }
+    },
+    {
+      "name": "mailbox.grant-onedrive-manager",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Grant-OneDriveManagerAccess",
+      "description": "Give a named manager of the client access to a leaver's OneDrive until a date within 30 days. Mock of a SharePoint Online site administrator grant.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "manager",
+        "expires_on"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "manager": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "The manager of the same client who gets access to the OneDrive"
+        },
+        "expires_on": {
+          "type": "string",
+          "required": true,
+          "max_length": 10,
+          "pattern": "^20[0-9]{2}-[0-9]{2}-[0-9]{2}$",
+          "description": "Last day of the access as YYYY-MM-DD, after today and at most 30 days away"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.revoke-onedrive-manager",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A manager can collect the files the team needs from a leaver within a set time instead of getting access for good; a wrong person or a long date means more people can read personal and client files.",
+        "L2": "Files are not lost when the account is closed, and the manager's access has an end date the approver sees.",
+        "L3": "The end date is part of what the approver signs. Nothing here removes the access on that date by itself; the revoke lever does, and a person or scheduled job must run it.",
+        "L4": "Same-client owner and manager only, at most 30 days, and no other file permission is changed."
+      }
+    },
+    {
+      "name": "mailbox.revoke-onedrive-manager",
+      "runtime": "powershell",
+      "entry": "MailboxOps\\Revoke-OneDriveManagerAccess",
+      "description": "End a manager's access to a leaver's OneDrive. Undo of mailbox.grant-onedrive-manager, and what ends a grant on its date.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "manager"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName or primary address of the mailbox the change is about"
+        },
+        "manager": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "The manager of the same client whose access ends"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "mailbox.grant-onedrive-manager",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A manager's access to a leaver's files ends when the hand-over does; ending it too early stops the files being copied.",
+        "L2": "Access to client and personal files does not stay open after the hand-over.",
+        "L3": "Ending a grant is approved and audited, so an auditor can see every grant had an end.",
+        "L4": "Same-client owner and manager only."
+      }
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "version": 1,
+  "levers": [
+    {
+      "name": "ticket.get",
+      "description": "Read one service ticket for the client (synthetic PSA data).",
+      "client_scope": "any",
+      "required_role": "agent",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["ticket_id"],
+      "params": {
+        "ticket_id": {"type": "string", "required": true, "max_length": 6, "pattern": "^T-[0-9]{4}$", "description": "Ticket id, e.g. T-1001"}
+      },
+      "dry_run": true,
+      "timeout_s": 2,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A technician sees one person's ticket for this client; nothing about the person changes.",
+        "L2": "The client's ticket is read only by staff scoped to that client.",
+        "L3": "Every read is registered, scoped and audited, so the MSP can show who looked at what.",
+        "L4": "Client tickets never mix across tenants, so one office's problem is not another's exposure."
+      }
+    },
+    {
+      "name": "kb.search",
+      "description": "Keyword search over the client's own knowledge base articles.",
+      "client_scope": ["contoso-dental", "fabrikam-capital"],
+      "required_role": "agent",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["query", "category"],
+      "params": {
+        "query": {"type": "string", "required": true, "max_length": 100, "description": "Free-text search terms"},
+        "category": {"type": "string", "enum": ["identity", "email", "network", "hardware", "general"], "description": "Optional category filter"},
+        "top": {"type": "integer", "minimum": 1, "maximum": 10, "description": "Maximum results (default 3)"}
+      },
+      "dry_run": true,
+      "timeout_s": 2,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "The person waiting on a fix gets an answer from their own client's articles, sooner.",
+        "L2": "Only the client's own knowledge base is searched; nothing changes in their tenant.",
+        "L3": "Technicians resolve repeat issues with the client's documented fix instead of guessing.",
+        "L4": "Answers stay inside each client's data, so retrieval never leaks between tenants."
+      }
+    },
+    {
+      "name": "user.reset-mfa",
+      "description": "Remove a user's MFA methods (keeps the password) so they re-register at next sign-in. Mock of Graph authentication methods.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["upn"],
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R3",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "verification": "requester",
+      "impact": {
+        "L1": "One person loses their MFA methods and must re-register at next sign-in; a wrong target or impostor locks them out or lets an attacker in.",
+        "L2": "The client's account security for one user changes; a social-engineered reset is a breach of client data.",
+        "L3": "An identity change the MSP must justify to auditors: verified requester, lead approval, audit record.",
+        "L4": "MFA resets are the step attackers talk their way through; doing it right at every client protects everyone."
+      }
+    },
+    {
+      "name": "user.disable",
+      "description": "Disable a user account (accountEnabled = false). Mock of a Graph user update.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["upn"],
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName"},
+        "reason": {"type": "string", "required": true, "max_length": 200, "description": "Why, for the audit trail"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R3",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "verification": "requester",
+      "caps": {"targets_per_run": 1, "executes_per_client_per_hour": 10, "clients_per_day": 20},
+      "preauthorized_containment": true,
+      "impact": {
+        "L1": "One person cannot sign in to anything until a technician re-enables the account.",
+        "L2": "The client loses that person's work until re-enabled; a wrong disable can stop a practice or desk.",
+        "L3": "An access change the MSP must justify to auditors: verified requester, lead approval, audit record.",
+        "L4": "Fast, correct offboarding and containment protect patients and investors; a wrong one erodes trust in automation."
+      }
+    }
+  ]
+}

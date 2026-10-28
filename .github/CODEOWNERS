@@ -1,0 +1,17 @@
+# Every change needs the owner's review.
+* @JVonBorstel
+
+# Guardrails and CI: explicit so a rename or a new owner never silently drops them.
+/scripts/ @JVonBorstel
+/.github/ @JVonBorstel
+
+# Permissions and evidence: every change here changes what automation may do (docs/map/04-repo-organization.md 6.4).
+/core/levers/ @JVonBorstel
+/core/audit/ @JVonBorstel
+/core/identity/ @JVonBorstel
+/levers/registry.json @JVonBorstel
+/levers/registry.d/ @JVonBorstel
+/config/ @JVonBorstel
+/governance/ @JVonBorstel
+/schemas/ @JVonBorstel
+/infra/ @JVonBorstel

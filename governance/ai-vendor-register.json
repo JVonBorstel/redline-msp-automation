@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "_note": "The only place a hosted model provider is approved (B-90, D6-11). Entries are added only through the AI change process (B-93, governance/MODEL_TOOL_APPROVAL.md): an approved entry names an approved provider record in governance/model_tool_approvals.json as its approval_ref. Never by code or by an agent. A pending entry allows nothing. An approved entry names the provider, the clients, the data classes (DC-6 is never allowed), the purposes, the retention terms, who approved it in writing and when, and a review date after which it stops approving. Never put an endpoint, a key or a secret value here.",
+  "vendors": [
+    {
+      "id": "azure-openai-pending",
+      "provider": "azure_openai",
+      "name": "Azure OpenAI",
+      "status": "pending",
+      "allowed_data_classes": [],
+      "clients": [],
+      "purposes": [],
+      "retention_terms": null,
+      "review_date": null,
+      "approved_by": null,
+      "approved_on": null,
+      "approval_ref": null
+    },
+    {
+      "id": "anthropic-api-pending",
+      "provider": "anthropic",
+      "name": "Anthropic API",
+      "status": "pending",
+      "allowed_data_classes": [],
+      "clients": [],
+      "purposes": [],
+      "retention_terms": null,
+      "review_date": null,
+      "approved_by": null,
+      "approved_on": null,
+      "approval_ref": null
+    }
+  ]
+}

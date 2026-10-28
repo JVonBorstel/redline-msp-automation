@@ -1,0 +1,315 @@
+{
+  "_note": "Synthetic RMM data for Fabrikam Capital (invented). Shaped like the public Datto RMM API v2 responses GET /v2/site/{siteUid}, /v2/site/{siteUid}/devices, /v2/audit/device/{deviceUid}, /v2/site/{siteUid}/alerts/open, /v2/job/{uid} and /v2/account/components; field status in fixtures/rmm/SOURCES.md. Pinned to asOf. Holds one decoy device, alert and job of the other client's site on purpose. Not a capture from a real RMM.",
+  "client": "fabrikam-capital",
+  "asOf": "2026-10-22T12:00:00Z",
+  "site": {
+    "id": 4102,
+    "uid": "f0000000-0000-4000-8000-0000000a0002",
+    "accountUid": "a0000000-0000-4000-8000-0000000a0000",
+    "name": "Fabrikam Capital (synthetic)",
+    "description": "Synthetic site.",
+    "onDemand": false,
+    "devicesStatus": {
+      "numberOfDevices": 4,
+      "numberOfOnlineDevices": 4,
+      "numberOfOfflineDevices": 0
+    },
+    "autotaskCompanyName": "Fabrikam Capital (synthetic)",
+    "autotaskCompanyId": "30002",
+    "portalUrl": "https://rmm.example/site/4102"
+  },
+  "devices": {
+    "pageDetails": {
+      "count": 5,
+      "totalCount": 5,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    },
+    "devices": [
+      {
+        "id": 4102001,
+        "uid": "f0000000-0000-4000-8000-0000000d0001",
+        "siteId": 4102,
+        "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+        "siteName": "Fabrikam Capital (synthetic)",
+        "deviceType": {
+          "category": "Laptop",
+          "type": "Windows"
+        },
+        "hostname": "FAB-WS01",
+        "intIpAddress": "10.30.0.11",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:00:00Z",
+        "lastAuditDate": "2026-10-22T08:00:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4102002,
+        "uid": "f0000000-0000-4000-8000-0000000d0002",
+        "siteId": 4102,
+        "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+        "siteName": "Fabrikam Capital (synthetic)",
+        "deviceType": {
+          "category": "Laptop",
+          "type": "Windows"
+        },
+        "hostname": "FAB-WS02",
+        "intIpAddress": "10.30.0.12",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:05:00Z",
+        "lastAuditDate": "2026-10-22T08:05:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4102003,
+        "uid": "f0000000-0000-4000-8000-0000000d0003",
+        "siteId": 4102,
+        "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+        "siteName": "Fabrikam Capital (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "FAB-WS03",
+        "intIpAddress": "10.30.0.13",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T07:50:00Z",
+        "lastAuditDate": "2026-10-22T07:50:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4102004,
+        "uid": "f0000000-0000-4000-8000-0000000d0004",
+        "siteId": 4102,
+        "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+        "siteName": "Fabrikam Capital (synthetic)",
+        "deviceType": {
+          "category": "Server",
+          "type": "Windows Server"
+        },
+        "hostname": "FAB-FS01",
+        "intIpAddress": "10.30.0.14",
+        "operatingSystem": "Microsoft Windows Server 2022 Standard",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T11:59:00Z",
+        "lastAuditDate": "2026-10-22T11:59:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101900,
+        "uid": "c0000000-0000-4000-8000-0000000d0900",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Laptop",
+          "type": "Windows"
+        },
+        "hostname": "FAB-WS01",
+        "intIpAddress": "10.20.0.910",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:00:00Z",
+        "lastAuditDate": "2026-10-22T08:00:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      }
+    ]
+  },
+  "deviceAudits": {
+    "f0000000-0000-4000-8000-0000000d0001": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "FC-0001-WS",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "f0000000-0000-4000-8000-0000000d0002": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "FC-0002-WS",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "f0000000-0000-4000-8000-0000000d0003": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "FC-0003-WS",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "f0000000-0000-4000-8000-0000000d0004": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "FC-0004-FS",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0900": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "FC-0001-WS",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    }
+  },
+  "alerts": {
+    "pageDetails": {
+      "count": 2,
+      "totalCount": 2,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    },
+    "alerts": [
+      {
+        "alertUid": "f0000000-0000-4000-8000-0000000b0001",
+        "priority": "High",
+        "diagnostics": "Disk C: is more than 90% full.",
+        "resolved": false,
+        "resolvedBy": null,
+        "resolvedOn": null,
+        "muted": false,
+        "ticketNumber": null,
+        "timestamp": "2026-10-22T06:00:00Z",
+        "alertMonitorInfo": {
+          "sendsEmails": false,
+          "createsTicket": false
+        },
+        "alertContext": {
+          "@class": "online_offline_status_ctx"
+        },
+        "alertSourceInfo": {
+          "deviceUid": "f0000000-0000-4000-8000-0000000d0003",
+          "deviceName": "FAB-WS03",
+          "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+          "siteName": "Fabrikam Capital (synthetic)"
+        },
+        "autoresolveMins": 0
+      },
+      {
+        "alertUid": "c0000000-0000-4000-8000-0000000b0900",
+        "priority": "Critical",
+        "diagnostics": "Decoy alert of the other client's site.",
+        "resolved": false,
+        "resolvedBy": null,
+        "resolvedOn": null,
+        "muted": false,
+        "ticketNumber": null,
+        "timestamp": "2026-10-22T06:00:00Z",
+        "alertMonitorInfo": {
+          "sendsEmails": false,
+          "createsTicket": false
+        },
+        "alertContext": {
+          "@class": "online_offline_status_ctx"
+        },
+        "alertSourceInfo": {
+          "deviceUid": "c0000000-0000-4000-8000-0000000d0900",
+          "deviceName": "FAB-WS01",
+          "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+          "siteName": "Contoso Dental (synthetic)"
+        },
+        "autoresolveMins": 0
+      }
+    ]
+  },
+  "jobsBySite": {
+    "f0000000-0000-4000-8000-0000000a0002": [
+      {
+        "id": 41021,
+        "uid": "f0000000-0000-4000-8000-0000000j0001",
+        "name": "Clear temp files (run by a technician in the RMM console)",
+        "dateCreated": "2026-10-20T15:00:00Z",
+        "status": "completed"
+      }
+    ],
+    "c0000000-0000-4000-8000-0000000a0001": [
+      {
+        "id": 41019,
+        "uid": "c0000000-0000-4000-8000-0000000j0900",
+        "name": "Decoy job of the other client's site",
+        "dateCreated": "2026-10-20T15:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  "components": {
+    "pageDetails": {
+      "count": 2,
+      "totalCount": 2,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    },
+    "components": [
+      {
+        "id": 801,
+        "uid": "a0000000-0000-4000-8000-0000000c0001",
+        "name": "Clear temp files (synthetic)",
+        "description": "Existing account component, listed read-only.",
+        "categoryCode": "scripts",
+        "credentialsRequired": false,
+        "variables": [
+          {
+            "name": "olderThanDays",
+            "defaultVal": "7",
+            "type": "string",
+            "direction": false,
+            "description": "Files older than this many days.",
+            "variablesIdx": 0
+          }
+        ]
+      },
+      {
+        "id": 802,
+        "uid": "a0000000-0000-4000-8000-0000000c0002",
+        "name": "Restart print spooler (synthetic)",
+        "description": "Existing account component, listed read-only.",
+        "categoryCode": "scripts",
+        "credentialsRequired": true,
+        "variables": []
+      }
+    ]
+  }
+}

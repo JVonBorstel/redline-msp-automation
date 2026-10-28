@@ -1,0 +1,16 @@
+{
+  "_note": "Gateway budgets and circuit breaker (B-80). Counts are per process and per window; tokens are estimated as ceil(characters / chars_per_token). An absent max_calls or max_tokens means that dimension is not limited. Numbers are prototype defaults, not measured.",
+  "version": 1,
+  "window_s": 3600,
+  "chars_per_token": 4,
+  "global": { "max_calls": 2000, "max_tokens": 2000000 },
+  "per_client": {
+    "default": { "max_calls": 500, "max_tokens": 500000 },
+    "overrides": {}
+  },
+  "per_agent": {
+    "default": { "max_calls": 300, "max_tokens": 300000 },
+    "overrides": {}
+  },
+  "breaker": { "failure_threshold": 5, "open_s": 30 }
+}

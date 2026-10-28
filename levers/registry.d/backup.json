@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "_note": "B-68. Backup write lever on the mock tenant state. Mock only; no backup product is called. The daily review that proposes it is read-only (D6-24).",
+  "levers": [
+    {
+      "name": "backup.retry-job",
+      "description": "Ask for one failed or missed backup job of the client to be run again. Mock of a backup product's retry call; records a request in the client's own state.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "job_id"
+      ],
+      "entry": "levers.python.backup:backup_retry_job",
+      "params": {
+        "job_id": {
+          "type": "string",
+          "required": true,
+          "max_length": 10,
+          "pattern": "^BJ-[0-9]{4,6}$",
+          "description": "The failed or missed backup job to run again, e.g. BJ-1003"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "Files or mail missed by last night's backup are protected today, not found missing in a restore; a retry on a busy server can slow it for the people using it.",
+        "L2": "The client's recovery point is repaired the same day; a retry at the wrong hour can load a production server or the office internet link.",
+        "L3": "A failed backup is fixed within the day, one request per job however many nights it failed; every retry is a registered, approved and audited change.",
+        "L4": "A retry names a job of one client's own backup only, so one office's backup is never touched for another's."
+      }
+    }
+  ]
+}

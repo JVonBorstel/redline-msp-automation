@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "_note": "Synthetic client record for the B-55 redaction eval only (the real config/clients/ files are the owner step W2-E1). Fabrikam Capital (synthetic) is invented. The eval reads industry for the unknown-text floor (D6-12); regimes are illustrative, not a compliance decision.",
+  "id": "fabrikam-capital",
+  "display_name": "Fabrikam Capital (synthetic)",
+  "psa_company_id": "29684002",
+  "industry": "ria",
+  "regimes": ["glba-ftc-safeguards", "sec-reg-s-p"],
+  "model_processing": "local",
+  "retention_class": "regulated-financial",
+  "enabled_levers": [],
+  "bindings": {
+    "psa": {"implementation": "mock", "external_id": "29684002"}
+  }
+}

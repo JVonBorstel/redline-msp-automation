@@ -1,0 +1,108 @@
+{
+ "_note": "Synthetic, hand-generated overlay for B-74 (invented; fixture-based). Mock CSAT-tool export: ticket id, score 1-5, free-text comment (untrusted), submitted time. No technician field, by design (D6-21). Not a capture from a real CSAT tool.",
+ "client": "contoso-dental",
+ "responses": [
+  {
+   "ticket_id": "T-5101",
+   "score": 4,
+   "comment": "Problem solved and stayed solved.",
+   "submitted_at": "2026-10-07T10:40:00Z"
+  },
+  {
+   "ticket_id": "T-5104",
+   "score": 2,
+   "comment": "Not really fixed, I had to ask again.",
+   "submitted_at": "2026-10-07T04:39:00Z"
+  },
+  {
+   "ticket_id": "T-5106",
+   "score": 5,
+   "comment": "Fine.",
+   "submitted_at": "2026-10-14T08:25:00Z"
+  },
+  {
+   "ticket_id": "T-5110",
+   "score": 4,
+   "comment": "Fixed quickly, thank you.",
+   "submitted_at": "2026-10-09T05:57:00Z"
+  },
+  {
+   "ticket_id": "T-5120",
+   "score": 4,
+   "comment": "Felt rushed on the phone.",
+   "submitted_at": "2026-10-10T17:47:00Z"
+  },
+  {
+   "ticket_id": "T-5122",
+   "score": 1,
+   "comment": "Slow, I waited most of the day.",
+   "submitted_at": "2026-10-13T08:31:00Z"
+  },
+  {
+   "ticket_id": "T-5123",
+   "score": 2,
+   "comment": "Slow, I waited most of the day.",
+   "submitted_at": "2026-10-13T01:26:00Z"
+  },
+  {
+   "ticket_id": "T-5129",
+   "score": 2,
+   "comment": "Works properly now.",
+   "submitted_at": "2026-10-17T04:44:00Z"
+  },
+  {
+   "ticket_id": "T-5130",
+   "score": 5,
+   "comment": "No comment.",
+   "submitted_at": "2026-10-13T00:37:00Z"
+  },
+  {
+   "ticket_id": "T-5131",
+   "score": 4,
+   "comment": "Good updates along the way.",
+   "submitted_at": "2026-10-07T08:30:00Z"
+  },
+  {
+   "ticket_id": "T-5133",
+   "score": 3,
+   "comment": "It took far too long to get this fixed.",
+   "submitted_at": "2026-10-13T02:16:00Z"
+  },
+  {
+   "ticket_id": "T-5134",
+   "score": 3,
+   "comment": "No comment.",
+   "submitted_at": "2026-10-08T01:09:00Z"
+  },
+  {
+   "ticket_id": "T-5137",
+   "score": 2,
+   "comment": "Fine.",
+   "submitted_at": "2026-10-09T03:48:00Z"
+  },
+  {
+   "ticket_id": "T-5141",
+   "score": 4,
+   "comment": "Felt rushed on the phone.",
+   "submitted_at": "2026-10-07T20:20:00Z"
+  },
+  {
+   "ticket_id": "T-5144",
+   "score": 4,
+   "comment": "Fixed quickly, thank you.",
+   "submitted_at": "2026-10-08T17:59:00Z"
+  },
+  {
+   "ticket_id": "T-5147",
+   "score": 4,
+   "comment": "OK.",
+   "submitted_at": "2026-10-09T12:38:00Z"
+  },
+  {
+   "ticket_id": "T-5149",
+   "score": 3,
+   "comment": "Clear explanation of what was done.",
+   "submitted_at": "2026-10-16T12:24:00Z"
+  }
+ ]
+}

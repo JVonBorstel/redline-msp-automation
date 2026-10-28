@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "risky-users",
+    "note": "Synthetic. Each entry is shaped like a Microsoft Graph v1.0 riskyUser resource (subset of properties). Reading real risky users needs Microsoft Entra ID P2 (Identity Protection) and a Graph permission such as IdentityRiskyUser.Read.All; whether this client holds P2 is UNVERIFIED, as is every field name and enum value here (no Graph page was read for this change). Values are invented. Not captured from a real tenant."
+  },
+  "value": [
+    {
+      "id": "afbbebce-68b5-530e-b8f7-49957cbac346",
+      "userPrincipalName": "priya.nair@contosodental.example",
+      "userDisplayName": "Priya Nair",
+      "riskLevel": "high",
+      "riskState": "atRisk",
+      "riskDetail": "none",
+      "riskLastUpdatedDateTime": "2026-10-21T08:05:00Z",
+      "isDeleted": false,
+      "isProcessing": false
+    },
+    {
+      "id": "5a7b9c1d-3e5f-4a7b-9c1d-2e4f6a8b0c2d",
+      "userPrincipalName": "sam.patel@contosodental.example",
+      "userDisplayName": "Dr. Sam Patel",
+      "riskLevel": "medium",
+      "riskState": "atRisk",
+      "riskDetail": "none",
+      "riskLastUpdatedDateTime": "2026-10-21T06:35:00Z",
+      "isDeleted": false,
+      "isProcessing": false
+    },
+    {
+      "id": "e9d42287-2097-5578-bfb4-f2aeff493a92",
+      "userPrincipalName": "tom.baker@contosodental.example",
+      "userDisplayName": "Tom Baker",
+      "riskLevel": "low",
+      "riskState": "atRisk",
+      "riskDetail": "none",
+      "riskLastUpdatedDateTime": "2026-10-20T16:20:00Z",
+      "isDeleted": false,
+      "isProcessing": false
+    },
+    {
+      "id": "3f1c9a52-7d4e-4b8a-9c21-0a5e6b7c8d91",
+      "userPrincipalName": "ana.lopez@contosodental.example",
+      "userDisplayName": "Ana Lopez",
+      "riskLevel": "none",
+      "riskState": "dismissed",
+      "riskDetail": "adminDismissedAllRiskForUser",
+      "riskLastUpdatedDateTime": "2026-10-19T09:00:00Z",
+      "isDeleted": false,
+      "isProcessing": false
+    }
+  ]
+}

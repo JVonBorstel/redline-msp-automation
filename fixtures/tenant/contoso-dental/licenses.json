@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "licenses",
+    "note": "Synthetic. SKUs and assignments imitate a Microsoft Graph subscribedSku (skuId, skuPartNumber, prepaidUnits.enabled) and a user's assignedLicenses (skuId); those field names are UNVERIFIED here (written from memory, not read from the docs this session). `assignments` (a flat list with userPrincipalName, assignedOn, retentionEndsOn) and the free-seat count (prepaidUnits.enabled minus assignments of the SKU) are this repo's own shape, not Graph. skuId values are invented, not Microsoft's; skuPartNumber strings are modelled on real names and UNVERIFIED. Not captured from a real tenant."
+  },
+  "skus": [
+    {
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "displayName": "Business Premium (synthetic)",
+      "prepaidUnits": {
+        "enabled": 6,
+        "suspended": 0,
+        "warning": 0
+      }
+    },
+    {
+      "skuId": "c0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "O365_BUSINESS_ESSENTIALS",
+      "displayName": "Business Essentials (synthetic)",
+      "prepaidUnits": {
+        "enabled": 4,
+        "suspended": 0,
+        "warning": 0
+      }
+    }
+  ],
+  "assignments": [
+    {
+      "userPrincipalName": "ana.lopez@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-03-01",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "sam.patel@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-03-01",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "jamie.chen@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-03-01",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "priya.nair@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-03-01",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "tom.baker@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-03-01",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "pat.ellis@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2024-06-10",
+      "retentionEndsOn": "2026-09-15"
+    },
+    {
+      "userPrincipalName": "lena.fischer@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "O365_BUSINESS_ESSENTIALS",
+      "assignedOn": "2025-05-02",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "mo.reyes@contosodental.example",
+      "skuId": "c0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "O365_BUSINESS_ESSENTIALS",
+      "assignedOn": "2024-08-19",
+      "retentionEndsOn": "2099-12-31"
+    }
+  ]
+}

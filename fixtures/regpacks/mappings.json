@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "_note": "Mapping tables for a compliance owner to check. Citations are copied from docs/map/05-governance.md (written from memory, not checked against the eCFR or the Federal Register). `governance_id` is the row of that document the line cites. Nothing here says a rule is met.",
+  "regimes": {
+    "hipaa": {
+      "title": "HIPAA Security Rule (45 CFR 164.308 and 164.312)",
+      "hedged": false,
+      "items": [
+        {"id": "H-01", "cite": "45 CFR 164.308(a)(1)(ii)(A)", "title": "Risk analysis", "governance_id": "BA-2", "controls": ["C-25"], "topics": ["inventory"]},
+        {"id": "H-02", "cite": "45 CFR 164.308(a)(1)(ii)(D)", "title": "Information system activity review", "governance_id": "BA-2", "controls": ["C-08"], "topics": ["audit"]},
+        {"id": "H-03", "cite": "45 CFR 164.308(a)(4)", "title": "Information access management", "governance_id": "BA-2", "controls": ["C-03", "C-38"], "topics": ["access"]},
+        {"id": "H-04", "cite": "45 CFR 164.308(a)(6)", "title": "Security incident procedures", "governance_id": "BA-5", "controls": ["C-34"], "topics": ["incident"]},
+        {"id": "H-05", "cite": "45 CFR 164.308(b)(1)", "title": "Business associate contracts and other arrangements", "governance_id": "BA-3", "controls": ["C-43"], "topics": ["vendor"]},
+        {"id": "H-06", "cite": "45 CFR 164.312(a)(1)", "title": "Access control", "governance_id": "BA-2", "controls": ["C-03", "C-38"], "topics": ["access"]},
+        {"id": "H-07", "cite": "45 CFR 164.312(b)", "title": "Audit controls", "governance_id": "BA-2", "controls": ["C-08"], "topics": ["audit", "retention"]},
+        {"id": "H-08", "cite": "45 CFR 164.312(d)", "title": "Person or entity authentication", "governance_id": "BA-2", "controls": ["C-03"], "topics": ["authentication"]}
+      ]
+    },
+    "glba-ftc-safeguards": {
+      "title": "FTC Safeguards Rule (16 CFR 314.4)",
+      "hedged": false,
+      "items": [
+        {"id": "G-01", "cite": "16 CFR 314.4(c)(1)", "title": "Access controls, least privilege", "governance_id": "GLBA-1", "controls": ["C-03", "C-38"], "topics": ["access"]},
+        {"id": "G-02", "cite": "16 CFR 314.4(c)(5)", "title": "Multi-factor authentication", "governance_id": "GLBA-1", "controls": ["C-03"], "topics": ["authentication"]},
+        {"id": "G-03", "cite": "16 CFR 314.4(c)(2)", "title": "Data and systems inventory", "governance_id": "GLBA-2", "controls": ["C-25"], "topics": ["inventory"]},
+        {"id": "G-04", "cite": "16 CFR 314.4(f)", "title": "Oversee service providers", "governance_id": "GLBA-3", "controls": ["C-43"], "topics": ["vendor"]},
+        {"id": "G-05", "cite": "16 CFR 314.4(c)(8)", "title": "Monitor and log authorized users' activity", "governance_id": "GLBA-5", "controls": ["C-08"], "topics": ["audit"]},
+        {"id": "G-06", "cite": "16 CFR 314.4(h)", "title": "Written incident response plan", "governance_id": "GLBA-6", "controls": ["C-34"], "topics": ["incident"]},
+        {"id": "G-07", "cite": "16 CFR 314.4(j)", "title": "Notify the FTC of a notification event", "governance_id": "GLBA-7", "controls": ["C-34"], "topics": ["notification"]}
+      ]
+    },
+    "sec-reg-s-p": {
+      "title": "SEC Regulation S-P as amended in 2024 (17 CFR 248.30)",
+      "hedged": true,
+      "items": [
+        {"id": "S-01", "cite": "17 CFR 248.30(a)(3) (incident response program)", "title": "Incident response program", "governance_id": "GLBA-6", "controls": ["C-34"], "topics": ["incident"]},
+        {"id": "S-02", "cite": "17 CFR 248.30(a)(5) (service provider oversight)", "title": "Service-provider oversight", "governance_id": "GLBA-3", "controls": ["C-43"], "topics": ["vendor"]},
+        {"id": "S-03", "cite": "17 CFR 248.30(a)(4) (customer notice)", "title": "Customer notice of unauthorized access", "governance_id": "GLBA-7", "controls": ["C-34"], "topics": ["notification"]}
+      ]
+    }
+  }
+}

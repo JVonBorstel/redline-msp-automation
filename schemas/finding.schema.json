@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redline-msp-automation.example/schemas/finding.schema.json",
+  "$comment": "Hand-written (B-13). Source of truth: the TenantBaselineFinding class in levers/powershell/TenantBaseline/TenantBaseline.psm1. Keys are PascalCase because findings.json and the Power BI CSV already use them; renaming to snake_case (STD-XL-5) would break those readers and is left to a later item.",
+  "title": "Finding",
+  "description": "One baseline or compliance finding, as written to findings.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["Id", "CheckId", "Severity", "Title", "Subject", "Evidence", "FixLever", "FixMode", "FixTarget"],
+  "properties": {
+    "Id": {"type": "string", "pattern": "^TB-[A-Z]+-[0-9]{2,}$"},
+    "CheckId": {"type": "string", "pattern": "^[A-Z][A-Z0-9]{1,31}$"},
+    "Severity": {"enum": ["High", "Medium", "Low"]},
+    "Title": {"type": "string", "minLength": 1, "maxLength": 200},
+    "Subject": {"type": "string", "minLength": 1, "maxLength": 256},
+    "Evidence": {"type": "string", "minLength": 1, "maxLength": 1000},
+    "FixLever": {
+      "type": "string",
+      "pattern": "^$|^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)+$",
+      "description": "A registry lever name, or empty when the fix is a human decision."
+    },
+    "FixMode": {"enum": ["dry-run", "manual"]},
+    "FixTarget": {"type": "string", "maxLength": 256}
+  },
+  "if": {"properties": {"FixLever": {"const": ""}}},
+  "then": {"properties": {"FixMode": {"const": "manual"}}},
+  "else": {"properties": {"FixMode": {"const": "dry-run"}}}
+}

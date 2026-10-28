@@ -1,0 +1,30 @@
+{
+  "_note": "Synthetic September 2026 security-awareness figures for Litware Legal, service-level (invented), written by script from the October fixture. Vendors UNVERIFIED (U-04); no vendor export format is claimed. Fixture-based.",
+  "client": "litware-legal",
+  "as_of": "2026-09-22T12:00:00Z",
+  "level": "service",
+  "services": {
+    "phishing_simulation": {
+      "inventory_id": "MP-24",
+      "vendor": "UNVERIFIED",
+      "campaigns": [
+        {
+          "id": "PS-2609-A",
+          "name": "Fake court e-filing notice",
+          "launched": "2026-09-14",
+          "sent": 18,
+          "clicked": 4,
+          "reported": 5
+        }
+      ]
+    },
+    "password_vault": {
+      "inventory_id": "MP-23",
+      "vendor": "UNVERIFIED",
+      "audit_score": 64,
+      "users_total": 15,
+      "users_enrolled": 11,
+      "mfa_enforced": false
+    }
+  }
+}

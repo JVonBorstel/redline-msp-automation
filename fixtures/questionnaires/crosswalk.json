@@ -1,0 +1,13 @@
+{
+  "label": "reviewer mapping from question words to repo control ids; not a measurement",
+  "rows": [
+    {"keywords": ["audit", "logs", "tampering"], "controls": ["C-08"]},
+    {"keywords": ["administrator", "administrators", "role", "roles", "privileged"], "controls": ["C-03"]},
+    {"keywords": ["secrets", "credentials", "redacted"], "controls": ["C-10"]},
+    {"keywords": ["injection", "instructions"], "controls": ["C-13"]},
+    {"keywords": ["separate", "isolation", "isolated", "retrieval"], "controls": ["C-26"]},
+    {"keywords": ["assistants", "documents"], "controls": ["C-12"]},
+    {"keywords": ["approval", "approvals"], "controls": ["C-06"]},
+    {"keywords": ["detection", "endpoint"], "controls": ["C-25"]}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users(id,displayName,userPrincipalName,userType,accountEnabled,createdDateTime,onPremisesSyncEnabled,signInActivity)",
+  "value": [
+    { "id": "f0000000-0000-4000-8000-000000000001", "displayName": "Rosa Diaz", "userPrincipalName": "rosa.diaz@fabrikamcapital.example", "userType": "Member", "accountEnabled": true, "createdDateTime": "2022-03-01T09:00:00Z", "onPremisesSyncEnabled": null,
+      "signInActivity": { "lastSignInDateTime": "2026-09-30T08:00:00Z", "lastNonInteractiveSignInDateTime": "2026-09-30T09:00:00Z", "lastSuccessfulSignInDateTime": "2026-09-30T09:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000002", "displayName": "Sam Okafor", "userPrincipalName": "sam.okafor@fabrikamcapital.example", "userType": "Member", "accountEnabled": true, "createdDateTime": "2022-03-01T09:05:00Z", "onPremisesSyncEnabled": null,
+      "signInActivity": { "lastSignInDateTime": "2026-09-29T08:00:00Z", "lastNonInteractiveSignInDateTime": "2026-09-30T10:00:00Z", "lastSuccessfulSignInDateTime": "2026-09-30T10:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000003", "displayName": "Tara Singh", "userPrincipalName": "tara.singh@fabrikamcapital.example", "userType": "Member", "accountEnabled": true, "createdDateTime": "2023-05-15T09:00:00Z", "onPremisesSyncEnabled": true,
+      "signInActivity": { "lastSignInDateTime": "2026-09-28T08:00:00Z", "lastNonInteractiveSignInDateTime": "2026-09-30T07:00:00Z", "lastSuccessfulSignInDateTime": "2026-09-30T07:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000004", "displayName": "Uma Reddy", "userPrincipalName": "uma.reddy@fabrikamcapital.example", "userType": "Member", "accountEnabled": true, "createdDateTime": "2023-07-03T09:00:00Z", "onPremisesSyncEnabled": true,
+      "signInActivity": { "lastSignInDateTime": "2026-09-30T12:00:00Z", "lastNonInteractiveSignInDateTime": "2026-09-30T12:30:00Z", "lastSuccessfulSignInDateTime": "2026-09-30T12:30:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000005", "displayName": "Victor Hale", "userPrincipalName": "victor.hale@fabrikamcapital.example", "userType": "Member", "accountEnabled": true, "createdDateTime": "2024-01-22T09:00:00Z", "onPremisesSyncEnabled": true,
+      "signInActivity": { "lastSignInDateTime": "2026-09-24T08:00:00Z", "lastNonInteractiveSignInDateTime": "2026-09-29T16:00:00Z", "lastSuccessfulSignInDateTime": "2026-09-29T16:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000006", "displayName": "Wen Li", "userPrincipalName": "wen.li@fabrikamcapital.example", "userType": "Member", "accountEnabled": true, "createdDateTime": "2025-08-11T09:00:00Z", "onPremisesSyncEnabled": true,
+      "signInActivity": { "lastSignInDateTime": "2026-09-30T14:00:00Z", "lastNonInteractiveSignInDateTime": "2026-09-30T15:00:00Z", "lastSuccessfulSignInDateTime": "2026-09-30T15:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000007", "displayName": "Break Glass 01", "userPrincipalName": "bg-01@fabrikamcapital.onmicrosoft.com", "userType": "Member", "accountEnabled": true, "createdDateTime": "2022-02-28T08:00:00Z", "onPremisesSyncEnabled": null,
+      "signInActivity": { "lastSignInDateTime": "2026-09-10T15:00:00Z", "lastNonInteractiveSignInDateTime": null, "lastSuccessfulSignInDateTime": "2026-09-10T15:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000008", "displayName": "Break Glass 02", "userPrincipalName": "bg-02@fabrikamcapital.onmicrosoft.com", "userType": "Member", "accountEnabled": true, "createdDateTime": "2022-02-28T08:05:00Z", "onPremisesSyncEnabled": null,
+      "signInActivity": { "lastSignInDateTime": "2026-09-10T15:10:00Z", "lastNonInteractiveSignInDateTime": null, "lastSuccessfulSignInDateTime": "2026-09-10T15:10:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000009", "displayName": "Quinn Advisor (Litware)", "userPrincipalName": "quinn_litware.example#EXT#@fabrikamcapital.onmicrosoft.com", "userType": "Guest", "accountEnabled": true, "createdDateTime": "2026-04-14T09:00:00Z", "onPremisesSyncEnabled": null,
+      "signInActivity": { "lastSignInDateTime": "2026-09-21T10:00:00Z", "lastNonInteractiveSignInDateTime": null, "lastSuccessfulSignInDateTime": "2026-09-21T10:00:00Z" } },
+    { "id": "f0000000-0000-4000-8000-000000000010", "displayName": "Former Analyst", "userPrincipalName": "former.analyst@fabrikamcapital.example", "userType": "Member", "accountEnabled": false, "createdDateTime": "2024-02-05T09:00:00Z", "onPremisesSyncEnabled": true,
+      "signInActivity": { "lastSignInDateTime": "2025-12-19T17:00:00Z", "lastNonInteractiveSignInDateTime": "2025-12-19T17:10:00Z", "lastSuccessfulSignInDateTime": "2025-12-19T17:10:00Z" } }
+  ]
+}

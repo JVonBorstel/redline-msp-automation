@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: The master map
+    url: https://github.com/JVonBorstel/redline-msp-automation/blob/main/docs/map/README.md
+    about: Every work item comes from docs/ROADMAP.md; read the map before opening one.

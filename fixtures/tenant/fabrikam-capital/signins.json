@@ -1,0 +1,120 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "signins",
+    "note": "Synthetic. Each entry is shaped like a Microsoft Graph v1.0 signIn resource (subset of properties). Field names are VERIFIED against https://learn.microsoft.com/en-us/graph/api/resources/signin?view=graph-rest-1.0 and signinstatus / signinlocation (read 2026-10-21); values, IPs (documentation ranges 192.0.2.0/24, 198.51.100.0/24, 203.0.113.0/24) and failure texts are invented. status.errorCode is 0 on success. Whether a real tenant returns errorCode 0 on success is UNVERIFIED here. Not captured from a real tenant."
+  },
+  "value": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000001",
+      "createdDateTime": "2026-10-21T08:10:00Z",
+      "userDisplayName": "Morgan Reyes",
+      "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+      "userId": "9a1b3c5d-7e9f-4a1b-8c3d-5e7f9a1b3c5d",
+      "appDisplayName": "Microsoft Teams",
+      "ipAddress": "198.51.100.31",
+      "clientAppUsed": "Browser",
+      "conditionalAccessStatus": "failure",
+      "isInteractive": true,
+      "status": {
+        "errorCode": 53000,
+        "failureReason": "Device is not compliant with Conditional Access policy.",
+        "additionalDetails": ""
+      },
+      "location": {
+        "city": "Boulder",
+        "state": "Colorado",
+        "countryOrRegion": "US"
+      }
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000002",
+      "createdDateTime": "2026-10-21T08:30:00Z",
+      "userDisplayName": "Riley Brooks",
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "userId": "2b4d6f8a-0c2e-4d6f-9a0c-4e6a8c0e2b4d",
+      "appDisplayName": "Microsoft 365 portal",
+      "ipAddress": "198.51.100.32",
+      "clientAppUsed": "Browser",
+      "conditionalAccessStatus": "notApplied",
+      "isInteractive": true,
+      "status": {
+        "errorCode": 50126,
+        "failureReason": "Error validating credentials due to invalid username or password.",
+        "additionalDetails": ""
+      },
+      "location": {
+        "city": "Boulder",
+        "state": "Colorado",
+        "countryOrRegion": "US"
+      }
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000003",
+      "createdDateTime": "2026-10-21T08:30:40Z",
+      "userDisplayName": "Riley Brooks",
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "userId": "2b4d6f8a-0c2e-4d6f-9a0c-4e6a8c0e2b4d",
+      "appDisplayName": "Microsoft 365 portal",
+      "ipAddress": "198.51.100.32",
+      "clientAppUsed": "Browser",
+      "conditionalAccessStatus": "notApplied",
+      "isInteractive": true,
+      "status": {
+        "errorCode": 50126,
+        "failureReason": "Error validating credentials due to invalid username or password.",
+        "additionalDetails": ""
+      },
+      "location": {
+        "city": "Boulder",
+        "state": "Colorado",
+        "countryOrRegion": "US"
+      }
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000004",
+      "createdDateTime": "2026-10-21T08:31:20Z",
+      "userDisplayName": "Riley Brooks",
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "userId": "2b4d6f8a-0c2e-4d6f-9a0c-4e6a8c0e2b4d",
+      "appDisplayName": "Microsoft 365 portal",
+      "ipAddress": "198.51.100.32",
+      "clientAppUsed": "Browser",
+      "conditionalAccessStatus": "success",
+      "isInteractive": true,
+      "status": {
+        "errorCode": 0,
+        "failureReason": "",
+        "additionalDetails": ""
+      },
+      "location": {
+        "city": "Boulder",
+        "state": "Colorado",
+        "countryOrRegion": "US"
+      }
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000005",
+      "createdDateTime": "2026-10-21T09:00:00Z",
+      "userDisplayName": "Dana Kim",
+      "userPrincipalName": "dana.kim@fabrikamcapital.example",
+      "userId": "9e747b41-1d29-50f8-aa16-1666927b4b83",
+      "appDisplayName": "Microsoft 365 portal",
+      "ipAddress": "198.51.100.33",
+      "clientAppUsed": "Browser",
+      "conditionalAccessStatus": "notApplied",
+      "isInteractive": true,
+      "status": {
+        "errorCode": 50057,
+        "failureReason": "The user account is disabled.",
+        "additionalDetails": ""
+      },
+      "location": {
+        "city": "Boulder",
+        "state": "Colorado",
+        "countryOrRegion": "US"
+      }
+    }
+  ]
+}

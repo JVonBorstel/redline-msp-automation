@@ -1,0 +1,6 @@
+{
+  "sources": [
+    {"source_id": "b58-msp-backup", "article_id": "MSP-RB-201", "title": "Backup runbook", "tags": ["backup"], "origin": "kb/msp-internal/b58-backup", "declared_class": "DC-1",
+     "paragraphs": ["Full backups of the practice server run every 14 days.", "Reference phrase: platypus-b58-msp-article."]}
+  ]
+}

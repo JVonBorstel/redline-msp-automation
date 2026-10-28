@@ -1,0 +1,27 @@
+{
+  "_note": "SYNTHETIC. Imitates a Tenable Nessus CSV export (column names as commonly exported; UNVERIFIED, see SOURCES.md). One JSON object per CSV row. Hosts and CVE ids are invented.",
+  "client": "litware-legal",
+  "as_of": "2026-10-21T12:00:00Z",
+  "rows": [
+    {
+      "Plugin ID": "900101",
+      "CVE": "",
+      "CVSS v2.0 Base Score": "0.0",
+      "Risk": "None",
+      "Host": "LL-FS01",
+      "Protocol": "tcp",
+      "Port": "0",
+      "Name": "Synthetic informational: OS fingerprint"
+    },
+    {
+      "Plugin ID": "900102",
+      "CVE": "CVE-2099-0901",
+      "CVSS v2.0 Base Score": "5.0",
+      "Risk": "Medium",
+      "Host": "LL-PC01",
+      "Protocol": "tcp",
+      "Port": "135",
+      "Name": "Synthetic RPC exposure"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "global_cap": 50,
+  "per_client_cap": 1,
+  "jobs": [
+    { "name": "tenant-baseline", "workflow": "tenant-baseline", "every": "daily", "not_before_hour": 6 },
+    { "name": "access-review", "workflow": "access-review", "every": "quarterly", "clients": ["contoso-dental", "fabrikam-capital"] }
+  ]
+}

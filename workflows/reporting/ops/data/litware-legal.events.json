@@ -1,0 +1,486 @@
+{
+ "_note": "Synthetic, hand-generated overlay for B-74 (invented; fixture-based). Events the Phase 2 ticket files do not carry: first response time, reopen count, and the PROPOSED 'user confirmed working' time. Not a PSA capture.",
+ "client": "litware-legal",
+ "events": [
+  {
+   "ticket_id": "T-5301",
+   "first_response_at": "2026-10-05T14:20:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5302",
+   "first_response_at": "2026-10-14T15:03:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5303",
+   "first_response_at": "2026-10-09T16:21:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5304",
+   "first_response_at": "2026-10-06T18:29:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5305",
+   "first_response_at": "2026-10-15T17:42:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5306",
+   "first_response_at": "2026-10-12T20:15:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5307",
+   "first_response_at": "2026-10-13T20:10:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5308",
+   "first_response_at": "2026-10-15T20:50:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5309",
+   "first_response_at": "2026-10-13T21:54:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-14T17:15:00Z"
+  },
+  {
+   "ticket_id": "T-5310",
+   "first_response_at": "2026-10-08T22:47:00Z",
+   "reopen_count": 1,
+   "user_confirmed_working_at": "2026-10-09T04:08:00Z"
+  },
+  {
+   "ticket_id": "T-5311",
+   "first_response_at": "2026-10-05T23:00:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5312",
+   "first_response_at": "2026-10-14T15:33:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5313",
+   "first_response_at": "2026-10-09T22:16:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5314",
+   "first_response_at": "2026-10-06T17:19:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-08T09:03:00Z"
+  },
+  {
+   "ticket_id": "T-5315",
+   "first_response_at": "2026-10-15T19:12:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5316",
+   "first_response_at": "2026-10-09T21:05:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-09T21:55:00Z"
+  },
+  {
+   "ticket_id": "T-5317",
+   "first_response_at": "2026-10-09T16:08:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-09T22:41:00Z"
+  },
+  {
+   "ticket_id": "T-5318",
+   "first_response_at": "2026-10-09T15:51:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-09T22:02:00Z"
+  },
+  {
+   "ticket_id": "T-5319",
+   "first_response_at": "2026-10-13T21:14:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-14T03:49:00Z"
+  },
+  {
+   "ticket_id": "T-5320",
+   "first_response_at": "2026-10-09T00:37:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-09T02:03:00Z"
+  },
+  {
+   "ticket_id": "T-5321",
+   "first_response_at": "2026-10-05T22:50:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-06T05:47:00Z"
+  },
+  {
+   "ticket_id": "T-5322",
+   "first_response_at": "2026-10-14T21:13:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5323",
+   "first_response_at": "2026-10-09T16:01:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-10T12:15:00Z"
+  },
+  {
+   "ticket_id": "T-5324",
+   "first_response_at": "2026-10-06T17:34:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5325",
+   "first_response_at": "2026-10-15T19:02:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5326",
+   "first_response_at": "2026-10-12T18:25:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-13T00:41:00Z"
+  },
+  {
+   "ticket_id": "T-5327",
+   "first_response_at": "2026-10-08T01:38:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-08T16:21:00Z"
+  },
+  {
+   "ticket_id": "T-5328",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5329",
+   "first_response_at": "2026-10-13T21:04:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5330",
+   "first_response_at": "2026-10-08T22:12:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5331",
+   "first_response_at": "2026-10-06T01:20:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5332",
+   "first_response_at": "2026-10-14T15:38:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5333",
+   "first_response_at": "2026-10-09T17:06:00Z",
+   "reopen_count": 1,
+   "user_confirmed_working_at": "2026-10-10T11:45:00Z"
+  },
+  {
+   "ticket_id": "T-5334",
+   "first_response_at": "2026-10-06T16:19:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-07T12:28:00Z"
+  },
+  {
+   "ticket_id": "T-5335",
+   "first_response_at": "2026-10-15T17:12:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5336",
+   "first_response_at": "2026-10-12T18:30:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5337",
+   "first_response_at": "2026-10-07T19:23:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-08T15:39:00Z"
+  },
+  {
+   "ticket_id": "T-5338",
+   "first_response_at": "2026-10-17T02:21:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5339",
+   "first_response_at": "2026-10-13T21:09:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5340",
+   "first_response_at": "2026-10-08T22:42:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5341",
+   "first_response_at": "2026-10-08T22:30:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5342",
+   "first_response_at": "2026-10-08T22:37:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-09T04:08:00Z"
+  },
+  {
+   "ticket_id": "T-5343",
+   "first_response_at": "2026-10-09T15:41:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-10T11:52:00Z"
+  },
+  {
+   "ticket_id": "T-5344",
+   "first_response_at": "2026-10-14T20:15:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5345",
+   "first_response_at": "2026-10-14T22:10:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5346",
+   "first_response_at": "2026-10-12T20:35:00Z",
+   "reopen_count": 1,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5347",
+   "first_response_at": "2026-10-08T01:18:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5348",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5349",
+   "first_response_at": "2026-10-13T21:14:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-14T02:50:00Z"
+  },
+  {
+   "ticket_id": "T-5350",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5351",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5352",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5353",
+   "first_response_at": "2026-10-12T16:15:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-12T22:29:00Z"
+  },
+  {
+   "ticket_id": "T-5354",
+   "first_response_at": "2026-10-12T17:56:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5355",
+   "first_response_at": "2026-10-12T16:02:00Z",
+   "reopen_count": 1,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5356",
+   "first_response_at": "2026-10-12T16:10:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5357",
+   "first_response_at": "2026-10-07T19:43:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5358",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5359",
+   "first_response_at": "2026-10-13T21:04:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5360",
+   "first_response_at": "2026-10-08T21:42:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-10T13:23:00Z"
+  },
+  {
+   "ticket_id": "T-5361",
+   "first_response_at": "2026-10-05T22:35:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-06T19:05:00Z"
+  },
+  {
+   "ticket_id": "T-5362",
+   "first_response_at": "2026-10-15T05:33:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5363",
+   "first_response_at": "2026-10-09T16:36:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5364",
+   "first_response_at": "2026-10-06T16:14:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-08T08:29:00Z"
+  },
+  {
+   "ticket_id": "T-5365",
+   "first_response_at": "2026-10-15T19:22:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5366",
+   "first_response_at": "2026-10-12T20:15:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5367",
+   "first_response_at": "2026-10-07T18:53:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-09T10:25:00Z"
+  },
+  {
+   "ticket_id": "T-5368",
+   "first_response_at": null,
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5369",
+   "first_response_at": "2026-10-13T20:39:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-14T17:01:00Z"
+  },
+  {
+   "ticket_id": "T-5370",
+   "first_response_at": "2026-10-08T21:32:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-10T13:19:00Z"
+  },
+  {
+   "ticket_id": "T-5371",
+   "first_response_at": "2026-10-05T22:40:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-07T14:27:00Z"
+  },
+  {
+   "ticket_id": "T-5372",
+   "first_response_at": "2026-10-14T22:53:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5373",
+   "first_response_at": "2026-10-09T15:51:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5374",
+   "first_response_at": "2026-10-06T16:19:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5375",
+   "first_response_at": "2026-10-15T19:12:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5376",
+   "first_response_at": "2026-10-12T18:05:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5377",
+   "first_response_at": "2026-10-07T20:58:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5378",
+   "first_response_at": "2026-10-16T21:51:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": null
+  },
+  {
+   "ticket_id": "T-5379",
+   "first_response_at": "2026-10-13T21:44:00Z",
+   "reopen_count": 0,
+   "user_confirmed_working_at": "2026-10-14T01:59:00Z"
+  },
+  {
+   "ticket_id": "T-5380",
+   "first_response_at": "2026-10-09T02:42:00Z",
+   "reopen_count": 1,
+   "user_confirmed_working_at": "2026-10-09T03:52:00Z"
+  }
+ ]
+}

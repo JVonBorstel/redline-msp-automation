@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "note": "SYNTHETIC stand-in for the client record. Roadmap B-36 says the line-of-business app checklist comes from the client record, but no client schema or fixture has such a field (checked schemas/client.schema.json, fixtures/ and docs/ for this change). Until a later item adds it to the client record, this file holds one invented list per client. App names are invented, not real products.",
+    "synthetic": true
+  },
+  "clients": {
+    "contoso-dental": ["Practice scheduling app (synthetic)", "Imaging viewer (synthetic)"],
+    "fabrikam-capital": ["Portfolio reporting app (synthetic)"],
+    "litware-legal": []
+  }
+}

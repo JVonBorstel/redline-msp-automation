@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "source": "Synthetic. Invented role bundles for the two demo clients, shaped by fixtures/tenant/<client>/licenses.json and groups.json. A real client's bundles would come from its own onboarding document (UNVERIFIED which field or document holds them in a real PSA). Every group listed here is checked again by group.add-member, which refuses a privileged one (W-IDM-07); every license by license.add, which never buys a seat (W-VND-02).",
+  "clients": {
+    "contoso-dental": {
+      "roles": {
+        "front-desk": {
+          "licenses": ["O365_BUSINESS_ESSENTIALS"],
+          "groups": ["c1000000-0000-4000-8000-000000000001", "c1000000-0000-4000-8000-000000000003"],
+          "archive": true
+        },
+        "clinical-assistant": {
+          "licenses": ["O365_BUSINESS_ESSENTIALS"],
+          "groups": ["c1000000-0000-4000-8000-000000000002", "c1000000-0000-4000-8000-000000000003"],
+          "archive": false
+        }
+      }
+    },
+    "fabrikam-capital": {
+      "roles": {
+        "analyst": {
+          "licenses": ["O365_BUSINESS_PREMIUM"],
+          "groups": ["f1000000-0000-4000-8000-000000000001", "f1000000-0000-4000-8000-000000000002"],
+          "archive": true
+        }
+      }
+    }
+  }
+}

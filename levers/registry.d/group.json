@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "_note": "B-32. Group membership write levers (PowerShell, mock tenant). Mock only; no real Entra group is changed. Registered risk class is R2, the stricter of the two; the call's own class (R2 data access, R1 distribution) is reported in the dry-run data from the group's redlineAccessClass attribute.",
+  "levers": [
+    {
+      "name": "group.add-member",
+      "runtime": "powershell",
+      "entry": "GroupOps\\Add-GroupMember",
+      "description": "Mock of adding one user to a group of the client. Refuses a role-assignable or client-privileged group (W-IDM-07). R2 when the group grants data access, R1 for distribution only (shown in the dry-run data).",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "group_id"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of one user of this client"
+        },
+        "group_id": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "Object id of one group of this client"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "group.remove-member",
+      "lever_version": 1,
+      "impact": {
+        "L1": "One person gets the access that group carries, on day one or after a move, without waiting; the wrong group would show them files or mail they should not see.",
+        "L2": "The practice's records, shares and mailing lists stay limited to the people who need them; an over-broad group is a data exposure for the client.",
+        "L3": "Access requests become one approved, audited, reversible change; admin-capable groups are refused outright, so no automated path can grant admin rights.",
+        "L4": "Least privilege applied the same way at every client, so one weak group habit at one office does not become a way into the others."
+      }
+    },
+    {
+      "name": "group.remove-member",
+      "runtime": "powershell",
+      "entry": "GroupOps\\Remove-GroupMember",
+      "description": "Mock of removing one user from a group of the client; the undo of group.add-member. Refuses a role-assignable or client-privileged group (W-IDM-07).",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "group_id"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of one user of this client"
+        },
+        "group_id": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "Object id of one group of this client"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "group.add-member",
+      "lever_version": 1,
+      "impact": {
+        "L1": "One person loses the access that group carried, for example after a move to another role; removing the wrong person can lock them out of work files.",
+        "L2": "Access follows the person's current job, so old access to records does not linger after a move.",
+        "L3": "Removals are as controlled as additions: approved, audited, and reversible with the other lever.",
+        "L4": "Stale access is a common route for misuse; routine, consistent clean-up lowers it across all clients."
+      }
+    }
+  ]
+}

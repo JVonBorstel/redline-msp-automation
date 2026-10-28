@@ -1,0 +1,6 @@
+{
+  "op": "replace",
+  "path": "/users/priya.nair@contosodental.example/accountEnabled",
+  "before": true,
+  "after": false
+}

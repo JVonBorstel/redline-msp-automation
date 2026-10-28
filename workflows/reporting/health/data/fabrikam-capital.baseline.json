@@ -1,0 +1,76 @@
+{
+  "_note": "Synthetic tenant baseline result for Fabrikam Capital (invented tenant). Shaped like a subset of the TenantBaseline findings.json (B-50): findings with CheckId, Severity and Subject, plus the drift block reduced to the keys this report uses. The drift block is written by hand to match the findings; it is not a captured run. Fixture-based, not a real tenant.",
+  "client": "fabrikam-capital",
+  "tenant": "tenant-fabrikam-capital",
+  "as_of": "2026-10-22T06:00:00Z",
+  "findings": [
+    {
+      "Id": "F-01",
+      "CheckId": "BREAKGLASS",
+      "Severity": "High",
+      "Title": "Break-glass account has not been tested",
+      "Subject": "bg-admin-1@fabrikamcapital.example"
+    },
+    {
+      "Id": "F-02",
+      "CheckId": "STALE",
+      "Severity": "Medium",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "ex.analyst@fabrikamcapital.example"
+    },
+    {
+      "Id": "F-03",
+      "CheckId": "STALE",
+      "Severity": "Low",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "intern.2025@fabrikamcapital.example"
+    }
+  ],
+  "drift": {
+    "compared_to": "2026-09-22",
+    "new": [],
+    "resolved": [
+      {
+        "CheckId": "LEGACYAUTH",
+        "Subject": "tenant"
+      },
+      {
+        "CheckId": "GUESTADMIN",
+        "Subject": "partner.guest@outside.example"
+      }
+    ],
+    "unchanged": [
+      {
+        "CheckId": "BREAKGLASS",
+        "Subject": "bg-admin-1@fabrikamcapital.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "ex.analyst@fabrikamcapital.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "intern.2025@fabrikamcapital.example"
+      }
+    ],
+    "ca": {
+      "added": [
+        {
+          "id": "ca-004",
+          "name": "Block risky sign-ins"
+        }
+      ],
+      "removed": [],
+      "state_changed": [],
+      "assignments_changed": [
+        {
+          "id": "ca-002",
+          "name": "Require compliant device",
+          "fields": [
+            "excludeUsers"
+          ]
+        }
+      ]
+    }
+  }
+}

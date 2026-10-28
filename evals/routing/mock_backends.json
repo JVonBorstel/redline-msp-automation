@@ -1,0 +1,49 @@
+{
+  "_note": "Mock routing backends for the B-78 eval. FIXTURE-BASED STAND-INS written by the repo author: keyword rules with a declared confidence, not real models and not model output. 'rules' stands for the rules-first tier, 'small' for a small classifier model, 'strong' for a strong model. Rules are ordered, first match wins, case-insensitive substring. relative_cost is an assumed unit per call (not money, not measured).",
+  "tiers": {
+    "rules": {
+      "relative_cost": 0,
+      "fallback": { "category": "other", "confidence": 0.1 },
+      "rules": [
+        { "keywords": ["phish", "malware", "ransomware", "impossible travel", "infected"], "category": "security", "confidence": 0.95 },
+        { "keywords": ["last day", "leaver", "resigned", "no longer with", "offboarding"], "category": "offboarding", "confidence": 0.9 },
+        { "keywords": ["locked out", "account is locked"], "category": "account-access", "confidence": 0.9 },
+        { "keywords": ["authenticator", "verification code", "two-factor", "mfa"], "category": "mfa", "confidence": 0.85 },
+        { "keywords": ["vpn", "wi-fi", "internet"], "category": "network", "confidence": 0.8 },
+        { "keywords": ["printer", "monitor", "keyboard", "docking", "dock "], "category": "hardware", "confidence": 0.8 },
+        { "keywords": ["outlook", "mailbox"], "category": "email", "confidence": 0.8 },
+        { "keywords": ["password", "access to"], "category": "account-access", "confidence": 0.6 }
+      ]
+    },
+    "small": {
+      "relative_cost": 1,
+      "fallback": { "category": "other", "confidence": 0.3 },
+      "rules": [
+        { "keywords": ["phish", "suspicious", "malware", "ransomware", "impossible travel", "virus", "infected", "spoof", "scam"], "category": "security", "confidence": 0.9 },
+        { "keywords": ["offboard", "leaver", "left the", "leaving", "last day", "resign", "no longer with", "termination"], "category": "offboarding", "confidence": 0.85 },
+        { "keywords": ["locked out", "lockout", "account is locked"], "category": "account-access", "confidence": 0.85 },
+        { "keywords": ["mfa", "authenticator", "multi-factor", "two-factor", "2fa", "verification code"], "category": "mfa", "confidence": 0.8 },
+        { "keywords": ["password", "sign in", "sign-in", "log in", "login", "access to", "permission"], "category": "account-access", "confidence": 0.65 },
+        { "keywords": ["outlook", "mailbox", "email", "calendar", "inbox", "out of office"], "category": "email", "confidence": 0.7 },
+        { "keywords": ["vpn", "wifi", "wi-fi", "internet", "firewall", "dns", "network", "router", "connection"], "category": "network", "confidence": 0.7 },
+        { "keywords": ["printer", "laptop", "monitor", "docking", "dock ", "keyboard", "scanner", "battery", "webcam", "screen"], "category": "hardware", "confidence": 0.7 },
+        { "keywords": ["install", "license", "teams", "update", "crash", "dentrix", "excel", "power bi"], "category": "software", "confidence": 0.6 }
+      ]
+    },
+    "strong": {
+      "relative_cost": 20,
+      "fallback": { "category": "other", "confidence": 0.5 },
+      "rules": [
+        { "keywords": ["phish", "malware", "ransomware", "impossible travel", "virus", "infected", "different bank account", "new bank account", "e-signature email"], "category": "security", "confidence": 0.95 },
+        { "keywords": ["offboard", "leaver", "left the", "last day", "resign", "no longer with", "termination", "is leaving"], "category": "offboarding", "confidence": 0.95 },
+        { "keywords": ["locked out", "account is locked", "password expired", "forgot my password", "can't remember my password"], "category": "account-access", "confidence": 0.95 },
+        { "keywords": ["authenticator", "verification code", "two-factor", "mfa", "text codes", "move my mfa"], "category": "mfa", "confidence": 0.95 },
+        { "keywords": ["sharepoint", "billing folder", "access to the", "rejecting my password", "after password change", "sign in"], "category": "account-access", "confidence": 0.9 },
+        { "keywords": ["outlook", "mailbox", "calendar", "out of office", "bounce"], "category": "email", "confidence": 0.9 },
+        { "keywords": ["vpn", "wi-fi", "internet", "guest wi", "connection"], "category": "network", "confidence": 0.9 },
+        { "keywords": ["dentrix", "excel", "teams", "power bi", "pdf reader", "installer", "install "], "category": "software", "confidence": 0.9 },
+        { "keywords": ["printer", "monitor", "keyboard", "docking", "dock ", "laptop", "screen"], "category": "hardware", "confidence": 0.9 }
+      ]
+    }
+  }
+}

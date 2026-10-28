@@ -1,0 +1,35 @@
+#!/bin/sh
+# Secret scan on staged changes. Installed by scripts/install-hooks.ps1 (git config core.hooksPath scripts/hooks).
+# Heuristic, case-insensitive. Blocks secret-bearing files and secret-looking content. Bypass is owner-only: git commit --no-verify
+LC_ALL=C; export LC_ALL   # byte-wise matching: UTF-16 BOMs and odd bytes must not make grep skip a line as "binary"
+files=$(git -c core.quotepath=off diff --cached --name-only --diff-filter=ACMR)
+[ -z "$files" ] && exit 0
+
+bad=""
+for f in $files; do
+  leaf=$(basename "$f" | tr '[:upper:]' '[:lower:]')
+  case "$leaf" in
+    .env.example|.env.sample|.env.template) ;;
+    .env|.env.*|*.env|*.pem|*.pfx|*.p12|*.key|*.jks|*.keystore|id_rsa*|id_ed25519*|id_ecdsa*|*.tfstate|*signing.properties|.npmrc|.netrc|.pgpass|.git-credentials|credentials|kubeconfig|secrets.json|local.settings.json|service-account*.json)
+      bad="$bad\n  blocked file: $f" ;;
+  esac
+done
+
+# Added lines only; NUL bytes removed so UTF-16 files are scanned; --text so no file is skipped as binary.
+names='pass(word|wd)?|pwd|secret|token|api[_-]?key|apikey|client[_-]?secret|access[_-]?key|account[_-]?key|private[_-]?key|credential|connection[_-]?string|sharedaccesskey'
+shapes='BEGIN ([A-Z]+ )*PRIVATE KEY|AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-[A-Za-z0-9_-]{24,}|sk_(live|test)_[A-Za-z0-9]{10,}|xox[baprs]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{35}|hf_[A-Za-z0-9]{30,}|npm_[A-Za-z0-9]{30,}|glpat-[A-Za-z0-9_-]{20,}|ya29\.[A-Za-z0-9_-]{20,}|eyJ[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{15,}\.[A-Za-z0-9_-]{10,}|AccountKey=[A-Za-z0-9+/=]{20,}|[?&]sig=[A-Za-z0-9%+/=]{20,}|[Bb]earer[[:space:]]+[A-Za-z0-9._~+/=-]{20,}|://[^/[:space:]:@]+:[^@[:space:]/]{3,}@'  # secret-scan: allow
+assign="($names)[A-Za-z0-9_.-]*[\"']?[[:space:]]*[:=][[:space:]]*[\"']?[^[:space:]\"'#;,<{\$%]{8,}"
+tab=$(printf '\t')
+# Tag each added line with its file. The marker "secret-scan: allow" exempts a line ONLY inside the scanner's own
+# human-only files (it must quote secret-shaped regexes); anywhere else the marker does nothing.
+added=$(git diff --cached --text -U0 | tr -d '\000' | awk '/^\+\+\+ /{f=$2} /^\+[^+]/{print f "\t" $0}' \
+  | grep -avE "^b/(scripts/hooks/pre-commit)${tab}.*secret-scan: allow" \
+  | cut -f2-)   # drop the file tag so a path like ".env.example" cannot trigger the placeholder filter below
+hits=$( { printf '%s\n' "$added" | grep -aE "$shapes"; printf '%s\n' "$added" | grep -aiE "$assign" | grep -aviE '(example|changeme|your[_-]?|placeholder|dummy|redacted|xxxx|\*\*\*|environ|getenv|process\.env|secrets\.|\bnull\b|\bnone\b)'; } | head -5)
+[ -n "$hits" ] && bad="$bad\n  secret-looking content in staged changes:\n$hits"
+
+if [ -n "$bad" ]; then
+  printf "pre-commit: refusing to commit.%b\n" "$bad" >&2
+  exit 1
+fi
+exit 0

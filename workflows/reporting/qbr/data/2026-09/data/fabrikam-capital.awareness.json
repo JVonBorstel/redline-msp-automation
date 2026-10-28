@@ -1,0 +1,38 @@
+{
+  "_note": "Synthetic September 2026 security-awareness figures for Fabrikam Capital, service-level (invented), written by script from the October fixture. Vendors UNVERIFIED (U-04); no vendor export format is claimed. Fixture-based.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-09-22T12:00:00Z",
+  "level": "service",
+  "services": {
+    "phishing_simulation": {
+      "inventory_id": "MP-24",
+      "vendor": "UNVERIFIED",
+      "campaigns": [
+        {
+          "id": "PS-2609-A",
+          "name": "Fake invoice approval",
+          "launched": "2026-09-05",
+          "sent": 31,
+          "clicked": 5,
+          "reported": 14
+        },
+        {
+          "id": "PS-2609-B",
+          "name": "Fake document-share request (custom)",
+          "launched": "2026-09-19",
+          "sent": 31,
+          "clicked": 1,
+          "reported": 18
+        }
+      ]
+    },
+    "password_vault": {
+      "inventory_id": "MP-23",
+      "vendor": "UNVERIFIED",
+      "audit_score": 92,
+      "users_total": 34,
+      "users_enrolled": 34,
+      "mfa_enforced": true
+    }
+  }
+}

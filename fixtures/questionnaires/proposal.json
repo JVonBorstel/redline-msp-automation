@@ -1,0 +1,12 @@
+{
+  "synthetic": true, "client": "contoso-dental", "kind": "proposal",
+  "title": "Synthetic managed services proposal sections",
+  "items": [
+    {"id": "P-01", "scope": "msp", "text": "Describe how client data is kept separate from other clients."},
+    {"id": "P-02", "scope": "msp", "text": "Describe how AI assistants are limited when reading client documents."},
+    {"id": "P-03", "scope": "scoping", "project_kind": "email-migration", "text": "Estimate the effort for the mailbox migration."},
+    {"id": "P-04", "scope": "scoping", "project_kind": "network-refresh", "text": "Estimate the effort for the network refresh."},
+    {"id": "P-05", "scope": "scoping", "project_kind": "satellite-office", "text": "Estimate the effort for the satellite office setup."},
+    {"id": "P-06", "scope": "msp", "text": "Describe how new software vendors are reviewed."}
+  ]
+}

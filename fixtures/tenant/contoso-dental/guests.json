@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "guests",
+    "note": "Synthetic guest accounts for B-38. userType, accountEnabled, displayName and userPrincipalName follow the Microsoft Graph user resource (the same two guests as fixtures/graph/contoso/users.json). expiresOn is this repo's own field (the date the guest's access was agreed to end), not a Graph property: UNVERIFIED against a real tenant. The ids are this repo's own, not Graph object ids. Not captured from a real tenant."
+  },
+  "value": [
+    {
+      "id": "GST-contoso-0001",
+      "displayName": "Pat Vendor (Northwind)",
+      "userPrincipalName": "pat_northwind.example#EXT#@contosodental.onmicrosoft.com",
+      "userType": "Guest",
+      "accountEnabled": true,
+      "expiresOn": "2026-08-31"
+    },
+    {
+      "id": "GST-contoso-0002",
+      "displayName": "Lee Auditor (Tailspin)",
+      "userPrincipalName": "lee_tailspin.example#EXT#@contosodental.onmicrosoft.com",
+      "userType": "Guest",
+      "accountEnabled": true,
+      "expiresOn": "2027-02-01"
+    },
+    {
+      "id": "GST-contoso-0003",
+      "displayName": "Sam Temp (Fabrikam project)",
+      "userPrincipalName": "sam_fabrikam.example#EXT#@contosodental.onmicrosoft.com",
+      "userType": "Guest",
+      "accountEnabled": false,
+      "expiresOn": "2026-03-31"
+    }
+  ]
+}

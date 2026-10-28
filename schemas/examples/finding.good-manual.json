@@ -1,0 +1,11 @@
+{
+  "Id": "TB-GLOBALADMIN-01",
+  "CheckId": "GLOBALADMIN",
+  "Severity": "High",
+  "Title": "More than 4 Global Administrators",
+  "Subject": "Global Administrator",
+  "Evidence": "6 members of the Global Administrator role",
+  "FixLever": "",
+  "FixMode": "manual",
+  "FixTarget": "Global Administrator"
+}

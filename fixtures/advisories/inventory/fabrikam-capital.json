@@ -1,0 +1,71 @@
+{
+  "_note": "SYNTHETIC software inventory for one client, in the neutral shape this repo uses (it stands in for an RMM software list; no RMM schema is claimed). Invented devices and products.",
+  "client": "fabrikam-capital",
+  "display_name": "Fabrikam Capital (synthetic)",
+  "as_of": "2026-10-21T12:00:00Z",
+  "change_windows": [
+    {
+      "label": "Sun early",
+      "start": "2026-10-25T05:00:00Z",
+      "end": "2026-10-25T09:00:00Z"
+    }
+  ],
+  "devices": [
+    {
+      "id": "FC-MAIL01",
+      "hostname": "FC-MAIL01",
+      "kind": "server",
+      "criticality": "critical",
+      "exposure": "internet",
+      "software": [
+        {
+          "vendor": "Exampleware",
+          "product": "MailGate",
+          "version": "7.1"
+        }
+      ]
+    },
+    {
+      "id": "FC-RDS01",
+      "hostname": "FC-RDS01",
+      "kind": "server",
+      "criticality": "critical",
+      "exposure": "internet",
+      "software": [
+        {
+          "vendor": "Examplesoft",
+          "product": "RemoteDesk Server",
+          "version": "4.0"
+        }
+      ]
+    },
+    {
+      "id": "FC-WS09",
+      "hostname": "FC-WS09",
+      "kind": "workstation",
+      "criticality": "medium",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Examplesoft",
+          "product": "PrintHub",
+          "version": "2.0"
+        }
+      ]
+    },
+    {
+      "id": "FC-TRD01",
+      "hostname": "FC-TRD01",
+      "kind": "workstation",
+      "criticality": "high",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Adatum",
+          "product": "DocuVault",
+          "version": "3.0"
+        }
+      ]
+    }
+  ]
+}

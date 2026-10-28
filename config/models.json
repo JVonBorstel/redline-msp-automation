@@ -1,0 +1,19 @@
+{
+  "_note": "Model names live here only. Routes in config/routing.json name a provider and an alias from its models map. Ollama names are examples: nothing is downloaded by this repo.",
+  "providers": {
+    "mock": {
+      "enabled": true,
+      "fixture": "fixtures/gateway/mock_responses.json",
+      "models": { "small": "mock-small", "strong": "mock-strong" }
+    },
+    "ollama": {
+      "enabled": true,
+      "base_url": "http://127.0.0.1:11434/v1",
+      "timeout_s": 30,
+      "max_response_bytes": 1048576,
+      "models": { "small": "llama3.2:3b", "strong": "qwen2.5:14b" }
+    },
+    "azure_openai": { "enabled": false, "models": {} },
+    "anthropic": { "enabled": false, "models": {} }
+  }
+}

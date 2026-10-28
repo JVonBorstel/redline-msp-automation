@@ -1,0 +1,67 @@
+# Build the showcase site with its own build script and deploy it to GitHub Pages. Runs on push to main.
+# The site is built from real runs of this repository's code over synthetic fixtures (see site/build.py).
+# No secrets are used. Enable Pages once in the repository settings: Settings > Pages > Source: GitHub Actions.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; do not cancel one that is running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  UV_PYTHON_PREFERENCE: only-managed
+
+jobs:
+  build:
+    name: Build the site
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.3.0
+        with:
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: uv.lock
+
+      - name: Build the site
+        run: python3 site/build.py --out site/dist
+
+      - name: Test the site (the privacy scan, the page content and the chain check, in a headless browser)
+        run: uv run --frozen python -B -m unittest discover -s site/tests
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

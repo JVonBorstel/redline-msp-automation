@@ -1,0 +1,31 @@
+{
+  "_note": "DNS and TLS fixture, clean twin. Synthetic (invented domains, people, tenants). Pinned to as_of 2026-10-21. Not a capture from a real DNS zone, certificate store or tenant. Triggers no finding.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-21",
+  "domains": [
+    {
+      "domain": "fabrikamcapital.example",
+      "owner": "tech-ben",
+      "spf": "v=spf1 include:spf.protection.outlook.com -all",
+      "dkim": [
+        {
+          "selector": "selector1",
+          "published": true
+        },
+        {
+          "selector": "selector2",
+          "published": true
+        }
+      ],
+      "dmarc": "v=DMARC1; p=reject; rua=mailto:dmarc@fabrikamcapital.example"
+    }
+  ],
+  "tlsCertificates": [
+    {
+      "id": "tls-trade",
+      "subject": "trade.fabrikamcapital.example",
+      "notAfter": "2027-05-01T00:00:00Z",
+      "owner": "tech-ben"
+    }
+  ]
+}

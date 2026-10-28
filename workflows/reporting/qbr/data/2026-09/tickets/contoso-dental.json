@@ -1,0 +1,327 @@
+{
+  "_note": "Synthetic September 2026 ticket counts for Contoso Dental (invented client), derived by hand-written script from the October set with dates moved back 30 days. Only the fields the QBR reads (id, client, source, status, created, updated); no ticket text, people or labels. Fixture-based, not real tickets.",
+  "client": "contoso-dental",
+  "as_of": "2026-09-30T23:00:00Z",
+  "tickets": [
+    {
+      "id": "T-4101",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-05T13:40:00Z",
+      "updated": "2026-09-05T19:40:00Z"
+    },
+    {
+      "id": "T-4102",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T14:53:00Z",
+      "updated": "2026-09-14T15:53:00Z"
+    },
+    {
+      "id": "T-4103",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T15:46:00Z",
+      "updated": "2026-09-10T11:46:00Z"
+    },
+    {
+      "id": "T-4104",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T16:39:00Z",
+      "updated": "2026-09-06T22:39:00Z"
+    },
+    {
+      "id": "T-4105",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T17:32:00Z",
+      "updated": "2026-09-15T18:32:00Z"
+    },
+    {
+      "id": "T-4106",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T18:25:00Z",
+      "updated": "2026-09-13T14:25:00Z"
+    },
+    {
+      "id": "T-4107",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-07T19:18:00Z",
+      "updated": "2026-09-08T15:18:00Z"
+    },
+    {
+      "id": "T-4108",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "new",
+      "created": "2026-09-16T20:11:00Z",
+      "updated": "2026-09-16T20:11:00Z"
+    },
+    {
+      "id": "T-4109",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-13T21:04:00Z",
+      "updated": "2026-09-14T03:04:00Z"
+    },
+    {
+      "id": "T-4110",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T21:57:00Z",
+      "updated": "2026-09-09T03:57:00Z"
+    },
+    {
+      "id": "T-4111",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-05T22:50:00Z",
+      "updated": "2026-09-06T01:50:00Z"
+    },
+    {
+      "id": "T-4112",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-14T14:43:00Z",
+      "updated": "2026-09-14T15:43:00Z"
+    },
+    {
+      "id": "T-4113",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-09T15:36:00Z",
+      "updated": "2026-09-11T07:36:00Z"
+    },
+    {
+      "id": "T-4114",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-06T16:29:00Z",
+      "updated": "2026-09-07T12:29:00Z"
+    },
+    {
+      "id": "T-4115",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-15T17:22:00Z",
+      "updated": "2026-09-15T18:22:00Z"
+    },
+    {
+      "id": "T-4116",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-14T14:05:00Z",
+      "updated": "2026-09-14T15:05:00Z"
+    },
+    {
+      "id": "T-4117",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-14T14:12:00Z",
+      "updated": "2026-09-14T15:12:00Z"
+    },
+    {
+      "id": "T-4118",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-14T14:20:00Z",
+      "updated": "2026-09-14T15:20:00Z"
+    },
+    {
+      "id": "T-4119",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-13T20:54:00Z",
+      "updated": "2026-09-14T16:54:00Z"
+    },
+    {
+      "id": "T-4120",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T21:47:00Z",
+      "updated": "2026-09-10T13:47:00Z"
+    },
+    {
+      "id": "T-4121",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T16:02:00Z",
+      "updated": "2026-09-11T08:02:00Z"
+    },
+    {
+      "id": "T-4122",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-09T16:31:00Z",
+      "updated": "2026-09-11T08:31:00Z"
+    },
+    {
+      "id": "T-4123",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-09T15:26:00Z",
+      "updated": "2026-09-10T11:26:00Z"
+    },
+    {
+      "id": "T-4124",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-06T16:19:00Z",
+      "updated": "2026-09-06T22:19:00Z"
+    },
+    {
+      "id": "T-4125",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-15T17:12:00Z",
+      "updated": "2026-09-15T18:12:00Z"
+    },
+    {
+      "id": "T-4126",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T15:00:00Z",
+      "updated": "2026-09-15T16:00:00Z"
+    },
+    {
+      "id": "T-4127",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-15T15:41:00Z",
+      "updated": "2026-09-15T16:41:00Z"
+    },
+    {
+      "id": "T-4128",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "new",
+      "created": "2026-09-16T19:51:00Z",
+      "updated": "2026-09-16T19:51:00Z"
+    },
+    {
+      "id": "T-4129",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-13T20:44:00Z",
+      "updated": "2026-09-14T16:44:00Z"
+    },
+    {
+      "id": "T-4130",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-08T21:37:00Z",
+      "updated": "2026-09-10T13:37:00Z"
+    },
+    {
+      "id": "T-4131",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-05T22:30:00Z",
+      "updated": "2026-09-06T18:30:00Z"
+    },
+    {
+      "id": "T-4132",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T14:23:00Z",
+      "updated": "2026-09-14T15:23:00Z"
+    },
+    {
+      "id": "T-4133",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T15:16:00Z",
+      "updated": "2026-09-11T07:16:00Z"
+    },
+    {
+      "id": "T-4134",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T16:09:00Z",
+      "updated": "2026-09-06T22:09:00Z"
+    },
+    {
+      "id": "T-4135",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T17:02:00Z",
+      "updated": "2026-09-15T18:02:00Z"
+    },
+    {
+      "id": "T-4136",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T17:55:00Z",
+      "updated": "2026-09-13T13:55:00Z"
+    },
+    {
+      "id": "T-4137",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-07T18:48:00Z",
+      "updated": "2026-09-08T00:48:00Z"
+    },
+    {
+      "id": "T-4138",
+      "client": "contoso-dental",
+      "source": "email",
+      "status": "new",
+      "created": "2026-09-16T19:41:00Z",
+      "updated": "2026-09-16T19:41:00Z"
+    },
+    {
+      "id": "T-4139",
+      "client": "contoso-dental",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-13T20:34:00Z",
+      "updated": "2026-09-14T16:34:00Z"
+    },
+    {
+      "id": "T-4140",
+      "client": "contoso-dental",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T21:27:00Z",
+      "updated": "2026-09-10T13:27:00Z"
+    }
+  ]
+}

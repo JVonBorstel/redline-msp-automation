@@ -1,0 +1,12 @@
+{
+  "site_name": "Redline",
+  "tagline": "A governed AI automation prototype for a managed service provider",
+  "author_line": "Built by Jordan VonBorstel",
+  "contact_url": "https://github.com/JVonBorstel",
+  "robots_noindex": true,
+  "_notes": [
+    "author_line and contact_url are the ONLY place the owner's name may appear; scan/privacy-scan.ps1 -AllowConfig exempts exactly these two strings and nothing else. No email and no phone are shipped.",
+    "robots_noindex keeps the site out of search engines; the link still works for anyone it is handed to. Set it to false to be indexed.",
+    "The site never names a real company or person other than the author; scan/privacy-scan.ps1 and the banned-word list in stats.py check."
+  ]
+}

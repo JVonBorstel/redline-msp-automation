@@ -1,0 +1,46 @@
+{
+  "applied": false,
+  "basis": "fixture-based",
+  "escalation_thresholds": {
+    "rules": {
+      "account-access": 0.6,
+      "email": null,
+      "hardware": 0.8,
+      "mfa": null,
+      "network": 0.8,
+      "offboarding": 0.9,
+      "other": null,
+      "security": 0.95
+    },
+    "small": {
+      "account-access": null,
+      "email": 0.7,
+      "hardware": null,
+      "mfa": null,
+      "network": 0.7,
+      "offboarding": 0.85,
+      "other": 0.3,
+      "security": 0.9,
+      "software": 0.6
+    }
+  },
+  "eval_run": {
+    "always_strong_cost_units": 1200.0,
+    "cascade_accuracy_holdout": 1.0,
+    "cascade_accuracy_in_sample": 0.9833,
+    "cascade_cost_units": 249.0,
+    "command": "uv run python -m evals.routing",
+    "inputs_sha256": {
+      "backends": "652816060c85bccbd9214079d4c2564d70454f4019bbc3d4a063314cb768f090",
+      "corrections": "absent",
+      "tickets": "d182a89700c752eeb7ee4b541c057b27e0f35af4cc5efe0c98003012a5040c79"
+    },
+    "min_support": 3,
+    "report": "evals/routing/report.md",
+    "rule": "per tier and predicted category: lowest confidence whose accepted decisions meet target_accuracy with at least min_support decisions; null means always escalate",
+    "target_accuracy": 0.95,
+    "tickets": 60
+  },
+  "note": "Proposed escalation thresholds for human review, never applied automatically. Derived from a fixture-based eval on synthetic tickets with MOCK tiers; not evidence about any real model. Nothing reads this file and config/routing.json is unchanged.",
+  "status": "proposed"
+}

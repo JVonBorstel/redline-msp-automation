@@ -1,0 +1,3778 @@
+[
+  {
+    "id": "W-SD-01",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Ticket intake and logging",
+    "who_today": "Dispatcher / Tier 1 technician",
+    "trigger": "Email, phone call, portal form or RMM alert arrives",
+    "frequency_volume_estimate": "est. 3,000-5,000 tickets/month (about 0.6-1.0 per end user per month)",
+    "steps_today": [
+      "Read the email or take the call",
+      "Create or match the ticket in the PSA",
+      "Set client, contact and asset",
+      "Write a short summary"
+    ],
+    "systems_touched": [
+      "PSA",
+      "email",
+      "phone"
+    ],
+    "data_sensitivity": "confidential (may contain PHI/NPI in free text)",
+    "pain_today": "Retyping, wrong client or contact picked, PHI pasted into ticket bodies",
+    "automation_pattern": [
+      "agent-triage"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent proposes client, contact and summary; dispatcher confirms before the ticket is saved. Free text is untrusted input.",
+    "repo_status": "partial: workflows/triage reads synthetic tickets (fixtures/tickets/); intake parsing is Phase 2"
+  },
+  {
+    "id": "W-SD-02",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Ticket triage: category, priority, queue",
+    "who_today": "Dispatcher / service desk lead",
+    "trigger": "New ticket saved",
+    "frequency_volume_estimate": "est. same as W-SD-01: every ticket",
+    "steps_today": [
+      "Read the ticket",
+      "Pick category and priority against the SLA matrix",
+      "Route to a queue or technician"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Inconsistent priority, mis-routed tickets bounce between queues, slow first response",
+    "automation_pattern": [
+      "agent-triage",
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Suggestion only. Technician accepts or corrects; corrections become eval data. Ticket text can raise priority but can never change what may be done.",
+    "repo_status": "exists (mocked): workflows/triage, evals/triage/report.md, workflows/triage/corrections.py"
+  },
+  {
+    "id": "W-SD-03",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Duplicate and related ticket detection",
+    "who_today": "Dispatcher / Tier 1 technician",
+    "trigger": "New ticket saved",
+    "frequency_volume_estimate": "est. 5-10% of tickets are duplicates or follow-ups",
+    "steps_today": [
+      "Search open tickets for the same user or symptom",
+      "Merge or link by hand"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Two technicians work the same issue; client gets two answers",
+    "automation_pattern": [
+      "agent-triage"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent suggests the match with reasons; a technician merges. Never auto-merge across clients.",
+    "repo_status": "planned: Phase 2"
+  },
+  {
+    "id": "W-SD-04",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Ticket summary for handoff and escalation",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Escalation, shift change, or long ticket thread",
+    "frequency_volume_estimate": "est. 400-800/month",
+    "steps_today": [
+      "Re-read the whole thread",
+      "Write what was tried and what is next",
+      "Reassign"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Next tier re-asks the user the same questions; context is lost",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only summary shown with the ticket entries it used; the receiving technician reads the source when it matters.",
+    "repo_status": "planned: Phase 2"
+  },
+  {
+    "id": "W-SD-05",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Draft reply to the end user from the knowledge base",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Ticket needs a written answer",
+    "frequency_volume_estimate": "est. 1,500-3,000 replies/month",
+    "steps_today": [
+      "Search the KB",
+      "Adapt steps to the user",
+      "Write and send the reply"
+    ],
+    "systems_touched": [
+      "PSA",
+      "documentation",
+      "email"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Slow, uneven writing quality, KB not used",
+    "automation_pattern": [
+      "agent-triage",
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Draft only, with citations to the client's own KB; a technician edits and sends. No reply is sent by an agent.",
+    "repo_status": "partial: kb.search lever in levers/registry.json (keyword, mocked); drafting is Phase 2, cited RAG is Phase 5"
+  },
+  {
+    "id": "W-SD-06",
+    "area": "Service desk (tiers 1-3)",
+    "name": "SLA breach watch",
+    "who_today": "Service desk lead / service delivery manager",
+    "trigger": "Timer: response or resolution clock nearing breach",
+    "frequency_volume_estimate": "est. continuous; 50-150 at-risk tickets/month",
+    "steps_today": [
+      "Watch PSA board views",
+      "Chase technicians in chat"
+    ],
+    "systems_touched": [
+      "PSA",
+      "Teams"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Breaches are found after the fact; leads spend time watching boards",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only alert to the lead; reassignment is a human decision.",
+    "repo_status": "planned: Phase 2"
+  },
+  {
+    "id": "W-SD-07",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Escalation tier 1 to 2 to 3 with context package",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Fix fails or exceeds tier authority",
+    "frequency_volume_estimate": "est. 15-25% of tickets",
+    "steps_today": [
+      "Decide to escalate",
+      "Gather logs and screenshots",
+      "Reassign and notify"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Escalations missing evidence; tier 3 time wasted",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent gathers read-only evidence (device health, sign-in history); the technician decides to escalate.",
+    "repo_status": "planned: Phase 2 (summary), Phase 4 (enrichment levers)"
+  },
+  {
+    "id": "W-SD-08",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Outage and widespread-issue detection",
+    "who_today": "Service desk lead",
+    "trigger": "Several tickets or alerts with the same symptom at one client or across clients",
+    "frequency_volume_estimate": "est. 2-6 events/month",
+    "steps_today": [
+      "Notice the pattern",
+      "Open a parent ticket",
+      "Link children",
+      "Notify clients"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Pattern noticed late; each ticket worked separately",
+    "automation_pattern": [
+      "agent-triage",
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent proposes grouping; the lead declares the incident and approves any client notice.",
+    "repo_status": "planned: Phase 2 (alert grouping)"
+  },
+  {
+    "id": "W-SD-09",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Closure confirmation and follow-up",
+    "who_today": "Tier 1 technician",
+    "trigger": "Fix applied, waiting on user",
+    "frequency_volume_estimate": "est. 2,000-4,000/month",
+    "steps_today": [
+      "Email or call the user to confirm",
+      "Close after N days of no reply"
+    ],
+    "systems_touched": [
+      "PSA",
+      "email"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Tickets sit open; manual chasing",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Template reminders may be pre-approved as a standard change; closing a ticket the user disputes is human.",
+    "repo_status": "not in blueprint; proposed Phase 2"
+  },
+  {
+    "id": "W-SD-10",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Stale ticket and backlog grooming",
+    "who_today": "Service desk lead",
+    "trigger": "Weekly review",
+    "frequency_volume_estimate": "est. weekly; 100-300 tickets waiting on client or vendor",
+    "steps_today": [
+      "Filter old tickets",
+      "Ping owners",
+      "Close or escalate"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Backlog grows quietly; aging hides real problems",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only weekly list; humans act.",
+    "repo_status": "planned: Phase 2 (SLA watch); grooming list proposed Phase 6"
+  },
+  {
+    "id": "W-SD-11",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Common tier 1 fixes via scripts (print spooler, mapped drives, Outlook profile, cache clear)",
+    "who_today": "Tier 1 technician",
+    "trigger": "Ticket with a known, scripted fix",
+    "frequency_volume_estimate": "est. 300-600/month",
+    "steps_today": [
+      "Remote into the device",
+      "Run the fix by hand or an RMM script",
+      "Confirm with the user"
+    ],
+    "systems_touched": [
+      "RMM",
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Repetitive, interrupts the user, inconsistent steps",
+    "automation_pattern": [
+      "write-lever-approval",
+      "eval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Technician approves each run until the lever's eval and incident record justify a named standard change; dry-run diff shown first.",
+    "repo_status": "planned: Phase 3 (levers), Phase 7 (idempotency and retry)"
+  },
+  {
+    "id": "W-SD-12",
+    "area": "Service desk (tiers 1-3)",
+    "name": "After-hours and on-call triage",
+    "who_today": "On-call engineer",
+    "trigger": "Critical alert or emergency call outside hours",
+    "frequency_volume_estimate": "est. 20-60 pages/month",
+    "steps_today": [
+      "Answer the page",
+      "Judge severity",
+      "Fix or defer to morning"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM",
+      "phone"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Fatigue, false pages, slow wake-up context",
+    "automation_pattern": [
+      "agent-triage",
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent groups and summarizes; on-call human decides to act. Write levers still need approval (on-call lead may self-approve only where the policy names it, and that is audited).",
+    "repo_status": "planned: Phase 2 (alert grouping)"
+  },
+  {
+    "id": "W-SD-13",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Recurring-issue analysis (problem management)",
+    "who_today": "Tier 3 engineer / service delivery manager",
+    "trigger": "Monthly review or a spike",
+    "frequency_volume_estimate": "est. monthly per client; 10-30 problems/month across clients",
+    "steps_today": [
+      "Pull ticket exports",
+      "Cluster by hand in a spreadsheet",
+      "Write a root-cause proposal"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Rarely done; same issue fixed 40 times",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only clustering; root cause and fix plan are human.",
+    "repo_status": "not in blueprint; proposed Phase 6"
+  },
+  {
+    "id": "W-SD-14",
+    "area": "Service desk (tiers 1-3)",
+    "name": "Customer satisfaction feedback review",
+    "who_today": "Service delivery manager",
+    "trigger": "Survey response, especially negative",
+    "frequency_volume_estimate": "est. 200-600 responses/month",
+    "steps_today": [
+      "Read responses",
+      "Call unhappy clients",
+      "Coach technicians"
+    ],
+    "systems_touched": [
+      "PSA",
+      "email"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Negative feedback sits unread",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only routing of negative feedback to a manager; no automated reply.",
+    "repo_status": "not in blueprint; proposed Phase 6"
+  },
+  {
+    "id": "W-ONB-01",
+    "area": "User onboarding and offboarding",
+    "name": "New-hire request intake and requester authorization check",
+    "who_today": "Tier 1 technician / dispatcher",
+    "trigger": "Client manager or HR submits a new-hire form or email",
+    "frequency_volume_estimate": "est. 60-150 new hires/month (20-35% yearly SMB turnover, estimate)",
+    "steps_today": [
+      "Read request",
+      "Check the requester is an authorized contact",
+      "Chase missing fields (role, start date, license)"
+    ],
+    "systems_touched": [
+      "PSA",
+      "documentation",
+      "email"
+    ],
+    "data_sensitivity": "confidential (personal data of the new hire)",
+    "pain_today": "Incomplete forms, unverified requester, back-and-forth",
+    "automation_pattern": [
+      "agent-triage",
+      "read-lever"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent checks the request against the documented authorized-contact list and lists missing fields; a technician confirms. An unlisted requester always goes to a human.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-02",
+    "area": "User onboarding and offboarding",
+    "name": "Create the user account (cloud or hybrid)",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Approved new-hire request",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Apply naming standard",
+      "Create user in Entra (or AD with sync)",
+      "Set attributes, manager, usage location"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Typos, naming drift, missing attributes break later automation",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Dry-run diff from the approved request; lead approves. Identity creation is never triggered by ticket text alone.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-03",
+    "area": "User onboarding and offboarding",
+    "name": "Assign licenses",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Account created",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Check available seats",
+      "Assign license SKU",
+      "Buy more if short"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA",
+      "vendor portal"
+    ],
+    "data_sensitivity": "internal (cost impact)",
+    "pain_today": "No free seat; wrong SKU; billing surprises",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Assigning from existing seats needs technician approval; buying seats is W-VND-02 (human).",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-04",
+    "area": "User onboarding and offboarding",
+    "name": "Role-based access: groups, shared mailboxes, Teams and SharePoint",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Account created",
+    "frequency_volume_estimate": "est. 60-150/month, 5-20 grants each",
+    "steps_today": [
+      "Copy access of a 'same as' user or apply a role template",
+      "Add groups and mailbox permissions"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Exchange Online",
+      "SharePoint",
+      "Teams"
+    ],
+    "data_sensitivity": "regulated (grants reach PHI/NPI stores)",
+    "pain_today": "'Same as Bob' copies Bob's excess access; over-provisioning",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Only from a client-approved role template. Becomes R3 (lead + client contact approval) if a group grants admin rights or regulated data stores.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-05",
+    "area": "User onboarding and offboarding",
+    "name": "MFA enrollment and Temporary Access Pass",
+    "who_today": "Tier 1 technician",
+    "trigger": "First sign-in",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Issue a TAP or walk the user through Authenticator",
+      "Confirm registration"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "phone"
+    ],
+    "data_sensitivity": "confidential (credential material)",
+    "pain_today": "Users stuck on day one; insecure shortcuts (SMS, shared codes)",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "TAP issued only after a human verifies identity (W-IDM-04); the TAP value is delivered by a human over an approved channel, never written into a ticket or a prompt.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-06",
+    "area": "User onboarding and offboarding",
+    "name": "Device provisioning (Autopilot, Intune enrollment, app set)",
+    "who_today": "Tier 1/2 technician / bench tech",
+    "trigger": "New hire needs a device",
+    "frequency_volume_estimate": "est. 40-120 devices/month",
+    "steps_today": [
+      "Register hardware hash",
+      "Assign profile and group",
+      "Ship",
+      "Confirm apps installed"
+    ],
+    "systems_touched": [
+      "Intune",
+      "RMM",
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Hash uploads by hand; missing apps on day one",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Technician approves group and profile assignment; dry-run shows which policies will apply.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-07",
+    "area": "User onboarding and offboarding",
+    "name": "Day-one welcome and handoff to the manager",
+    "who_today": "Tier 1 technician",
+    "trigger": "Account and device ready",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Write the welcome note",
+      "Send sign-in instructions",
+      "Close the ticket"
+    ],
+    "systems_touched": [
+      "email",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Inconsistent notes; credentials pasted into email",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent drafts the note without any secret; a technician sends it.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-08",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding: block sign-in and revoke sessions",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Authorized client contact requests termination with a date and time",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Verify requester",
+      "Disable the account at the agreed time",
+      "Revoke refresh tokens and sessions"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Late disables leave access open; early disables cut someone off by mistake",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Requester verified by a human; lead approves the dry-run; timing comes from the client, never from the agent.",
+    "repo_status": "exists (mocked): user.disable in levers/registry.json via core/levers, triage rule in workflows/triage/rules.py; session revoke planned Phase 3"
+  },
+  {
+    "id": "W-ONB-09",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding: mailbox conversion, forwarding and auto-reply",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Offboarding approved",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Convert to shared mailbox",
+      "Grant manager access",
+      "Set auto-reply text"
+    ],
+    "systems_touched": [
+      "Exchange Online"
+    ],
+    "data_sensitivity": "regulated (mailbox may hold PHI/NPI)",
+    "pain_today": "Manager gets full mailbox access without a business reason",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Delegate named by the client contact; technician approves.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-10",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding: OneDrive and file ownership transfer",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Offboarding approved",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Grant manager access to OneDrive",
+      "Note retention deadline"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "SharePoint"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Data lost when retention expires; access granted too broadly",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Delegate named by the client contact; technician approves.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-11",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding: license removal after retention window",
+    "who_today": "Tier 1 technician / billing",
+    "trigger": "Retention window ends",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Remember to come back",
+      "Remove license",
+      "Update billing count"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA"
+    ],
+    "data_sensitivity": "internal (cost)",
+    "pain_today": "Forgotten; client pays for departed users for months",
+    "automation_pattern": [
+      "write-lever-approval",
+      "report"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Agent lists due removals; technician approves each.",
+    "repo_status": "planned: Phase 3 (lever), Phase 6 (license alerts)"
+  },
+  {
+    "id": "W-ONB-12",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding: device retire or wipe and hardware recovery",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Offboarding approved",
+    "frequency_volume_estimate": "est. 40-120 devices/month",
+    "steps_today": [
+      "Retire from Intune or wipe",
+      "Arrange hardware return",
+      "Update asset record"
+    ],
+    "systems_touched": [
+      "Intune",
+      "RMM",
+      "PSA"
+    ],
+    "data_sensitivity": "regulated (device may hold PHI/NPI)",
+    "pain_today": "Wipe before a legal hold or evidence need is known",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Retire (company data only) with technician approval; full wipe needs lead approval plus client confirmation that no hold or investigation applies.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-13",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding: line-of-business and third-party apps",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Offboarding approved",
+    "frequency_volume_estimate": "est. 60-150/month, 2-6 apps each",
+    "steps_today": [
+      "Log in to each vendor portal (practice management, CRM, banking portals)",
+      "Remove the user"
+    ],
+    "systems_touched": [
+      "vendor portal",
+      "documentation"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Apps without SSO are missed; accounts linger",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Agent produces the per-client checklist from documentation; a human does each removal (no stored vendor credentials reach an agent).",
+    "repo_status": "not in blueprint; proposed Phase 3 (checklist only)"
+  },
+  {
+    "id": "W-ONB-14",
+    "area": "User onboarding and offboarding",
+    "name": "Offboarding completion proof",
+    "who_today": "Tier 2 technician / service delivery manager",
+    "trigger": "All offboarding steps closed",
+    "frequency_volume_estimate": "est. 60-150/month",
+    "steps_today": [
+      "Tick a checklist in the ticket by hand"
+    ],
+    "systems_touched": [
+      "PSA",
+      "Graph/Entra",
+      "Intune"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "No proof every step ran; weak SOC 2 and HIPAA evidence",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only verification against live state, written to the ticket and the audit log.",
+    "repo_status": "planned: Phase 3 (verify), Phase 4 (evidence bundle)"
+  },
+  {
+    "id": "W-ONB-15",
+    "area": "User onboarding and offboarding",
+    "name": "Urgent or hostile termination",
+    "who_today": "Tier 2/3 technician with service desk lead",
+    "trigger": "Client calls: someone is being let go now",
+    "frequency_volume_estimate": "est. 2-8/month",
+    "steps_today": [
+      "Verify caller",
+      "Coordinate exact time with HR",
+      "Disable, revoke, block devices in one sitting"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Intune",
+      "Exchange Online",
+      "phone"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "High stakes, time pressure, legal exposure",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE the decision or the timing. Humans run it; they may press pre-built levers (W-ONB-08, W-EP-08) with approval.",
+    "repo_status": "planned: Phase 3 (runbook)"
+  },
+  {
+    "id": "W-ONB-16",
+    "area": "User onboarding and offboarding",
+    "name": "Role change or transfer (mover)",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Client reports a role change",
+    "frequency_volume_estimate": "est. 30-80/month",
+    "steps_today": [
+      "Add new access",
+      "Usually forget to remove old access"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Exchange Online",
+      "SharePoint"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Access creep: movers keep old rights",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Diff of add and remove against role templates; technician approves; R3 if admin or regulated stores.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-ONB-17",
+    "area": "User onboarding and offboarding",
+    "name": "Guest and contractor account lifecycle",
+    "who_today": "Tier 1 technician",
+    "trigger": "Guest invited or contract ends",
+    "frequency_volume_estimate": "est. 50-200 guests added/month across tenants",
+    "steps_today": [
+      "Invite guest",
+      "Rarely review",
+      "Remove when someone remembers"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "SharePoint",
+      "Teams"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Guests keep access to client files for years",
+    "automation_pattern": [
+      "report",
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Read-only expiry report; removal approved by technician after the client contact confirms.",
+    "repo_status": "partial: guest-admin check in levers/powershell/TenantBaseline; lifecycle planned Phase 4"
+  },
+  {
+    "id": "W-IDM-01",
+    "area": "Identity and MFA",
+    "name": "Password reset",
+    "who_today": "Tier 1 technician",
+    "trigger": "User cannot sign in",
+    "frequency_volume_estimate": "est. 200-500/month (lower where self-service reset is enrolled)",
+    "steps_today": [
+      "Verify caller identity",
+      "Reset password or unlock",
+      "Require change at next sign-in"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA",
+      "phone"
+    ],
+    "data_sensitivity": "confidential (credential)",
+    "pain_today": "Social-engineering target; frequent interruptions",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Identity verification is human (W-IDM-04). The lever generates no password visible to the agent; technician approves.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-IDM-02",
+    "area": "Identity and MFA",
+    "name": "MFA reset (lost or new phone)",
+    "who_today": "Tier 1 technician",
+    "trigger": "User cannot complete MFA",
+    "frequency_volume_estimate": "est. 80-200/month",
+    "steps_today": [
+      "Verify caller identity",
+      "Remove authentication methods",
+      "Issue TAP",
+      "Watch re-registration"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "phone"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Top social-engineering path for account takeover",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Human verifies identity; lead approves the dry-run.",
+    "repo_status": "exists (mocked): user.reset-mfa in levers/registry.json, approval via core/queue and ui"
+  },
+  {
+    "id": "W-IDM-03",
+    "area": "Identity and MFA",
+    "name": "Sign-in failure and lockout investigation",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Lockout or repeated failures",
+    "frequency_volume_estimate": "est. 100-300/month",
+    "steps_today": [
+      "Open Entra sign-in logs",
+      "Read error codes",
+      "Decide if user error or attack"
+    ],
+    "systems_touched": [
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Error codes are cryptic; attacks mistaken for user error",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only explanation with the log entries cited; any action goes through W-IDM-01/W-IDM-02 or W-SEC-04.",
+    "repo_status": "planned: Phase 3/4"
+  },
+  {
+    "id": "W-IDM-04",
+    "area": "Identity and MFA",
+    "name": "Caller identity verification",
+    "who_today": "Tier 1 technician",
+    "trigger": "Any request to change credentials or access",
+    "frequency_volume_estimate": "est. every W-IDM-01/W-IDM-02, W-ONB-05, W-ONB-08 request",
+    "steps_today": [
+      "Call back on the number in documentation",
+      "Ask verification questions",
+      "Record the result"
+    ],
+    "systems_touched": [
+      "phone",
+      "documentation",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Pressure from 'urgent executive' callers",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE the decision. Tooling may show the documented callback number and record that verification happened; a model never judges whether a person is who they claim.",
+    "repo_status": "planned: Phase 3 (recording field only)"
+  },
+  {
+    "id": "W-IDM-05",
+    "area": "Identity and MFA",
+    "name": "Risky sign-in and risky user review",
+    "who_today": "Security analyst / Tier 2 technician",
+    "trigger": "Entra ID Protection risk event, impossible travel, MFA fatigue",
+    "frequency_volume_estimate": "est. 50-200 events/month",
+    "steps_today": [
+      "Review risk detections",
+      "Contact user",
+      "Dismiss or remediate"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Defender",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Alert volume; real compromises lost in noise",
+    "automation_pattern": [
+      "agent-triage",
+      "read-lever"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent groups and explains; remediation goes through W-SEC-04 with approval.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-IDM-06",
+    "area": "Identity and MFA",
+    "name": "Conditional Access policy change",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Project, baseline drift, or client request",
+    "frequency_volume_estimate": "est. 5-20 changes/month",
+    "steps_today": [
+      "Design change",
+      "Test in report-only mode",
+      "Enable",
+      "Watch for lockouts"
+    ],
+    "systems_touched": [
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "One mistake locks out a whole client or opens a gap",
+    "automation_pattern": [
+      "report",
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE the change. Drift detection is read-only; a change needs a change record, report-only testing and engineer sign-off.",
+    "repo_status": "partial: legacy-auth CA check in levers/powershell/TenantBaseline; drift planned Phase 4"
+  },
+  {
+    "id": "W-IDM-07",
+    "area": "Identity and MFA",
+    "name": "Privileged role grants and PIM activation approval",
+    "who_today": "Tier 3 engineer / MSP admin",
+    "trigger": "Admin access requested",
+    "frequency_volume_estimate": "est. 10-40/month",
+    "steps_today": [
+      "Check justification",
+      "Grant eligible role",
+      "Approve activation"
+    ],
+    "systems_touched": [
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Standing admin access; approvals rubber-stamped",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE grants or approvals. Agents may only report who holds what.",
+    "repo_status": "partial: admin-count and guest-admin checks in levers/powershell/TenantBaseline"
+  },
+  {
+    "id": "W-IDM-08",
+    "area": "Identity and MFA",
+    "name": "Break-glass account monitoring",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Sign-in by a break-glass account; periodic check",
+    "frequency_volume_estimate": "est. continuous; tested quarterly",
+    "steps_today": [
+      "Check accounts exist, are excluded correctly, and alerts fire on sign-in"
+    ],
+    "systems_touched": [
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Break-glass accounts drift or alerts silently fail",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only. Using a break-glass account is NEVER automated.",
+    "repo_status": "partial: break-glass pattern check in levers/powershell/TenantBaseline"
+  },
+  {
+    "id": "W-IDM-09",
+    "area": "Identity and MFA",
+    "name": "Quarterly admin access review across tenants",
+    "who_today": "Service delivery manager / Tier 3 engineer",
+    "trigger": "Quarterly calendar",
+    "frequency_volume_estimate": "est. quarterly x 50-500 tenants",
+    "steps_today": [
+      "Export role members per tenant",
+      "Ask owners to confirm",
+      "Remove extras"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Manual exports across hundreds of tenants; rarely complete",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only review pack; removals by humans with approval.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-IDM-10",
+    "area": "Identity and MFA",
+    "name": "Partner delegated access (GDAP) relationship management",
+    "who_today": "MSP admin",
+    "trigger": "Relationship expiry or new client",
+    "frequency_volume_estimate": "est. 5-40/month",
+    "steps_today": [
+      "Create or renew relationships",
+      "Map security groups to roles"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "vendor portal"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Expired relationships break support; over-broad roles",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Agent reports expiring or over-broad relationships; changes are human (they define the MSP's own reach into client tenants).",
+    "repo_status": "not in blueprint; proposed Phase 4 (report only)"
+  },
+  {
+    "id": "W-IDM-11",
+    "area": "Identity and MFA",
+    "name": "Stale account cleanup",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Monthly review",
+    "frequency_volume_estimate": "est. 1-3% of accounts stale per month",
+    "steps_today": [
+      "Export last sign-in",
+      "Ask client",
+      "Disable"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Dormant accounts are attack paths; cleanup rarely happens",
+    "automation_pattern": [
+      "report",
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Detection is read-only; disable needs client confirmation and lead approval (via W-ONB-08 lever).",
+    "repo_status": "partial: 90-day stale check in levers/powershell/TenantBaseline; disable lever exists (mocked)"
+  },
+  {
+    "id": "W-IDM-12",
+    "area": "Identity and MFA",
+    "name": "App registration and service principal secret expiry",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Secret or certificate nearing expiry",
+    "frequency_volume_estimate": "est. 5-30/month",
+    "steps_today": [
+      "Find expiring credentials",
+      "Rotate",
+      "Update the dependent app"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Azure"
+    ],
+    "data_sensitivity": "confidential (secrets)",
+    "pain_today": "Integrations break overnight when a secret expires",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only expiry report (metadata only, never secret values). Rotation is human or a Key Vault-managed process.",
+    "repo_status": "planned: Phase 4 (report), Phase 8 (Key Vault)"
+  },
+  {
+    "id": "W-IDM-13",
+    "area": "Identity and MFA",
+    "name": "Self-service password reset and MFA method coverage",
+    "who_today": "Tier 2 technician",
+    "trigger": "Monthly review",
+    "frequency_volume_estimate": "est. monthly per tenant",
+    "steps_today": [
+      "Export registration details",
+      "Nudge unregistered users"
+    ],
+    "systems_touched": [
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Unregistered users drive reset tickets and risk",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only report; nudge emails drafted for human send.",
+    "repo_status": "partial: MFA registration check in levers/powershell/TenantBaseline"
+  },
+  {
+    "id": "W-M365-01",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Shared mailbox and distribution list changes",
+    "who_today": "Tier 1 technician",
+    "trigger": "User or manager request",
+    "frequency_volume_estimate": "est. 100-300/month",
+    "steps_today": [
+      "Create or edit the mailbox or list",
+      "Add members"
+    ],
+    "systems_touched": [
+      "Exchange Online",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Repetitive; request authority not checked",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Authorized requester check; technician approves.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-M365-02",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Mailbox permission grants (Full Access, Send As)",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Request",
+    "frequency_volume_estimate": "est. 50-150/month",
+    "steps_today": [
+      "Check approval",
+      "Grant permission"
+    ],
+    "systems_touched": [
+      "Exchange Online"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Access to mailboxes that hold PHI/NPI without documented approval",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Mailbox owner or authorized contact approves; technician approves. R3 for executive or regulated mailboxes.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-M365-03",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Mail delivery troubleshooting (message trace)",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "'I didn't get the email'",
+    "frequency_volume_estimate": "est. 100-250/month",
+    "steps_today": [
+      "Run message trace",
+      "Read headers",
+      "Explain to the user"
+    ],
+    "systems_touched": [
+      "Exchange Online"
+    ],
+    "data_sensitivity": "confidential (sender, recipient, subject lines)",
+    "pain_today": "Slow; header reading is a tier 2 skill",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only. Message bodies are never pulled into a prompt; metadata only.",
+    "repo_status": "not in blueprint; proposed Phase 3 (adapters/m365)"
+  },
+  {
+    "id": "W-M365-04",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Quarantine release requests",
+    "who_today": "Tier 1 technician",
+    "trigger": "User asks for a quarantined message",
+    "frequency_volume_estimate": "est. 100-300/month",
+    "steps_today": [
+      "Look at the message",
+      "Decide if safe",
+      "Release"
+    ],
+    "systems_touched": [
+      "Exchange Online",
+      "Defender"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Malicious mail released under user pressure",
+    "automation_pattern": [
+      "agent-triage",
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Agent summarizes verdict and indicators; technician decides; high-confidence phish is never released by request alone.",
+    "repo_status": "not in blueprint; proposed Phase 4"
+  },
+  {
+    "id": "W-M365-05",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Suspicious inbox rule and external forwarding audit",
+    "who_today": "Security analyst / Tier 2 technician",
+    "trigger": "Alert or scheduled scan",
+    "frequency_volume_estimate": "est. scheduled weekly; 5-20 findings/month",
+    "steps_today": [
+      "Export rules",
+      "Look for forward-to-external and delete-all rules"
+    ],
+    "systems_touched": [
+      "Exchange Online",
+      "Defender"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Classic business email compromise sign missed",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only detection; removal is part of W-SEC-04 with approval.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-M365-06",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "SharePoint and Teams site creation and permissions",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Request",
+    "frequency_volume_estimate": "est. 30-100/month",
+    "steps_today": [
+      "Create site or team",
+      "Set owners and members",
+      "Set sharing"
+    ],
+    "systems_touched": [
+      "SharePoint",
+      "Teams",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Sites created with open sharing; no owner",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Standard template only; technician approves.",
+    "repo_status": "planned: Phase 9 (mocked)"
+  },
+  {
+    "id": "W-M365-07",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Oversharing and external sharing review (Copilot readiness)",
+    "who_today": "Tier 3 engineer / vCIO",
+    "trigger": "Copilot request or periodic review",
+    "frequency_volume_estimate": "est. 5-20 assessments/month",
+    "steps_today": [
+      "Export sharing links and permissions",
+      "Find 'everyone' and anonymous links",
+      "Recommend fixes"
+    ],
+    "systems_touched": [
+      "SharePoint",
+      "Graph/Entra",
+      "Purview"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Copilot surfaces data people should not see",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only assessment; fixes are human with client sign-off.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-M365-08",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Sensitivity labels and DLP policy changes",
+    "who_today": "Tier 3 engineer / compliance lead",
+    "trigger": "Client compliance project",
+    "frequency_volume_estimate": "est. 2-10 changes/month",
+    "steps_today": [
+      "Design labels and DLP rules",
+      "Test in simulation",
+      "Enable"
+    ],
+    "systems_touched": [
+      "Purview"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Misconfigured DLP either blocks work or leaks data",
+    "automation_pattern": [
+      "report",
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Agent may report current state and simulation results; policy changes are human with change approval.",
+    "repo_status": "planned: Phase 4 (assessment), Phase 10 (governance/DLP_MAPPING.md)"
+  },
+  {
+    "id": "W-M365-09",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Mailbox size and archive management",
+    "who_today": "Tier 1 technician",
+    "trigger": "Mailbox nearing quota",
+    "frequency_volume_estimate": "est. 30-100/month",
+    "steps_today": [
+      "Check size",
+      "Enable archive or retention tag"
+    ],
+    "systems_touched": [
+      "Exchange Online"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Users hit quota mid-day",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Technician approves; no retention-policy deletion.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-M365-10",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "DMARC, SPF and DKIM monitoring",
+    "who_today": "Tier 2/3 engineer",
+    "trigger": "Daily aggregate reports; domain onboarding",
+    "frequency_volume_estimate": "est. daily x 50-500 domains",
+    "steps_today": [
+      "Read aggregate reports",
+      "Find unauthorized senders",
+      "Plan DNS changes"
+    ],
+    "systems_touched": [
+      "email",
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Reports are unreadable XML; spoofing undetected",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only summaries. DNS changes are human (W-VND-06).",
+    "repo_status": "not in blueprint; proposed Phase 4"
+  },
+  {
+    "id": "W-M365-11",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Tenant security baseline and drift check",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Monthly or after change",
+    "frequency_volume_estimate": "est. monthly x 50-500 tenants",
+    "steps_today": [
+      "Review Secure Score",
+      "Check MFA, admins, legacy auth, CA",
+      "Write findings"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Intune",
+      "Defender"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Manual, inconsistent across tenants",
+    "automation_pattern": [
+      "report",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only; every number in the summary is machine-checked; fix suggestions are dry-run levers only.",
+    "repo_status": "exists (mocked): levers/powershell/TenantBaseline, levers/powershell/TenantBaseline/Test-SummaryReconciles.ps1; drift over time planned Phase 4"
+  },
+  {
+    "id": "W-M365-12",
+    "area": "Microsoft 365 administration (Entra, Exchange, SharePoint, Teams, Purview)",
+    "name": "Retention, litigation hold and eDiscovery requests",
+    "who_today": "Tier 3 engineer with client legal contact",
+    "trigger": "Legal or regulator request",
+    "frequency_volume_estimate": "est. 0-5/month",
+    "steps_today": [
+      "Confirm legal authority",
+      "Place hold or run content search",
+      "Export"
+    ],
+    "systems_touched": [
+      "Purview",
+      "Exchange Online",
+      "SharePoint"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Legal exposure if done wrong",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE. Legal authority, scope and content handling are human; content is never placed in a prompt.",
+    "repo_status": "not planned (by design)"
+  },
+  {
+    "id": "W-EP-01",
+    "area": "Endpoint management",
+    "name": "Device inventory reconciliation (RMM vs Intune vs PSA)",
+    "who_today": "Tier 2 technician / service delivery manager",
+    "trigger": "Monthly or before billing",
+    "frequency_volume_estimate": "est. monthly; 3,000-30,000 endpoints across clients",
+    "steps_today": [
+      "Export three lists",
+      "Match by serial in a spreadsheet",
+      "Fix mismatches"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Intune",
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Unmanaged devices; wrong billing counts",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only reconciliation; fixes are human.",
+    "repo_status": "not in blueprint; proposed Phase 6"
+  },
+  {
+    "id": "W-EP-02",
+    "area": "Endpoint management",
+    "name": "RMM agent and Defender sensor health",
+    "who_today": "NOC / Tier 1 technician",
+    "trigger": "Agent offline or sensor not reporting",
+    "frequency_volume_estimate": "est. 100-400 alerts/month",
+    "steps_today": [
+      "Check device",
+      "Reinstall agent",
+      "Contact user"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Defender"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Blind spots: devices that stopped reporting are not patched or protected",
+    "automation_pattern": [
+      "agent-triage",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Grouping and explanation only; reinstall goes through W-EP-04.",
+    "repo_status": "planned: Phase 2 (alert grouping)"
+  },
+  {
+    "id": "W-EP-03",
+    "area": "Endpoint management",
+    "name": "Disk space and performance alert remediation",
+    "who_today": "NOC / Tier 1 technician",
+    "trigger": "RMM threshold alert",
+    "frequency_volume_estimate": "est. 200-600/month",
+    "steps_today": [
+      "Remote in",
+      "Clear temp files",
+      "Check large files"
+    ],
+    "systems_touched": [
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "High-volume, low-skill toil",
+    "automation_pattern": [
+      "write-lever-approval",
+      "eval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Technician approves per run; may become a named standard change after eval; never deletes user data folders.",
+    "repo_status": "planned: Phase 3/4 (remediation levers)"
+  },
+  {
+    "id": "W-EP-04",
+    "area": "Endpoint management",
+    "name": "Software deployment requests",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "User or client request; new standard app",
+    "frequency_volume_estimate": "est. 100-300/month",
+    "steps_today": [
+      "Check license and approval",
+      "Package or pick from catalog",
+      "Deploy via RMM or Intune"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Intune",
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Unlicensed installs; inconsistent packaging",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Only catalog apps; client approval for paid software; technician approves.",
+    "repo_status": "planned: Phase 3 (levers), Phase 8 (deployment automation)"
+  },
+  {
+    "id": "W-EP-05",
+    "area": "Endpoint management",
+    "name": "Intune compliance follow-up",
+    "who_today": "Tier 1 technician",
+    "trigger": "Device marked non-compliant",
+    "frequency_volume_estimate": "est. 100-300/month",
+    "steps_today": [
+      "Read compliance reason",
+      "Contact user",
+      "Fix setting"
+    ],
+    "systems_touched": [
+      "Intune"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Users blocked by Conditional Access with no explanation",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent explains the reason and drafts a user note; technician sends.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-EP-06",
+    "area": "Endpoint management",
+    "name": "Disk encryption status and recovery key retrieval",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Audit or user locked at BitLocker/FileVault screen",
+    "frequency_volume_estimate": "est. 20-60 key requests/month",
+    "steps_today": [
+      "Verify caller",
+      "Look up key",
+      "Read it to the user"
+    ],
+    "systems_touched": [
+      "Intune",
+      "Graph/Entra",
+      "phone"
+    ],
+    "data_sensitivity": "confidential (secret)",
+    "pain_today": "Keys read to unverified callers",
+    "automation_pattern": [
+      "read-lever",
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Encryption status report is R0. Key retrieval is human only after identity verification; key values never reach a model, a ticket body or a log.",
+    "repo_status": "planned: Phase 4 (status report only)"
+  },
+  {
+    "id": "W-EP-07",
+    "area": "Endpoint management",
+    "name": "Remote reboot and service restart",
+    "who_today": "Tier 1 technician",
+    "trigger": "Ticket or alert",
+    "frequency_volume_estimate": "est. 200-500/month",
+    "steps_today": [
+      "Check user is not working",
+      "Reboot or restart service"
+    ],
+    "systems_touched": [
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Reboots during clinic hours interrupt patient care",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Technician approves; lever checks the client's maintenance window; servers need lead approval.",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-EP-08",
+    "area": "Endpoint management",
+    "name": "Lost or stolen device: lock, retire or wipe",
+    "who_today": "Tier 2 technician",
+    "trigger": "User or client reports loss",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Verify reporter",
+      "Lock or wipe",
+      "Record for breach assessment"
+    ],
+    "systems_touched": [
+      "Intune",
+      "RMM",
+      "PSA"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "A lost device with PHI is a possible HIPAA breach; wipe vs evidence trade-off",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Lead approves; client contact confirms; the incident is recorded for the human breach assessment (W-SEC-07).",
+    "repo_status": "planned: Phase 3"
+  },
+  {
+    "id": "W-EP-09",
+    "area": "Endpoint management",
+    "name": "macOS and Linux endpoint scripts",
+    "who_today": "Tier 2 technician",
+    "trigger": "Ticket or project on non-Windows devices",
+    "frequency_volume_estimate": "est. 20-80/month",
+    "steps_today": [
+      "Write or run ad-hoc shell scripts"
+    ],
+    "systems_touched": [
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "One-off scripts, untested",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Same lever rules as Windows; technician approves.",
+    "repo_status": "planned: Phase 3 (levers/bash)"
+  },
+  {
+    "id": "W-EP-10",
+    "area": "Endpoint management",
+    "name": "Hardware lifecycle and warranty forecast",
+    "who_today": "vCIO / account manager",
+    "trigger": "Quarterly planning",
+    "frequency_volume_estimate": "est. quarterly per client",
+    "steps_today": [
+      "Export ages and warranties",
+      "Build replacement budget"
+    ],
+    "systems_touched": [
+      "RMM",
+      "PSA",
+      "vendor portal"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Surprise failures; unplanned spend",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only forecast; recommendations reviewed by the account manager.",
+    "repo_status": "planned: Phase 6 (renewal alerts)"
+  },
+  {
+    "id": "W-EP-11",
+    "area": "Endpoint management",
+    "name": "Local admin password (LAPS) retrieval and admin-rights requests",
+    "who_today": "Tier 2 technician",
+    "trigger": "User needs elevated install or technician needs local admin",
+    "frequency_volume_estimate": "est. 30-100/month",
+    "steps_today": [
+      "Check approval",
+      "Retrieve LAPS password",
+      "Use and let it rotate"
+    ],
+    "systems_touched": [
+      "Intune",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential (secret)",
+    "pain_today": "Shared local admin passwords; standing admin rights",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Retrieval is human; password values never reach a model or log. Agents may report LAPS coverage only.",
+    "repo_status": "not planned (report of coverage proposed Phase 4)"
+  },
+  {
+    "id": "W-PAT-01",
+    "area": "Patching",
+    "name": "Monthly patch review and ring approval",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Patch Tuesday (second Tuesday)",
+    "frequency_volume_estimate": "est. monthly; 50-150 updates reviewed",
+    "steps_today": [
+      "Read release notes and known issues",
+      "Approve for pilot ring",
+      "Promote to broad ring"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Intune"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Hours of reading; known-issue regressions missed",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Agent summarizes notes and known issues with citations; ring promotion is an engineer decision.",
+    "repo_status": "not in blueprint; proposed Phase 4"
+  },
+  {
+    "id": "W-PAT-02",
+    "area": "Patching",
+    "name": "Patch compliance reporting per client",
+    "who_today": "Service delivery manager",
+    "trigger": "Monthly",
+    "frequency_volume_estimate": "est. monthly x 50-500 clients",
+    "steps_today": [
+      "Export RMM patch report",
+      "Clean it up",
+      "Attach to client report"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Intune"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Manual cleanup; numbers disagree between tools",
+    "automation_pattern": [
+      "report",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only; numbers reconcile to source exports (validator).",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-PAT-03",
+    "area": "Patching",
+    "name": "Failed patch remediation",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Install failure alert",
+    "frequency_volume_estimate": "est. 2-5% of endpoints per cycle (60-1,500 devices/month)",
+    "steps_today": [
+      "Read error code",
+      "Clear update cache",
+      "Retry"
+    ],
+    "systems_touched": [
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Same fix applied by hand hundreds of times",
+    "automation_pattern": [
+      "agent-triage",
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Agent groups by error code; technician approves the retry lever per batch.",
+    "repo_status": "planned: Phase 3/4"
+  },
+  {
+    "id": "W-PAT-04",
+    "area": "Patching",
+    "name": "Third-party application patching",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Vendor release",
+    "frequency_volume_estimate": "est. weekly",
+    "steps_today": [
+      "Approve new versions in RMM catalog",
+      "Deploy",
+      "Handle failures"
+    ],
+    "systems_touched": [
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Browsers and readers lag behind",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Catalog-driven; technician approves new versions.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-PAT-05",
+    "area": "Patching",
+    "name": "Emergency patch for actively exploited vulnerabilities",
+    "who_today": "Tier 3 engineer / security analyst",
+    "trigger": "CISA Known Exploited Vulnerabilities addition or vendor advisory",
+    "frequency_volume_estimate": "est. 2-8 relevant advisories/month",
+    "steps_today": [
+      "Read advisory",
+      "Find affected devices",
+      "Patch out of band",
+      "Tell clients"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Intune",
+      "Defender"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Slow exposure mapping across many clients",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Agent matches the public KEV catalog to inventory (read-only); deployment is approved by an engineer.",
+    "repo_status": "not in blueprint; proposed Phase 4"
+  },
+  {
+    "id": "W-PAT-06",
+    "area": "Patching",
+    "name": "Server patch windows and client notice",
+    "who_today": "Tier 2/3 engineer",
+    "trigger": "Monthly",
+    "frequency_volume_estimate": "est. monthly; 100-600 servers",
+    "steps_today": [
+      "Agree window",
+      "Notify client",
+      "Patch",
+      "Check services after"
+    ],
+    "systems_touched": [
+      "RMM",
+      "PSA",
+      "email"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Reboots during business; missed post-checks",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Lead approves; agent drafts notices for human send; post-patch checks read-only.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-PAT-07",
+    "area": "Patching",
+    "name": "Network device firmware (firewalls, switches, access points)",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Vendor advisory or schedule",
+    "frequency_volume_estimate": "est. monthly; 100-1,000 devices",
+    "steps_today": [
+      "Read advisory",
+      "Schedule window",
+      "Upgrade by hand"
+    ],
+    "systems_touched": [
+      "firewall",
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "A failed upgrade takes a whole office offline",
+    "automation_pattern": [
+      "report",
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Agent may report versions against advisories; upgrades are human.",
+    "repo_status": "not in blueprint; report proposed Phase 4"
+  },
+  {
+    "id": "W-BDR-01",
+    "area": "Backup and disaster recovery",
+    "name": "Daily backup job review",
+    "who_today": "NOC / Tier 1 technician",
+    "trigger": "Every morning",
+    "frequency_volume_estimate": "est. 1,000-10,000 jobs/day; 1-3% fail",
+    "steps_today": [
+      "Open each backup console",
+      "Note failures",
+      "Open tickets"
+    ],
+    "systems_touched": [
+      "backup",
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Multiple consoles; failures missed for days",
+    "automation_pattern": [
+      "read-lever",
+      "agent-triage"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only grouping and ticket draft; technician confirms.",
+    "repo_status": "not in blueprint: no backup adapter is listed; proposed Phase 4 (adapters/backup)"
+  },
+  {
+    "id": "W-BDR-02",
+    "area": "Backup and disaster recovery",
+    "name": "Failed backup remediation",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "Failed job",
+    "frequency_volume_estimate": "est. 300-3,000/month",
+    "steps_today": [
+      "Read error",
+      "Fix space or credentials",
+      "Rerun"
+    ],
+    "systems_touched": [
+      "backup"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Repetitive",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Rerun lever with technician approval; configuration changes are human.",
+    "repo_status": "proposed Phase 4"
+  },
+  {
+    "id": "W-BDR-03",
+    "area": "Backup and disaster recovery",
+    "name": "Restore requests (file, mailbox, VM)",
+    "who_today": "Tier 1/2 technician",
+    "trigger": "User or client request",
+    "frequency_volume_estimate": "est. 50-200/month",
+    "steps_today": [
+      "Verify requester",
+      "Pick restore point",
+      "Restore to original or alternate location"
+    ],
+    "systems_touched": [
+      "backup",
+      "PSA"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Restoring over newer data; restoring to the wrong person",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Restore to an alternate location with technician approval. In-place restore (overwrite) is R3 and human-run.",
+    "repo_status": "proposed Phase 4"
+  },
+  {
+    "id": "W-BDR-04",
+    "area": "Backup and disaster recovery",
+    "name": "Scheduled restore tests",
+    "who_today": "Tier 2 technician",
+    "trigger": "Monthly or quarterly schedule",
+    "frequency_volume_estimate": "est. quarterly per client",
+    "steps_today": [
+      "Restore a sample to a sandbox",
+      "Check it opens",
+      "Record evidence"
+    ],
+    "systems_touched": [
+      "backup",
+      "documentation"
+    ],
+    "data_sensitivity": "regulated (test data is real client data in practice)",
+    "pain_today": "Rarely done; backups assumed good",
+    "automation_pattern": [
+      "write-lever-approval",
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Restore to an isolated sandbox only; evidence written to the audit log; technician approves.",
+    "repo_status": "proposed Phase 4 (evidence bundle)"
+  },
+  {
+    "id": "W-BDR-05",
+    "area": "Backup and disaster recovery",
+    "name": "Microsoft 365 backup coverage check",
+    "who_today": "Tier 2 technician",
+    "trigger": "Weekly",
+    "frequency_volume_estimate": "est. weekly x tenants",
+    "steps_today": [
+      "Compare licensed users to protected users"
+    ],
+    "systems_touched": [
+      "backup",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "New hires not added to backup",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only gap report.",
+    "repo_status": "proposed Phase 4"
+  },
+  {
+    "id": "W-BDR-06",
+    "area": "Backup and disaster recovery",
+    "name": "Disaster recovery plan upkeep and tabletop exercise",
+    "who_today": "vCIO / Tier 3 engineer",
+    "trigger": "Annual or after major change",
+    "frequency_volume_estimate": "est. yearly per client",
+    "steps_today": [
+      "Update the plan",
+      "Run a tabletop with the client"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Plans go stale; nobody rehearses",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent drafts from current documentation and flags stale sections; humans own the plan and run the exercise.",
+    "repo_status": "not in blueprint; proposed Phase 6"
+  },
+  {
+    "id": "W-BDR-07",
+    "area": "Backup and disaster recovery",
+    "name": "Ransomware or disaster recovery decision",
+    "who_today": "Tier 3 engineer, leadership and client",
+    "trigger": "Major incident",
+    "frequency_volume_estimate": "est. rare (0-2/year per 100 clients)",
+    "steps_today": [
+      "Declare disaster",
+      "Choose clean restore point",
+      "Sequence recovery"
+    ],
+    "systems_touched": [
+      "backup",
+      "Defender",
+      "documentation"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Highest stakes in the business",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE. Agents may only fetch read-only status for the people in charge.",
+    "repo_status": "not planned (by design)"
+  },
+  {
+    "id": "W-BDR-08",
+    "area": "Backup and disaster recovery",
+    "name": "Backup retention and immutability review",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Quarterly",
+    "frequency_volume_estimate": "est. quarterly per client",
+    "steps_today": [
+      "Check retention and immutability settings against contract"
+    ],
+    "systems_touched": [
+      "backup"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Retention silently shortened; no immutable copy",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only report; changes are human.",
+    "repo_status": "proposed Phase 4"
+  },
+  {
+    "id": "W-SEC-01",
+    "area": "Security monitoring and alerting",
+    "name": "Security alert intake and grouping",
+    "who_today": "Security analyst / NOC",
+    "trigger": "Alert from Defender, EDR, SIEM or firewall",
+    "frequency_volume_estimate": "est. hundreds to thousands raw/day; 20-80 needing a look",
+    "steps_today": [
+      "Read each alert",
+      "Close noise",
+      "Open tickets for real ones"
+    ],
+    "systems_touched": [
+      "Defender",
+      "PSA",
+      "firewall"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Alert fatigue; real attacks buried",
+    "automation_pattern": [
+      "agent-triage",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Grouping and severity suggestion with reasons; analyst decides. Closing an alert as benign stays human until evals justify a rule.",
+    "repo_status": "planned: Phase 2 (grouping), Phase 4 (security)"
+  },
+  {
+    "id": "W-SEC-02",
+    "area": "Security monitoring and alerting",
+    "name": "Alert enrichment",
+    "who_today": "Security analyst",
+    "trigger": "Alert opened",
+    "frequency_volume_estimate": "est. 600-2,400/month",
+    "steps_today": [
+      "Look up user, device, recent sign-ins, past tickets by hand"
+    ],
+    "systems_touched": [
+      "Defender",
+      "Graph/Entra",
+      "RMM",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Ten minutes of lookups per alert",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only enrichment shown with sources.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-SEC-03",
+    "area": "Security monitoring and alerting",
+    "name": "User-reported phishing triage",
+    "who_today": "Tier 1 technician / security analyst",
+    "trigger": "User reports an email",
+    "frequency_volume_estimate": "est. 200-800/month",
+    "steps_today": [
+      "Look at headers and links",
+      "Decide",
+      "Purge from other mailboxes if malicious"
+    ],
+    "systems_touched": [
+      "Exchange Online",
+      "Defender",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Slow answers teach users not to report",
+    "automation_pattern": [
+      "agent-triage",
+      "write-lever-approval"
+    ],
+    "risk_class": "R2",
+    "human_in_the_loop_rule": "Agent gives a verdict with indicators (email treated as untrusted input); purge across mailboxes needs analyst approval.",
+    "repo_status": "partial: injection tripwire core/guard, evals/injection; phishing triage proposed Phase 4"
+  },
+  {
+    "id": "W-SEC-04",
+    "area": "Security monitoring and alerting",
+    "name": "Business email compromise containment",
+    "who_today": "Security analyst / Tier 2 technician",
+    "trigger": "Confirmed or likely account takeover",
+    "frequency_volume_estimate": "est. 2-10/month",
+    "steps_today": [
+      "Revoke sessions",
+      "Reset password and MFA",
+      "Remove malicious rules",
+      "Block sender",
+      "Notify client"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Exchange Online",
+      "Defender",
+      "PSA"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Minutes matter; steps missed under pressure",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Playbook of levers, each dry-run then lead-approved; the client is told by a human.",
+    "repo_status": "partial: user.disable and user.reset-mfa (mocked); playbook planned Phase 3/4"
+  },
+  {
+    "id": "W-SEC-05",
+    "area": "Security monitoring and alerting",
+    "name": "Endpoint isolation",
+    "who_today": "Security analyst / on-call engineer",
+    "trigger": "Malware or ransomware behavior detected",
+    "frequency_volume_estimate": "est. 2-10/month",
+    "steps_today": [
+      "Isolate the device in Defender",
+      "Tell the client",
+      "Investigate"
+    ],
+    "systems_touched": [
+      "Defender",
+      "RMM"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Isolating a clinic's only front-desk PC stops patient check-in",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Lead approval (on-call may self-approve under written policy, audited); client told by a human.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-SEC-06",
+    "area": "Security monitoring and alerting",
+    "name": "Vulnerability scan review and prioritization",
+    "who_today": "Security analyst / Tier 3 engineer",
+    "trigger": "Scheduled scan result",
+    "frequency_volume_estimate": "est. monthly per client; thousands of findings",
+    "steps_today": [
+      "Export findings",
+      "Rank",
+      "Open remediation tickets"
+    ],
+    "systems_touched": [
+      "Defender",
+      "RMM",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Lists too long to act on",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only ranking with exploitability source (for example KEV); humans pick what to fix.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-SEC-07",
+    "area": "Security monitoring and alerting",
+    "name": "Security incident declaration and breach notification decision",
+    "who_today": "Leadership, client and client's counsel",
+    "trigger": "Confirmed incident",
+    "frequency_volume_estimate": "est. rare",
+    "steps_today": [
+      "Assess scope",
+      "Decide if it is a reportable breach (for example HIPAA, FTC Safeguards)",
+      "Notify"
+    ],
+    "systems_touched": [
+      "documentation",
+      "email"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Legal deadlines and liability",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE. Breach determination and notification are legal decisions owned by the client with counsel. Agents may assemble a factual timeline from the audit log.",
+    "repo_status": "not planned (by design); timeline export planned Phase 10 (AI incident response)"
+  },
+  {
+    "id": "W-SEC-08",
+    "area": "Security monitoring and alerting",
+    "name": "Threat advisory relevance check",
+    "who_today": "Security analyst",
+    "trigger": "New public advisory (CISA, vendor)",
+    "frequency_volume_estimate": "est. 10-40/month",
+    "steps_today": [
+      "Read advisory",
+      "Decide which clients are exposed"
+    ],
+    "systems_touched": [
+      "documentation",
+      "RMM"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Advisories read late or not at all",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only match against inventory; humans decide action.",
+    "repo_status": "proposed Phase 4"
+  },
+  {
+    "id": "W-SEC-09",
+    "area": "Security monitoring and alerting",
+    "name": "Firewall and SASE rule changes",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Request or project",
+    "frequency_volume_estimate": "est. 20-80/month",
+    "steps_today": [
+      "Review request",
+      "Change rule",
+      "Test"
+    ],
+    "systems_touched": [
+      "firewall"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Mistakes open exposure or cut connectivity",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Human change with change record. Agents may diff current rules against documentation (read-only) later.",
+    "repo_status": "not planned"
+  },
+  {
+    "id": "W-SEC-10",
+    "area": "Security monitoring and alerting",
+    "name": "Security awareness training and phishing simulation results",
+    "who_today": "Account manager / security analyst",
+    "trigger": "Monthly campaign",
+    "frequency_volume_estimate": "est. monthly per client",
+    "steps_today": [
+      "Export results",
+      "Find repeat clickers",
+      "Report to client"
+    ],
+    "systems_touched": [
+      "vendor portal",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential (per-person results)",
+    "pain_today": "Results never reach the client in a usable form",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Aggregate report; per-person results shared only with the client's named contact; never used by the MSP to rate individuals.",
+    "repo_status": "proposed Phase 6"
+  },
+  {
+    "id": "W-CMP-01",
+    "area": "Compliance evidence",
+    "name": "SOC 2 evidence collection for the MSP's own audit",
+    "who_today": "Compliance lead / service delivery manager",
+    "trigger": "Audit period, quarterly sampling",
+    "frequency_volume_estimate": "est. continuous; 50-200 evidence items per audit",
+    "steps_today": [
+      "Screenshot settings",
+      "Pull tickets for sampled changes",
+      "Export access reviews"
+    ],
+    "systems_touched": [
+      "PSA",
+      "Graph/Entra",
+      "backup",
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Weeks of screenshots each audit",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only dated, hashed evidence bundle; the compliance lead reviews before it goes to the auditor.",
+    "repo_status": "partial: core/audit (hash chain), core/audit/verify.py; evidence bundle planned Phase 4; control map Phase 10"
+  },
+  {
+    "id": "W-CMP-02",
+    "area": "Compliance evidence",
+    "name": "Client HIPAA security risk analysis support",
+    "who_today": "vCIO / compliance lead with the client",
+    "trigger": "Annual or after major change",
+    "frequency_volume_estimate": "est. yearly per healthcare client",
+    "steps_today": [
+      "Gather technical safeguards evidence",
+      "Discuss with client",
+      "Write findings"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Intune",
+      "backup",
+      "documentation"
+    ],
+    "data_sensitivity": "regulated (PHI context)",
+    "pain_today": "Mostly manual evidence gathering",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent gathers technical evidence only; the risk analysis and its conclusions belong to the client (the covered entity) and a human assessor.",
+    "repo_status": "planned: Phase 4 (evidence), Phase 10 (mapping)"
+  },
+  {
+    "id": "W-CMP-03",
+    "area": "Compliance evidence",
+    "name": "Client FTC Safeguards Rule evidence (financial clients)",
+    "who_today": "vCIO / compliance lead with the client",
+    "trigger": "Annual report to the client's board or on request",
+    "frequency_volume_estimate": "est. yearly per financial client",
+    "steps_today": [
+      "Show MFA, encryption, logging, access reviews"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Intune",
+      "documentation"
+    ],
+    "data_sensitivity": "regulated (NPI context)",
+    "pain_today": "Clients do not know what evidence exists",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only evidence; the client's Qualified Individual owns the program and the report.",
+    "repo_status": "planned: Phase 4, Phase 10"
+  },
+  {
+    "id": "W-CMP-04",
+    "area": "Compliance evidence",
+    "name": "Change records and change advisory review",
+    "who_today": "Tier 3 engineer / service delivery manager",
+    "trigger": "Any non-standard change",
+    "frequency_volume_estimate": "est. 50-200 changes/month",
+    "steps_today": [
+      "Write change record",
+      "Get approval",
+      "Record outcome"
+    ],
+    "systems_touched": [
+      "PSA",
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Changes undocumented; weak audit trail",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent drafts the change record from the lever dry-run diff; approval is human.",
+    "repo_status": "partial: dry-run diffs in core/levers/diff.py; change process planned Phase 10"
+  },
+  {
+    "id": "W-CMP-05",
+    "area": "Compliance evidence",
+    "name": "Audit log integrity verification",
+    "who_today": "Compliance lead / AI & Automation Engineer",
+    "trigger": "Daily or before evidence export",
+    "frequency_volume_estimate": "est. daily",
+    "steps_today": [
+      "Run the verifier",
+      "Investigate breaks"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Logs that cannot be proven unaltered are weak evidence",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Automatic check; a break is a human-investigated incident.",
+    "repo_status": "exists: core/audit/chain.py, core/audit/verify.py, Verify button in ui/app.py"
+  },
+  {
+    "id": "W-CMP-06",
+    "area": "Compliance evidence",
+    "name": "Business associate agreements and vendor due diligence tracking",
+    "who_today": "Compliance lead / account manager",
+    "trigger": "New vendor or renewal",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Track who signed what",
+      "Chase renewals"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Agreements expire unnoticed",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only tracker; legal review human.",
+    "repo_status": "not in blueprint; proposed Phase 10"
+  },
+  {
+    "id": "W-CMP-07",
+    "area": "Compliance evidence",
+    "name": "Policy attestations and management assertions",
+    "who_today": "Leadership / compliance lead",
+    "trigger": "Audit or client request",
+    "frequency_volume_estimate": "est. quarterly",
+    "steps_today": [
+      "Read",
+      "Sign"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "None to automate",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE. A signature is a person's accountable statement.",
+    "repo_status": "not planned (by design)"
+  },
+  {
+    "id": "W-CMP-08",
+    "area": "Compliance evidence",
+    "name": "Cyber insurance questionnaires",
+    "who_today": "vCIO / account manager",
+    "trigger": "Client renewal",
+    "frequency_volume_estimate": "est. 10-40/month",
+    "steps_today": [
+      "Answer 50-150 control questions from memory and screenshots"
+    ],
+    "systems_touched": [
+      "documentation",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Wrong answers can void coverage",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent drafts answers with evidence links; a human checks every answer; unsupported answers are left blank, not guessed.",
+    "repo_status": "not in blueprint; proposed Phase 6"
+  },
+  {
+    "id": "W-CMP-09",
+    "area": "Compliance evidence",
+    "name": "Client security questionnaires about the MSP itself",
+    "who_today": "Account manager / compliance lead",
+    "trigger": "Prospect or client vendor-risk review",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Find past answers",
+      "Adapt",
+      "Send"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Repeated work; inconsistent answers",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "RAG over approved answers with citations; a human approves and sends.",
+    "repo_status": "planned: Phase 5 (RAG)"
+  },
+  {
+    "id": "W-VND-01",
+    "area": "Vendor and license management",
+    "name": "License reconciliation",
+    "who_today": "Billing / service delivery manager",
+    "trigger": "Monthly",
+    "frequency_volume_estimate": "est. monthly x 50-500 tenants",
+    "steps_today": [
+      "Compare purchased, assigned and active seats"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "vendor portal",
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Paying for unused seats; under-billing",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only; recommendations reviewed by billing.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-VND-02",
+    "area": "Vendor and license management",
+    "name": "License purchase or reduction",
+    "who_today": "Account manager / billing",
+    "trigger": "Need for seats or reduction",
+    "frequency_volume_estimate": "est. 50-200/month",
+    "steps_today": [
+      "Get client approval",
+      "Order in the cloud distributor portal"
+    ],
+    "systems_touched": [
+      "vendor portal",
+      "PSA"
+    ],
+    "data_sensitivity": "internal (spend)",
+    "pain_today": "Commitments made without client sign-off",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE spending. Agents may recommend; the client approves and a human orders.",
+    "repo_status": "not planned (recommendation only, Phase 6)"
+  },
+  {
+    "id": "W-VND-03",
+    "area": "Vendor and license management",
+    "name": "Renewal alerts (subscriptions, warranties, domains)",
+    "who_today": "Account manager",
+    "trigger": "Upcoming expiry",
+    "frequency_volume_estimate": "est. 100-400/month",
+    "steps_today": [
+      "Track in spreadsheets",
+      "Remind client"
+    ],
+    "systems_touched": [
+      "PSA",
+      "vendor portal",
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Lapsed renewals cause outages",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only alerts.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-VND-04",
+    "area": "Vendor and license management",
+    "name": "Vendor and ISP escalation",
+    "who_today": "Tier 2/3 technician",
+    "trigger": "Third-party outage or bug",
+    "frequency_volume_estimate": "est. 20-60/month",
+    "steps_today": [
+      "Open vendor case",
+      "Repeat details",
+      "Chase"
+    ],
+    "systems_touched": [
+      "PSA",
+      "email",
+      "phone"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Re-explaining the case; slow vendors",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent drafts the case summary without client secrets; a human submits.",
+    "repo_status": "not in blueprint; proposed Phase 2 (summaries)"
+  },
+  {
+    "id": "W-VND-05",
+    "area": "Vendor and license management",
+    "name": "TLS certificate expiry monitoring",
+    "who_today": "Tier 2 technician",
+    "trigger": "Upcoming expiry",
+    "frequency_volume_estimate": "est. 20-80/month",
+    "steps_today": [
+      "Check certificates",
+      "Renew",
+      "Install"
+    ],
+    "systems_touched": [
+      "documentation",
+      "firewall"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Sites and VPNs break on expiry",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only alerts; renewal human.",
+    "repo_status": "planned: Phase 6 (renewal alerts)"
+  },
+  {
+    "id": "W-VND-06",
+    "area": "Vendor and license management",
+    "name": "Domain and DNS registrar changes",
+    "who_today": "Tier 3 engineer",
+    "trigger": "Client request or project",
+    "frequency_volume_estimate": "est. 10-40/month",
+    "steps_today": [
+      "Log in to registrar",
+      "Change records"
+    ],
+    "systems_touched": [
+      "vendor portal",
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "One wrong record stops email for a whole client",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Human only with change record; agents may validate a proposed record set (read-only).",
+    "repo_status": "not planned"
+  },
+  {
+    "id": "W-RPT-01",
+    "area": "Client reporting and QBRs",
+    "name": "Monthly client health report",
+    "who_today": "Service delivery manager / account manager",
+    "trigger": "Month end",
+    "frequency_volume_estimate": "est. 50-500 reports/month",
+    "steps_today": [
+      "Export tickets, patching, backups, security",
+      "Assemble",
+      "Write commentary"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM",
+      "backup",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Days of copy-paste each month",
+    "automation_pattern": [
+      "report",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Every number reconciles to source data (validator gate); account manager reviews and sends.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-RPT-02",
+    "area": "Client reporting and QBRs",
+    "name": "Quarterly business review draft",
+    "who_today": "vCIO / account manager",
+    "trigger": "Quarter",
+    "frequency_volume_estimate": "est. 15-150/month",
+    "steps_today": [
+      "Build slides",
+      "Pick highlights and risks",
+      "Write roadmap"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM",
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Prep time limits how many clients get QBRs",
+    "automation_pattern": [
+      "report",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Draft only; the account manager owns the story and the recommendations.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-RPT-03",
+    "area": "Client reporting and QBRs",
+    "name": "Weekly 'what we did for you' digest",
+    "who_today": "Account manager",
+    "trigger": "Weekly",
+    "frequency_volume_estimate": "est. weekly per client",
+    "steps_today": [
+      "Rarely done by hand"
+    ],
+    "systems_touched": [
+      "PSA",
+      "email"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Clients do not see the work being done",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Draft for human send.",
+    "repo_status": "planned: Phase 6, Phase 9 (Outlook draft)"
+  },
+  {
+    "id": "W-RPT-04",
+    "area": "Client reporting and QBRs",
+    "name": "Technology roadmap and budget recommendations",
+    "who_today": "vCIO",
+    "trigger": "Annual planning",
+    "frequency_volume_estimate": "est. yearly per client",
+    "steps_today": [
+      "Review assets, risks, goals",
+      "Write plan"
+    ],
+    "systems_touched": [
+      "documentation",
+      "PSA",
+      "RMM"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Time-intensive",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent assembles facts; recommendations and pricing are human.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-RPT-05",
+    "area": "Client reporting and QBRs",
+    "name": "Client AI-use policy starter",
+    "who_today": "vCIO / account manager",
+    "trigger": "Client asks about AI",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Write from scratch"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Clients adopt AI with no policy",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Template draft; client and their counsel own the final policy.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-RPT-06",
+    "area": "Client reporting and QBRs",
+    "name": "Internal operations metrics (resolution time, first-contact resolution, SLA, backlog)",
+    "who_today": "Service delivery manager / leadership",
+    "trigger": "Weekly and monthly",
+    "frequency_volume_estimate": "est. weekly",
+    "steps_today": [
+      "PSA exports to spreadsheets or Power BI"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Metrics debated instead of acted on",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only; metrics describe the queue, not individual performance reviews (see W-TRN-04 note).",
+    "repo_status": "planned: Phase 6 (Power BI exports)"
+  },
+  {
+    "id": "W-KB-01",
+    "area": "Documentation and knowledge base",
+    "name": "KB article drafting from resolved tickets",
+    "who_today": "Tier 1-3 technician",
+    "trigger": "Ticket closed with a reusable fix",
+    "frequency_volume_estimate": "est. 20-80 articles/month",
+    "steps_today": [
+      "Rarely done",
+      "written from memory later"
+    ],
+    "systems_touched": [
+      "PSA",
+      "documentation"
+    ],
+    "data_sensitivity": "confidential (must strip client specifics)",
+    "pain_today": "Knowledge stays in heads",
+    "automation_pattern": [
+      "report",
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Draft only; a technician reviews and publishes; client data stripped and checked.",
+    "repo_status": "planned: Phase 2"
+  },
+  {
+    "id": "W-KB-02",
+    "area": "Documentation and knowledge base",
+    "name": "Client documentation upkeep (network, contacts, configurations)",
+    "who_today": "Tier 2 technician",
+    "trigger": "Change or periodic review",
+    "frequency_volume_estimate": "est. continuous",
+    "steps_today": [
+      "Update pages by hand after changes"
+    ],
+    "systems_touched": [
+      "documentation",
+      "RMM"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Docs drift; technicians work from stale facts",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent flags stale pages against live data and drafts updates; human approves.",
+    "repo_status": "planned: Phase 5"
+  },
+  {
+    "id": "W-KB-03",
+    "area": "Documentation and knowledge base",
+    "name": "Runbook and SOP authoring",
+    "who_today": "Tier 3 engineer / AI & Automation Engineer",
+    "trigger": "New process or lever",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Write in the documentation platform"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Inconsistent quality",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "AI-assisted drafts; author owns the content.",
+    "repo_status": "partial: docs/RUNBOOKS.md (Phase 0); product runbooks with phases"
+  },
+  {
+    "id": "W-KB-04",
+    "area": "Documentation and knowledge base",
+    "name": "Cited question answering for technicians (RAG)",
+    "who_today": "Tier 1-3 technician",
+    "trigger": "Technician question during a ticket",
+    "frequency_volume_estimate": "est. 2,000-6,000 questions/month",
+    "steps_today": [
+      "Search docs",
+      "Ask a senior technician"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Seniors interrupted; answers not grounded",
+    "automation_pattern": [
+      "read-lever",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Answers cite the client's own documents; refuses when there is no source; client A never sees client B.",
+    "repo_status": "partial: kb.search lever (keyword, mocked); RAG planned Phase 5"
+  },
+  {
+    "id": "W-KB-05",
+    "area": "Documentation and knowledge base",
+    "name": "Stale and conflicting article detection",
+    "who_today": "Documentation owner",
+    "trigger": "Monthly",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Rarely done"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Two articles give opposite instructions",
+    "automation_pattern": [
+      "eval",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only report; owner fixes.",
+    "repo_status": "planned: Phase 5"
+  },
+  {
+    "id": "W-KB-06",
+    "area": "Documentation and knowledge base",
+    "name": "Authorized contacts and escalation lists per client",
+    "who_today": "Account manager",
+    "trigger": "Client change",
+    "frequency_volume_estimate": "est. 20-60 updates/month",
+    "steps_today": [
+      "Edit contact pages"
+    ],
+    "systems_touched": [
+      "documentation",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Stale lists defeat requester verification",
+    "automation_pattern": [
+      "read-lever"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agents read the list to check requesters; only a human edits it, on the client's instruction.",
+    "repo_status": "planned: Phase 3 (read lever)"
+  },
+  {
+    "id": "W-KB-07",
+    "area": "Documentation and knowledge base",
+    "name": "Credential vault entries in the documentation platform",
+    "who_today": "Tier 1-3 technician",
+    "trigger": "Any credential use",
+    "frequency_volume_estimate": "est. daily",
+    "steps_today": [
+      "Open the vault",
+      "Copy password"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential (secrets)",
+    "pain_today": "Most sensitive store the MSP holds",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE access by an AI. Vault contents are excluded from retrieval, prompts and logs; levers use their own managed identities instead.",
+    "repo_status": "not planned (by design); exclusion rule planned Phase 5 and Phase 10 (DLP mapping)"
+  },
+  {
+    "id": "W-BIL-01",
+    "area": "Billing inputs",
+    "name": "Time entry and ticket note quality",
+    "who_today": "Tier 1-3 technician",
+    "trigger": "Work done on a ticket",
+    "frequency_volume_estimate": "est. 5,000-15,000 entries/month",
+    "steps_today": [
+      "Type notes and time at end of day from memory"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Lost time; notes too thin to bill or audit",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Agent drafts notes from lever and ticket activity; the technician confirms time and wording.",
+    "repo_status": "not in blueprint; proposed Phase 2"
+  },
+  {
+    "id": "W-BIL-02",
+    "area": "Billing inputs",
+    "name": "Per-seat and per-device count true-up",
+    "who_today": "Billing",
+    "trigger": "Month end",
+    "frequency_volume_estimate": "est. monthly x 50-500 agreements",
+    "steps_today": [
+      "Pull counts from three systems",
+      "Reconcile",
+      "Adjust invoices"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Revenue leakage and client disputes",
+    "automation_pattern": [
+      "report",
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only reconciliation; billing approves every change.",
+    "repo_status": "planned: Phase 6"
+  },
+  {
+    "id": "W-BIL-03",
+    "area": "Billing inputs",
+    "name": "Managed versus project or out-of-scope classification",
+    "who_today": "Service desk lead / billing",
+    "trigger": "Ticket closed",
+    "frequency_volume_estimate": "est. 5-15% of tickets need a decision",
+    "steps_today": [
+      "Read ticket",
+      "Check agreement",
+      "Mark billable"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Inconsistent; client friction",
+    "automation_pattern": [
+      "agent-triage"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Suggestion with the agreement clause; a human decides.",
+    "repo_status": "not in blueprint; proposed Phase 6"
+  },
+  {
+    "id": "W-BIL-04",
+    "area": "Billing inputs",
+    "name": "Contract terms, pricing and billing disputes",
+    "who_today": "Leadership / billing / account manager",
+    "trigger": "Dispute or renewal",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Negotiate"
+    ],
+    "systems_touched": [
+      "PSA",
+      "accounting"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Relationship-critical",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE. Commercial relationships are human; agents may fetch facts.",
+    "repo_status": "not planned (by design)"
+  },
+  {
+    "id": "W-PRJ-01",
+    "area": "Project work",
+    "name": "New client onboarding to the MSP (discovery and baseline)",
+    "who_today": "Project engineer",
+    "trigger": "Signed agreement",
+    "frequency_volume_estimate": "est. 1-8 new clients/month",
+    "steps_today": [
+      "Inventory tenant, devices, network",
+      "Document",
+      "Fix baseline gaps"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "RMM",
+      "Intune",
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Weeks of discovery; gaps missed",
+    "automation_pattern": [
+      "read-lever",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only discovery report; remediation goes through normal approved levers.",
+    "repo_status": "partial: levers/powershell/TenantBaseline (mocked); full discovery planned Phase 4/6"
+  },
+  {
+    "id": "W-PRJ-02",
+    "area": "Project work",
+    "name": "Client offboarding from the MSP",
+    "who_today": "Project engineer / leadership",
+    "trigger": "Contract ends",
+    "frequency_volume_estimate": "est. 0-4/month",
+    "steps_today": [
+      "Hand back admin access and documentation",
+      "Remove agents and delegated access"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "RMM",
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Must be clean and respectful; access must truly end",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Human-run; agents may produce the checklist and the read-only proof that MSP access is gone.",
+    "repo_status": "not in blueprint; checklist proposed Phase 10"
+  },
+  {
+    "id": "W-PRJ-03",
+    "area": "Project work",
+    "name": "Microsoft 365 migrations (tenant to tenant, mailbox moves)",
+    "who_today": "Project engineer",
+    "trigger": "Project",
+    "frequency_volume_estimate": "est. 1-4/month",
+    "steps_today": [
+      "Plan",
+      "Pre-stage",
+      "Cut over",
+      "Clean up"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "Exchange Online",
+      "SharePoint"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Data loss and downtime risk",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Scripted batches with dry-run and engineer approval per batch.",
+    "repo_status": "not in blueprint; proposed after Phase 3"
+  },
+  {
+    "id": "W-PRJ-04",
+    "area": "Project work",
+    "name": "Copilot and AI adoption readiness for clients",
+    "who_today": "vCIO / Tier 3 engineer",
+    "trigger": "Client interest",
+    "frequency_volume_estimate": "est. 5-20/month",
+    "steps_today": [
+      "Assess licensing, oversharing, labels",
+      "Recommend"
+    ],
+    "systems_touched": [
+      "Graph/Entra",
+      "SharePoint",
+      "Purview"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "Clients enable AI over data they have not cleaned",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only assessment and score; recommendation reviewed by a human.",
+    "repo_status": "planned: Phase 4"
+  },
+  {
+    "id": "W-PRJ-05",
+    "area": "Project work",
+    "name": "Azure infrastructure projects",
+    "who_today": "Project engineer",
+    "trigger": "Project",
+    "frequency_volume_estimate": "est. 1-5/month",
+    "steps_today": [
+      "Click-ops in the portal or ad-hoc scripts"
+    ],
+    "systems_touched": [
+      "Azure"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Undocumented, unrepeatable builds",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Infrastructure as code, validate and what-if first; engineer approves the deployment.",
+    "repo_status": "planned: Phase 8 (validate only in this repo)"
+  },
+  {
+    "id": "W-PRJ-06",
+    "area": "Project work",
+    "name": "Project scoping and estimates",
+    "who_today": "Project engineer / account manager",
+    "trigger": "Client request",
+    "frequency_volume_estimate": "est. 10-30/month",
+    "steps_today": [
+      "Estimate from experience"
+    ],
+    "systems_touched": [
+      "PSA",
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Over- or under-scoped projects",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Agent finds similar past projects (RAG); the estimate is human.",
+    "repo_status": "not in blueprint; proposed Phase 5/6"
+  },
+  {
+    "id": "W-TOOL-01",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Lever authoring (new PowerShell or Python lever)",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New use case approved",
+    "frequency_volume_estimate": "est. 4-12 levers/month",
+    "steps_today": [
+      "Write schema, code, tests, dry-run, docs",
+      "Register"
+    ],
+    "systems_touched": [
+      "Azure DevOps",
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Without the pattern, scripts sprawl untested",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Code review and passing tests before registration; registry changes are reviewed like code.",
+    "repo_status": "exists: core/levers/, levers/registry.json, levers/powershell/TenantBaseline"
+  },
+  {
+    "id": "W-TOOL-02",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Model gateway and routing configuration",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New model or eval result",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Change config",
+      "Re-run evals"
+    ],
+    "systems_touched": [
+      "model gateway"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Locked-in providers; costs unknown",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Routing thresholds change only on eval evidence; hosted providers stay off unless approved.",
+    "repo_status": "exists: core/gateway/ (mock and loopback Ollama; hosted stubs off); routing evals Phase 7"
+  },
+  {
+    "id": "W-TOOL-03",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Prompt library and standards",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New workflow",
+    "frequency_volume_estimate": "est. continuous",
+    "steps_today": [
+      "Version prompts",
+      "Test them"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Prompts copied around untested",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Prompt changes need passing prompt tests.",
+    "repo_status": "planned: Phase 2 (prompts/)"
+  },
+  {
+    "id": "W-TOOL-04",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Eval golden sets and accuracy reports",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "Each workflow change",
+    "frequency_volume_estimate": "est. weekly",
+    "steps_today": [
+      "Label data",
+      "Run scorers",
+      "Publish report"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal (synthetic data only)",
+    "pain_today": "No proof that AI helps",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Reports labelled fixture-based; humans review labels.",
+    "repo_status": "exists: evals/triage/report.py, evals/triage/report.md; broader Phase 7"
+  },
+  {
+    "id": "W-TOOL-05",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Prompt-injection corpus and guard maintenance",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New attack pattern",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Add cases",
+      "Re-run detector"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Untrusted ticket and email text could steer agents",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Tripwire only; the lever registry is the control.",
+    "repo_status": "exists: core/guard/, evals/injection/corpus.jsonl, evals/injection/report.py"
+  },
+  {
+    "id": "W-TOOL-06",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Approval queue operation",
+    "who_today": "Service desk lead (approver)",
+    "trigger": "Pending proposal",
+    "frequency_volume_estimate": "est. scales with write levers; 500-3,000 approvals/month",
+    "steps_today": [
+      "Review diff",
+      "Approve or reject"
+    ],
+    "systems_touched": [
+      "PSA",
+      "Teams"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Approval fatigue leads to rubber-stamping",
+    "automation_pattern": [
+      "write-lever-approval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Approver cannot be the requester; approval is recorded in the audit chain; rejection reasons become eval data.",
+    "repo_status": "exists: core/queue/, ui/ (local, CSRF-protected); Teams cards Phase 9"
+  },
+  {
+    "id": "W-TOOL-07",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "CI/CD pipelines and release process",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "Every change",
+    "frequency_volume_estimate": "est. daily",
+    "steps_today": [
+      "Branch",
+      "Pull request",
+      "Review",
+      "Merge",
+      "Release"
+    ],
+    "systems_touched": [
+      "Azure DevOps"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Untested scripts reach client tenants",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Pull request review and green CI before merge.",
+    "repo_status": "partial: .github/ CI skeleton; Azure DevOps pipeline Phase 8"
+  },
+  {
+    "id": "W-TOOL-08",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Secrets and managed identity management",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New integration or rotation",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Store in Key Vault",
+      "Grant managed identity",
+      "Rotate"
+    ],
+    "systems_touched": [
+      "Azure"
+    ],
+    "data_sensitivity": "confidential (secrets)",
+    "pain_today": "Secrets in scripts and RMM variables",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Humans create and rotate secrets; code only references them; agents never read secret values.",
+    "repo_status": "planned: Phase 8 (Bicep validate only); pre-commit secret scan exists (scripts/hooks)"
+  },
+  {
+    "id": "W-TOOL-09",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Production monitoring of AI and automation",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "Continuous",
+    "frequency_volume_estimate": "est. continuous",
+    "steps_today": [
+      "Watch failures, latency, cost, accuracy drift"
+    ],
+    "systems_touched": [
+      "Azure",
+      "model gateway"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Silent failures",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only dashboards and alerts; humans respond.",
+    "repo_status": "planned: Phase 8"
+  },
+  {
+    "id": "W-TOOL-10",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "MCP server and Teams technician assistant",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "Integration build",
+    "frequency_volume_estimate": "est. project",
+    "steps_today": [
+      "Expose approved levers",
+      "Wire approval cards"
+    ],
+    "systems_touched": [
+      "Teams",
+      "model gateway"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Uncontrolled tool access by AI clients",
+    "automation_pattern": [
+      "read-lever",
+      "write-lever-approval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Read-only by default; write levers keep their approval rules.",
+    "repo_status": "planned: Phase 9"
+  },
+  {
+    "id": "W-TOOL-11",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "PSA, RMM and Graph integration maintenance",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "API change, rate limit, outage",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Fix adapters",
+      "Handle throttling and retries"
+    ],
+    "systems_touched": [
+      "PSA",
+      "RMM",
+      "Graph/Entra"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Integrations break quietly",
+    "automation_pattern": [
+      "eval"
+    ],
+    "risk_class": "R1",
+    "human_in_the_loop_rule": "Contract tests against mocks; changes through CI.",
+    "repo_status": "planned: Phase 2/3/9 (adapters/)"
+  },
+  {
+    "id": "W-TOOL-12",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Review of existing automation scripts",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "Onboarding to the role, then quarterly",
+    "frequency_volume_estimate": "est. quarterly",
+    "steps_today": [
+      "Inventory existing RMM scripts and flows",
+      "Rate risk",
+      "Migrate to levers"
+    ],
+    "systems_touched": [
+      "RMM",
+      "Azure DevOps"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Unknown scripts with broad rights",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only review; migration through normal lever process.",
+    "repo_status": "planned: Phase 10 (docs/AUTOMATION_FRAMEWORK_REVIEW.md)"
+  },
+  {
+    "id": "W-TOOL-13",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Use-case intake and ROI scoring",
+    "who_today": "AI & Automation Engineer with leadership",
+    "trigger": "Idea from staff",
+    "frequency_volume_estimate": "est. 5-20 ideas/month",
+    "steps_today": [
+      "Collect idea",
+      "Score value, risk, effort",
+      "Prioritize"
+    ],
+    "systems_touched": [
+      "documentation",
+      "Azure DevOps"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Loudest idea wins",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Scores are inputs; leadership decides priority.",
+    "repo_status": "planned: Phase 10 (governance/USE_CASE_INTAKE.md, docs/planned/ROI_TRACKER.md)"
+  },
+  {
+    "id": "W-TOOL-14",
+    "area": "Internal tooling and the AI/automation platform",
+    "name": "Emerging technology evaluation",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New model or tool",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Prototype",
+      "Evaluate",
+      "Recommend"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Hype-driven adoption",
+    "automation_pattern": [
+      "eval",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Recommendations backed by repo evals and cited sources.",
+    "repo_status": "planned: Phase 7/10 (docs/planned/TECH_RADAR.md)"
+  },
+  {
+    "id": "W-GOV-01",
+    "area": "AI governance",
+    "name": "AI acceptable-use policy and data-in-prompt rules",
+    "who_today": "AI & Automation Engineer with leadership",
+    "trigger": "Policy cycle",
+    "frequency_volume_estimate": "est. yearly plus changes",
+    "steps_today": [
+      "Write",
+      "Approve",
+      "Train"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Staff paste client data into public AI tools",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Leadership approves the policy.",
+    "repo_status": "planned: Phase 10 (governance/AI_POLICY.md, governance/DLP_MAPPING.md)"
+  },
+  {
+    "id": "W-GOV-02",
+    "area": "AI governance",
+    "name": "Model and tool approval",
+    "who_today": "AI & Automation Engineer with leadership",
+    "trigger": "New model, provider or MCP server",
+    "frequency_volume_estimate": "est. monthly",
+    "steps_today": [
+      "Review data terms and security",
+      "Approve or reject"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Unvetted tools with client data",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Approval of a provider or tool is a human decision recorded in DECISIONS.",
+    "repo_status": "planned: Phase 10"
+  },
+  {
+    "id": "W-GOV-03",
+    "area": "AI governance",
+    "name": "Agent identity and lever permission review",
+    "who_today": "AI & Automation Engineer / service delivery manager",
+    "trigger": "Quarterly",
+    "frequency_volume_estimate": "est. quarterly",
+    "steps_today": [
+      "List which agent can press which lever for which client",
+      "Remove extras"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "confidential",
+    "pain_today": "Agent permissions creep like human ones",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Read-only review; changes by human pull request.",
+    "repo_status": "partial: core/identity/store.py, levers/registry.json; review report proposed Phase 4"
+  },
+  {
+    "id": "W-GOV-04",
+    "area": "AI governance",
+    "name": "AI incident response",
+    "who_today": "AI & Automation Engineer / security analyst",
+    "trigger": "Wrong action, data leak, injection success",
+    "frequency_volume_estimate": "est. rare",
+    "steps_today": [
+      "Stop the workflow",
+      "Assess",
+      "Fix",
+      "Tell affected parties"
+    ],
+    "systems_touched": [
+      "documentation",
+      "PSA"
+    ],
+    "data_sensitivity": "regulated",
+    "pain_today": "No playbook today",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "Humans lead; agents can be switched off by a single config change and supply the audit timeline.",
+    "repo_status": "planned: Phase 10"
+  },
+  {
+    "id": "W-TRN-01",
+    "area": "Staff training on AI",
+    "name": "Technician training: reading suggestions and approvals",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New staff or new workflow",
+    "frequency_volume_estimate": "est. monthly sessions",
+    "steps_today": [
+      "Walk through examples"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal (synthetic examples)",
+    "pain_today": "Blind trust or blind distrust of AI output",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Human-led training with synthetic exercises.",
+    "repo_status": "planned: Phase 10 (docs/planned/STAFF_TRAINING.md)"
+  },
+  {
+    "id": "W-TRN-02",
+    "area": "Staff training on AI",
+    "name": "Account manager training: explaining AI to clients",
+    "who_today": "AI & Automation Engineer",
+    "trigger": "New offering",
+    "frequency_volume_estimate": "est. quarterly",
+    "steps_today": [
+      "Prepare talking points",
+      "Practice"
+    ],
+    "systems_touched": [
+      "documentation"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Over-promising to clients",
+    "automation_pattern": [
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Human-led; claims limited to measured, labelled results.",
+    "repo_status": "planned: Phase 10 (docs/planned/CLIENT_CONVERSATION_GUIDE.md)"
+  },
+  {
+    "id": "W-TRN-03",
+    "area": "Staff training on AI",
+    "name": "Correction feedback loop coaching",
+    "who_today": "Service desk lead",
+    "trigger": "Weekly",
+    "frequency_volume_estimate": "est. weekly",
+    "steps_today": [
+      "Review corrections",
+      "Explain patterns to the team"
+    ],
+    "systems_touched": [
+      "PSA"
+    ],
+    "data_sensitivity": "internal",
+    "pain_today": "Corrections not given, so the system never improves",
+    "automation_pattern": [
+      "eval",
+      "report"
+    ],
+    "risk_class": "R0",
+    "human_in_the_loop_rule": "Corrections are about the system's accuracy, not a score of the technician.",
+    "repo_status": "partial: workflows/triage/corrections.py (stores corrections as eval data)"
+  },
+  {
+    "id": "W-TRN-04",
+    "area": "Staff training on AI",
+    "name": "New technician onboarding and performance coaching",
+    "who_today": "Service desk lead / manager",
+    "trigger": "New hire or review cycle",
+    "frequency_volume_estimate": "est. 1-4 new technicians/month",
+    "steps_today": [
+      "Shadowing",
+      "Reviews"
+    ],
+    "systems_touched": [
+      "documentation",
+      "PSA"
+    ],
+    "data_sensitivity": "confidential (personnel)",
+    "pain_today": "Slow ramp-up",
+    "automation_pattern": [
+      "none-keep-human"
+    ],
+    "risk_class": "R3",
+    "human_in_the_loop_rule": "NEVER AUTOMATE judgments about people. AI may help a new technician learn (cited KB answers); AI output and metrics are never the basis for performance ratings or discipline.",
+    "repo_status": "not planned (by design); learning support via Phase 5"
+  }
+]

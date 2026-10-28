@@ -1,0 +1,14 @@
+{
+  "_note": "Alert grouping settings (B-43). Synthetic. The window and the business hours are placeholders a reviewer can change: the MSP's real on-call hours and time zone are UNKNOWN.",
+  "version": 1,
+  "window_minutes": 60,
+  "health_categories": ["agent-offline", "sensor-health"],
+  "business_hours": {"start_hour_utc": 13, "end_hour_utc": 22, "weekdays_only": true},
+  "enrichment": {
+    "user": ["user.get", "user.list-signins", "kb.search"],
+    "device": ["device.get", "kb.search"],
+    "mailbox": ["mailbox.get", "kb.search"],
+    "job": ["backup.get-job", "kb.search"],
+    "tenant": ["kb.search"]
+  }
+}

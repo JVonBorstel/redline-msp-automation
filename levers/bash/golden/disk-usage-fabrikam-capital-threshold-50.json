@@ -1,0 +1,1 @@
+{"status":"ok","reason":"disk usage read","lever":"unix.disk-usage","client":"fabrikam-capital","mode":"execute","data":{"threshold_pct":50,"over_threshold":1,"mounts":[{"mount":"/","size_kb":41943040,"used_kb":8388608,"used_pct":20,"over_threshold":false},{"mount":"/var","size_kb":10485760,"used_kb":5242880,"used_pct":50,"over_threshold":true}]},"diff":[],"applied":false}

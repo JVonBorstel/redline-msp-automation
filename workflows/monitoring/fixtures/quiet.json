@@ -1,0 +1,149 @@
+{
+  "audit_events": [
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:59:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:58:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:56:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:55:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:53:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:52:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:50:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:49:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "ollama",
+      "reason": "circuit-open",
+      "ts": "2026-10-27T11:59:20Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "ollama",
+      "reason": "circuit-open",
+      "ts": "2026-10-27T11:59:10Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "ollama",
+      "reason": "circuit-open",
+      "ts": "2026-10-27T11:59:00Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "ollama",
+      "reason": "circuit-open",
+      "ts": "2026-10-27T11:58:50Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "ollama",
+      "reason": "budget:client:tokens",
+      "ts": "2026-10-27T11:59:10Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "ollama",
+      "reason": "budget:client:tokens",
+      "ts": "2026-10-27T11:59:00Z"
+    }
+  ],
+  "chain_checks": [
+    {
+      "broken_seq": null,
+      "ok": true,
+      "scope": "contoso-dental"
+    },
+    {
+      "broken_seq": null,
+      "ok": true,
+      "scope": "fabrikam-capital"
+    },
+    {
+      "broken_seq": null,
+      "ok": true,
+      "scope": "_msp"
+    }
+  ],
+  "dead_letter_samples": [
+    {
+      "client": "fabrikam-capital",
+      "count": 2,
+      "ts": "2026-10-27T11:10:00Z"
+    },
+    {
+      "client": "fabrikam-capital",
+      "count": 6,
+      "ts": "2026-10-27T11:59:50Z"
+    },
+    {
+      "client": "contoso-dental",
+      "count": 0,
+      "ts": "2026-10-27T11:59:50Z"
+    }
+  ],
+  "now": "2026-10-27T12:00:00Z",
+  "pending_approvals": [
+    {
+      "client": "contoso-dental",
+      "created": "2026-10-27T11:00:00Z",
+      "id": "P-aaaaaaaaaaaa"
+    },
+    {
+      "client": "fabrikam-capital",
+      "created": "2026-10-27T10:00:00Z",
+      "id": "P-cccccccccccc"
+    }
+  ]
+}

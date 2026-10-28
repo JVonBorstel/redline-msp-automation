@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-004",
+  "title": "Stale ticket backlog report",
+  "client_scope": "msp-internal",
+  "problem": "Old open tickets are found by hand each week; a report would list them for a lead to chase.",
+  "effect": "read-only",
+  "data_classes": [
+    "DC-1"
+  ],
+  "model_route": "none",
+  "proposed_levers": [],
+  "inventory_ids": [
+    "W-SD-10"
+  ],
+  "minutes_per_run": 20,
+  "runs_per_month": 4,
+  "effort_days": 3,
+  "client": null,
+  "roi_row": null
+}

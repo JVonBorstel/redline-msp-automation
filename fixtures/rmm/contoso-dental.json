@@ -1,0 +1,480 @@
+{
+  "_note": "Synthetic RMM data for Contoso Dental (invented). Shaped like the public Datto RMM API v2 responses GET /v2/site/{siteUid}, /v2/site/{siteUid}/devices, /v2/audit/device/{deviceUid}, /v2/site/{siteUid}/alerts/open, /v2/job/{uid} and /v2/account/components; field status in fixtures/rmm/SOURCES.md. Pinned to asOf. Holds one decoy device, alert and job of the other client's site on purpose. Not a capture from a real RMM.",
+  "client": "contoso-dental",
+  "asOf": "2026-10-22T12:00:00Z",
+  "site": {
+    "id": 4101,
+    "uid": "c0000000-0000-4000-8000-0000000a0001",
+    "accountUid": "a0000000-0000-4000-8000-0000000a0000",
+    "name": "Contoso Dental (synthetic)",
+    "description": "Synthetic site.",
+    "onDemand": false,
+    "devicesStatus": {
+      "numberOfDevices": 9,
+      "numberOfOnlineDevices": 6,
+      "numberOfOfflineDevices": 3
+    },
+    "autotaskCompanyName": "Contoso Dental (synthetic)",
+    "autotaskCompanyId": "30001",
+    "portalUrl": "https://rmm.example/site/4101"
+  },
+  "devices": {
+    "pageDetails": {
+      "count": 10,
+      "totalCount": 10,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    },
+    "devices": [
+      {
+        "id": 4101001,
+        "uid": "c0000000-0000-4000-8000-0000000d0001",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "FRONTDESK-01",
+        "intIpAddress": "10.20.0.11",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:10:00Z",
+        "lastAuditDate": "2026-10-22T08:10:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101002,
+        "uid": "c0000000-0000-4000-8000-0000000d0002",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "OPERATORY-02",
+        "intIpAddress": "10.20.0.12",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T07:55:00Z",
+        "lastAuditDate": "2026-10-22T07:55:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101003,
+        "uid": "c0000000-0000-4000-8000-0000000d0003",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Server",
+          "type": "Windows Server"
+        },
+        "hostname": "DENTAL-SRV01",
+        "intIpAddress": "10.20.0.13",
+        "operatingSystem": "Microsoft Windows Server 2022 Standard",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T11:58:00Z",
+        "lastAuditDate": "2026-10-22T11:58:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101004,
+        "uid": "c0000000-0000-4000-8000-0000000d0004",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "XRAY-WS01",
+        "intIpAddress": "10.20.0.14",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": false,
+        "deleted": false,
+        "lastSeen": "2026-10-21T17:30:00Z",
+        "lastAuditDate": "2026-10-21T17:30:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101005,
+        "uid": "c0000000-0000-4000-8000-0000000d0005",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "RECEPTION-OLD",
+        "intIpAddress": "10.20.0.15",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": false,
+        "deleted": false,
+        "lastSeen": "2026-08-01T16:00:00Z",
+        "lastAuditDate": "2026-08-01T16:00:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101006,
+        "uid": "c0000000-0000-4000-8000-0000000d0006",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Laptop",
+          "type": "Windows"
+        },
+        "hostname": "OFFICE-MGR",
+        "intIpAddress": "10.20.0.16",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T09:00:00Z",
+        "lastAuditDate": "2026-10-22T09:00:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101007,
+        "uid": "c0000000-0000-4000-8000-0000000d0007",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "HYGIENE-03",
+        "intIpAddress": "10.20.0.17",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": false,
+        "deleted": false,
+        "lastSeen": "2026-07-15T14:20:00Z",
+        "lastAuditDate": "2026-07-15T14:20:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101008,
+        "uid": "c0000000-0000-4000-8000-0000000d0008",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "HYGIENE-03",
+        "intIpAddress": "10.20.0.18",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:30:00Z",
+        "lastAuditDate": "2026-10-22T08:30:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4101009,
+        "uid": "c0000000-0000-4000-8000-0000000d0009",
+        "siteId": 4101,
+        "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+        "siteName": "Contoso Dental (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "CHAIRSIDE-04",
+        "intIpAddress": "10.20.0.19",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:45:00Z",
+        "lastAuditDate": "2026-10-22T08:45:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      },
+      {
+        "id": 4102900,
+        "uid": "f0000000-0000-4000-8000-0000000d0900",
+        "siteId": 4102,
+        "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+        "siteName": "Fabrikam Capital (synthetic)",
+        "deviceType": {
+          "category": "Desktop",
+          "type": "Windows"
+        },
+        "hostname": "FRONTDESK-01",
+        "intIpAddress": "10.30.0.910",
+        "operatingSystem": "Microsoft Windows 11 Pro",
+        "domain": "WORKGROUP",
+        "online": true,
+        "deleted": false,
+        "lastSeen": "2026-10-22T08:10:00Z",
+        "lastAuditDate": "2026-10-22T08:10:00Z",
+        "creationDate": "2025-03-01T09:00:00Z",
+        "deviceClass": "device"
+      }
+    ]
+  },
+  "deviceAudits": {
+    "c0000000-0000-4000-8000-0000000d0001": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0001-FD",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0002": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0002-OP",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0003": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0003-SV",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0004": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "To be filled by O.E.M.",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0005": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0006-RC",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0006": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0007-OM",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0007": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0008-HY",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0008": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0008-HY",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "c0000000-0000-4000-8000-0000000d0009": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0010-CS",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    },
+    "f0000000-0000-4000-8000-0000000d0900": {
+      "bios": {
+        "instance": "BIOS",
+        "releaseDate": "2024-05-01T00:00:00Z",
+        "serialNumber": "CD-0001-FD",
+        "smBiosVersion": "3.4"
+      },
+      "systemInfo": {
+        "manufacturer": "Contoso Hardware (synthetic)",
+        "model": "Model S-100 (synthetic)"
+      }
+    }
+  },
+  "alerts": {
+    "pageDetails": {
+      "count": 2,
+      "totalCount": 2,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    },
+    "alerts": [
+      {
+        "alertUid": "c0000000-0000-4000-8000-0000000b0001",
+        "priority": "High",
+        "diagnostics": "Device has not checked in for more than 30 days.",
+        "resolved": false,
+        "resolvedBy": null,
+        "resolvedOn": null,
+        "muted": false,
+        "ticketNumber": null,
+        "timestamp": "2026-10-22T06:00:00Z",
+        "alertMonitorInfo": {
+          "sendsEmails": false,
+          "createsTicket": false
+        },
+        "alertContext": {
+          "@class": "online_offline_status_ctx"
+        },
+        "alertSourceInfo": {
+          "deviceUid": "c0000000-0000-4000-8000-0000000d0007",
+          "deviceName": "HYGIENE-03",
+          "siteUid": "c0000000-0000-4000-8000-0000000a0001",
+          "siteName": "Contoso Dental (synthetic)"
+        },
+        "autoresolveMins": 0
+      },
+      {
+        "alertUid": "f0000000-0000-4000-8000-0000000b0900",
+        "priority": "Critical",
+        "diagnostics": "Decoy alert of the other client's site.",
+        "resolved": false,
+        "resolvedBy": null,
+        "resolvedOn": null,
+        "muted": false,
+        "ticketNumber": null,
+        "timestamp": "2026-10-22T06:00:00Z",
+        "alertMonitorInfo": {
+          "sendsEmails": false,
+          "createsTicket": false
+        },
+        "alertContext": {
+          "@class": "online_offline_status_ctx"
+        },
+        "alertSourceInfo": {
+          "deviceUid": "f0000000-0000-4000-8000-0000000d0900",
+          "deviceName": "FRONTDESK-01",
+          "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+          "siteName": "Fabrikam Capital (synthetic)"
+        },
+        "autoresolveMins": 0
+      }
+    ]
+  },
+  "jobsBySite": {
+    "c0000000-0000-4000-8000-0000000a0001": [
+      {
+        "id": 41011,
+        "uid": "c0000000-0000-4000-8000-0000000j0001",
+        "name": "Clear temp files (run by a technician in the RMM console)",
+        "dateCreated": "2026-10-20T15:00:00Z",
+        "status": "completed"
+      }
+    ],
+    "f0000000-0000-4000-8000-0000000a0002": [
+      {
+        "id": 41029,
+        "uid": "f0000000-0000-4000-8000-0000000j0900",
+        "name": "Decoy job of the other client's site",
+        "dateCreated": "2026-10-20T15:00:00Z",
+        "status": "active"
+      }
+    ]
+  },
+  "components": {
+    "pageDetails": {
+      "count": 2,
+      "totalCount": 2,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    },
+    "components": [
+      {
+        "id": 801,
+        "uid": "a0000000-0000-4000-8000-0000000c0001",
+        "name": "Clear temp files (synthetic)",
+        "description": "Existing account component, listed read-only.",
+        "categoryCode": "scripts",
+        "credentialsRequired": false,
+        "variables": [
+          {
+            "name": "olderThanDays",
+            "defaultVal": "7",
+            "type": "string",
+            "direction": false,
+            "description": "Files older than this many days.",
+            "variablesIdx": 0
+          }
+        ]
+      },
+      {
+        "id": 802,
+        "uid": "a0000000-0000-4000-8000-0000000c0002",
+        "name": "Restart print spooler (synthetic)",
+        "description": "Existing account component, listed read-only.",
+        "categoryCode": "scripts",
+        "credentialsRequired": true,
+        "variables": []
+      }
+    ]
+  }
+}

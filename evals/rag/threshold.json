@@ -1,0 +1,6 @@
+{
+  "threshold": 0.38,
+  "basis": "fixture-based",
+  "chosen_on": "dev half of evals/rag/questions.jsonl, HashEmbedder stand-in",
+  "pinned_in": "rag/retrieve/answer.py:ANSWER_THRESHOLD"
+}

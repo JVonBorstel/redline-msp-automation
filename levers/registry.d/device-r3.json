@@ -1,0 +1,288 @@
+{
+  "version": 1,
+  "_note": "B-65. DeviceR3 PowerShell levers over the offline mock device state (fixtures/tenant/<client>/devices.json). All R3 except device.unlock (R2); retire and wipe are irreversible and never use pre-authorized containment. No caps are set here: the R3 default applies (B-42). Graph and Defender permission names in graph_scopes are UNVERIFIED (see levers/powershell/DeviceR3/SOURCES.md). Mock only; no real RMM, Intune or Defender is called.",
+  "levers": [
+    {
+      "name": "device.lock",
+      "runtime": "powershell",
+      "entry": "DeviceR3\\Lock-ManagedDevice",
+      "description": "Lock one device of the client (screen lock; the data stays). Mock of an Intune remote lock. Two lead approvals, one device per approval.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of the one device this call changes (lower-case GUID)"
+        },
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the device's assigned user; must match the device record"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R3",
+      "reversibility": "reversible",
+      "undo": "device.unlock",
+      "lever_version": 1,
+      "verification": "requester+contact",
+      "window": "business-hours",
+      "preauthorized_containment": true,
+      "graph_scopes": [
+        "DeviceManagementManagedDevices.PrivilegedOperations.All"
+      ],
+      "impact": {
+        "L1": "One person cannot use their device until it is unlocked; locking the wrong machine stops someone's work, and an unsaved document may be lost.",
+        "L2": "A lost or stolen laptop is shut quickly; a locked front-desk PC can stop patient or customer check-in until it is unlocked.",
+        "L3": "The fast first step for a lost device becomes two approved, verified, audited steps with the blast radius shown, instead of a phone call nobody records.",
+        "L4": "Containing a lost device in minutes limits breach risk at every client; the owner must match the device, so one office's device is never touched for another."
+      }
+    },
+    {
+      "name": "device.unlock",
+      "runtime": "powershell",
+      "entry": "DeviceR3\\Unlock-ManagedDevice",
+      "description": "Clear the lock on one device of the client. The undo of device.lock. Mock of an Intune action.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of the one device this call changes (lower-case GUID)"
+        },
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the device's assigned user; must match the device record"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "device.lock",
+      "undo_of": "device.lock",
+      "lever_version": 1,
+      "verification": "requester",
+      "graph_scopes": [
+        "DeviceManagementManagedDevices.PrivilegedOperations.All"
+      ],
+      "impact": {
+        "L1": "One person can use their device again; unlocking a device that is still missing gives a finder access to it.",
+        "L2": "The client gets a recovered or wrongly locked device back; a wrong unlock reopens a device that was locked on purpose.",
+        "L3": "Reversing a lock is a verified, approved and audited step, and it restores exactly the state the lock changed.",
+        "L4": "A safe undo makes people willing to lock first and ask later, which protects every client."
+      }
+    },
+    {
+      "name": "device.isolate",
+      "runtime": "powershell",
+      "entry": "DeviceR3\\Block-DeviceNetwork",
+      "description": "Isolate one device of the client from the network, keeping only the management service. Mock of a Defender for Endpoint machine isolation. Two lead approvals, one device per approval.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of the one device this call changes (lower-case GUID)"
+        },
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the device's assigned user; must match the device record"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R3",
+      "reversibility": "reversible",
+      "undo": "device.release",
+      "lever_version": 1,
+      "verification": "requester",
+      "window": "business-hours",
+      "preauthorized_containment": true,
+      "graph_scopes": [
+        "Machine.Isolate"
+      ],
+      "impact": {
+        "L1": "One person cannot work online on this device until it is released; isolating the wrong machine halts their work.",
+        "L2": "A device that may carry malware stops spreading it; isolating a clinic's only front-desk PC stops patient check-in, so the dry-run says when a device is the only one for its role.",
+        "L3": "Containment becomes two approved, audited steps with the blast radius shown, and the release lever puts the network access back.",
+        "L4": "Fast containment limits ransomware at every client; one device per approval stops a mistake from isolating a whole office."
+      }
+    },
+    {
+      "name": "device.release",
+      "runtime": "powershell",
+      "entry": "DeviceR3\\Unblock-DeviceNetwork",
+      "description": "Release one device of the client from network isolation. The undo of device.isolate. Mock of a Defender for Endpoint action.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of the one device this call changes (lower-case GUID)"
+        },
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the device's assigned user; must match the device record"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R3",
+      "reversibility": "reversible",
+      "undo": "device.isolate",
+      "undo_of": "device.isolate",
+      "lever_version": 1,
+      "verification": "requester",
+      "graph_scopes": [
+        "Machine.Isolate"
+      ],
+      "impact": {
+        "L1": "One person gets their device back online; releasing a device that is still infected lets it reach the network again.",
+        "L2": "The client resumes work after an incident; a wrong release re-exposes the office to a device that was cut off on purpose.",
+        "L3": "Releasing is as controlled as isolating: two leads, a verified requester and an audit record, and it reverses isolate exactly.",
+        "L4": "A deliberate release step keeps a quick isolate from becoming a forgotten outage at any client."
+      }
+    },
+    {
+      "name": "device.retire",
+      "runtime": "powershell",
+      "entry": "DeviceR3\\Remove-ManagedDevice",
+      "description": "Retire one device of the client: company data and management are removed, the personal side stays. Irreversible. Mock of an Intune retire. Two lead approvals, one device per approval, approval under 24 hours old.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of the one device this call changes (lower-case GUID)"
+        },
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the device's assigned user; must match the device record"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R3",
+      "reversibility": "irreversible",
+      "lever_version": 1,
+      "verification": "requester+contact",
+      "window": "business-hours",
+      "graph_scopes": [
+        "DeviceManagementManagedDevices.PrivilegedOperations.All"
+      ],
+      "impact": {
+        "L1": "One person loses company apps and data on this device for good; retiring the wrong device means lost work that only a backup can bring back.",
+        "L2": "A leaver's or lost device stops holding client data; a wrong retire removes data the practice may still need, and a device under legal hold is refused.",
+        "L3": "Offboarding hardware work becomes two approved, audited steps; the page says no undo so nobody approves it casually.",
+        "L4": "Company data leaves retired devices at every client without a person remembering to do it, and never from a device the owner does not match."
+      }
+    },
+    {
+      "name": "device.wipe",
+      "runtime": "powershell",
+      "entry": "DeviceR3\\Clear-ManagedDevice",
+      "description": "Record a full wipe request for one device of the client. Irreversible. A person starts the wipe in the console after approval; nothing here does. Mock of an Intune wipe. Two lead approvals, one device per approval, approval under 24 hours old.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of the one device this call changes (lower-case GUID)"
+        },
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the device's assigned user; must match the device record"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R3",
+      "reversibility": "irreversible",
+      "lever_version": 1,
+      "verification": "requester+contact",
+      "window": "business-hours",
+      "graph_scopes": [
+        "DeviceManagementManagedDevices.PrivilegedOperations.All"
+      ],
+      "impact": {
+        "L1": "Everything on this device is erased for good, including anything the person never saved elsewhere; the wrong device means lost work that only a backup can restore.",
+        "L2": "A stolen device stops being a breach risk; a wipe before a legal hold or an investigation is known destroys evidence, so held devices are refused and the client contact confirms.",
+        "L3": "The riskiest endpoint action needs two leads, a verified requester, the client's contact and a fresh approval, and the audit shows who approved this exact device.",
+        "L4": "Nobody wipes the wrong device: one device per approval, owner must match, no bulk path, and a person starts the wipe."
+      }
+    }
+  ]
+}

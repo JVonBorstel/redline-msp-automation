@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "_note": "B-31. License levers on the mock tenant's licenses family file (fixtures/tenant/<client>/licenses.json). Mock only; no real tenant or vendor portal is called. Free stock only: nothing here buys a seat (W-VND-02 is never automated; a lever named license.purchase* cannot load).",
+  "levers": [
+    {
+      "name": "license.add",
+      "runtime": "powershell",
+      "entry": "LicenseOps\\Add-LicenseAssignment",
+      "description": "Give one user a license from a seat the client already owns. With no free seat it proposes nothing and says a purchase needs the client's consent. Mock of a license assignment.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "sku"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the user to license"
+        },
+        "sku": {
+          "type": "string",
+          "required": true,
+          "max_length": 64,
+          "pattern": "^[A-Z][A-Z0-9_]{1,63}$",
+          "description": "SKU part number the client already owns, e.g. O365_BUSINESS_ESSENTIALS"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A new hire can open mail and Office on day one; a wrong SKU gives them more or less than their job needs until it is changed.",
+        "L2": "The client's seat count goes up by one inside what it already pays for; no money is spent and no contract changes.",
+        "L3": "Licensing a new hire stops being a ticket that waits on a person to check seats; every assignment is a registered, approved and audited change, and a shortage is reported, not bought around.",
+        "L4": "Seats are counted per client, so one office's free seats are never given to another's; a shortage goes to the client as a decision for them, not a cost they find on a bill."
+      }
+    },
+    {
+      "name": "license.remove",
+      "runtime": "powershell",
+      "entry": "LicenseOps\\Remove-LicenseAssignment",
+      "description": "Take a license from an offboarded user once the retention window has ended; the diff shows the SKU and the date the window ended. Mock of a license removal.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "sku"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName of the offboarded user"
+        },
+        "sku": {
+          "type": "string",
+          "required": true,
+          "max_length": 64,
+          "pattern": "^[A-Z][A-Z0-9_]{1,63}$",
+          "description": "SKU part number to remove, e.g. O365_BUSINESS_PREMIUM"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": "license.add",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A departed person's license ends after the agreed retention period; a wrong removal can be undone only while a free seat is left, and data tied to the license may be affected.",
+        "L2": "The client stops paying for seats nobody uses and a seat is free again for the next hire; a removal before the window is over would cut access to data they meant to keep.",
+        "L3": "Forgotten removals stop costing clients money for months; the lever refuses inside the window and each removal is approved and audited, showing the SKU and the date the window ended.",
+        "L4": "Seat counts shown to a client match what it really uses, so the bill is honest; a removal acts on one client's own licenses only."
+      }
+    }
+  ]
+}

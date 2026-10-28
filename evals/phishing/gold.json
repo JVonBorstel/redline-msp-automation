@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "_note": "Gold verdicts for the B-45 eval, one per reported message (both shapes share it). Kept out of the fixtures so the workflow never sees them (STD-FX-5). Written by the same author as the fixtures and the rules: a pipeline check, not model quality (D-022).",
+  "clients": {
+    "contoso-dental": {
+      "R-1001": "high-confidence-phish",
+      "R-1002": "high-confidence-phish",
+      "R-1003": "likely-clean",
+      "R-1004": "suspicious",
+      "R-1005": "high-confidence-phish",
+      "R-1006": "likely-clean"
+    },
+    "fabrikam-capital": {
+      "R-2001": "likely-clean"
+    }
+  }
+}

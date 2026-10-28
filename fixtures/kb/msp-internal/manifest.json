@@ -1,0 +1,29 @@
+{
+  "sources": [
+    {
+      "source_id": "msp-patch-window",
+      "article_id": "KB-MSP-001",
+      "title": "Standard patch window runbook",
+      "tags": ["runbook"],
+      "origin": "kb/msp-internal/patch-window",
+      "declared_class": "DC-1",
+      "paragraphs": [
+        "Patch windows start after business hours in the client's local time and finish before the next opening.",
+        "Confirm a current backup exists before the window opens and note it on the ticket.",
+        "Reference phrase for this runbook: heron-msp-canary-2208."
+      ]
+    },
+    {
+      "source_id": "msp-escalation",
+      "article_id": "KB-MSP-002",
+      "title": "Escalation path template",
+      "tags": ["runbook"],
+      "origin": "kb/msp-internal/escalation",
+      "declared_class": "DC-1",
+      "paragraphs": [
+        "Tier 1 escalates to Tier 2 after thirty minutes without progress on a priority one ticket.",
+        "Tier 2 escalates to the on-call lead, who decides whether the client is called."
+      ]
+    }
+  ]
+}

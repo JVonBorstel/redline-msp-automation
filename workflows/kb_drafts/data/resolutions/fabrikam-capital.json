@@ -1,0 +1,54 @@
+{
+  "_note": "Synthetic recorded resolutions for resolved Fabrikam Capital tickets (B-58). Invented for this prototype; see the Contoso file. Not a capture from a real PSA.",
+  "client": "fabrikam-capital",
+  "records": [
+    {
+      "ticket_id": "T-5201",
+      "recorded_on": "2026-10-05",
+      "title": "Rebuild the authenticator after a phone upgrade",
+      "tags": ["mfa"],
+      "steps": [
+        "Confirm the request with the user's manager by a call-back before any change.",
+        "Reset the multi-factor methods for morgan.reyes@fabrikamcapital.example.",
+        "Ask Morgan Reyes to register the new Authenticator app before the market opens.",
+        "Reference phrase for this draft: quokka-b58-fabrikam-only."
+      ]
+    },
+    {
+      "ticket_id": "T-5234",
+      "recorded_on": "2026-10-12",
+      "title": "VPN drops on the hour",
+      "tags": ["vpn"],
+      "steps": [
+        "Check the VPN client version against the approved version.",
+        "Disable the aggressive reconnect option in the VPN profile.",
+        "Ask the user to reconnect and watch the tunnel past the next hour."
+      ]
+    },
+    {
+      "ticket_id": "T-5226",
+      "recorded_on": "2026-10-09",
+      "title": "Grant access to a shared mailbox",
+      "tags": ["mail"],
+      "steps": [
+        "Confirm the owner approved access in the ticket.",
+        "Add the user to the shared mailbox with Send As permission.",
+        "Tell the user it can take up to an hour to appear in Outlook."
+      ]
+    },
+    {
+      "ticket_id": "T-5280",
+      "recorded_on": "2026-10-20",
+      "title": "Offboarding checklist",
+      "tags": ["offboarding"],
+      "steps": ["Disable the account.", "Convert the mailbox to shared."]
+    },
+    {
+      "ticket_id": "T-5101",
+      "recorded_on": "2026-10-05",
+      "title": "A ticket id that is not a Fabrikam ticket",
+      "tags": ["mfa"],
+      "steps": ["zebra-b58-contoso-only must never appear in a Fabrikam draft."]
+    }
+  ]
+}

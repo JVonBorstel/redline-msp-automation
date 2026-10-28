@@ -1,0 +1,11 @@
+{
+  "_meta": {
+    "note": "Synthetic (B-73). The industry of each invented client, for the AI-use policy draft. There is no client record file in this repo yet (config/clients is not committed), so the industry is declared here; it must be one of the keys of INDUSTRY_FLOOR in core/guard/classify.py. A person confirms it before a draft goes out.",
+    "version": 1
+  },
+  "clients": {
+    "contoso-dental": {"industry": "dental"},
+    "fabrikam-capital": {"industry": "financial"},
+    "litware-legal": {"industry": "legal"}
+  }
+}

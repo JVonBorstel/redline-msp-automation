@@ -1,0 +1,51 @@
+{
+  "_note": "SharePoint and OneDrive sharing fixture, the clean twin. Synthetic (invented clients, people, tenants). Pinned to as_of 2026-10-22. Not a capture from a real tenant. Field names are UNVERIFIED shapes, see fixtures/sharepoint/SOURCES.md. Triggers nothing.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-22",
+  "tenant": {
+    "labels": [
+      { "name": "Confidential Finance", "covers": ["finance"] },
+      { "name": "Privileged Legal", "covers": ["legal"] }
+    ],
+    "dlpPolicies": [
+      { "name": "Account numbers", "covers": ["finance"] },
+      { "name": "Matter files", "covers": ["legal"] }
+    ]
+  },
+  "sites": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000001",
+      "name": "Client Portfolios",
+      "kind": "site",
+      "sensitivity": "finance",
+      "label": "Confidential Finance",
+      "owner": "tech-sam",
+      "links": [
+        { "id": "L1", "scope": "specific", "target": "Q3 review pack" }
+      ],
+      "shares": []
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000002",
+      "name": "Legal Hold",
+      "kind": "site",
+      "sensitivity": "legal",
+      "label": "Privileged Legal",
+      "owner": "lead-kim",
+      "links": [],
+      "shares": [
+        { "id": "S1", "target": "Hold notice", "recipient": "counsel@fabrikamcapital.example", "recipientType": "internal" }
+      ]
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000003",
+      "name": "Advisor OneDrive",
+      "kind": "onedrive",
+      "sensitivity": "general",
+      "label": null,
+      "owner": "tech-sam",
+      "links": [],
+      "shares": []
+    }
+  ]
+}

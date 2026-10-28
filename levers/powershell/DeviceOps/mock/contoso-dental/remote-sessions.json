@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "as_of": "2026-10-22T12:00:00Z",
+    "note": "Synthetic remote-support session log shaped like a Splashtop session export (MP-13). Field status: SOURCES.md."
+  },
+  "sessions": [
+    {
+      "session_id": "SESS-C-0001",
+      "computer_name": "DENTAL-SRV01",
+      "technician": "tech-session-b",
+      "start_time": "2026-10-19T09:00:00Z",
+      "end_time": "2026-10-19T09:40:00Z",
+      "session_type": "remote-control",
+      "status": "ended"
+    },
+    {
+      "session_id": "SESS-C-0002",
+      "computer_name": "FRONTDESK-01",
+      "technician": "tech-session-a",
+      "start_time": "2026-10-14T16:10:00Z",
+      "end_time": "2026-10-14T16:25:00Z",
+      "session_type": "remote-control",
+      "status": "ended"
+    },
+    {
+      "session_id": "SESS-C-0003",
+      "computer_name": "FRONTDESK-01",
+      "technician": "tech-session-a",
+      "start_time": "2026-10-21T15:02:00Z",
+      "end_time": "2026-10-21T15:19:00Z",
+      "session_type": "remote-control",
+      "status": "ended"
+    },
+    {
+      "session_id": "SESS-C-0004",
+      "computer_name": "FRONTDESK-01",
+      "technician": "tech-session-b",
+      "start_time": "2026-10-22T13:00:00Z",
+      "end_time": "2026-10-22T13:20:00Z",
+      "session_type": "remote-control",
+      "status": "ended"
+    }
+  ]
+}

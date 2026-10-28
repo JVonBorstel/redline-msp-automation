@@ -1,0 +1,106 @@
+{
+  "_note": "SYNTHETIC. Imitates the shape of the CISA Known Exploited Vulnerabilities JSON feed (field names verified against the live feed on 2026-10-21, see SOURCES.md). Vendors, products and CVE ids (CVE-2099-*) are invented and match nothing real.",
+  "as_of": "2026-10-21T12:00:00Z",
+  "title": "CISA Catalog of Known Exploited Vulnerabilities (SYNTHETIC)",
+  "catalogVersion": "2026.10.21-synthetic",
+  "dateReleased": "2026-10-21T12:00:00.0000Z",
+  "count": 6,
+  "vulnerabilities": [
+    {
+      "cveID": "CVE-2099-0001",
+      "vendorProject": "Examplesoft",
+      "product": "RemoteDesk Server",
+      "vulnerabilityName": "Examplesoft RemoteDesk Server Authentication Bypass Vulnerability",
+      "dateAdded": "2026-10-20",
+      "shortDescription": "Synthetic description for Examplesoft RemoteDesk Server Authentication Bypass Vulnerability.",
+      "requiredAction": "Synthetic: apply the vendor update or stop using the product.",
+      "dueDate": "2026-10-23",
+      "knownRansomwareCampaignUse": "Known",
+      "forensicTriage": "No",
+      "notes": "Synthetic entry; no real advisory.",
+      "cwes": [
+        "CWE-0"
+      ]
+    },
+    {
+      "cveID": "CVE-2099-0002",
+      "vendorProject": "Exampleware",
+      "product": "MailGate",
+      "vulnerabilityName": "Exampleware MailGate Command Injection Vulnerability",
+      "dateAdded": "2026-10-19",
+      "shortDescription": "Synthetic description for Exampleware MailGate Command Injection Vulnerability.",
+      "requiredAction": "Synthetic: apply the vendor update or stop using the product.",
+      "dueDate": "2026-11-09",
+      "knownRansomwareCampaignUse": "Unknown",
+      "forensicTriage": "No",
+      "notes": "Synthetic entry; no real advisory.",
+      "cwes": [
+        "CWE-0"
+      ]
+    },
+    {
+      "cveID": "CVE-2099-0003",
+      "vendorProject": "Northwind Systems",
+      "product": "EdgeVPN Gateway",
+      "vulnerabilityName": "Northwind Systems EdgeVPN Gateway Path Traversal Vulnerability",
+      "dateAdded": "2026-10-18",
+      "shortDescription": "Synthetic description for Northwind Systems EdgeVPN Gateway Path Traversal Vulnerability.",
+      "requiredAction": "Synthetic: apply the vendor update or stop using the product.",
+      "dueDate": "2026-10-25",
+      "knownRansomwareCampaignUse": "Known",
+      "forensicTriage": "Yes",
+      "notes": "Synthetic entry; no real advisory.",
+      "cwes": [
+        "CWE-0"
+      ]
+    },
+    {
+      "cveID": "CVE-2099-0004",
+      "vendorProject": "Examplesoft",
+      "product": "PrintHub",
+      "vulnerabilityName": "Examplesoft PrintHub Privilege Escalation Vulnerability",
+      "dateAdded": "2026-10-15",
+      "shortDescription": "Synthetic description for Examplesoft PrintHub Privilege Escalation Vulnerability.",
+      "requiredAction": "Synthetic: apply the vendor update or stop using the product.",
+      "dueDate": "2026-11-05",
+      "knownRansomwareCampaignUse": "Unknown",
+      "forensicTriage": "No",
+      "notes": "Synthetic entry; no real advisory.",
+      "cwes": [
+        "CWE-0"
+      ]
+    },
+    {
+      "cveID": "CVE-2099-0005",
+      "vendorProject": "Tailspin Labs",
+      "product": "Practice Manager",
+      "vulnerabilityName": "Tailspin Labs Practice Manager SQL Injection Vulnerability",
+      "dateAdded": "2026-10-14",
+      "shortDescription": "Synthetic description for Tailspin Labs Practice Manager SQL Injection Vulnerability.",
+      "requiredAction": "Synthetic: apply the vendor update or stop using the product.",
+      "dueDate": "2026-11-04",
+      "knownRansomwareCampaignUse": "Unknown",
+      "forensicTriage": "No",
+      "notes": "Synthetic entry; no real advisory.",
+      "cwes": [
+        "CWE-0"
+      ]
+    },
+    {
+      "cveID": "CVE-2099-0006",
+      "vendorProject": "Examplesoft",
+      "product": "RemoteDesk Server",
+      "vulnerabilityName": "Examplesoft RemoteDesk Server Deserialization Vulnerability",
+      "dateAdded": "2026-10-12",
+      "shortDescription": "Synthetic description for Examplesoft RemoteDesk Server Deserialization Vulnerability.",
+      "requiredAction": "Synthetic: apply the vendor update or stop using the product.",
+      "dueDate": "2026-11-02",
+      "knownRansomwareCampaignUse": "Unknown",
+      "forensicTriage": "No",
+      "notes": "Synthetic entry; no real advisory.",
+      "cwes": [
+        "CWE-0"
+      ]
+    }
+  ]
+}

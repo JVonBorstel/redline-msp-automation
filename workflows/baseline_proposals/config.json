@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "_note": "B-38 configuration for baseline-sourced user.disable proposals. max_proposals_per_client_per_run is the blast-radius cap: a run queues at most this many proposals for one client and lists the rest as deferred. 5 is a synthetic starting value, not tuned on a real tenant (UNVERIFIED as a policy number). requested_by is the agent identity that dry-runs and queues; a lead still approves.",
+  "max_proposals_per_client_per_run": 5,
+  "requested_by": "triage-bot"
+}

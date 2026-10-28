@@ -1,0 +1,32 @@
+{
+  "_note": "Gold labels for the B-76 fixtures, written by hand from the contract text and the B-76 note rubric by the same author as the fixtures and the rules. They test the pipeline, not a model and not real tickets. Fixture-based.",
+  "entries": {
+    "contoso-dental": {
+      "E-1001": {"category": "contract-covered", "clause": "2.4", "missing": [], "vague": false},
+      "E-1002": {"category": "billable", "clause": "2.4", "missing": [], "vague": false},
+      "E-1003": {"category": "contract-covered", "clause": "2.4", "missing": [], "vague": false},
+      "E-1004": {"category": "contract-covered", "clause": "2.4", "missing": [], "vague": false},
+      "E-1005": {"category": "contract-covered", "clause": "2.4", "missing": [], "vague": false},
+      "E-1006": {"category": "contract-covered", "clause": "2.1", "missing": [], "vague": false},
+      "E-1007": {"category": "billable", "clause": "2.2", "missing": [], "vague": false},
+      "E-1008": {"category": "billable", "clause": "2.3", "missing": [], "vague": false},
+      "E-1009": {"category": "non-billable", "clause": "1.4", "missing": ["what", "why", "outcome"], "vague": true},
+      "E-1010": {"category": "project", "clause": "4.1", "missing": [], "vague": false},
+      "E-1011": {"category": "billable", "clause": "3.1", "missing": ["what", "why", "outcome"], "vague": true},
+      "E-1012": {"category": "unclassified", "clause": null, "missing": [], "vague": false},
+      "E-1013": {"category": "contract-covered", "clause": "2.1", "missing": ["time"], "vague": false}
+    },
+    "fabrikam-capital": {
+      "F-2001": {"category": "contract-covered", "clause": "3.1", "missing": [], "vague": false},
+      "F-2002": {"category": "contract-covered", "clause": "3.1", "missing": ["what", "why", "outcome"], "vague": true},
+      "F-2003": {"category": "contract-covered", "clause": "3.3", "missing": [], "vague": false},
+      "F-2004": {"category": "billable", "clause": "3.3", "missing": [], "vague": false},
+      "F-2005": {"category": "project", "clause": "5.1", "missing": [], "vague": false},
+      "F-2006": {"category": "billable", "clause": "3.5", "missing": [], "vague": false},
+      "F-2007": {"category": "contract-covered", "clause": "3.1", "missing": [], "vague": false},
+      "F-2008": {"category": "contract-covered", "clause": "3.1", "missing": [], "vague": false},
+      "F-2009": {"category": "non-billable", "clause": "1.2", "missing": ["what", "why", "outcome"], "vague": true},
+      "F-2010": {"category": "contract-covered", "clause": "3.1", "missing": ["why", "outcome"], "vague": true}
+    }
+  }
+}

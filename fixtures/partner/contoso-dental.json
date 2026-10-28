@@ -1,0 +1,94 @@
+{
+  "_note": "Partner and tenant fixture. Synthetic (invented domains, people, tenants). Pinned to as_of 2026-10-21. Not a capture from a real DNS zone, certificate store or tenant. GDAP relationship shape imitates Partner Center; app registration shape imitates Microsoft Graph application. Every field is UNVERIFIED, see fixtures/partner/SOURCES.md.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-21",
+  "gdapRelationships": [
+    {
+      "id": "c0000000-0000-4000-8000-0000000000a1",
+      "displayName": "Contoso Dental full admin (synthetic)",
+      "status": "active",
+      "endDateTime": "2026-11-30T00:00:00Z",
+      "roles": [
+        "62e90394-69f5-4237-9190-012177145e10"
+      ],
+      "owner": "lead-lee"
+    },
+    {
+      "id": "c0000000-0000-4000-8000-0000000000a2",
+      "displayName": "Contoso Dental helpdesk (synthetic)",
+      "status": "active",
+      "endDateTime": "2026-11-12T00:00:00Z",
+      "roles": [
+        "729827e3-9c14-49f7-bb1b-9608f156bbb8"
+      ],
+      "owner": "tech-ana"
+    },
+    {
+      "id": "c0000000-0000-4000-8000-0000000000a3",
+      "displayName": "Contoso Dental old support (synthetic)",
+      "status": "expired",
+      "endDateTime": "2026-09-30T00:00:00Z",
+      "roles": [
+        "729827e3-9c14-49f7-bb1b-9608f156bbb8"
+      ],
+      "owner": "tech-ana"
+    },
+    {
+      "id": "c0000000-0000-4000-8000-0000000000a4",
+      "displayName": "Contoso Dental helpdesk 2027 (synthetic)",
+      "status": "active",
+      "endDateTime": "2027-03-01T00:00:00Z",
+      "roles": [
+        "729827e3-9c14-49f7-bb1b-9608f156bbb8"
+      ],
+      "owner": "tech-ana"
+    }
+  ],
+  "appRegistrations": [
+    {
+      "appId": "c0000000-0000-4000-8000-0000000000b1",
+      "displayName": "Backup connector (synthetic)",
+      "owner": "tech-ana",
+      "passwordCredentials": [
+        {
+          "keyId": "c0000000-0000-4000-8000-0000000000c1",
+          "displayName": "backup secret",
+          "endDateTime": "2026-11-02T00:00:00Z"
+        }
+      ],
+      "keyCredentials": [
+        {
+          "keyId": "c0000000-0000-4000-8000-0000000000c2",
+          "displayName": "backup cert",
+          "endDateTime": "2026-10-15T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "appId": "c0000000-0000-4000-8000-0000000000b2",
+      "displayName": "Intake portal (synthetic)",
+      "owner": "tech-ana",
+      "passwordCredentials": [
+        {
+          "keyId": "c0000000-0000-4000-8000-0000000000c3",
+          "displayName": "portal secret",
+          "endDateTime": "2027-06-01T00:00:00Z"
+        }
+      ],
+      "keyCredentials": []
+    },
+    {
+      "appId": "c0000000-0000-4000-8000-0000000000b3",
+      "displayName": "Legacy label printer sync (synthetic)",
+      "owner": null,
+      "passwordCredentials": [
+        {
+          "keyId": "c0000000-0000-4000-8000-0000000000c4",
+          "displayName": "printer secret",
+          "endDateTime": "2026-11-10T00:00:00Z"
+        }
+      ],
+      "keyCredentials": []
+    }
+  ]
+}

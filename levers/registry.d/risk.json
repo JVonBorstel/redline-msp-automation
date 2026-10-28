@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "_note": "B-44. Risky-user, user-fact and device-fact read levers on the mock tenant (fixtures/tenant/<client>/risky-users.json and the base tenant file). Mock only; no real Entra Identity Protection is called. Reading real risky users needs Entra ID P2, which is UNVERIFIED per client.",
+  "levers": [
+    {
+      "name": "risk.list-users",
+      "description": "Read the client's risky users (risk level, state, detail) from the mock of Entra Identity Protection riskyUsers. Needs Entra ID P2, UNVERIFIED per client; a client without data gets an empty list and a note. Technician view only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["level", "limit"],
+      "entry": "levers.python.risk:risk_list_users",
+      "params": {
+        "level": {"type": "string", "enum": ["none", "low", "medium", "high"], "description": "Only users at this risk level (default all)"},
+        "limit": {"type": "integer", "minimum": 1, "maximum": 100, "description": "How many users to return (default 50)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A technician sees which of one client's people the sign-in risk engine flags; nothing about them changes, but who is flagged is personal data.",
+        "L2": "The client's risky-user list is read only by staff scoped to that client, so a possible account takeover is noticed before it spreads.",
+        "L3": "Every read is registered, scoped and audited by who asked; the results themselves are not copied into the audit.",
+        "L4": "Risk lists never mix across tenants, and the P2 dependency is stated per client, so an empty list is never read as all clear."
+      }
+    },
+    {
+      "name": "risk.user-facts",
+      "description": "Read one user's directory facts (name, title, enabled, kinds of sign-in methods) for the client. Mock of Graph user; phone numbers are not returned. Technician view only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["upn"],
+      "entry": "levers.python.risk:risk_user_facts",
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of one user of this client"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A technician sees one person's job title, whether the account is on, and which kinds of sign-in method they have; nothing changes.",
+        "L2": "The analyst sees the person behind an alert in one place, scoped to the client the alert came from.",
+        "L3": "Each read is registered, scoped and audited by who asked about whom; the facts are not copied into the audit.",
+        "L4": "Directory facts never cross clients, and contact numbers stay out of the result."
+      }
+    },
+    {
+      "name": "risk.device-facts",
+      "description": "Read the devices on record for one user of the client (name, OS, managed, compliance, last check-in). Stand-in device list; field names UNVERIFIED. Technician view only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["upn"],
+      "entry": "levers.python.risk:risk_device_facts",
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of one user of this client"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A technician sees which devices belong to one person and whether they are managed and compliant; nothing changes.",
+        "L2": "The analyst can tell an unmanaged phone from a company laptop when judging an alert.",
+        "L3": "Each read is registered, scoped and audited by who asked about whom; the device list is not copied into the audit.",
+        "L4": "Device lists are picked by the client's own id, so one office's devices never appear in another's pack."
+      }
+    }
+  ]
+}

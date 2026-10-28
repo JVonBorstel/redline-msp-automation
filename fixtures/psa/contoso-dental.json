@@ -1,0 +1,22 @@
+{
+  "_note": "Synthetic PSA data for Contoso Dental (invented). Shaped like the public Autotask REST API entities Companies, Contacts, Tickets, TicketNotes, Resources and ServiceLevelAgreements; field names are from memory and marked UNVERIFIED in fixtures/psa/SOURCES.md. Pinned to as_of 2026-10-20. Not a capture from a real PSA.",
+  "client": "contoso-dental",
+  "company": {"id": 30001, "companyName": "Contoso Dental (synthetic)", "companyType": 1, "isActive": true, "phone": "555-0140", "webAddress": "https://contosodental.example"},
+  "contacts": [
+    {"id": 40001, "companyID": 30001, "firstName": "Priya", "lastName": "Nair", "title": "Hygienist", "emailAddress": "priya.nair@contosodental.example", "isActive": 1},
+    {"id": 40002, "companyID": 30001, "firstName": "Sam", "lastName": "Patel", "title": "Practice manager", "emailAddress": "sam.patel@contosodental.example", "isActive": 1}
+  ],
+  "resources": [
+    {"id": 50001, "firstName": "Ana", "lastName": "(technician, synthetic)", "userName": "tech-ana", "email": "ana@msp.example", "isActive": true}
+  ],
+  "slaSettings": [
+    {"id": 60001, "name": "Standard 8x5 (synthetic)", "isActive": true, "firstResponseHours": 1, "resolutionPlanHours": 4, "resolutionHours": 8}
+  ],
+  "tickets": [
+    {"id": 70101, "ticketNumber": "T-3101", "companyID": 30001, "contactID": 40001, "title": "Phone in the lake, Authenticator gone", "description": "Requester lost her phone and cannot approve sign-in prompts.", "status": 1, "priority": 2, "queueID": 80001, "ticketCategory": 3, "ticketType": 2, "assignedResourceID": 50001, "serviceLevelAgreementID": 60001, "createDate": "2026-10-20T08:02:00Z", "dueDateTime": "2026-10-20T16:02:00Z"},
+    {"id": 70102, "ticketNumber": "T-3102", "companyID": 30001, "contactID": 40002, "title": "New iPhone - move my MFA", "description": "Authenticator did not transfer to the new phone.", "status": 1, "priority": 3, "queueID": 80001, "ticketCategory": 3, "ticketType": 2, "assignedResourceID": 50001, "serviceLevelAgreementID": 60001, "createDate": "2026-10-20T08:40:00Z", "dueDateTime": "2026-10-20T16:40:00Z"}
+  ],
+  "ticketNotes": [
+    {"id": 90001, "ticketID": 70101, "title": "Intake", "description": "Call-back number on file confirmed by the technician (synthetic).", "noteType": 1, "publish": 1, "creatorResourceID": 50001, "createDateTime": "2026-10-20T08:10:00Z"}
+  ]
+}

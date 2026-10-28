@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-001",
+  "title": "Ticket triage suggestions for the service desk",
+  "client_scope": "msp-internal",
+  "problem": "Technicians spend minutes per ticket choosing category, priority and queue; a suggestion for a person to accept would cut that.",
+  "effect": "read-only",
+  "data_classes": [
+    "DC-3"
+  ],
+  "model_route": "local",
+  "proposed_levers": [
+    "ticket.get"
+  ],
+  "inventory_ids": [
+    "W-SD-02"
+  ],
+  "minutes_per_run": 3,
+  "runs_per_month": 1500,
+  "effort_days": 6,
+  "roi_row": "triage-category",
+  "client": null
+}

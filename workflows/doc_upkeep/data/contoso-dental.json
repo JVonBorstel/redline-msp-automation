@@ -1,0 +1,32 @@
+{
+  "_note": "Synthetic documentation fixture for Contoso Dental (B-59). It is what the written pages claim (review dates and structured claims about devices, contacts and licences); the claims were invented to plant stale, missing and contradictory cases. Pages are matched to fixtures/kb/contoso-dental/manifest.json by article_id. Not a capture from a real documentation system.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-23",
+  "review_months": 12,
+  "required_tags": ["backup", "mail", "network", "printing"],
+  "pages": [
+    {
+      "article_id": "KB-CD-001",
+      "last_reviewed": "2025-03-01",
+      "claims": [{"kind": "device", "key": "FRONTDESK-01", "attrs": {"category": "Desktop"}}]
+    },
+    {
+      "article_id": "KB-CD-002",
+      "last_reviewed": "2026-06-01",
+      "claims": [
+        {"kind": "device", "key": "DENTAL-SRV01", "attrs": {"category": "Desktop"}},
+        {"kind": "device", "key": "RECEPTION-OLD", "attrs": {"category": "Desktop"}}
+      ]
+    },
+    {
+      "article_id": "KB-CD-003",
+      "last_reviewed": "2026-08-15",
+      "claims": [
+        {"kind": "contact", "key": "Sam Patel", "attrs": {"title": "Office manager"}},
+        {"kind": "contact", "key": "Dee Okafor", "attrs": {"title": "Hygienist"}},
+        {"kind": "license", "key": "O365_BUSINESS_PREMIUM", "attrs": {"seats": 5}}
+      ]
+    },
+    {"article_id": "KB-CD-004", "last_reviewed": "2026-09-01", "claims": []}
+  ]
+}
