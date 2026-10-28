@@ -8,23 +8,27 @@ Typical use (the proposal contract is in store.py):
 """
 
 from core.queue.store import (
+    AWAITING,
     DEFAULT_STATE_DIR,
     Decision,
     DecisionDenied,
     Proposal,
     ProposalQueue,
     QueueError,
+    RecordedApproval,
     open_queue,
     proposal_id,
 )
 
 __all__ = [
+    "AWAITING",
     "DEFAULT_STATE_DIR",
     "Decision",
     "DecisionDenied",
     "Proposal",
     "ProposalQueue",
     "QueueError",
+    "RecordedApproval",
     "open_queue",
     "proposal_id",
 ]

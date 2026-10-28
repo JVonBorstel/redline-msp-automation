@@ -380,6 +380,10 @@ def test_b59_2_cli_json_output_is_machine_readable(tmp_path: Path, capsys: pytes
 # ---------------------------------------------------------------------------------------------------------------
 
 
+# The repo's runbooks were brought up to the template and reviewed on this date; the review-age check runs from it.
+RUNBOOK_AS_OF = "2026-10-27"
+
+
 def _real_gaps() -> dict[str, set[str]]:
     linter = _load_linter()
     levers = frozenset(Registry.load().names())
@@ -387,7 +391,7 @@ def _real_gaps() -> dict[str, set[str]]:
     for path in linter.default_targets(REPO):
         rel = path.relative_to(REPO).as_posix()
         text = path.read_text(encoding="utf-8")
-        found = linter.lint_text(text, rel, repo=REPO, levers=levers, as_of=AS_OF)
+        found = linter.lint_text(text, rel, repo=REPO, levers=levers, as_of=RUNBOOK_AS_OF)
         gaps[rel] = {f.rule for f in found}
     return gaps
 
@@ -404,10 +408,22 @@ def test_b59_3_default_targets_are_the_runbooks_folder_and_the_index() -> None:
     }
 
 
-def test_b59_3_the_real_runbooks_are_linted_and_the_linter_exits_nonzero_while_gaps_remain() -> None:
+def test_b59_3_the_real_runbooks_lint_clean_and_the_linter_exits_zero() -> None:
     linter = _load_linter()
-    assert any(_real_gaps().values())  # the committed runbooks predate the template; the gaps are real, not hidden
-    assert linter.main(["--repo", str(REPO), "--as-of", AS_OF]) == 1
+    gaps = _real_gaps()
+    assert len(gaps) == 5 and not any(gaps.values()), {k: v for k, v in gaps.items() if v}
+    assert linter.main(["--repo", str(REPO), "--as-of", RUNBOOK_AS_OF]) == 0
+
+
+def test_b59_3_a_real_runbook_with_its_owner_line_removed_fails_again() -> None:
+    linter = _load_linter()
+    levers = frozenset(Registry.load().names())
+    path = REPO / "docs" / "runbooks" / "caller-verification.md"
+    text = "\n".join(ln for ln in path.read_text(encoding="utf-8").splitlines() if not ln.startswith("Owner:"))
+    found = linter.lint_text(
+        text, "docs/runbooks/caller-verification.md", repo=REPO, levers=levers, as_of=RUNBOOK_AS_OF
+    )
+    assert {f.rule for f in found} == {"missing-owner"}
 
 
 def test_b59_3_every_gap_is_listed_in_the_spec_and_nothing_else_is() -> None:

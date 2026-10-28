@@ -1,8 +1,23 @@
 # Runbook: offboarding a client from the MSP (W-PRJ-02)
 
+Owner: account manager (the project engineer runs the checklist)
+Last reviewed: 2026-10-27
+
 Status: document-only. A procedure for humans; nothing in it is automated. The MSP's real procedure is UNKNOWN (map 07); this is the prototype's proposal, to be replaced by theirs. Synthetic data only.
 
 > Independently built prototype. Not affiliated with any vendor's or real company's systems.
+
+## Purpose
+
+Use this when a client relationship with the MSP ends. It ends with the client holding its own admin access and its documentation, and the MSP holding no account, agent or delegated relationship in the client's systems, each step checked by a second engineer.
+
+## Prerequisites
+
+- The agreed end date and the named receiver, from the contract notice.
+- An offboarding ticket to copy the checklist into.
+- The discovery pack for the client (see below) so the list of accounts, licences and devices is complete.
+- The client's confirmation that its own backup is running, before any MSP backup agent is removed.
+- A second engineer for the check at the end.
 
 ## What the tool never does
 
@@ -40,6 +55,10 @@ This file names roles, never people. Names go in the ticket, taken from the clie
 - The client has confirmed receipt of credentials and documentation.
 
 Anything not done is written in the ticket with the reason and an owner; the relationship is not marked closed until each line is done or the client has agreed in writing to leave it.
+
+## Rollback
+
+Most steps cannot be undone by the MSP once done, which is why nothing is removed before the agreed date. If the client asks to pause, stop at the current step and record it in the ticket. Restoring a delegated relationship, an agent or an account is a new request from the client's authorized contact, verified by callback, not an undo. Documentation already handed over cannot be recalled.
 
 ## Conduct
 

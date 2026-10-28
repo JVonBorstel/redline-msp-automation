@@ -51,7 +51,7 @@
     "applies_to_risk_classes": ["R2", "R3"],
     "framework_refs": ["SOC2:CC8.1", "SOC2:CC6.1", "NIST-CSF-2.0:GV.RR-02", "NIST-CSF-2.0:PR.AA-05", "CIS-v8.1:6.1", "GLBA-SR:314.4(c)(7)"],
     "implemented_in": "core/levers/runner.py (_check_approval); core/levers/models.py (Approval)",
-    "evidence": "tests/phase1/test_levers.py::test_p1_5_execute_without_lead_approval_denied, ::test_p1_5_execute_with_lead_approval_allowed_and_approver_recorded, ::test_p1_5_invalid_approvals_denied, ::test_p1_5_approver_must_be_scoped_to_the_client; tests/py/backup/test_b68_backup.py::test_b68_2_executing_needs_a_technician_and_a_leads_approval_bound_to_the_job (backup.retry-job); tests/py/levers/test_b28_runner3.py (R3 two-approver policy, off unless a policy is given; not yet wired to the queue); tests/py/groups/test_b32_groupops.py::test_b32_1_execute_without_an_approval_is_denied_and_changes_nothing, ::test_b32_1_execute_adds_the_member_with_an_approval_and_an_audit_record; tests/py/mailbox/test_b33_mailboxops.py::test_b33_1_a_failed_dry_run_or_a_refused_execute_leaves_the_file_byte_identical"
+    "evidence": "tests/phase1/test_levers.py::test_p1_5_execute_without_lead_approval_denied, ::test_p1_5_execute_with_lead_approval_allowed_and_approver_recorded, ::test_p1_5_invalid_approvals_denied, ::test_p1_5_approver_must_be_scoped_to_the_client; tests/py/backup/test_b68_backup.py::test_b68_2_executing_needs_a_technician_and_a_leads_approval_bound_to_the_job (backup.retry-job); tests/py/levers/test_b28_runner3.py (R3 two-approver policy in the runner); tests/py/queue/test_b28_queue_dual.py, tests/py/ui/test_b28_dual_e2e.py (the queue and page collect a second, different lead; the offline CLIs still run without a policy); tests/py/groups/test_b32_groupops.py::test_b32_1_execute_without_an_approval_is_denied_and_changes_nothing, ::test_b32_1_execute_adds_the_member_with_an_approval_and_an_audit_record; tests/py/mailbox/test_b33_mailboxops.py::test_b33_1_a_failed_dry_run_or_a_refused_execute_leaves_the_file_byte_identical"
   },
   {
     "id": "C-07",
@@ -213,7 +213,7 @@
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["SOC2:CC8.1", "NIST-CSF-2.0:PR.PS-06", "NIST-CSF-2.0:GV.SC-05", "CIS-v8.1:16.1", "GLBA-SR:314.4(c)(7)"],
     "implemented_in": ".github/workflows/ci.yml",
-    "evidence": "GitHub Actions run history on the private repo (D-021); permissions: contents: read in ci.yml"
+    "evidence": "tests/py/tools/test_b07_ci_wiring.py::test_b07_1_every_action_is_pinned_to_a_full_commit_sha, ::test_b07_1_the_token_stays_read_only, ::test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test (static checks of the committed file); permissions: contents: read in ci.yml. Run history lives on GitHub (D-021) and is not re-checked offline"
   },
   {
     "id": "C-25",
@@ -221,8 +221,8 @@
     "objective": "Every input carries a data class (DC-0 to DC-6); each tenant has an industry floor (dental = DC-4, financial = DC-5); PHI, NPI and secrets are removed or tokenised before any model call, and unknown text is treated as the floor.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.502(b)", "GLBA-SR:314.4(c)(2)", "SOC2:C1.1", "NIST-CSF-2.0:ID.AM-07", "CIS-v8.1:3.2", "CIS-v8.1:3.7", "OWASP-LLM-2025:LLM02"],
-    "implemented_in": "planned",
-    "evidence": "planned: redaction eval set (synthetic PHI/NPI strings) with leak rate; per-tenant class config in a governance/DLP_MAPPING.md"
+    "implemented_in": "core/guard/classify.py; core/guard/redact_prompt.py; core/gateway/gateway.py (B-55: every gateway call carries a data class, the floor comes from the client record, shapes are tokenised before any provider, DC-6 blocks the call)",
+    "evidence": "tests/py/guard/test_b55_redaction.py::test_b55_1_unknown_text_takes_the_industry_floor_from_the_client_record, ::test_b55_2_no_labelled_span_of_the_phase2_set_reaches_any_provider, ::test_b55_2_dc6_canaries_block_the_call_before_any_provider, ::test_b55_3_eval_reports_a_fixture_based_leak_rate_with_the_miss_list (fixture-based; evals/redaction/report.md)"
   },
   {
     "id": "C-26",
@@ -248,8 +248,8 @@
     "objective": "A hosted provider can be enabled only with a recorded approval, written retention and training terms, a BAA covering the exact service and configuration where DC-4 may be present, and a per-tenant data-handling setting that allows it.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.502(e)", "HIPAA:164.308(b)(1)", "HIPAA:164.314(a)", "GLBA-SR:314.4(f)", "SOC2:CC9.2", "NIST-CSF-2.0:GV.SC-05", "CIS-v8.1:15.4", "NIST-AI-600-1:Data-Privacy"],
-    "implemented_in": "planned (today the safe default is built: hosted providers are disabled stubs in core/gateway/hosted.py and config/models.json)",
-    "evidence": "planned: config schema that refuses enabled=true without an approval id; vendor register entry (C-43); test that a tenant flagged no-hosted never routes to a hosted provider"
+    "implemented_in": "core/gateway/hosted.py; core/gateway/vendor_register.py; governance/ai-vendor-register.json (B-90: a hosted call needs an approved, in-date register entry naming the client, purpose and data class; the shipped register is all pending, so nothing hosted runs)",
+    "evidence": "tests/py/gateway/test_b90_hosted.py::test_b90_1_a_hosted_provider_without_an_approval_id_in_config_never_runs, ::test_b90_gate_a_client_whose_record_says_not_hosted_is_refused_even_if_the_approval_names_it, ::test_b90_3_dc4_and_dc5_are_refused_unless_the_entry_allows_that_class (fixture-based; no real provider or BAA)"
   },
   {
     "id": "C-29",
@@ -257,8 +257,8 @@
     "objective": "Each registry entry declares risk_class (R0-R3), owner and semantic version; the runner enforces the HO rules for the class (approvals, verification, caps); the audit record names the version that ran.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["SOC2:CC3.2", "SOC2:CC8.1", "NIST-CSF-2.0:ID.RA-05", "NIST-CSF-2.0:GV.RM-06", "CIS-v8.1:2.1"],
-    "implemented_in": "planned (registry today has approval none|lead and a file-level version only)",
-    "evidence": "planned: registry load fails closed on a missing risk_class; tests per class"
+    "implemented_in": "partial: core/levers/models.py requires risk_class on every write lever and carries an integer lever_version; core/levers/runner.py enforces the class (approver minimum, two leads for R3, risk-class default caps) and writes lever_version into every audit record. An owner field and semantic versions are planned",
+    "evidence": "tests/py/levers/test_b01_registry_fields.py::test_b01_1_write_lever_without_risk_class_or_impact_fails_naming_the_lever; tests/py/levers/test_b28_runner3.py::test_b28_3_one_approval_is_denied_and_audited, ::test_b28_4_every_record_carries_request_id_actor_kind_and_lever_version; tests/py/levers/test_b42_caps.py::test_b42_1_a_lever_without_caps_gets_its_risk_class_default"
   },
   {
     "id": "C-30",
@@ -266,8 +266,8 @@
     "objective": "Before an R2 identity lever (MFA reset, disable, session revoke) executes, the affected person or their manager is verified out of band (callback to the number on file) and the verification is recorded with the approval.",
     "applies_to_risk_classes": ["R2", "R3"],
     "framework_refs": ["HIPAA:164.312(d)", "NIST-CSF-2.0:PR.AA-03", "SOC2:CC6.2", "CIS-v8.1:6.3", "GLBA-SR:314.4(c)(1)"],
-    "implemented_in": "planned",
-    "evidence": "planned: approval record field verification={method, by, at}; runner denies R2 execute without it"
+    "implemented_in": "core/levers/runner.py; core/levers/oob.py (B-02, B-28: an execute of a lever that requires requester verification is denied without a recorded verification {method, by, at}; R3 identity levers need a callback to the number on file plus a contact confirmation)",
+    "evidence": "tests/py/levers/test_b02_runner_gates.py::test_b02_2_execute_without_verification_is_denied_and_audited, ::test_b02_2_with_a_verification_the_record_carries_method_by_and_at; tests/py/levers/test_b28_runner3.py::test_b28_8_the_callback_record_alone_is_not_enough (fixture-based; no real phone call)"
   },
   {
     "id": "C-31",
@@ -275,8 +275,8 @@
     "objective": "Any lead or on-call engineer can pause a lever globally or for one tenant immediately, without approval; paused levers deny with a clear reason and the pause is audited.",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["NIST-CSF-2.0:RS.MI-01", "SOC2:CC7.4", "CIS-v8.1:17.4", "NIST-AI-600-1:Information-Security"],
-    "implemented_in": "planned",
-    "evidence": "planned: test that a paused lever denies in both modes and the pause and resume are audited"
+    "implemented_in": "core/levers/pause.py; core/levers/runner.py (B-02: a lead pauses a lever for every client or for one client without approval; paused levers deny dry-run and execute with the reason; pause and resume are audited)",
+    "evidence": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason, ::test_b02_1_client_pause_stops_only_that_client, ::test_b02_1_pause_and_resume_each_write_one_audit_record, ::test_b02_1_pausing_needs_no_approval_and_no_second_person. Only a lead may pause; an on-call role is not modelled"
   },
   {
     "id": "C-32",
@@ -284,8 +284,8 @@
     "objective": "Each write lever has caps: targets per run, executes per tenant per hour, tenants per change; R2 is one target per approval; bulk or cross-tenant runs need R3 approval.",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["OWASP-LLM-2025:LLM10", "OWASP-LLM-2025:LLM06", "NIST-CSF-2.0:PR.IR-04", "SOC2:CC7.2"],
-    "implemented_in": "planned",
-    "evidence": "planned: tests that the N+1th execute in a window is denied and audited"
+    "implemented_in": "partial: core/levers/caps.py (B-42: targets per run, executes per client per hour and clients per day from the registry, with a risk-class default so no write lever is uncapped; counted from the audit chains). One target per R2 approval and R3 approval for bulk or cross-tenant runs are planned (the R2 default is 10 targets per run)",
+    "evidence": "tests/py/levers/test_b42_caps.py::test_b42_1_nplus1_execute_in_hour_is_denied_and_audited, ::test_b42_1_targets_per_run_cap, ::test_b42_1_clients_per_day_cap"
   },
   {
     "id": "C-33",
@@ -302,8 +302,8 @@
     "objective": "A written, rehearsed procedure: detect, contain (kill switch), restore the person, scope from the audit chain, assess HIPAA/GLBA impact, notify, fix through change management, blameless review (IR-1 to IR-9).",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.308(a)(6)", "GLBA-SR:314.4(h)", "SOC2:CC7.3", "SOC2:CC7.4", "SOC2:CC7.5", "NIST-CSF-2.0:RS.MA-01", "NIST-CSF-2.0:RS.AN-03", "CIS-v8.1:17.4", "CIS-v8.1:17.7"],
-    "implemented_in": "planned (docs/RUNBOOKS.md index lists AI incident response as planned, Phase 10)",
-    "evidence": "planned: runbook plus a tabletop exercise record on synthetic tenants"
+    "implemented_in": "docs/runbooks/ai-incident-response.md (IR-1 to IR-9 with commands); docs/TABLETOP_2026.md (a scripted tabletop on a synthetic wrong disable at Contoso Dental) (B-94)",
+    "evidence": "tests/py/governance/test_b94_incident_response.py::test_b94_1_runbook_commands_run_end_to_end_on_a_synthetic_wrong_disable, ::test_b94_3_every_ir_step_is_recorded_with_a_time_in_order (synthetic tenants; no real incident and no people-time exercise)"
   },
   {
     "id": "C-35",
@@ -311,8 +311,8 @@
     "objective": "Plain-language templates for the affected person, the client contact and the client's privacy or security officer, with internal deadlines that leave the client time for HIPAA (60-day outer limit for BA to CE), FTC Safeguards (30 days, 500+ consumers) and state law.",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.410", "GLBA-SR:314.4(j)", "SOC2:CC2.3", "NIST-CSF-2.0:RS.CO-02", "NIST-CSF-2.0:RS.CO-03", "CIS-v8.1:17.6"],
-    "implemented_in": "planned",
-    "evidence": "planned: templates reviewed by the MSP's compliance owner; notification timestamps in the incident record"
+    "implemented_in": "partial: governance/templates/notifications/ (plain-language drafts for the affected person, the client contact and the privacy officer, each sent by a person) and workflows/notify/ (per-lever notices). The internal deadlines are listed as confirm-with-counsel; nobody has reviewed them",
+    "evidence": "tests/py/governance/test_b94_incident_response.py::test_b94_2_one_template_for_each_reader_and_a_person_sends_it, ::test_b94_2_every_timeline_is_listed_as_confirm_with_counsel; tests/py/notify/test_b04_notify.py::test_b04_3_t3101_draft_says_what_why_who_back_and_undo"
   },
   {
     "id": "C-36",
@@ -320,8 +320,8 @@
     "objective": "One phone number and reply address reach a human; automation-affected tickets are auto-prioritised; restore-access target agreed with the MSP; a person can always ask for a human instead of an automated reply (EU-2, EU-7).",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["NIST-CSF-2.0:RC.CO-03", "SOC2:CC2.3", "NIST-AI-600-1:Human-AI-Configuration"],
-    "implemented_in": "planned",
-    "evidence": "planned: PSA priority rule for the automation-affected tag; restore-time metric per month (fixture-based until real)"
+    "implemented_in": "partial: workflows/notify/ (B-04: every notice to an affected person says what changed, why, who to contact and how to get it back). A PSA priority rule for automation-affected tickets and a restore-time metric are planned",
+    "evidence": "tests/py/notify/test_b04_notify.py::test_b04_3_t3101_draft_says_what_why_who_back_and_undo; planned: PSA priority rule and monthly restore-time metric"
   },
   {
     "id": "C-37",
@@ -329,8 +329,8 @@
     "objective": "Lever changes arrive as reviewed PRs with green CI, then roll out test tenant, pilot client tenant, 10%, all; the previous version stays pinnable per tenant; emergency changes are re-reviewed (CM-1 to CM-7).",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["SOC2:CC8.1", "GLBA-SR:314.4(c)(7)", "NIST-CSF-2.0:PR.PS-01", "NIST-CSF-2.0:ID.IM-02", "CIS-v8.1:4.1", "CIS-v8.1:16.1"],
-    "implemented_in": "partial: .github/workflows/ci.yml and PR-only merges after the owner's yes (D-021); per-lever versions and rollout rings planned",
-    "evidence": "PR history and CI runs on the private repo; planned: ring assignment file and audit field lever_version"
+    "implemented_in": "partial: .github/workflows/ci.yml and PR-only merges after the owner's yes (D-021); the lever_version audit field is written by core/levers/runner.py. Rollout rings and per-tenant version pinning are planned",
+    "evidence": "tests/py/tools/test_b07_ci_wiring.py::test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test; tests/py/levers/test_b28_runner3.py::test_b28_4_every_record_carries_request_id_actor_kind_and_lever_version; PR history and CI runs on the private repo; planned: ring assignment file"
   },
   {
     "id": "C-38",
@@ -338,8 +338,8 @@
     "objective": "Quarterly review of every agent and human identity, its role and client list; MSP access to each tenant uses per-tenant least-privilege delegated roles (GDAP), no standing Global Admin, and lever scope never exceeds delegated access (ISO-10).",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["SOC2:CC6.2", "SOC2:CC6.3", "HIPAA:164.308(a)(4)", "GLBA-SR:314.4(c)(1)", "NIST-CSF-2.0:PR.AA-05", "CIS-v8.1:5.1", "CIS-v8.1:5.4", "CIS-v8.1:6.2"],
-    "implemented_in": "planned (identities are a static synthetic file, config/identities.json)",
-    "evidence": "partial, test: tests/py/expiry/test_b54_expiry.py::test_b54_1_gdap_global_administrator_is_listed (report of GDAP relationships holding Global Administrator, fixtures only). Still planned: planned: dated, hashed access-review export signed off by a lead"
+    "implemented_in": "partial: workflows/access_review/ (B-49: a dated, hashed quarterly export of every agent and technician identity, its role and client list, decided row by row by a lead) and the GDAP Global Administrator listing in workflows/expiry/ (B-54); identities are a static synthetic file (config/identities.json). A check that lever scope never exceeds delegated access is planned",
+    "evidence": "tests/py/access_review/test_b49_access_review.py::test_b49_1_export_is_dated_and_its_sha256_sidecar_matches_the_file, ::test_b49_2_lead_decides_every_row_and_the_decided_file_rebuilds_the_export_hash; tests/py/expiry/test_b54_expiry.py::test_b54_1_gdap_global_administrator_is_listed (fixtures only)"
   },
   {
     "id": "C-39",
@@ -347,8 +347,8 @@
     "objective": "The audit head hash is pinned in storage the writer cannot rewrite (immutable blob or external log), records are retained at least six years where HIPAA documentation applies, and per-client exports are available.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.316(b)(2)(i)", "HIPAA:164.312(b)", "SOC2:CC7.2", "NIST-CSF-2.0:PR.PS-04", "CIS-v8.1:8.3", "CIS-v8.1:8.10"],
-    "implemented_in": "planned (head file today sits beside the log; THREAT_MODEL limit 4)",
-    "evidence": "planned: verifier compares against the external pin; retention policy document"
+    "implemented_in": "partial: core/audit/verify.py checks a chain against a head pinned outside it, and core/audit/sqlite_store.py refuses update and delete (B-17, B-82). Write-once storage (an immutable blob) and a retention policy are planned; the Bicep in infra/ has not been compiled",
+    "evidence": "tests/py/audit/test_b17_audit_v2.py::test_b17_2_p1_2_deleting_the_last_record_is_caught_by_the_head_pin; tests/py/storage/test_b82_sqlite.py::test_b82_2_a_pinned_head_held_elsewhere_catches_a_fully_rewound_database, ::test_b82_2_update_and_delete_are_refused_by_triggers"
   },
   {
     "id": "C-40",
@@ -356,8 +356,8 @@
     "objective": "Alerts on denial spikes, after-hours executes, approvals faster than a human could read the diff, cross-client denials, verifier failures and injection flags per tenant.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["SOC2:CC7.2", "GLBA-SR:314.4(c)(8)", "HIPAA:164.308(a)(1)(ii)(D)", "NIST-CSF-2.0:DE.CM-03", "NIST-CSF-2.0:DE.AE-02", "CIS-v8.1:8.11"],
-    "implemented_in": "planned (Phase 8 monitoring; OpenTelemetry planned)",
-    "evidence": "planned: alert rules over the audit stream with synthetic incident replays"
+    "implemented_in": "partial: workflows/monitoring/ (B-83: versioned alert rules replayed over audit and gateway records: audit-chain failure, breaker open, budget exhaustion, approval backlog age, dead-letter growth). Alerts on denial spikes, after-hours executes, approvals faster than a diff can be read, cross-client denials and injection flags are planned",
+    "evidence": "tests/py/obs/test_b83_obs.py::test_b83_2_replayed_synthetic_incidents_fire_exactly_the_expected_alerts, ::test_b83_2_a_failed_chain_fires_once_per_scope_and_healthy_ones_stay_quiet (synthetic replays; nothing is monitored live)"
   },
   {
     "id": "C-41",
@@ -374,8 +374,8 @@
     "objective": "Technicians and account managers know what may enter a prompt, how to read a proposal and diff, what an approval means, and how to report an AI incident.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.308(a)(5)", "GLBA-SR:314.4(e)", "SOC2:CC1.4", "SOC2:CC2.2", "NIST-CSF-2.0:PR.AT-01", "CIS-v8.1:14.1"],
-    "implemented_in": "planned (docs/planned/STAFF_TRAINING.md outline; governance/ACCEPTABLE_USE.md Phase 10)",
-    "evidence": "planned: training completion records; ten-minute synthetic-ticket exercise"
+    "implemented_in": "partial: governance/STAFF_TRAINING.md, governance/CLIENT_CONVERSATION_GUIDE.md and governance/ACCEPTABLE_USE.md (document-only), checked by workflows/training/ (B-92, B-96). No one has taken the training and there are no completion records",
+    "evidence": "tests/py/governance/test_b96_training_docs.py::test_b96_1_the_training_covers_the_seven_outline_topics_in_order, ::test_b96_1_the_exercise_answer_key_matches_what_the_commands_print, ::test_b96_3_the_committed_pages_pass_the_checker"
   },
   {
     "id": "C-43",
@@ -383,8 +383,8 @@
     "objective": "Each AI provider, model host and MCP server is listed with data classes allowed, retention and training terms, BAA or DPA status, ZDR or modified abuse monitoring status, region, and review date.",
     "applies_to_risk_classes": ["R0", "R1", "R2", "R3"],
     "framework_refs": ["GLBA-SR:314.4(f)", "HIPAA:164.308(b)(1)", "SOC2:CC9.2", "NIST-CSF-2.0:GV.SC-04", "NIST-CSF-2.0:GV.SC-07", "CIS-v8.1:15.1", "CIS-v8.1:15.4"],
-    "implemented_in": "planned (docs/planned/TECH_RADAR.md lists candidates only)",
-    "evidence": "planned: register file reviewed at least annually; links to signed terms held by the MSP (not in the repo)"
+    "implemented_in": "governance/ai-vendor-register.json; core/gateway/vendor_register.py (B-90, B-93: one entry per provider with allowed data classes, retention and training terms, BAA or DPA status, ZDR status, region and review date; an entry becomes approved only through a model and tool approval record)",
+    "evidence": "tests/py/gateway/test_b90_hosted.py::test_b90_1_the_committed_register_is_valid_and_loads, ::test_b90_4_the_committed_register_starts_pending_with_nothing_allowed, ::test_b90_1_an_entry_past_its_review_date_stops_approving; tests/py/governance/test_b93_approval.py::test_b93_3_an_approved_vendor_entry_with_no_approval_record_fails. Every entry is pending; signed terms are held outside the repo"
   },
   {
     "id": "C-44",
@@ -392,8 +392,8 @@
     "objective": "Approvers sign in with Entra ID and MFA; the approval record carries the authenticated identity, not a picker value (closes D-023 known gap).",
     "applies_to_risk_classes": ["R1", "R2", "R3"],
     "framework_refs": ["HIPAA:164.312(d)", "GLBA-SR:314.4(c)(5)", "SOC2:CC6.1", "NIST-CSF-2.0:PR.AA-03", "CIS-v8.1:6.5"],
-    "implemented_in": "planned (ui/app.py uses a demo identity picker over synthetic users)",
-    "evidence": "planned: test that an unauthenticated POST cannot decide; sign-in logs joined to approval records"
+    "implemented_in": "core/auth/validator.py; core/auth/jws.py (B-89: in token mode an approval needs an RS256 token whose claims map to a lead; the record carries the signer, amr and sid; the identity picker exists only in demo mode)",
+    "evidence": "tests/py/auth/test_b89_auth.py::test_b89_3_a_post_with_no_token_cannot_decide, ::test_b89_1_a_valid_token_decides_and_the_actor_is_the_signer, ::test_b89_2_approved_and_final_lines_carry_amr_and_sid. Tokens come from a local mock issuer; no real Entra ID tenant or MFA prompt is involved"
   },
   {
     "id": "C-45",

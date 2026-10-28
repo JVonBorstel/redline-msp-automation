@@ -87,7 +87,7 @@ CI runs the same on Linux and Windows and needs no secrets. Install the commit-t
 The roadmap (`map/roadmap.json`) has one item per piece of work. The numbers below are **computed**, not typed: `tools/coverage_audit.py` recomputes every status from the files in the checkout and a test fails when this block is out of date.
 
 <!-- audit:status:start -->
-Roadmap: 87 of 98 items built, 7 partial, 4 not demonstrated, 0 planned (89 change notes say built, mocked or document-only). Inventory: 130 of 152 built, 20 partial, 0 planned, 2 not demonstrated, 0 not planned by design. Controls: 26 of 45 built, 2 partial, 0 planned, 17 not demonstrated. Map-versus-code disagreements: 196 (7 error, 126 stale, 15 gap, 48 info).
+Roadmap: 96 of 98 items built, 0 partial, 2 not demonstrated, 0 planned (96 change notes say built, mocked or document-only). Inventory: 149 of 152 built, 1 partial, 0 planned, 2 not demonstrated, 0 not planned by design. Controls: 42 of 45 built, 0 partial, 0 planned, 3 not demonstrated. Map-versus-code disagreements: 2 (0 error, 0 stale, 0 gap, 2 info).
 
 Computed by `tools/coverage_audit.py` from the map and the files in this checkout (fixture-based; "built" means the files, a spec, a change note and a tied test exist, not that the tests were re-run). The full per-item report with every disagreement is `docs/COVERAGE_AUDIT.md`.
 <!-- audit:status:end -->

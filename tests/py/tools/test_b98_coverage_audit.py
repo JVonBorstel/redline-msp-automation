@@ -279,8 +279,10 @@ def test_b98_8_real_repo_gaps_are_listed_not_hidden(ca: ModuleType, real: object
     assert real.findings, "the audit found nothing, which this repo's own history says is not credible"  # type: ignore[attr-defined]
     for finding in real.findings:  # type: ignore[attr-defined]
         assert finding.kind in text and finding.subject in text
-    for kind in ("INV-STALE-PLANNED", "ITEM-MISSING-OWNED"):
-        assert any(f.kind == kind for f in real.findings), kind  # type: ignore[attr-defined]
+    # The map was brought up to date on 2026-10-27 (the B-98 patch applied and extended). What stays open is real and
+    # listed: the Bicep of B-85 and B-86 has never been compiled, so the audit must keep saying "not demonstrated".
+    not_demonstrated = {f.subject for f in real.findings if f.kind == "ITEM-NOT-DEMONSTRATED"}  # type: ignore[attr-defined]
+    assert {"B-85", "B-86"} <= not_demonstrated
 
 
 def test_b98_8_every_lever_and_workflow_folder_is_accounted_for(real: object) -> None:
@@ -296,7 +298,12 @@ def test_b98_8_patch_file_applies_cleanly_to_the_map(ca: ModuleType, real: objec
     if git is None:
         pytest.skip("git is not on PATH")
     assert PATCH.is_file(), "run: uv run --frozen python tools/coverage_audit.py --write"
-    assert PATCH.read_text(encoding="utf-8") == ca.propose_patch(REPO, real)
+    proposed = ca.propose_patch(REPO, real)
+    assert PATCH.read_text(encoding="utf-8") == proposed
+    if not proposed:
+        # Nothing is stale: the patch was applied to map/inventory.json and the tool now proposes no change.
+        assert not real.stale_inventory  # type: ignore[attr-defined]
+        return
     work = tmp_path / "copy"
     (work / "map").mkdir(parents=True)
     lf = (REPO / "map" / "inventory.json").read_bytes().replace(b"\r\n", b"\n")  # a Windows checkout may be CRLF

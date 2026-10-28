@@ -154,7 +154,9 @@ def test_b95_3_the_mapping_makes_no_certification_claim(
 def test_b95_3_planned_controls_are_shown_as_nothing_demonstrated(
     controls: list[dict[str, Any]], mapping: dict[str, Any]
 ) -> None:
-    text = render_mapping(controls, mapping)
+    # No control in the map is planned since 2026-10-27, so a copy marks C-30 planned.
+    marked = [{**c, "implemented_in": "planned"} if c["id"] == "C-30" else c for c in controls]
+    text = render_mapping(marked, mapping)
     row = next(line for line in text.splitlines() if line.startswith("| C-30 "))
     assert "planned" in row and "Not built" in row
 
@@ -162,7 +164,10 @@ def test_b95_3_planned_controls_are_shown_as_nothing_demonstrated(
 def test_b95_3_a_built_control_with_no_test_is_listed_not_hidden(
     controls: list[dict[str, Any]], mapping: dict[str, Any]
 ) -> None:
-    text = render_mapping(controls, mapping)
+    # C-24 cites tests since 2026-10-27, so a copy of the mapping drops them.
+    bare = copy.deepcopy(mapping)
+    bare["controls"]["C-24"]["tests"] = []
+    text = render_mapping(controls, bare)
     assert "No test in this repo" in next(line for line in text.splitlines() if line.startswith("| C-24 "))
 
 

@@ -237,8 +237,10 @@ def test_b60_2_cited_tests_exist_in_the_repo(ctx) -> None:  # type: ignore[no-un
 
 
 def test_b60_2_a_planned_control_is_not_cited_as_if_it_existed(ctx) -> None:  # type: ignore[no-untyped-def]
-    # "endpoint detection" maps to C-25, which the map lists as planned.
-    d = draft_item(ctx, FABRIKAM, Item("X-6", "msp", "Describe your endpoint detection arrangements."), OWNER)
+    # "endpoint detection" maps to C-25. The map lists C-25 as built since 2026-10-27, so this copy marks it planned.
+    planned = {**ctx.controls["C-25"], "implemented_in": "planned"}
+    c = dataclasses.replace(ctx, controls={**ctx.controls, "C-25": planned})
+    d = draft_item(c, FABRIKAM, Item("X-6", "msp", "Describe your endpoint detection arrangements."), OWNER)
     text = render_draft(d)
     assert "C-25" not in text
 

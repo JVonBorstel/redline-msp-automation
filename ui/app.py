@@ -25,6 +25,14 @@ number). A refused approval is audited and leaves the proposal pending (C-30, ST
 B-42: the audit is one chain per client plus `_msp` (core/audit/router.py). The audit page has a chain picker and
 verifies the chain on screen; the dry-run diff on a card is read from that client's chain only. Both pages show a
 banner when a second review of a pre-authorized containment is overdue (D6-08).
+
+B-28 dual approval (docs/changes/B-28-dual-approval.md): when the queue's runner has a policy (`python -m ui` always
+passes one) and a lever needs two leads, the first approval is recorded as `awaiting-second-approval` and the card
+says "Approved by X, waiting for a second lead". The lead who approved sees no Approve button for it; a different
+signed-in lead (a token, or the demo picker behind `--demo`, which is still not authentication) completes it with the
+card's digest in the form, so a card that changed since it was shown is refused. Either lead may reject. A lever marked
+`verification: "requester+contact"` (B-65) also asks which of the client's authorized contacts confirmed the request,
+from the client record's list only.
 """
 
 from __future__ import annotations
@@ -46,10 +54,12 @@ from core.audit.router import MSP_LOG, AuditRouter
 from core.auth import ApproverAuth, AuthError, TokenValidator
 from core.identity import Role
 from core.levers.caps import ReviewError
-from core.levers.models import LeverDef, Verification
+from core.levers.models import ContactConfirmation, LeverDef, Verification
 from core.queue.store import (
+    AWAITING,
     NUMBER_ON_FILE_PREFIX,
     NUMBER_ON_FILE_SOURCES,
+    UNDECIDED,
     VERIFICATION_METHODS,
     Decision,
     DecisionDenied,
@@ -67,7 +77,7 @@ DIFF_VALUE_CHARS = 160
 NO_UNDO = "no undo lever: manual undo"
 UNAUTHENTICATED = "unauthenticated"  # the audit `agent` of a decision refused for want of a valid token
 # The only fields a decision form may carry. Anything else (a phone number, a free-text note) is refused.
-FORM_FIELDS = frozenset({"csrf", "actor", "act", "verified", "number_source"})
+FORM_FIELDS = frozenset({"csrf", "actor", "act", "verified", "number_source", "contact", "digest"})
 METHOD_LABELS = {
     "callback-on-file": "called back on the number on file",
     "in-person": "verified in person",
@@ -162,12 +172,23 @@ def _verified(v: Verification | None) -> str:
     return f"{v.method}{ref} by {v.by}"
 
 
+def _approvers(p: Proposal) -> str:
+    names = [a.approver for a in p.approvals] or [str(p.decided_by)]
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
+
+
 def _describe(decision: Decision) -> str:
     p, seq = decision.proposal, decision.audit_seq
     if p.status == "rejected":
         return f"Rejected {p.id} ({p.lever} for {p.client}) as {p.decided_by}; nothing was changed. Audit seq {seq}."
+    if p.status == AWAITING:
+        last = p.approvals[-1].approver
+        return (
+            f"Approved {p.id} as {last}: waiting for a second lead ({len(p.approvals)} approval(s) recorded). "
+            f"Nothing has run yet. Audit seq {seq}."
+        )
     if p.status == "executed":
-        who = f"as {p.requested_by}, approved by {p.decided_by}"
+        who = f"as {p.requested_by}, approved by {_approvers(p)}"
         verified = f" Requester verification: {_verified(p.verification)}." if p.verification else ""
         return f"Executed {p.id}: {p.lever} for {p.client} {who}.{verified} Audit seq {seq}."
     reason = decision.result.reason if decision.result else "unknown"
@@ -228,8 +249,8 @@ class App:
         # DR-12: a lead sees only proposals for clients in their own list.
         proposals = self.queue.list(viewer=viewer)
         visible = {p.id for p in proposals}
-        pending = [p for p in proposals if p.status == "pending"]
-        decided = [p for p in proposals if p.status != "pending"]
+        pending = [p for p in proposals if p.status in UNDECIDED]
+        decided = [p for p in proposals if p.status not in UNDECIDED]
         clients = self.queue.runner.identities.get(viewer).clients
         parts = [self._review_banner()]
         if outcome_id in self._outcomes and outcome_id in visible:
@@ -239,8 +260,8 @@ class App:
             options = "".join(f'<option value="{esc(lead)}">{esc(lead)}</option>' for lead in ordered)
             parts.append(
                 '<form method="get" action="/" class="signin">'
-                f'<label>Acting as (demo sign-in, synthetic) <select name="as">{options}</select></label> '
-                '<button class="secondary">Switch</button></form>'
+                f'<label>Acting as (demo sign-in, synthetic, not authentication) <select name="as">{options}</select>'
+                '</label> <button class="secondary">Switch</button></form>'
             )
         else:
             parts.append(
@@ -283,28 +304,92 @@ class App:
             f"<dt>Parameters</dt><dd>{_params(p.params)}</dd>"
             f"<dt>From</dt><dd>{esc(p.source)} {esc(p.ref)}</dd>"
             f"<dt>Requested by</dt><dd>{esc(p.requested_by)}</dd>"
-            f"<dt>Why</dt><dd>{esc(p.reason)}</dd></dl>"
+            f"<dt>Why</dt><dd>{esc(p.reason)}</dd>"
+            f"{self._approvals_html(p, spec)}</dl>"
             '<form method="post" action="/decide">'
             f'<input type="hidden" name="csrf" value="{esc(self.csrf_token)}">'
             f'<input type="hidden" name="actor" value="{esc(viewer)}">'
-            f"{self._verification_fields(spec)}"
-            f'<p class="actions"><button name="act" value="approve:{esc(p.id)}">Approve</button> '
-            f'<button name="act" value="reject:{esc(p.id)}" class="secondary">Reject</button></p></form></section>'
+            f"{self._decision_controls(p, spec, viewer)}</form></section>"
         )
 
-    @staticmethod
-    def _verification_fields(spec: LeverDef | None) -> str:
-        if spec is None or spec.verification != "requester":
+    def _approvals_html(self, p: Proposal, spec: LeverDef | None) -> str:
+        """B-28: how many leads this lever needs, and who has approved so far."""
+        needed = self.queue.runner.approvers_needed(p.lever, p.client)
+        if needed < 2:
+            return ""
+        line = (
+            f"This lever is {esc(spec.risk_class if spec else '')} and needs {needed} lead approvals from different "
+            "leads, neither the requester. Nothing runs until the last one."
+        )
+        if p.status != AWAITING:
+            return f"<dt>Approvals</dt><dd>{line}</dd>"
+        given = "; ".join(
+            f"{esc(a.approver)} ({esc(a.auth.method)}, {esc(a.approved_at.isoformat())})" for a in p.approvals
+        )
+        first = p.approvals[0]
+        how = METHOD_LABELS.get(first.verification.method, "") if first.verification is not None else ""
+        contact = (
+            f"; authorized contact {esc(first.contact_verification.contact)} confirmed"
+            if first.contact_verification is not None
+            else ""
+        )
+        approvers = ", ".join(a.approver for a in p.approvals)
+        return (
+            f'<dt>Approvals</dt><dd><p class="banner">Approved by {esc(approvers)}, '
+            f"waiting for a second lead ({len(p.approvals)} of {needed}).</p>{line}<br>So far: {given}.</dd>"
+            f"<dt>Requester verification</dt><dd>{esc(how)}: {esc(_verified(p.verification))}{contact}</dd>"
+        )
+
+    def _decision_controls(self, p: Proposal, spec: LeverDef | None, viewer: str) -> str:
+        reject = f'<button name="act" value="reject:{esc(p.id)}" class="secondary">Reject</button>'
+        if p.status != AWAITING:
+            return (
+                f"{self._verification_fields(spec, p.client)}"
+                f'<p class="actions"><button name="act" value="approve:{esc(p.id)}">Approve</button> {reject}</p>'
+            )
+        if any(a.approver == viewer for a in p.approvals):
+            return (
+                '<p class="muted">You approved this; a different signed-in lead must complete it. '
+                f'You can still reject it.</p><p class="actions">{reject}</p>'
+            )
+        return (
+            f'<input type="hidden" name="digest" value="{esc(p.digest)}">'
+            f'<p class="actions"><button name="act" value="approve:{esc(p.id)}">Approve as second lead</button> '
+            f"{reject}</p>"
+        )
+
+    def _contacts(self, client: str) -> list[str]:
+        policy = self.queue.runner.policy
+        return sorted(policy.authorized_contacts(client)) if policy is not None else []
+
+    def _verification_fields(self, spec: LeverDef | None, client: str) -> str:
+        if spec is None or spec.verification is None:
             return ""
         methods = "".join(
             f'<option value="{esc(m)}">{esc(METHOD_LABELS.get(m, m))}</option>' for m in VERIFICATION_METHODS
         )
         sources = "".join(f'<option value="{esc(k)}">{esc(v)}</option>' for k, v in NUMBER_ON_FILE_SOURCES.items())
+        contact = ""
+        if spec.verification == "requester+contact":
+            listed = self._contacts(client)
+            options = "".join(f'<option value="{esc(c)}">{esc(c)}</option>' for c in listed)
+            none = (
+                ""
+                if listed
+                else '<p class="bad">The client record lists no authorized contact; this cannot be approved.</p>'
+            )
+            contact = (
+                "<label>The client's authorized contact who confirmed the request (D6-06) "
+                f'<select name="contact"><option value="">choose the contact record</option>{options}</select></label>'
+                f"{none}"
+                '<p class="muted">This lever needs a callback on the number on file and the authorized contact.</p>'
+            )
         return (
             '<fieldset class="verify"><legend>Requester verified out of band (required to approve, C-30)</legend>'
             f'<label>How <select name="verified"><option value="">choose a method</option>{methods}</select></label>'
             "<label>For a callback: source of the number on file "
             f'<select name="number_source"><option value="">not a callback</option>{sources}</select></label>'
+            f"{contact}"
             '<p class="muted">Never type the phone number here; only its source is recorded.</p></fieldset>'
         )
 
@@ -418,6 +503,7 @@ class App:
             return _error(400, "Unknown decision.")
         actor = fields.get("actor", "")
         signed_in: ApproverAuth | None = None
+        token: str | None = None
         if self.auth is not None:
             authenticated = self._authenticate(headers)
             if isinstance(authenticated, AuthError):
@@ -426,14 +512,16 @@ class App:
                 mismatch = AuthError("unknown-approver", "the form names someone other than the signer")
                 return self._refuse_unauthenticated(proposal_id, verb, mismatch)
             signed_in, actor = authenticated, authenticated.identity
+            token = headers.get("authorization", "").partition(" ")[2].strip()
         elif actor in self.leads:
             signed_in = ApproverAuth.demo(actor)
-        verification = None
+        verification: Verification | None = None
+        contact: ContactConfirmation | None = None
         if verb == "approve":
             proposal = self.queue.get(proposal_id)
             if proposal is None:
                 return _error(409, f"no proposal {proposal_id!r}")
-            problem, verification = self._verification(proposal, fields, actor)
+            problem, verification, contact = self._verification(proposal, fields, actor)
             if problem:
                 try:
                     seq = self.queue.refuse(proposal_id, actor, problem)
@@ -444,7 +532,14 @@ class App:
                 return _error(400, f"Refused: {problem}. Nothing was changed (audit seq {seq}).")
         try:
             decision = self.queue.decide(
-                proposal_id, actor, approve=verb == "approve", verification=verification, auth=signed_in
+                proposal_id,
+                actor,
+                approve=verb == "approve",
+                verification=verification,
+                auth=signed_in,
+                contact=contact,
+                token=token if self.queue.runner.policy is not None else None,
+                seen_digest=fields.get("digest") or None,
             )
         except DecisionDenied as exc:
             return _error(403, f"Refused: {exc}")
@@ -501,35 +596,55 @@ class App:
 
     def _verification(
         self, proposal: Proposal, fields: Mapping[str, str], actor: str
-    ) -> tuple[str | None, Verification | None]:
-        """B03-2: the requester verification the form carries, or why the approval is refused."""
+    ) -> tuple[str | None, Verification | None, ContactConfirmation | None]:
+        """B03-2: the requester verification (and, B-28/B-65, the contact) the form carries, or why it is refused."""
         spec = self.queue.runner.registry.get(proposal.lever)
-        needed = spec is not None and spec.verification == "requester"
+        kind = spec.verification if spec is not None else None
         method, source = fields.get("verified", ""), fields.get("number_source", "")
+        contact_id = fields.get("contact", "")
+        if proposal.status == AWAITING:
+            if method or source or contact_id:
+                return "the requester verification is already recorded by the first lead; send none", None, None
+            return None, None, None
+        if contact_id and kind != "requester+contact":
+            return f"{proposal.lever} takes no authorized contact; leave the contact empty", None, None
         if not method:
             if source:
-                return "a number-on-file source was sent without a verification method", None
-            if needed:
-                return f"{proposal.lever} needs the requester verified out of band first; choose how (C-30)", None
-            return None, None
+                return "a number-on-file source was sent without a verification method", None, None
+            if kind is not None:
+                return f"{proposal.lever} needs the requester verified out of band first; choose how (C-30)", None, None
+            return None, None, None
         if method not in VERIFICATION_METHODS:
-            return "unknown verification method; choose one from the list", None
+            return "unknown verification method; choose one from the list", None, None
         ref = ""
         if method == "callback-on-file":
             if source not in NUMBER_ON_FILE_SOURCES:
-                return "a callback needs where the number on file came from; choose a source from the list", None
+                return "a callback needs where the number on file came from; choose a source from the list", None, None
             ref = NUMBER_ON_FILE_PREFIX + source
         elif source:
-            return "a number-on-file source applies only to a callback on the number on file", None
+            return "a number-on-file source applies only to a callback on the number on file", None, None
         elif method == "finding-reference":
             ref = proposal.ref
+        # The runner's clock, so the runner (which refuses a verification time in its future) judges the same time.
+        now = self.queue.runner.now()
+        contact: ContactConfirmation | None = None
+        if kind == "requester+contact":
+            if method != "callback-on-file":
+                return f"{proposal.lever} needs a callback on the number on file (D6-06)", None, None
+            if not contact_id:
+                return f"{proposal.lever} needs the client's authorized contact to confirm; choose who", None, None
+            if contact_id not in self._contacts(proposal.client):
+                return "unknown authorized contact; choose one from the list", None, None
+            contact = ContactConfirmation(by=actor, at=now, contact=contact_id)
         try:
-            verification = Verification.model_validate(
-                {"method": method, "by": actor, "at": datetime.now(UTC), "ref": ref}
-            )
+            verification = Verification.model_validate({"method": method, "by": actor, "at": now, "ref": ref})
         except ValueError:
-            return "the verification cannot be recorded for this proposal (check the method and its reference)", None
-        return None, verification
+            return (
+                "the verification cannot be recorded for this proposal (check the method and its reference)",
+                None,
+                None,
+            )
+        return None, verification, contact
 
 
 def check_host(host: str) -> None:

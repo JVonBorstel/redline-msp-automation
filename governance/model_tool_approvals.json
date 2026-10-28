@@ -1508,6 +1508,59 @@
       "status": "approved",
       "approved_on": "2026-10-27",
       "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-032",
+      "kind": "lever-namespace",
+      "subject": "site",
+      "title": "Lever namespace site",
+      "inventory_ids": [
+        "W-TOOL-10"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Create, read back and remove (empty only) private SharePoint and Teams sites on the mock tenant. Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/m365/test_b88_m365.py::test_b88_3_site_new_dry_run_shows_the_exact_site_and_changes_nothing"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every site.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
     }
   ]
 }

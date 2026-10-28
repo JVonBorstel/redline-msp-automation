@@ -20,6 +20,12 @@
       "clients": ["contoso-dental", "fabrikam-capital"]
     },
     {
+      "id": "lead-mia",
+      "display_name": "Mia (second service desk lead for R3 dual approval, synthetic)",
+      "role": "lead",
+      "clients": ["contoso-dental", "fabrikam-capital"]
+    },
+    {
       "id": "triage-bot",
       "display_name": "Triage agent (button pusher)",
       "role": "agent",

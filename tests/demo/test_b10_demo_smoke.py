@@ -324,9 +324,29 @@ def drive_step_6a(page: Page, out: Outcome) -> None:
     status, location, _ = page.request("POST", "/decide", form)
     out.page.append(("approve with a callback is accepted", status == 303, f"{status}"))
     _, _, body = page.request("GET", location or "/")
-    banner = f"Executed {T3101}: user.reset-mfa for contoso-dental as tech-ana, approved by lead-lee."
+    # B-28: user.reset-mfa is R3, so lead-lee's approval waits for a second, different lead; nothing has run yet.
+    waiting = f"Approved {T3101} as lead-lee: waiting for a second lead"
+    out.page.append(("banner says the first approval waits for a second lead", waiting in body, ""))
+    out.page.append(("lead-lee cannot approve it twice", f'value="approve:{T3101}"' not in body, ""))
+    status, _, body = page.request("GET", "/?as=lead-mia")
+    digest = re.search(r'name="digest" value="([0-9a-f]{64})"', body)
+    out.page.append(
+        ("lead-mia sees it approved by lead-lee", "Approved by lead-lee, waiting for a second lead" in body, "")
+    )
+    second = {
+        "csrf": token,
+        "actor": "lead-mia",
+        "act": f"approve:{T3101}",
+        "digest": digest.group(1) if digest else "",
+    }
+    status, location, _ = page.request("POST", "/decide", second)
+    out.page.append(("a second, different lead completes it", status == 303, f"{status}"))
+    _, _, body = page.request("GET", location or "/")
+    banner = f"Executed {T3101}: user.reset-mfa for contoso-dental as tech-ana, approved by lead-lee and lead-mia."
     out.page.append(("banner names the execute and the approver", banner in body, ""))
-    out.page.append(("banner names the verification", "called back on the number on file" in body, ""))
+    out.page.append(
+        ("banner names the verification", "callback-on-file (number-on-file:psa-contact) by lead-lee" in body, "")
+    )
     status, location, _ = page.request("POST", "/decide", {**base, "act": f"reject:{SEEDED_STALE.id}"})
     _, _, body = page.request("GET", location or "/")
     out.page.append(("reject of a seeded proposal", status == 303 and f"Rejected {SEEDED_STALE.id}" in body, ""))
@@ -549,7 +569,9 @@ def test_b10_2_the_audit_log_shows_refusal_verified_execute_pause_denied_resume_
     resumed = first(lambda r: r["mode"] == "resume")
     assert refused < execute < paused < denied < resumed
     exe = records[execute]
-    assert exe["approver"] == "lead-lee" and exe["result"]["status"] == "ok"  # type: ignore[index]
+    assert exe["approver"] == "lead-lee,lead-mia" and exe["result"]["status"] == "ok"  # type: ignore[index]
+    approvals = [a["approver"] for a in exe["result"]["approvals"]]  # type: ignore[index]
+    assert approvals == ["lead-lee", "lead-mia"]  # B-28: two distinct leads, both in the chain
     verification = exe["result"]["verification"]  # type: ignore[index]
     assert verification["method"] == "callback-on-file" and verification["ref"] == "number-on-file:psa-contact"
     notice = main_run.root / "demo" / "notices" / f"{T3101}.md"

@@ -15,7 +15,7 @@
    "C-12 Untrusted input wrapping (built)",
    "C-13 Prompt-injection tripwire (built)",
    "C-27 Tenant isolation of prompts, context, logs and error text (partial)",
-   "C-25 Data classification and pre-prompt redaction gate (planned)"
+   "C-25 Data classification and pre-prompt redaction gate (built)"
   ],
   "individual_metric": "IM-02 Time to a human: minutes from Priya's first message to a technician owning her ticket; wrong-client matches per 1,000 tickets (target 0)",
   "leverage_rank": null
@@ -117,7 +117,7 @@
   "blast_radius": "BR-1: one person per missed ticket",
   "safeguards": [
    "Inventory rule: Read-only alert to the lead; reassignment is a human decision.",
-   "C-40 Monitoring and alerting on automation behaviour (planned)"
+   "C-40 Monitoring and alerting on automation behaviour (partial)"
   ],
   "individual_metric": "IM-02 Time to a human: minutes to first human response for warned vs unwarned tickets; SLA breaches per month",
   "leverage_rank": null
@@ -219,7 +219,7 @@
    "C-07 Four-eyes rule (no self-approval) (built)",
    "C-17 Timeouts and failure containment (built)",
    "C-18 Idempotency on write levers (partial)",
-   "C-32 Blast-radius and rate limits (planned)",
+   "C-32 Blast-radius and rate limits (partial)",
    "C-33 Rollback from recorded before-state (partial)",
    "C-41 Evaluation gate before promotion (partial)"
   ],
@@ -240,7 +240,7 @@
   "safeguards": [
    "Inventory rule: Agent groups and summarizes; on-call human decides to act. Write levers still need approval (on-call lead may self-approve only where the policy names it, and that is audited).",
    "C-13 Prompt-injection tripwire (built)",
-   "C-40 Monitoring and alerting on automation behaviour (planned)"
+   "C-40 Monitoring and alerting on automation behaviour (partial)"
   ],
   "individual_metric": "IM-02 Time to a human: minutes from an after-hours P1 to human acknowledgement; share of pages that were actionable",
   "leverage_rank": null
@@ -293,7 +293,7 @@
   "blast_radius": "BR-2: one tenant's data exposed to an impostor account",
   "safeguards": [
    "Inventory rule: Agent checks the request against the documented authorized-contact list and lists missing fields; a technician confirms. An unlisted requester always goes to a human.",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-30 Requester identity verification for access-affecting levers (built)",
    "C-12 Untrusted input wrapping (built)",
    "C-13 Prompt-injection tripwire (built)",
    "EU-4 verified before changed (05-governance.md section 9)"
@@ -359,7 +359,7 @@
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-38 Agent and technician access review; least-privilege delegated access (planned)"
+   "C-38 Agent and technician access review; least-privilege delegated access (partial)"
   ],
   "individual_metric": "IM-05 Day-one readiness: access tickets in a new hire's first two weeks; over-grants found at the next review (target 0)",
   "leverage_rank": null
@@ -380,7 +380,7 @@
    "C-10 Secret redaction before logging (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-30 Requester identity verification for access-affecting levers (built)",
    "W-IDM-04 Caller identity verification (kept human)"
   ],
   "individual_metric": "IM-05 Day-one readiness: minutes from start time to MFA registered",
@@ -443,7 +443,7 @@
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
    "C-08 Hash-chained audit log with head pin and verifier (built)",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-30 Requester identity verification for access-affecting levers (built)",
    "C-33 Rollback from recorded before-state (partial)",
    "EU-2 a fast way back (05-governance.md section 9)",
    "EU-3 never locked out by a bot alone (05-governance.md section 9)"
@@ -529,7 +529,7 @@
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-32 Blast-radius and rate limits (planned)"
+   "C-32 Blast-radius and rate limits (partial)"
   ],
   "individual_metric": "IM-04 People wrongly acted on: wrong wipes (target 0); devices with cached data not recovered after 30 days",
   "leverage_rank": null
@@ -626,7 +626,7 @@
   "safeguards": [
    "Inventory rule: Identity verification is human (W-IDM-04). The lever generates no password visible to the agent; technician approves.",
    "W-IDM-04 Caller identity verification (kept human)",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-30 Requester identity verification for access-affecting levers (built)",
    "C-10 Secret redaction before logging (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
@@ -654,7 +654,7 @@
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
    "C-08 Hash-chained audit log with head pin and verifier (built)",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-30 Requester identity verification for access-affecting levers (built)",
    "C-33 Rollback from recorded before-state (partial)",
    "EU-1 clear communication to the person (05-governance.md section 9)",
    "EU-4 verified before changed (05-governance.md section 9)"
@@ -737,7 +737,7 @@
   "safeguards": [
    "Inventory rule: Read-only. Using a break-glass account is NEVER automated.",
    "C-20 Read levers cannot write (built)",
-   "C-40 Monitoring and alerting on automation behaviour (planned)"
+   "C-40 Monitoring and alerting on automation behaviour (partial)"
   ],
   "individual_metric": "IM-15 Silent-failure lead time: minutes from a break-glass sign-in to human acknowledgement; days since the last successful test",
   "leverage_rank": null
@@ -756,7 +756,7 @@
   "safeguards": [
    "Inventory rule: Read-only review pack; removals by humans with approval.",
    "C-21 Output reconciliation (no invented numbers) (built)",
-   "C-38 Agent and technician access review; least-privilege delegated access (planned)"
+   "C-38 Agent and technician access review; least-privilege delegated access (partial)"
   ],
   "individual_metric": "IM-14 Owner and manager time: Dana's minutes per review; admin accounts with no owner after review (target 0)",
   "leverage_rank": null
@@ -774,7 +774,7 @@
   "blast_radius": "BR-4: many tenants share the same delegation pattern",
   "safeguards": [
    "Inventory rule: Agent reports expiring or over-broad relationships; changes are human (they define the MSP's own reach into client tenants).",
-   "C-38 Agent and technician access review; least-privilege delegated access (planned)",
+   "C-38 Agent and technician access review; least-privilege delegated access (partial)",
    "ISO-10 least-privilege delegated access (05-governance.md section 2)"
   ],
   "individual_metric": "IM-02 Time to a human: support minutes lost to expired relationships; tenants with standing Global Admin (target 0)",
@@ -796,7 +796,7 @@
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-32 Blast-radius and rate limits (planned)",
+   "C-32 Blast-radius and rate limits (partial)",
    "C-33 Rollback from recorded before-state (partial)",
    "EU-3 never locked out by a bot alone (05-governance.md section 9)"
   ],
@@ -1133,7 +1133,7 @@
    "Inventory rule: Only catalog apps; client approval for paid software; technician approves.",
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
-   "C-32 Blast-radius and rate limits (planned)",
+   "C-32 Blast-radius and rate limits (partial)",
    "CM-5 staged rollout rings (05-governance.md section 8)"
   ],
   "individual_metric": "IM-01 Time back to work: minutes from request to installed; failed installs",
@@ -1194,7 +1194,7 @@
    "Inventory rule: Technician approves; lever checks the client's maintenance window; servers need lead approval.",
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
-   "C-32 Blast-radius and rate limits (planned)"
+   "C-32 Blast-radius and rate limits (partial)"
   ],
   "individual_metric": "IM-08 Disruption minutes: unplanned disruption minutes caused by restarts (target 0); IM-01 for the requester",
   "leverage_rank": null
@@ -1215,8 +1215,8 @@
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
-   "C-32 Blast-radius and rate limits (planned)"
+   "C-30 Requester identity verification for access-affecting levers (built)",
+   "C-32 Blast-radius and rate limits (partial)"
   ],
   "individual_metric": "IM-06 Exposure window: minutes from report to lock; IM-01 minutes to working on a loaner",
   "leverage_rank": null
@@ -1583,7 +1583,7 @@
    "C-13 Prompt-injection tripwire (built)",
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
-   "C-32 Blast-radius and rate limits (planned)"
+   "C-32 Blast-radius and rate limits (partial)"
   ],
   "individual_metric": "IM-02 Time to a human: minutes from report to verdict back to the reporter; reporters who got a reply (target 100%)",
   "leverage_rank": null
@@ -1604,7 +1604,7 @@
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-30 Requester identity verification for access-affecting levers (planned)",
+   "C-30 Requester identity verification for access-affecting levers (built)",
    "C-33 Rollback from recorded before-state (partial)",
    "EU-1 clear communication to the person (05-governance.md section 9)",
    "EU-2 a fast way back (05-governance.md section 9)",
@@ -1783,7 +1783,7 @@
   "safeguards": [
    "Inventory rule: Automatic check; a break is a human-investigated incident.",
    "C-08 Hash-chained audit log with head pin and verifier (built)",
-   "C-39 Write-once audit head pinning and retention (planned)",
+   "C-39 Write-once audit head pinning and retention (partial)",
    "EU-5 no silent decisions (05-governance.md section 9)"
   ],
   "individual_metric": "IM-11 Understood and accountable: days the verifier passed; minutes to answer 'who changed my account and why'",
@@ -1803,7 +1803,7 @@
   "safeguards": [
    "Inventory rule: Read-only tracker; legal review human.",
    "C-21 Output reconciliation (no invented numbers) (built)",
-   "C-43 AI vendor and subprocessor register (planned)"
+   "C-43 AI vendor and subprocessor register (built)"
   ],
   "individual_metric": "IM-14 Owner and manager time: vendors handling PHI or NPI without a current agreement (target 0)",
   "leverage_rank": null
@@ -2013,7 +2013,7 @@
   "safeguards": [
    "Inventory rule: Template draft; client and their counsel own the final policy.",
    "HO-9 AI drafts, a human sends (05-governance.md section 6)",
-   "C-42 Staff training and acceptable use (planned)"
+   "C-42 Staff training and acceptable use (partial)"
   ],
   "individual_metric": "IM-11 Understood and accountable: staff who can state the rule; observed PHI-in-prompt events",
   "leverage_rank": null
@@ -2050,7 +2050,7 @@
   "blast_radius": "BR-2: everyone who uses the article",
   "safeguards": [
    "Inventory rule: Draft only; a technician reviews and publishes; client data stripped and checked.",
-   "C-25 Data classification and pre-prompt redaction gate (planned)",
+   "C-25 Data classification and pre-prompt redaction gate (built)",
    "C-41 Evaluation gate before promotion (partial)",
    "C-26 Per-tenant retrieval isolation (partial)"
   ],
@@ -2148,7 +2148,7 @@
    "Inventory rule: Agents read the list to check requesters; only a human edits it, on the client's instruction.",
    "C-04 Per-client scope at the tool layer (built)",
    "C-20 Read levers cannot write (built)",
-   "C-30 Requester identity verification for access-affecting levers (planned)"
+   "C-30 Requester identity verification for access-affecting levers (built)"
   ],
   "individual_metric": "IM-04 People wrongly acted on: access changes authorized by a non-authorized contact (target 0); list age",
   "leverage_rank": 9
@@ -2222,7 +2222,7 @@
    "Inventory rule: Read-only discovery report; remediation goes through normal approved levers.",
    "C-04 Per-client scope at the tool layer (built)",
    "C-20 Read levers cannot write (built)",
-   "C-38 Agent and technician access review; least-privilege delegated access (planned)"
+   "C-38 Agent and technician access review; least-privilege delegated access (partial)"
   ],
   "individual_metric": "IM-15 Silent-failure lead time: days from start to baseline MFA coverage",
   "leverage_rank": null
@@ -2243,7 +2243,7 @@
    "C-05 Dry-run by default with a diff (built)",
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
-   "C-32 Blast-radius and rate limits (planned)"
+   "C-32 Blast-radius and rate limits (partial)"
   ],
   "individual_metric": "IM-01 Time back to work: share of users signing in successfully Monday morning; items lost (target 0)",
   "leverage_rank": null
@@ -2320,7 +2320,7 @@
    "Inventory rule: Code review and passing tests before registration; registry changes are reviewed like code.",
    "C-01 Lever registry, default deny (built)",
    "C-02 Parameter schema validation (built)",
-   "C-29 Risk class and version on every lever, enforced by class (planned)",
+   "C-29 Risk class and version on every lever, enforced by class (partial)",
    "C-37 Lever change management with staged rollout (partial)",
    "C-41 Evaluation gate before promotion (partial)",
    "CM-1 PR with tests and reviewer (05-governance.md section 8)"
@@ -2343,7 +2343,7 @@
    "Inventory rule: Routing thresholds change only on eval evidence; hosted providers stay off unless approved.",
    "C-15 Loopback-only model gateway, hosted providers off (built)",
    "C-16 Provider abstraction against lock-in (built)",
-   "C-28 Hosted AI provider approval gate (planned)",
+   "C-28 Hosted AI provider approval gate (built)",
    "C-41 Evaluation gate before promotion (partial)"
   ],
   "individual_metric": "IM-04 People wrongly acted on: regulated items sent off-machine without approval (target 0)",
@@ -2422,8 +2422,8 @@
    "C-06 Lead approval bound to lever, client and params (built)",
    "C-07 Four-eyes rule (no self-approval) (built)",
    "C-19 Approval queue and viewer hardening (built)",
-   "C-40 Monitoring and alerting on automation behaviour (planned)",
-   "C-44 Authenticated approvers (planned)",
+   "C-40 Monitoring and alerting on automation behaviour (partial)",
+   "C-44 Authenticated approvers (built)",
    "AIR-10 rubber-stamp approvals (05-governance.md section 5)"
   ],
   "individual_metric": "IM-01 Time back to work: minutes from proposal to decision; approvals faster than a diff can be read (flagged)",
@@ -2462,8 +2462,8 @@
   "blast_radius": "BR-4: all tenants",
   "safeguards": [
    "Inventory rule: Read-only dashboards and alerts; humans respond.",
-   "C-40 Monitoring and alerting on automation behaviour (planned)",
-   "C-31 Kill switch per lever and per tenant (planned)"
+   "C-40 Monitoring and alerting on automation behaviour (partial)",
+   "C-31 Kill switch per lever and per tenant (built)"
   ],
   "individual_metric": "IM-04 People wrongly acted on: minutes from anomaly to human; people affected before detection",
   "leverage_rank": null
@@ -2558,8 +2558,8 @@
   "blast_radius": "BR-5: the program's direction",
   "safeguards": [
    "Inventory rule: Recommendations backed by repo evals and cited sources.",
-   "C-28 Hosted AI provider approval gate (planned)",
-   "C-43 AI vendor and subprocessor register (planned)"
+   "C-28 Hosted AI provider approval gate (built)",
+   "C-43 AI vendor and subprocessor register (built)"
   ],
   "individual_metric": "IM-12 Technician toil and growth: evaluations completed with a decision",
   "leverage_rank": null
@@ -2577,8 +2577,8 @@
   "blast_radius": "BR-5: the program",
   "safeguards": [
    "Inventory rule: Leadership approves the policy.",
-   "C-42 Staff training and acceptable use (planned)",
-   "C-25 Data classification and pre-prompt redaction gate (planned)"
+   "C-42 Staff training and acceptable use (partial)",
+   "C-25 Data classification and pre-prompt redaction gate (built)"
   ],
   "individual_metric": "IM-11 Understood and accountable: staff who can state the rule; PHI-in-prompt events",
   "leverage_rank": null
@@ -2596,7 +2596,7 @@
   "blast_radius": "BR-4: all tenants",
   "safeguards": [
    "Inventory rule: Read-only review; changes by human pull request.",
-   "C-38 Agent and technician access review; least-privilege delegated access (planned)",
+   "C-38 Agent and technician access review; least-privilege delegated access (partial)",
    "C-03 Role-based authorization; agents may only dry-run writes (built)",
    "AIR-2 over-privileged agents (05-governance.md section 5)"
   ],
@@ -2616,7 +2616,7 @@
   "blast_radius": "BR-5: how every approval is made",
   "safeguards": [
    "Inventory rule: Human-led training with synthetic exercises.",
-   "C-42 Staff training and acceptable use (planned)"
+   "C-42 Staff training and acceptable use (partial)"
   ],
   "individual_metric": "IM-12 Technician toil and growth: share of technicians who caught a seeded wrong proposal in a drill",
   "leverage_rank": null
@@ -2634,7 +2634,7 @@
   "blast_radius": "BR-5: client trust",
   "safeguards": [
    "Inventory rule: Human-led; claims limited to measured, labelled results.",
-   "C-42 Staff training and acceptable use (planned)",
+   "C-42 Staff training and acceptable use (partial)",
    "C-45 Synthetic data only and honest labels (partial)"
   ],
   "individual_metric": "IM-11 Understood and accountable: clients who can say what the AI does for them",

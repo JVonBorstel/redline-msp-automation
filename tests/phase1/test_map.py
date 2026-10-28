@@ -111,7 +111,7 @@ def test_safeguard_with_a_stale_status_is_reported(data: Any) -> None:
     d = _copy(data)
     chain = next(c for c in d.impact if any(s.startswith("C-30 ") for s in c["safeguards"]))
     chain["safeguards"] = [
-        s.replace("(planned)", "(built)") if s.startswith("C-30 ") else s for s in chain["safeguards"]
+        s.replace("(built)", "(planned)") if s.startswith("C-30 ") else s for s in chain["safeguards"]
     ]
     assert any("disagrees with controls.json" in p for p in cm.check_controls(d))
 
