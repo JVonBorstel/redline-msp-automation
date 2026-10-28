@@ -1,0 +1,89 @@
+{
+  "_note": "Synthetic tenant baseline result for Contoso Dental (invented tenant). Shaped like a subset of the TenantBaseline findings.json (B-50): findings with CheckId, Severity and Subject, plus the drift block reduced to the keys this report uses. The drift block is written by hand to match the findings; it is not a captured run. Fixture-based, not a real tenant.",
+  "client": "contoso-dental",
+  "tenant": "tenant-contoso-dental",
+  "as_of": "2026-10-22T06:00:00Z",
+  "findings": [
+    {
+      "Id": "F-01",
+      "CheckId": "GLOBALADMIN",
+      "Severity": "High",
+      "Title": "More Global Administrators than the baseline allows",
+      "Subject": "tenant"
+    },
+    {
+      "Id": "F-02",
+      "CheckId": "LEGACYAUTH",
+      "Severity": "High",
+      "Title": "Legacy authentication is not blocked",
+      "Subject": "tenant"
+    },
+    {
+      "Id": "F-03",
+      "CheckId": "STALE",
+      "Severity": "Medium",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "old.locum@contosodental.example"
+    },
+    {
+      "Id": "F-04",
+      "CheckId": "GUESTADMIN",
+      "Severity": "Medium",
+      "Title": "A guest holds an admin role",
+      "Subject": "vendor.guest@outside.example"
+    },
+    {
+      "Id": "F-05",
+      "CheckId": "STALE",
+      "Severity": "Low",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "former.temp@contosodental.example"
+    }
+  ],
+  "drift": {
+    "compared_to": "2026-09-22",
+    "new": [
+      {
+        "CheckId": "LEGACYAUTH",
+        "Subject": "tenant"
+      }
+    ],
+    "resolved": [
+      {
+        "CheckId": "STALE",
+        "Subject": "gone.user@contosodental.example"
+      }
+    ],
+    "unchanged": [
+      {
+        "CheckId": "GLOBALADMIN",
+        "Subject": "tenant"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "old.locum@contosodental.example"
+      },
+      {
+        "CheckId": "GUESTADMIN",
+        "Subject": "vendor.guest@outside.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "former.temp@contosodental.example"
+      }
+    ],
+    "ca": {
+      "added": [],
+      "removed": [],
+      "state_changed": [
+        {
+          "id": "ca-001",
+          "name": "Require MFA for all users",
+          "from": "enabledForReportingButNotEnforced",
+          "to": "enabled"
+        }
+      ],
+      "assignments_changed": []
+    }
+  }
+}

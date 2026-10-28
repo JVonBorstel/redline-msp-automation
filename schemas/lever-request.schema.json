@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redline-msp-automation.example/schemas/lever-request.schema.json",
+  "$comment": "Hand-written (B-13); no pydantic model yet. One request from the Python runner to the PowerShell lever host (B-15 reads it on stdin). The runner has already checked identity, role, client scope, approval and params before it sends this; the host re-checks the shape and the entry, never the permissions. B-15 should update this file if it changes a field.",
+  "title": "LeverRequest",
+  "description": "One lever call sent across the Python to PowerShell bridge.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "request_id", "lever", "lever_version", "client", "mode", "params", "entry"],
+  "properties": {
+    "version": {"const": 1, "description": "Shape version of this request (STD-CF-4); a host rejects a version it does not know."},
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{7,63}$",
+      "description": "Correlation id, also written to the audit v2 record (STD-AU-2) and the trace."
+    },
+    "lever": {"$ref": "#/$defs/LeverName"},
+    "lever_version": {"type": "integer", "minimum": 1},
+    "client": {"$ref": "#/$defs/ClientId"},
+    "mode": {"enum": ["dry-run", "execute"], "description": "dry-run calls the function with -WhatIf (STD-PS-4)."},
+    "params": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9_]{0,63}$"},
+      "additionalProperties": {"anyOf": [{"type": "string", "maxLength": 4096}, {"type": "integer"}, {"type": "boolean"}]},
+      "description": "Already validated against the lever's ParamSpec by the runner (core/levers/schema.py)."
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module", "function"],
+      "properties": {
+        "module": {"type": "string", "pattern": "^[A-Z][A-Za-z0-9]{1,63}$", "description": "A module folder under levers/powershell/."},
+        "function": {
+          "type": "string",
+          "pattern": "^[A-Z][a-z]+-[A-Z][A-Za-z0-9]{1,63}$",
+          "description": "An exported <ApprovedVerb>-<Noun> function of that module (STD-PS-3)."
+        }
+      }
+    },
+    "as_of": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}Z)?$",
+      "description": "Pinned date or UTC time for anything time-based (STD-PS-10)."
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system", "implementation", "external_id"],
+      "properties": {
+        "system": {"enum": ["psa", "rmm", "documentation", "m365", "backup"]},
+        "implementation": {"type": "string", "pattern": "^[a-z][a-z0-9-]{1,31}$", "description": "mock, or a real adapter name from the client binding."},
+        "external_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+        "credential_ref": {"$ref": "#/$defs/CredentialRef"}
+      },
+      "description": "The one client binding this call may use (TEN-04), copied from config/clients/<id>.json by the runner."
+    }
+  },
+  "$defs": {
+    "LeverName": {"type": "string", "maxLength": 64, "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)+$"},
+    "ClientId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"},
+    "CredentialRef": {
+      "type": "string",
+      "pattern": "^client-[a-z0-9][a-z0-9-]{0,62}-[a-z][a-z0-9-]{1,31}$",
+      "description": "A Key Vault secret NAME (D6-10: client-<id>-<purpose>), never a value (STD-CF-7)."
+    }
+  }
+}

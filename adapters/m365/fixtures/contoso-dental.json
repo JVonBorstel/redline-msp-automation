@@ -1,0 +1,66 @@
+{
+  "_note": "B-88 SharePoint document-library fixture for the ingestion source mock. Synthetic (invented client, people, tenant). Not a capture from a real tenant. Field names are UNVERIFIED shapes, see specs/B-88.md.",
+  "client": "contoso-dental",
+  "tenantId": "c0000000-0000-4000-8000-0000000000a1",
+  "as_of": "2026-10-27",
+  "libraries": [
+    {
+      "siteId": "c0000000-0000-4000-8000-0000000000b1",
+      "siteName": "IT Knowledge",
+      "driveName": "Documents",
+      "items": [
+        {
+          "id": "01CD0001",
+          "name": "Front desk printer offline.txt",
+          "path": "Runbooks/Front desk printer offline.txt",
+          "mimeType": "text/plain",
+          "lastModifiedDateTime": "2026-10-20T10:00:00Z",
+          "eTag": "\"{CD0001},3\"",
+          "text": "If the front desk printer shows offline, power it off for ten seconds and back on. Then print a test page from the Contoso Dental front office workstation.\n\nIf it is still offline, check that the printer has the address that is printed on its network label."
+        },
+        {
+          "id": "01CD0002",
+          "name": "Guest wifi password reset.md",
+          "path": "Runbooks/Guest wifi password reset.md",
+          "mimeType": "text/markdown",
+          "lastModifiedDateTime": "2026-10-21T09:30:00Z",
+          "eTag": "\"{CD0002},1\"",
+          "text": "# Guest wifi\n\nThe waiting room guest network is rotated by the office manager. The technician changes it in the router console and tells the office manager through the help desk ticket, never by text message."
+        },
+        {
+          "id": "01CD0003",
+          "name": "Nightly backup check.txt",
+          "path": "Runbooks/Nightly backup check.txt",
+          "mimeType": "text/plain",
+          "lastModifiedDateTime": "2026-10-22T08:15:00Z",
+          "eTag": "\"{CD0003},2\"",
+          "text": "Each morning the technician opens the backup console and confirms the overnight job for the practice server finished. A failed job is raised as a ticket the same day."
+        },
+        {
+          "id": "01CD0004",
+          "name": "Scanned consent form.pdf",
+          "path": "Forms/Scanned consent form.pdf",
+          "mimeType": "application/pdf",
+          "lastModifiedDateTime": "2026-10-22T08:20:00Z",
+          "eTag": "\"{CD0004},1\""
+        }
+      ]
+    },
+    {
+      "siteId": "c0000000-0000-4000-8000-0000000000b2",
+      "siteName": "IT Admin",
+      "driveName": "Credentials",
+      "items": [
+        {
+          "id": "01CD0005",
+          "name": "Restore notes.txt",
+          "path": "Restore notes.txt",
+          "mimeType": "text/plain",
+          "lastModifiedDateTime": "2026-10-22T08:25:00Z",
+          "eTag": "\"{CD0005},1\"",
+          "text": "Placeholder page in a library that is named like a credential store. It holds no secrets, and the ingestion source must still refuse it."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "devices",
+    "as_of": "2026-10-22T12:00:00Z",
+    "note": "Synthetic. Device state for the DeviceR3 levers (B-65), shaped loosely after what a real RMM and Intune would report (device uid and hostname from fixtures/rmm, owner from fixtures/intune) plus lock, isolation, enrollment and wipe fields invented for the mock. Every field name below the device uid is UNVERIFIED against vendor docs (see levers/powershell/DeviceR3/SOURCES.md). Invented people, .example domains; not captured from a real tenant."
+  },
+  "devices": [
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0001",
+      "hostname": "FRONTDESK-01",
+      "deviceClass": "desktop",
+      "owner": "ana.lopez@contosodental.example",
+      "role": "front-desk",
+      "onlyDeviceForRole": true,
+      "online": true,
+      "lastSeen": "2026-10-22T08:10:00Z",
+      "holdsRegulatedData": true,
+      "legalHold": false,
+      "lock": {
+        "state": "unlocked"
+      },
+      "isolation": {
+        "state": "none"
+      },
+      "enrollment": {
+        "state": "enrolled"
+      },
+      "wipe": {
+        "state": "none"
+      }
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0002",
+      "hostname": "OPERATORY-02",
+      "deviceClass": "desktop",
+      "owner": "jamie.chen@contosodental.example",
+      "role": "clinical",
+      "onlyDeviceForRole": false,
+      "online": true,
+      "lastSeen": "2026-10-22T07:55:00Z",
+      "holdsRegulatedData": true,
+      "legalHold": false,
+      "lock": {
+        "state": "unlocked"
+      },
+      "isolation": {
+        "state": "none"
+      },
+      "enrollment": {
+        "state": "enrolled"
+      },
+      "wipe": {
+        "state": "none"
+      }
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0006",
+      "hostname": "OFFICE-MGR",
+      "deviceClass": "laptop",
+      "owner": "lena.fischer@contosodental.example",
+      "role": "office-manager",
+      "onlyDeviceForRole": true,
+      "online": true,
+      "lastSeen": "2026-10-22T09:00:00Z",
+      "holdsRegulatedData": true,
+      "legalHold": false,
+      "lock": {
+        "state": "unlocked"
+      },
+      "isolation": {
+        "state": "none"
+      },
+      "enrollment": {
+        "state": "enrolled"
+      },
+      "wipe": {
+        "state": "none"
+      }
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0007",
+      "hostname": "HYGIENE-03",
+      "deviceClass": "desktop",
+      "owner": "tom.baker@contosodental.example",
+      "role": "clinical",
+      "onlyDeviceForRole": false,
+      "online": false,
+      "lastSeen": "2026-09-30T16:00:00Z",
+      "holdsRegulatedData": true,
+      "legalHold": false,
+      "lock": {
+        "state": "unlocked"
+      },
+      "isolation": {
+        "state": "none"
+      },
+      "enrollment": {
+        "state": "enrolled"
+      },
+      "wipe": {
+        "state": "none"
+      }
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0008",
+      "hostname": "HYGIENE-03",
+      "deviceClass": "desktop",
+      "owner": "tom.baker@contosodental.example",
+      "role": "clinical",
+      "onlyDeviceForRole": false,
+      "online": true,
+      "lastSeen": "2026-10-22T08:00:00Z",
+      "holdsRegulatedData": true,
+      "legalHold": true,
+      "lock": {
+        "state": "unlocked"
+      },
+      "isolation": {
+        "state": "none"
+      },
+      "enrollment": {
+        "state": "enrolled"
+      },
+      "wipe": {
+        "state": "none"
+      }
+    },
+    {
+      "uid": "c0000000-0000-4000-8000-0000000d0009",
+      "hostname": "CHAIRSIDE-04",
+      "deviceClass": "desktop",
+      "owner": "sam.patel@contosodental.example",
+      "role": "clinical",
+      "onlyDeviceForRole": false,
+      "online": true,
+      "lastSeen": "2026-10-22T08:30:00Z",
+      "holdsRegulatedData": true,
+      "legalHold": false,
+      "lock": {
+        "state": "unlocked"
+      },
+      "isolation": {
+        "state": "none"
+      },
+      "enrollment": {
+        "state": "enrolled"
+      },
+      "wipe": {
+        "state": "none"
+      }
+    }
+  ]
+}

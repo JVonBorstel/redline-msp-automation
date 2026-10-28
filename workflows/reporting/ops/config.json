@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "_note": "B-74 configuration. Synthetic. Cluster thresholds and CSAT theme words are plain lists a reviewer can read; themes are matched in order, first hit wins, no hit is 'other'. Words were written with the synthetic CSAT comments in view (fixture-based, so theme counts show the pipeline working, not how real users write).",
+  "cluster_min_tickets": 3,
+  "cluster_min_requesters": 2,
+  "satisfied_min_score": 4,
+  "csat_themes": [
+    {"id": "speed", "words": ["quick", "slow", "long", "hour", "waited"]},
+    {"id": "communication", "words": ["update", "hear", "explanation", "told"]},
+    {"id": "resolution", "words": ["solved", "came back", "works", "fixed", "ask again"]},
+    {"id": "courtesy", "words": ["friendly", "polite", "patient", "rushed"]}
+  ]
+}

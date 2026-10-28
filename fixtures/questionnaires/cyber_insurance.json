@@ -1,0 +1,13 @@
+{
+  "synthetic": true, "client": "fabrikam-capital", "kind": "insurance",
+  "title": "Synthetic cyber insurance application questions",
+  "items": [
+    {"id": "I-01", "scope": "msp", "text": "Do you have a written backup policy covering separate storage?"},
+    {"id": "I-02", "scope": "client", "text": "How are trade records copied offsite?"},
+    {"id": "I-03", "scope": "msp", "text": "Have you experienced a ransomware incident in the past three years?"},
+    {"id": "I-04", "scope": "msp", "text": "Is endpoint detection currently deployed on all endpoints?"},
+    {"id": "I-05", "scope": "msp", "text": "Describe your endpoint protection policy."},
+    {"id": "I-06", "scope": "msp", "text": "Are backup copies encrypted?"},
+    {"id": "I-07", "scope": "msp", "text": "What is your recovery time objective?"}
+  ]
+}

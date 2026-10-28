@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "_note": "B-23. Ticket write levers on the mock PSA state (the client's tickets in the mock tenant file). Mock only; no real PSA is called.",
+  "levers": [
+    {
+      "name": "ticket.link",
+      "description": "Link two of the client's own tickets as duplicate, related or one outage group, on both tickets. Mock of a PSA ticket relation.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["ticket_id", "related_id", "link_type"],
+      "entry": "levers.python.ticket:ticket_link",
+      "params": {
+        "ticket_id": {"type": "string", "required": true, "max_length": 6, "pattern": "^T-[0-9]{4}$", "description": "The ticket to link, e.g. T-5116"},
+        "related_id": {"type": "string", "required": true, "max_length": 6, "pattern": "^T-[0-9]{4}$", "description": "The other ticket of the same client, e.g. T-5117"},
+        "link_type": {"type": "string", "required": true, "enum": ["duplicate", "related", "outage-group"], "description": "How the two tickets are related"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "Two people with the same problem are worked together, so neither waits behind a second copy; a wrong link could close a ticket that was a different problem.",
+        "L2": "The client's tickets are tidier and a widespread issue shows as one event; a wrong link hides a separate problem inside another ticket.",
+        "L3": "Fewer duplicate tickets are worked twice and an outage is one incident for the whole desk; every link is a registered, approved and audited change.",
+        "L4": "Tickets are only ever linked inside one client, so one office's problem is never attached to another's."
+      }
+    }
+  ]
+}

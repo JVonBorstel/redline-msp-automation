@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-002",
+  "title": "Reply drafts from the client's own knowledge base",
+  "client_scope": "one-client",
+  "client": "contoso-dental",
+  "problem": "First replies to common how-to tickets repeat the same article; a cited draft for a person to review would save typing.",
+  "effect": "read-only",
+  "data_classes": [
+    "DC-4"
+  ],
+  "model_route": "local",
+  "proposed_levers": [
+    "kb.search"
+  ],
+  "inventory_ids": [
+    "W-SD-05"
+  ],
+  "minutes_per_run": 5,
+  "runs_per_month": 400,
+  "effort_days": 10,
+  "roi_row": "replies-source-recall"
+}

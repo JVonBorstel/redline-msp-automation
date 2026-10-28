@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-009",
+  "title": "Something to make clients happier",
+  "client_scope": "msp-internal",
+  "problem": "An idea without a described workflow, lever or inventory item yet.",
+  "effect": "read-only",
+  "data_classes": [
+    "DC-1"
+  ],
+  "model_route": "none",
+  "proposed_levers": [],
+  "inventory_ids": [],
+  "minutes_per_run": 10,
+  "runs_per_month": 10,
+  "effort_days": 2,
+  "client": null,
+  "roi_row": null
+}

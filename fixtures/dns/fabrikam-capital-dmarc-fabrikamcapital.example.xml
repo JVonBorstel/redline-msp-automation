@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Synthetic. Shaped like the RFC 7489 Appendix C aggregate report (the format a DMARC collector such as EasyDMARC receives). Documentation IPs (RFC 5737). Not a capture. as_of 2026-10-21. -->
+<feedback>
+  <report_metadata><org_name>receiver.example</org_name><email>noreply-dmarc@receiver.example</email><report_id>synthetic-f-0001</report_id><date_range><begin>1792454400</begin><end>1792540799</end></date_range></report_metadata>
+  <policy_published><domain>fabrikamcapital.example</domain><adkim>r</adkim><aspf>r</aspf><p>reject</p><sp>reject</sp><pct>100</pct></policy_published>
+  <record>
+    <row><source_ip>192.0.2.20</source_ip><count>200</count><policy_evaluated><disposition>none</disposition><dkim>pass</dkim><spf>pass</spf></policy_evaluated></row>
+    <identifiers><header_from>fabrikamcapital.example</header_from></identifiers>
+    <auth_results><dkim><domain>fabrikamcapital.example</domain><result>pass</result><selector>selector1</selector></dkim><spf><domain>fabrikamcapital.example</domain><result>pass</result></spf></auth_results>
+  </record>
+</feedback>

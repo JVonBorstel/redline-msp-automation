@@ -1,0 +1,142 @@
+[
+  {
+    "name": "area:sd",
+    "description": "Service desk (tiers 1-3)"
+  },
+  {
+    "name": "area:onb",
+    "description": "User onboarding and offboarding"
+  },
+  {
+    "name": "area:idm",
+    "description": "Identity and MFA"
+  },
+  {
+    "name": "area:m365",
+    "description": "Microsoft 365 administration"
+  },
+  {
+    "name": "area:ep",
+    "description": "Endpoint management"
+  },
+  {
+    "name": "area:pat",
+    "description": "Patching"
+  },
+  {
+    "name": "area:bdr",
+    "description": "Backup and disaster recovery"
+  },
+  {
+    "name": "area:sec",
+    "description": "Security monitoring and alerting"
+  },
+  {
+    "name": "area:cmp",
+    "description": "Compliance evidence"
+  },
+  {
+    "name": "area:vnd",
+    "description": "Vendor and license management"
+  },
+  {
+    "name": "area:rpt",
+    "description": "Client reporting and QBRs"
+  },
+  {
+    "name": "area:kb",
+    "description": "Documentation and knowledge base"
+  },
+  {
+    "name": "area:bil",
+    "description": "Billing inputs"
+  },
+  {
+    "name": "area:prj",
+    "description": "Project work"
+  },
+  {
+    "name": "area:tool",
+    "description": "Internal tooling and the AI/automation platform"
+  },
+  {
+    "name": "area:gov",
+    "description": "AI governance"
+  },
+  {
+    "name": "area:trn",
+    "description": "Staff training on AI"
+  },
+  {
+    "name": "type:lever",
+    "description": "adds or changes a lever (registry entry plus implementation)"
+  },
+  {
+    "name": "type:workflow",
+    "description": "adds or changes a workflow and its evals"
+  },
+  {
+    "name": "type:adapter",
+    "description": "adds or changes an adapter interface or mock"
+  },
+  {
+    "name": "type:platform",
+    "description": "core runner, audit, gateway, queue, schemas, scheduler"
+  },
+  {
+    "name": "type:eval",
+    "description": "golden sets, scorers, gates"
+  },
+  {
+    "name": "type:drift",
+    "description": "closes a `DR-nn` row from map 03"
+  },
+  {
+    "name": "type:fix",
+    "description": "a defect"
+  },
+  {
+    "name": "type:docs",
+    "description": "documentation only"
+  },
+  {
+    "name": "type:governance",
+    "description": "policy, register, never-automate list"
+  },
+  {
+    "name": "type:infra",
+    "description": "Bicep, pipelines, containers"
+  },
+  {
+    "name": "type:owner",
+    "description": "touches protected files; the owner applies"
+  },
+  {
+    "name": "risk:R0",
+    "description": "read-only: changes nothing (governance 6.1)"
+  },
+  {
+    "name": "risk:R1",
+    "description": "reversible, low impact"
+  },
+  {
+    "name": "risk:R2",
+    "description": "reversible, high impact (a person's access or work)"
+  },
+  {
+    "name": "risk:R3",
+    "description": "irreversible or broad; dual approval"
+  },
+  {
+    "name": "status:needs-owner",
+    "description": "waiting on the owner for a protected-file change or an install"
+  },
+  {
+    "name": "status:blocked-external",
+    "description": "waiting on an answer only the MSP can give (cite the question id)"
+  },
+  {
+    "name": "status:cut",
+    "description": "dropped at a freeze; returns in a later wave"
+  }
+]

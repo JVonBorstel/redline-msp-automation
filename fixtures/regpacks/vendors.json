@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "_note": "Synthetic vendor rows with invented names. No real vendor, contract or BAA is described. Review interval is in days.",
+  "review_interval_days": 365,
+  "vendors": [
+    {"id": "V-001", "client": "contoso-dental", "name": "Northwind Scheduling (synthetic)", "data_classes": ["DC-4"], "contract_status": "active", "baa_status": "pending", "review_date": "2025-09-01"},
+    {"id": "V-002", "client": "contoso-dental", "name": "Tailspin Imaging Cloud (synthetic)", "data_classes": ["DC-4"], "contract_status": "active", "baa_status": "signed", "review_date": "2026-03-15"},
+    {"id": "V-003", "client": "contoso-dental", "name": "Adatum Billing (synthetic)", "data_classes": ["DC-4", "DC-3"], "contract_status": "expired", "baa_status": "signed", "review_date": "2026-09-10"},
+    {"id": "V-004", "client": "contoso-dental", "name": "Proseware Newsletter (synthetic)", "data_classes": ["DC-1"], "contract_status": "active", "baa_status": "not-required", "review_date": "2026-06-01"},
+    {"id": "V-101", "client": "fabrikam-capital", "name": "Woodgrove Custodian Portal (synthetic)", "data_classes": ["DC-5"], "contract_status": "active", "baa_status": "not-applicable", "review_date": "2025-08-20"},
+    {"id": "V-102", "client": "fabrikam-capital", "name": "Litware Email Archive (synthetic)", "data_classes": ["DC-5", "DC-3"], "contract_status": "pending-signature", "baa_status": "not-applicable", "review_date": "2026-09-30"},
+    {"id": "V-103", "client": "fabrikam-capital", "name": "Fourth Coffee E-Sign (synthetic)", "data_classes": ["DC-5"], "contract_status": "active", "baa_status": "not-applicable", "review_date": "2026-01-12"}
+  ]
+}

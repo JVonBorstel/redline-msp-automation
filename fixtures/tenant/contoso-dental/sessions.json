@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "sessions",
+    "note": "Synthetic. One entry per user: userId and userPrincipalName match fixtures/tenant/contoso-dental.json; userType is the Graph user property (Member or Guest). activeSessionCount is INVENTED for this mock (Graph exposes no such counter; revokeSignInSessions invalidates refresh tokens and resets signInSessionsValidFromDateTime, and the tokens already issued can keep working for a short lag). Not captured from a real tenant."
+  },
+  "value": [
+    {
+      "userId": "3f1c9a52-7d4e-4b8a-9c21-0a5e6b7c8d91",
+      "userPrincipalName": "ana.lopez@contosodental.example",
+      "userType": "Member",
+      "activeSessionCount": 3
+    },
+    {
+      "userId": "5a7b9c1d-3e5f-4a7b-9c1d-2e4f6a8b0c2d",
+      "userPrincipalName": "sam.patel@contosodental.example",
+      "userType": "Member",
+      "activeSessionCount": 2
+    },
+    {
+      "userId": "7c9e1f3a-5b7d-4c9e-8f1a-3b5d7f9a1c3e",
+      "userPrincipalName": "jamie.chen@contosodental.example",
+      "userType": "Member",
+      "activeSessionCount": 0
+    },
+    {
+      "userId": "afbbebce-68b5-530e-b8f7-49957cbac346",
+      "userPrincipalName": "priya.nair@contosodental.example",
+      "userType": "Member",
+      "activeSessionCount": 4
+    },
+    {
+      "userId": "e9d42287-2097-5578-bfb4-f2aeff493a92",
+      "userPrincipalName": "tom.baker@contosodental.example",
+      "userType": "Member",
+      "activeSessionCount": 1
+    },
+    {
+      "userId": "b82db3c5-4dc7-560d-817a-6ed5cd3c516d",
+      "userPrincipalName": "lena.fischer@contosodental.example",
+      "userType": "Member",
+      "activeSessionCount": 2
+    }
+  ]
+}

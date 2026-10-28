@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "_note": "Synthetic client record for the B-55 redaction eval only (the real config/clients/ files are the owner step W2-E1). Litware Legal (synthetic) is invented. The eval reads industry for the unknown-text floor (D6-12); regimes are illustrative, not a compliance decision.",
+  "id": "litware-legal",
+  "display_name": "Litware Legal (synthetic)",
+  "psa_company_id": "29684003",
+  "industry": "legal",
+  "regimes": [],
+  "model_processing": "local",
+  "retention_class": "legal-hold-capable",
+  "enabled_levers": [],
+  "bindings": {
+    "psa": {"implementation": "mock", "external_id": "29684003"}
+  }
+}

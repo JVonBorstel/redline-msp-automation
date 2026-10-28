@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "_note": "Synthetic. The clients each agent's workflow serves (B-49, B49-3). An agent scoped to a client not listed here, or with no entry, is flagged in the access review. The workflow owner keeps this list; the quarterly review checks it.",
+  "agents": {
+    "triage-bot": {"workflow": "triage", "clients": ["contoso-dental", "fabrikam-capital"]}
+  }
+}

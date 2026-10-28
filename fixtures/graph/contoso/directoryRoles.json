@@ -1,0 +1,30 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#directoryRoles(members())",
+  "value": [
+    {
+      "id": "c0000000-0000-4000-8000-000000000101",
+      "deletedDateTime": null,
+      "description": "Can manage all aspects of Microsoft Entra ID and Microsoft services that use Microsoft Entra identities.",
+      "displayName": "Global Administrator",
+      "roleTemplateId": "62e90394-69f5-4237-9190-012177145e10",
+      "members": [
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000010", "displayName": "Grace Kim", "userPrincipalName": "grace.kim@contosodental.example" },
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000011", "displayName": "Henry Adams", "userPrincipalName": "henry.adams@contosodental.example" },
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000012", "displayName": "Ivy Patel", "userPrincipalName": "ivy.patel@contosodental.example" },
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000013", "displayName": "Jack Wu", "userPrincipalName": "jack.wu@contosodental.example" },
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000014", "displayName": "Break Glass Alpha", "userPrincipalName": "bg-alpha@contosodental.onmicrosoft.com" },
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000016", "displayName": "Emergency Admin", "userPrincipalName": "emergency.admin@contosodental.example" }
+      ]
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000102",
+      "deletedDateTime": null,
+      "description": "Can manage all aspects of users and groups, including resetting passwords for limited admins.",
+      "displayName": "User Administrator",
+      "roleTemplateId": "fe930be7-5e62-47db-91af-98c3a49a38b1",
+      "members": [
+        { "@odata.type": "#microsoft.graph.user", "id": "c0000000-0000-4000-8000-000000000018", "displayName": "Pat Vendor (Northwind)", "userPrincipalName": "pat_northwind.example#EXT#@contosodental.onmicrosoft.com" }
+      ]
+    }
+  ]
+}

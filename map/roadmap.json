@@ -1,0 +1,3960 @@
+{
+  "version": 1,
+  "_note": "Mapping only (2026-10-20). Synthetic planning data; generated together with docs/ROADMAP.md. Acceptance ids follow STD-TS-2 style as B<nn>-<k>.",
+  "waves": [
+    {
+      "id": "W1",
+      "name": "Demo story: one person, end to end",
+      "window": "2026-10-21 to 2026-10-25 (freeze 2026-10-25 18:00 MT; 2026-10-26 rehearsal only)",
+      "goal": "Make the Oct 27 demo tell one unbroken story from one person at one client (Priya Nair, ticket T-3101) up to the MSP and the community: the lever carries who it affects, a lead cannot approve an identity change until the caller was verified out of band, any lead can pause a lever instantly, the person gets a plain-language notice draft, and a smoke test proves the whole script still runs. Every change is additive to Phase 1 and Slices A-C; anything not green by the freeze is cut, not rushed.",
+      "entry_steps": [
+        "The owner approves this roadmap and the W1 cut line (section 3).",
+        "The owner applies B-07 (CI) on day one so the build automation can run the new suites."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts.",
+        "Tag the freeze commit on main `demo-2026-10-27`; nothing merges to main after the freeze until the demo is over."
+      ],
+      "items": [
+        {
+          "id": "B-01",
+          "title": "Registry fields: risk class, undo, impact trace, verification rule",
+          "inventory_ids": [
+            "W-TOOL-01",
+            "W-GOV-03",
+            "W-IDM-04"
+          ],
+          "controls": [
+            "C-29",
+            "C-30",
+            "C-02",
+            "C-01"
+          ],
+          "depends_on": [],
+          "owns": [
+            "core/levers/models.py",
+            "core/levers/registry.py",
+            "levers/registry.json",
+            "tests/py/levers/test_b01_registry_fields.py",
+            "specs/B-01.md",
+            "docs/changes/B-01.md"
+          ],
+          "acceptance": [
+            "B01-1: every lever in levers/registry.json declares `risk_class` (R0-R3, governance 6.1), `reversibility`, `undo` (lever name or null), `lever_version` and `impact` (one line each for L1-L4); a write lever without `risk_class` or `impact` fails the load with a RegistryError that names the lever",
+            "B01-2: a `read` lever declaring R1-R3, or a `write` lever declaring R0, fails the load (class and risk must agree)",
+            "B01-3: `verification: \"requester\"` is accepted on write levers only; `Approval` gains an optional `verification` object {method, by, at, ref} whose `method` is one of callback-on-file, in-person, manager-confirmed, finding-reference; any other value is rejected",
+            "B01-4: all existing tests in tests/phase1 pass unchanged; the four existing levers keep their names, params and approval rules"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PY",
+            "STD-TS",
+            "STD-CF"
+          ],
+          "owner_only": false,
+          "why": "Puts the granular-to-macro trace and the social-engineering rule on the lever itself, where permissions already live."
+        },
+        {
+          "id": "B-02",
+          "title": "Runner gates: pause switch, requester verification, contact-detail masking",
+          "inventory_ids": [
+            "W-IDM-02",
+            "W-ONB-08",
+            "W-SEC-04",
+            "W-GOV-04",
+            "W-CMP-05"
+          ],
+          "controls": [
+            "C-31",
+            "C-30",
+            "C-11",
+            "C-18",
+            "C-08",
+            "C-09"
+          ],
+          "depends_on": [
+            "B-01"
+          ],
+          "owns": [
+            "core/levers/runner.py",
+            "core/levers/pause.py",
+            "core/levers/__main__.py",
+            "tests/py/levers/test_b02_runner_gates.py",
+            "specs/B-02.md",
+            "docs/changes/B-02.md"
+          ],
+          "acceptance": [
+            "B02-1: `python -m core.levers pause <lever> [--client <id>] --as <lead> --reason <text>` pauses a lever globally or for one client; a paused lever is denied in dry-run and execute with reason `lever paused by <id>: <reason>`; pause and resume each write one audit record; only a `lead` may pause or resume, and pausing needs no approval (IR-2)",
+            "B02-2: executing a lever with `verification: \"requester\"` (user.reset-mfa, user.disable) without an approval whose `verification.method` is set is denied with reason `needs a recorded requester verification (C-30)` and audited; with it, the audit record carries method, by and at",
+            "B02-3: after a user.reset-mfa execute on the Contoso fixture, no audit record contains a phone-shaped value or an authentication-method field other than type and id (DR-02); the dry-run result returned to the caller still shows the full diff; a `ticket.get` read leaves no ticket field in its audit record (closes the C-11 test gap)",
+            "B02-4: the crash path records the idempotency key (DR-03); every pre-existing Phase 1 test passes, except demo-fallback expectations that change by adding `--verified`, each listed in the PR"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-AU",
+            "STD-ER",
+            "STD-TS",
+            "STD-PY"
+          ],
+          "owner_only": false,
+          "why": "Stops the help-desk social-engineering pattern (AIR-11) at the runner, and gives every lead a kill switch."
+        },
+        {
+          "id": "B-03",
+          "title": "Approval page: verification capture, scoped listing, diff, undo and impact shown",
+          "inventory_ids": [
+            "W-TOOL-06",
+            "W-IDM-02",
+            "W-IDM-04"
+          ],
+          "controls": [
+            "C-30",
+            "C-06",
+            "C-07",
+            "C-19",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-01",
+            "B-02"
+          ],
+          "owns": [
+            "core/queue/store.py",
+            "core/queue/__main__.py",
+            "ui/app.py",
+            "ui/static/app.css",
+            "tests/py/queue/test_b03_approval_page.py",
+            "specs/B-03.md",
+            "docs/changes/B-03.md"
+          ],
+          "acceptance": [
+            "B03-1: a lead sees only proposals for clients in their own list (DR-12); a decide POST for another client is refused and audited",
+            "B03-2: for a lever with `verification: \"requester\"`, approve is refused server-side unless the form carries a method from the allowed list and, for callback-on-file, the number-on-file source (never the number itself); the decision record holds the verification",
+            "B03-3: each pending proposal shows the dry-run diff, the undo lever (or `no undo lever: manual undo`), the affected person's UPN and the lever's L1 impact line; the page still sends a CSP with no script and every value is escaped",
+            "B03-4: `seed --demo` sends each seeded proposal through the runner as triage-bot in dry-run first (DR-15), so every seeded proposal has a dry-run audit record; SC-1, SC-2 and SC-3 still pass"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PR",
+            "STD-ID",
+            "STD-SC",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The human approval step becomes the place where the person is protected: verified, scoped, and shown exactly what will happen."
+        },
+        {
+          "id": "B-04",
+          "title": "Affected-person notice drafts",
+          "inventory_ids": [
+            "W-IDM-02",
+            "W-ONB-08",
+            "W-SD-09",
+            "W-SEC-04"
+          ],
+          "controls": [
+            "C-35",
+            "C-36",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-01"
+          ],
+          "owns": [
+            "workflows/notify/",
+            "fixtures/notify/",
+            "tests/py/notify/test_b04_notify.py",
+            "specs/B-04.md",
+            "docs/changes/B-04.md"
+          ],
+          "acceptance": [
+            "B04-1: `python -m workflows.notify <proposal-id> --state <dir>` writes a draft for an executed proposal only; any other status is refused with a clear reason",
+            "B04-2: every write lever in the registry has a template in workflows/notify/templates/<lever>.md (the test fails when a write lever lacks one); filling is deterministic from trusted fields (no model)",
+            "B04-3: the T-3101 draft says what changed, why, who approved it, how to get back (the fast-path contact from fixtures/notify/contacts.json, 555-01xx) and how to undo; it contains no secret-shaped value and no personal phone number, is at most 120 words, and scores grade 8 or lower on a Flesch-Kincaid formula computed in the test",
+            "B04-4: the first line of every draft is `Draft. A person reviews and sends this.` (HO-9)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PY",
+            "STD-FX",
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The end user hears, in plain words, what was done to their account and how to get back (EU-1, EU-2)."
+        },
+        {
+          "id": "B-05",
+          "title": "Triage output shows the impact trace and the verification needed",
+          "inventory_ids": [
+            "W-SD-02",
+            "W-SD-07"
+          ],
+          "controls": [
+            "C-14",
+            "C-30",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-01"
+          ],
+          "owns": [
+            "workflows/triage/triage.py",
+            "workflows/triage/__main__.py",
+            "tests/py/triage/test_b05_trace.py",
+            "specs/B-05.md",
+            "docs/changes/B-05.md"
+          ],
+          "acceptance": [
+            "B05-1: for T-3101 the triage output adds `who this affects` (the lever's L1-L4 lines) and `before approval: call back on the number on file` because the lever requires requester verification",
+            "B05-2: flagged tickets (the 8 injection tickets) still get no lever and no trace; SA-1 to SA-4 still pass with the same numbers",
+            "B05-3: the JSON output (`--json`) carries the same fields; no ticket free text is copied into them"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PR",
+            "STD-SC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Step 2 of the demo shows the person behind the proposal before anyone approves it."
+        },
+        {
+          "id": "B-06",
+          "title": "Map integrity test and the Python test suite runner",
+          "inventory_ids": [
+            "W-TOOL-13",
+            "W-TOOL-04"
+          ],
+          "controls": [
+            "C-37",
+            "C-45"
+          ],
+          "depends_on": [],
+          "owns": [
+            "tests/py/Test-Py.ps1",
+            "map/check_map.py",
+            "tests/phase1/test_map.py",
+            "specs/B-06.md",
+            "docs/changes/B-06.md"
+          ],
+          "acceptance": [
+            "B06-1: every id in map/inventory.json, map/controls.json and map/roadmap.json is unique and matches its pattern (W-<AREA>-<nn>, C-<nn>, B-<nn>, W<n>)",
+            "B06-2: every inventory id and control id named in roadmap.json resolves; every depends_on resolves to an item in the same or an earlier wave and the graph has no cycle",
+            "B06-3: every inventory id is covered by at least one roadmap item or by a `not_now` entry",
+            "B06-4: no two items in one wave own the same path, and no owned directory contains a path owned by another item in that wave; `tests/py/Test-Py.ps1` prints `Py tests: N passed, M failed` (STD-TS-5)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Keeps the maps honest and makes parallel building safe: a collision fails CI before two builders meet. The map checks of B06-1 to B06-4 already exist (map/check_map.py, enforced through tests/phase1/test_map.py, written in the mapping-stage synthesis pass); B-06 adds the Py suite runner, the inventory-versus-governance risk-class warning (RQ-01) and the spec, and keeps both files passing."
+        },
+        {
+          "id": "B-07",
+          "title": "CI for the new suites (owner)",
+          "inventory_ids": [
+            "W-TOOL-07"
+          ],
+          "controls": [
+            "C-24",
+            "C-37"
+          ],
+          "depends_on": [
+            "B-06"
+          ],
+          "owns": [
+            ".github/workflows/ci.yml",
+            "docs/changes/B-07.md",
+            "specs/B-07.md"
+          ],
+          "acceptance": [
+            "B07-1: CI runs tests/py/Test-Py.ps1 and (after B-10) tests/demo/Test-Demo.ps1 on windows-latest; actions stay pinned to released versions and `permissions: contents: read` is unchanged",
+            "B07-2: the runner's suite list names the same suites",
+            "B07-3: a deliberately failing test on a throwaway branch turns CI red (checked once, not merged)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-SC",
+            "STD-TS"
+          ],
+          "owner_only": true,
+          "why": "Protected files: the agent drafts the diff in docs/changes/B-07.md, the owner applies it."
+        },
+        {
+          "id": "B-08",
+          "title": "GitHub organization: labels, milestones, issue form, PR template, CODEOWNERS (owner)",
+          "inventory_ids": [
+            "W-TOOL-07",
+            "W-TOOL-13"
+          ],
+          "controls": [
+            "C-37",
+            "C-24"
+          ],
+          "depends_on": [
+            "B-09"
+          ],
+          "owns": [
+            ".github/ISSUE_TEMPLATE/work-item.yml",
+            ".github/ISSUE_TEMPLATE/config.yml",
+            ".github/pull_request_template.md",
+            ".github/CODEOWNERS",
+            ".github/labels.json",
+            "docs/changes/B-08.md",
+            "specs/B-08.md"
+          ],
+          "acceptance": [
+            "B08-1: every label in docs/map/04-repo-organization.md section 6.1 exists with its description; one milestone per wave W1-W10 with the wave goal as its description",
+            "B08-2: the issue form requires roadmap id, inventory ids, impact chain id or L1-L4 lines, controls, acceptance ids and owned paths; blank issues are disabled",
+            "B08-3: the PR template adds the L1-L4 traceability lines (STD-DD-10) and the roadmap id; CODEOWNERS adds the explicit paths in 04 section 6.4",
+            "B08-4: one issue exists per W1 item, created from the B-09 exporter's output by the owner"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC",
+            "STD-VR"
+          ],
+          "owner_only": true,
+          "why": "Protected files and GitHub changes: agents are blocked from both, so the owner applies them."
+        },
+        {
+          "id": "B-09",
+          "title": "Roadmap-to-issues exporter and change-fragment folder",
+          "inventory_ids": [
+            "W-TOOL-13"
+          ],
+          "controls": [
+            "C-37"
+          ],
+          "depends_on": [
+            "B-06"
+          ],
+          "owns": [
+            "tools/roadmap_issues.py",
+            "tools/fold_changes.py",
+            "docs/changes/README.md",
+            "tests/py/tools/test_b09_tools.py",
+            "specs/B-09.md",
+            "docs/changes/B-09.md"
+          ],
+          "acceptance": [
+            "B09-1: `uv run python tools/roadmap_issues.py --wave W1` prints one `gh issue create` command per item (title `B-nn: <title>`, labels, milestone, body with every roadmap field) and runs nothing itself",
+            "B09-2: `--format ado-csv` prints the same items as an Azure Boards import CSV (work item type, title, tags, iteration, description), for the MSP's Azure DevOps",
+            "B09-3: `tools/fold_changes.py --wave W1 --dry-run` prints the ledger edits the wave's fragments would make and changes nothing; without `--dry-run` it appends them and is idempotent (a second run changes nothing)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PY",
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "One source of truth (roadmap.json) drives GitHub or Azure Boards; ledgers are folded once per wave, so parallel PRs never edit the same file."
+        },
+        {
+          "id": "B-10",
+          "title": "Demo v2 and its end-to-end smoke test",
+          "inventory_ids": [
+            "W-TOOL-06",
+            "W-CMP-05",
+            "W-SD-02",
+            "W-M365-11"
+          ],
+          "controls": [
+            "C-41",
+            "C-45",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-02",
+            "B-03",
+            "B-04",
+            "B-05"
+          ],
+          "owns": [
+            "docs/DEMO.md",
+            "tests/demo/Test-Demo.ps1",
+            "tests/demo/test_b10_demo_smoke.py",
+            "specs/B-10.md",
+            "docs/changes/B-10.md"
+          ],
+          "acceptance": [
+            "B10-1: the smoke test runs every typed command of DEMO.md steps 1-8 (and the fallbacks) in a temp state folder, offline, and checks each expected marker (`\"status\": \"ok\"`, the two denial reasons, `OK: <n> records`, `BROKEN at seq`)",
+            "B10-2: the script adds, inside the same five minutes: the callback verification before approve, the notice draft after execute, and `pause` then a denied invoke then `resume`; the timing table still sums to 5:00 or less",
+            "B10-3: the smoke test finishes in under 120 seconds on the laptop and prints `Demo tests: N passed, M failed`",
+            "B10-4: honesty lines and the week-one plan are unchanged in substance; every number shown is still labelled fixture-based"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "The demo becomes a tested artifact, so a late change cannot silently break it."
+        },
+        {
+          "id": "B-11",
+          "title": "One-ticket trace leave-behind (T-3101, granular to macro)",
+          "inventory_ids": [
+            "W-IDM-02",
+            "W-TRN-02"
+          ],
+          "controls": [
+            "C-45",
+            "C-08",
+            "C-30"
+          ],
+          "depends_on": [
+            "B-03",
+            "B-04",
+            "B-05"
+          ],
+          "owns": [
+            "docs/TRACE_T3101.md",
+            "specs/B-11.md",
+            "docs/changes/B-11.md"
+          ],
+          "acceptance": [
+            "B11-1: one page: the ticket, the triage proposal, the verification, the approval, the audit record, the notice draft, and what it means for Contoso Dental, the MSP and the community, each line citing the ids (W-, C-, EU-, ISO-, HO-) it rests on",
+            "B11-2: every command in it is also in DEMO.md (the smoke test covers it); every number is labelled fixture-based; it states plainly what is not proven (no real tenant, no real callback)",
+            "B11-3: readable by a non-technical reader: no unexplained acronym (each spelled out once)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "A page the reader can keep that shows the mantra in one concrete case."
+        }
+      ]
+    },
+    {
+      "id": "W2",
+      "name": "Platform seams and service-desk drafts",
+      "window": "after the demo, about 2 weeks",
+      "goal": "Build the shared seams every later lever needs (schemas, registry fragments, the PowerShell bridge, adapters with per-client bindings, audit v2) and, in parallel, the read-only service-desk helpers that save a technician minutes on every ticket without touching a client system.",
+      "entry_steps": [
+        "The owner applies the W2 owner wiring: `version: 1` in config/models.json and config/routing.json (DR-07), config/clients/<id>.json for the synthetic clients (ONB-01, after B-13 publishes client.schema.json), the third synthetic client in config/identities.json (B-21), pyproject.toml mypy `files` += workflows, evals, ui (after B-27), and the tests/ps suite in CI (after B-15)."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-12",
+          "title": "Repo paths, gateway and guard drift, config version field",
+          "inventory_ids": [
+            "W-TOOL-02"
+          ],
+          "controls": [
+            "C-16",
+            "C-15"
+          ],
+          "depends_on": [],
+          "owns": [
+            "core/paths.py",
+            "core/gateway/config.py",
+            "core/gateway/base.py",
+            "core/gateway/gateway.py",
+            "core/gateway/hosted.py",
+            "core/gateway/loopback.py",
+            "core/gateway/mock.py",
+            "core/gateway/ollama.py",
+            "core/guard/wrap.py",
+            "core/guard/detect.py",
+            "tests/py/core/test_b12_paths.py",
+            "specs/B-12.md",
+            "docs/changes/B-12.md"
+          ],
+          "acceptance": [
+            "B12-1: `core.paths.REPO_ROOT` is the default root for the gateway config loader (DR-08); running from another working directory loads the same files",
+            "B12-2: every gateway and guard module has `from __future__ import annotations` (DR-14) with no behaviour change; P1-7 and P1-8 still pass",
+            "B12-3: GatewayConfig accepts `version: 1`, rejects any other value, and accepts an absent version only until the owner wiring adds it (DR-07, tracked)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PY",
+            "STD-CF"
+          ],
+          "owner_only": false,
+          "why": "Removes working-directory surprises before many new modules depend on them."
+        },
+        {
+          "id": "B-13",
+          "title": "schemas/ folder, generator and cross-language drift check",
+          "inventory_ids": [
+            "W-TOOL-01"
+          ],
+          "controls": [
+            "C-02",
+            "C-21"
+          ],
+          "depends_on": [],
+          "owns": [
+            "schemas/",
+            "tools/gen_schemas.py",
+            "tests/py/contract/test_b13_schemas.py",
+            "tests/ps/Test-Schemas.ps1",
+            "specs/B-13.md",
+            "docs/changes/B-13.md"
+          ],
+          "acceptance": [
+            "B13-1: schemas/ holds lever-registry, identities, change, lever-request, lever-result, proposal, audit-record, finding and client schemas (draft 2020-12, STD-XL-1); `tools/gen_schemas.py` regenerates the pydantic-sourced ones",
+            "B13-2: a test fails when a committed schema differs from the generated one",
+            "B13-3: PowerShell `Test-Json -SchemaFile` accepts a known-good and rejects a known-bad document for each schema (closes the STD-XL-3 UNVERIFIED note, or records which keyword fails)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-XL",
+            "STD-CF",
+            "STD-PS",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "One written-down shape for Python and PowerShell, so the bridge cannot drift."
+        },
+        {
+          "id": "B-14",
+          "title": "Registry fragments, Python lever modules and the never-automate gate",
+          "inventory_ids": [
+            "W-TOOL-01",
+            "W-ONB-15",
+            "W-IDM-04",
+            "W-IDM-06",
+            "W-IDM-07",
+            "W-M365-12",
+            "W-BDR-07",
+            "W-SEC-07",
+            "W-CMP-07",
+            "W-VND-02",
+            "W-KB-07",
+            "W-BIL-04",
+            "W-TRN-04"
+          ],
+          "controls": [
+            "C-01",
+            "C-29",
+            "C-20"
+          ],
+          "depends_on": [
+            "B-13"
+          ],
+          "owns": [
+            "core/levers/registry.py",
+            "core/levers/handlers.py",
+            "levers/registry.d/README.md",
+            "levers/python/__init__.py",
+            "governance/never-automate.json",
+            "tests/py/levers/test_b14_fragments.py",
+            "specs/B-14.md",
+            "docs/changes/B-14.md"
+          ],
+          "acceptance": [
+            "B14-1: levers/registry.json plus every levers/registry.d/*.json load as one registry; a duplicate name across files, a fragment without `version`, or an unknown field fails the whole load",
+            "B14-2: a Python lever's `entry` resolves only to a callable inside the `levers.python` package; any other module path is refused at load",
+            "B14-3: governance/never-automate.json lists each never-automate inventory id with lever-name patterns (for example `role.grant*`, `ca.set*`, `hold.*`, `vault.*`, `license.purchase*`); the loader refuses any lever matching a pattern, with the inventory id and reason in the error",
+            "B14-4: the four existing levers load unchanged and P1-1 to P1-9 pass"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-CF",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Lets many lever families land in parallel without touching one file, and makes the never list a hard gate."
+        },
+        {
+          "id": "B-15",
+          "title": "PowerShell lever host module",
+          "inventory_ids": [
+            "W-TOOL-01"
+          ],
+          "controls": [
+            "C-05",
+            "C-17",
+            "C-10"
+          ],
+          "depends_on": [
+            "B-13"
+          ],
+          "owns": [
+            "levers/powershell/LeverHost/",
+            "tests/ps/Test-Modules.ps1",
+            "specs/B-15.md",
+            "docs/changes/B-15.md"
+          ],
+          "acceptance": [
+            "B15-1: `Invoke-LeverRequest.ps1` reads one JSON request on stdin (lever-request schema), imports only the module named in `entry`, calls the function with `-WhatIf` for dry-run, and writes one JSON result (lever-result schema) on stdout with exit code 0/1/2",
+            "B15-2: a thrown error inside a lever becomes `{status: error, reason: \"<lever> crashed: <type>\"}` with no stack text on stdout (STD-ER-5, STD-ER-7)",
+            "B15-3: a request naming a function not exported by its module is refused; tests/ps/Test-Modules.ps1 runs every levers/powershell/*/tests file and prints `PS modules tests: N passed, M failed`"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PS",
+            "STD-XL",
+            "STD-ER",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The PowerShell side of 'Python orchestrates, PowerShell acts'."
+        },
+        {
+          "id": "B-16",
+          "title": "Python bridge and runner dispatch by runtime",
+          "inventory_ids": [
+            "W-TOOL-01"
+          ],
+          "controls": [
+            "C-17",
+            "C-05",
+            "C-04",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-15",
+            "B-14"
+          ],
+          "owns": [
+            "core/levers/bridge.py",
+            "core/levers/runner.py",
+            "tests/py/levers/test_b16_bridge.py",
+            "levers/powershell/Sample/",
+            "specs/B-16.md",
+            "docs/changes/B-16.md"
+          ],
+          "acceptance": [
+            "B16-1: a lever with `runtime: \"powershell\"` runs through `pwsh -NoProfile -NonInteractive` with every runner check (registry, schema, role, scope, approval, pause, verification, audit) done in Python first",
+            "B16-2: the child process is killed at `timeout_s` and the result is `error` with nothing applied (SL-06)",
+            "B16-3: a sample read lever and a sample write lever in levers/powershell/Sample/ produce the same diff shape in dry-run as a Python lever, and an execute applies exactly the dry-run diff"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-XL",
+            "STD-ER",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Every identity, device and M365 lever after this is PowerShell with no core change."
+        },
+        {
+          "id": "B-17",
+          "title": "Audit record v2 and verifier",
+          "inventory_ids": [
+            "W-CMP-05",
+            "W-CMP-01"
+          ],
+          "controls": [
+            "C-08",
+            "C-39",
+            "C-11"
+          ],
+          "depends_on": [],
+          "owns": [
+            "core/audit/chain.py",
+            "core/audit/verify.py",
+            "core/audit/__init__.py",
+            "tests/py/audit/test_b17_audit_v2.py",
+            "specs/B-17.md",
+            "docs/changes/B-17.md"
+          ],
+          "acceptance": [
+            "B17-1: new records carry `v: 2`, `event`, `actor_kind`, `lever_version` and `request_id` (STD-AU-2), with defaults when the caller does not pass them; v1 records are never rewritten",
+            "B17-2: the verifier accepts a v1 prefix followed by v2 records and rejects a v1 record after a v2 one; P1-2 tamper tests pass for both",
+            "B17-3: the `Mode` literal lists the four values actually written (DR-04) and `append` is typed with it"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-AU",
+            "STD-VR",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Correlates every action with its trace and its lever version, which audits and incident scoping need."
+        },
+        {
+          "id": "B-18",
+          "title": "Adapter base, per-client bindings and the PSA mock",
+          "inventory_ids": [
+            "W-TOOL-11",
+            "W-SD-01"
+          ],
+          "controls": [
+            "C-04",
+            "C-27",
+            "C-10"
+          ],
+          "depends_on": [
+            "B-13"
+          ],
+          "owns": [
+            "adapters/__init__.py",
+            "adapters/base.py",
+            "adapters/binding.py",
+            "adapters/psa/",
+            "fixtures/psa/",
+            "tests/py/adapters/test_b18_psa.py",
+            "specs/B-18.md",
+            "docs/changes/B-18.md"
+          ],
+          "acceptance": [
+            "B18-1: an adapter instance is built for exactly one client from that client's binding (config/clients/<id>.json: implementation, external ids, credential reference name); asking it for another client's object is refused at construction (TEN-04)",
+            "B18-2: the PSA mock serves tickets, contacts, companies and SLA settings from fixtures/psa/ and returns typed results with `ok` and `reason` (STD-ER-1), never raising to the caller",
+            "B18-3: a binding that holds a credential value instead of a reference name fails validation (STD-CF-7); real implementations are absent and selecting one fails closed with `real adapter not configured`",
+            "B18-4: the PSA mock's entities and fields follow the public Autotask REST API shape (Companies, Contacts, Tickets, TicketNotes, Resources), each field marked Verified or UNVERIFIED in the spec; the adapter interface stays vendor-neutral, so a ConnectWise or Halo binding is the same seam (D6-01)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-ID",
+            "STD-ER",
+            "STD-CF",
+            "STD-FX",
+            "STD-SC"
+          ],
+          "owner_only": false,
+          "why": "The seam where the MSP's real PSA plugs in later (Q-01), with isolation built in."
+        },
+        {
+          "id": "B-19",
+          "title": "Graph mock adapter with per-family state",
+          "inventory_ids": [
+            "W-TOOL-11"
+          ],
+          "controls": [
+            "C-04",
+            "C-05",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-18"
+          ],
+          "owns": [
+            "adapters/graph/",
+            "tests/py/adapters/test_b19_graph.py",
+            "fixtures/graph/SOURCES.md",
+            "specs/B-19.md",
+            "docs/changes/B-19.md"
+          ],
+          "acceptance": [
+            "B19-1: the Graph mock reads the existing fixtures/tenant/<client>.json plus optional fixtures/tenant/<client>/<family>.json files; a family file for another client is never read",
+            "B19-2: state reads return copies; writes go only through the runner's diff-and-save path (SL-04)",
+            "B19-3: SOURCES.md lists each new Graph shape with its Microsoft Learn page and Verified/UNVERIFIED per field (STD-FX-2)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-FX",
+            "STD-ID",
+            "STD-LV"
+          ],
+          "owner_only": false,
+          "why": "Lets each identity lever family bring its own fixture file without editing a shared one."
+        },
+        {
+          "id": "B-20",
+          "title": "Prompt library and prompt standards",
+          "inventory_ids": [
+            "W-TOOL-03"
+          ],
+          "controls": [
+            "C-12",
+            "C-41",
+            "C-16"
+          ],
+          "depends_on": [],
+          "owns": [
+            "prompts/STANDARDS.md",
+            "prompts/library/",
+            "prompts/__init__.py",
+            "tests/py/prompts/test_b20_prompts.py",
+            "specs/B-20.md",
+            "docs/changes/B-20.md"
+          ],
+          "acceptance": [
+            "B20-1: each prompt is a versioned file `prompts/library/<task>.v<n>.md` with front matter (task, version, inputs, output schema, owner); the loader refuses an unknown version",
+            "B20-2: every prompt that takes untrusted text places it only inside the `wrap_untrusted` block and states that data is not instructions (test checks each file)",
+            "B20-3: STANDARDS.md covers structure, minimum-necessary inputs (BA-4), output schemas, versioning and how a prompt change goes through evals (C-41)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC",
+            "STD-SC",
+            "STD-VR"
+          ],
+          "owner_only": false,
+          "why": "Reusable, reviewable prompts instead of strings scattered in code (posting: prompt standards and libraries)."
+        },
+        {
+          "id": "B-21",
+          "title": "Phase 2 ticket set: 200+ labelled tickets and a third synthetic client",
+          "inventory_ids": [
+            "W-SD-01",
+            "W-SD-03",
+            "W-SD-04",
+            "W-SD-05",
+            "W-SD-06"
+          ],
+          "controls": [
+            "C-45",
+            "C-41"
+          ],
+          "depends_on": [],
+          "owns": [
+            "fixtures/tickets/phase2/",
+            "fixtures/tenant/litware-legal.json",
+            "evals/phase2/README.md",
+            "specs/B-21.md",
+            "docs/changes/B-21.md"
+          ],
+          "acceptance": [
+            "B21-1: at least 200 synthetic tickets across three clients (Contoso Dental, Fabrikam Capital, Litware Legal) with gold labels for category, priority, queue, duplicate group, SLA tier, summary facts and reply source articles; the original 60 tickets are untouched",
+            "B21-2: at least 20 tickets contain synthetic PHI or NPI-shaped strings (fake patient names, 555 numbers, fake account numbers) labelled as such, for the redaction and leakage evals later",
+            "B21-3: every file carries `_note` (synthetic), dates come with an `as_of`, and labels are never read by the code under test (STD-FX-5)",
+            "B21-4: at least half of the new tickets belong to Fabrikam Capital (financial, RIA) and Litware Legal, matching the verticals the MSP publishes (financial services, legal, accounting); Contoso Dental stays as the W1 demo client (D6-13)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-FX",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Phase 2 needs a set big enough to measure; a third client makes isolation tests real."
+        },
+        {
+          "id": "B-22",
+          "title": "Ticket summaries, intake matching and escalation context packages",
+          "inventory_ids": [
+            "W-SD-01",
+            "W-SD-04",
+            "W-SD-07",
+            "W-VND-04"
+          ],
+          "controls": [
+            "C-12",
+            "C-13",
+            "C-27",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-20",
+            "B-21",
+            "B-18"
+          ],
+          "owns": [
+            "workflows/summary/",
+            "evals/summary/",
+            "tests/py/summary/test_b22_summary.py",
+            "specs/B-22.md",
+            "docs/changes/B-22.md"
+          ],
+          "acceptance": [
+            "B22-1: for each ticket the workflow proposes client, contact and a short summary; client and contact are matched only against that client's PSA contacts (never chosen by the model)",
+            "B22-2: an escalation package lists ticket facts, steps tried, related tickets and device facts from read levers, each fact citing its source field; nothing is invented (every fact string is traced to a source field in the eval)",
+            "B22-3: fixture-based eval report: fact recall and zero unsupported facts on the gold set, labelled fixture-based; injection tickets are summarised as flagged and never obeyed"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PR",
+            "STD-SC",
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Saves the next technician from re-asking the end user what already happened."
+        },
+        {
+          "id": "B-23",
+          "title": "Duplicate, related-ticket and outage grouping",
+          "inventory_ids": [
+            "W-SD-03",
+            "W-SD-08"
+          ],
+          "controls": [
+            "C-27",
+            "C-41",
+            "C-05"
+          ],
+          "depends_on": [
+            "B-14",
+            "B-21",
+            "B-18"
+          ],
+          "owns": [
+            "workflows/duplicates/",
+            "evals/duplicates/",
+            "levers/registry.d/ticket.json",
+            "levers/python/ticket.py",
+            "workflows/notify/templates/ticket.link.md",
+            "tests/py/duplicates/test_b23_duplicates.py",
+            "specs/B-23.md",
+            "docs/changes/B-23.md"
+          ],
+          "acceptance": [
+            "B23-1: candidates come only from the same client's open tickets (a ticket from another client is never compared or shown)",
+            "B23-2: a `ticket.link` R1 write lever links two tickets in the PSA mock in dry-run with a diff; executing needs the usual approval",
+            "B23-3: outage grouping raises one group when N or more tickets for one client share a category and window (N in config of the workflow); precision and recall on the gold duplicate groups are reported fixture-based"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-ID",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Fewer duplicate tickets worked twice; a widespread issue is seen as one event."
+        },
+        {
+          "id": "B-24",
+          "title": "SLA breach watch and backlog grooming report",
+          "inventory_ids": [
+            "W-SD-06",
+            "W-SD-10"
+          ],
+          "controls": [
+            "C-27",
+            "C-21"
+          ],
+          "depends_on": [
+            "B-18",
+            "B-21"
+          ],
+          "owns": [
+            "workflows/sla/",
+            "tests/py/sla/test_b24_sla.py",
+            "specs/B-24.md",
+            "docs/changes/B-24.md"
+          ],
+          "acceptance": [
+            "B24-1: given an `as_of`, the report lists tickets that will breach first response or resolution within the next N hours per the SLA matrix in fixtures/psa/, per client",
+            "B24-2: backlog grooming lists tickets waiting on client or vendor longer than the threshold, with a suggested follow-up draft (never sent)",
+            "B24-3: every count in the report reconciles to the ticket fixtures (validator in the test)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PY",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The end user waiting longest is seen before the deadline, not after."
+        },
+        {
+          "id": "B-25",
+          "title": "Draft replies with KB citations and closure follow-up drafts",
+          "inventory_ids": [
+            "W-SD-05",
+            "W-SD-09"
+          ],
+          "controls": [
+            "C-12",
+            "C-26",
+            "C-41",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-20",
+            "B-21"
+          ],
+          "owns": [
+            "workflows/replies/",
+            "evals/replies/",
+            "tests/py/replies/test_b25_replies.py",
+            "specs/B-25.md",
+            "docs/changes/B-25.md"
+          ],
+          "acceptance": [
+            "B25-1: every sentence of a draft reply cites a KB article id from the same client (via kb.search); with no source the workflow returns `no draft: no source article` instead of guessing",
+            "B25-2: closure follow-up drafts confirm the fix in plain words and offer the way back; both kinds start with the draft label and are never sent by code (HO-9)",
+            "B25-3: eval: citation coverage 100% and zero cross-client citations on the gold set, labelled fixture-based"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-SC",
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Faster first response for the end user, without the Air Canada failure mode (AIR-4)."
+        },
+        {
+          "id": "B-26",
+          "title": "Drift fixes: single proposal definitions and TenantBaseline canonical ids",
+          "inventory_ids": [
+            "W-TOOL-06",
+            "W-M365-11"
+          ],
+          "controls": [
+            "C-06",
+            "C-21"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/triage/proposal.py",
+            "levers/powershell/TenantBaseline/TenantBaseline.config.json",
+            "levers/powershell/TenantBaseline/TenantBaseline.psd1",
+            "tests/py/levers/test_b26_fix_levers.py",
+            "specs/B-26.md",
+            "docs/changes/B-26.md"
+          ],
+          "acceptance": [
+            "B26-1: triage imports `proposal_id`, `Source` and the timestamp helper from core.queue (DR-01); the proposal contract test is unchanged",
+            "B26-2: TenantBaseline accepts `-Tenant contoso-dental` and keeps `contoso` and `clean` as aliases (DR-05); the demo command still works",
+            "B26-3: every fix lever named in TenantBaseline.config.json is either registered or listed in an explicit `planned` list (DR-10); the module manifest declares PowerShell 7.4 (DR-09); SB-1 to SB-4 pass"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PR",
+            "STD-ID",
+            "STD-PS"
+          ],
+          "owner_only": false,
+          "why": "Small fixes from the drift table that later waves would otherwise trip over."
+        },
+        {
+          "id": "B-27",
+          "title": "mypy strict across workflows, evals and ui (code side of DR-06)",
+          "inventory_ids": [
+            "W-TOOL-07"
+          ],
+          "controls": [
+            "C-24"
+          ],
+          "depends_on": [
+            "B-26"
+          ],
+          "owns": [
+            "workflows/triage/rules.py",
+            "workflows/triage/tickets.py",
+            "workflows/triage/corrections.py",
+            "evals/triage/report.py",
+            "evals/injection/report.py",
+            "ui/app.py",
+            "specs/B-27.md",
+            "docs/changes/B-27.md"
+          ],
+          "acceptance": [
+            "B27-1: `uv run mypy --strict workflows evals ui` reports no errors",
+            "B27-2: no behaviour change: tests/phase1 and the demo smoke test pass unchanged"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PY"
+          ],
+          "owner_only": false,
+          "why": "Lets the owner widen mypy `files` without breaking CI."
+        },
+        {
+          "id": "B-89",
+          "title": "Entra sign-in for approvers (design and mock token validation)",
+          "inventory_ids": [
+            "W-TOOL-06"
+          ],
+          "controls": [
+            "C-44",
+            "C-19",
+            "C-07"
+          ],
+          "depends_on": [
+            "B-03"
+          ],
+          "owns": [
+            "core/auth/",
+            "tests/py/auth/test_b89_auth.py",
+            "specs/B-89.md",
+            "docs/changes/B-89.md"
+          ],
+          "acceptance": [
+            "B89-1: approval decisions require a validated token (issuer, audience, expiry, signature against a test key); the demo picker remains only behind an explicit `--demo` flag",
+            "B89-2: the approval record carries the authentication method claim and session id",
+            "B89-3: an unauthenticated or wrong-audience POST cannot decide (test)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-ID",
+            "STD-SC"
+          ],
+          "owner_only": false,
+          "why": "An approval is a real person's act, proven, as auditors expect. Pulled from W9 to W2 so no R2 or R3 approval rests on a picked name (D-024, D6-05)."
+        }
+      ]
+    },
+    {
+      "id": "W3",
+      "name": "Identity lifecycle: one person's access",
+      "window": "about 3 weeks",
+      "goal": "Automate the account work that most often decides whether one person can work today (joiners, movers, leavers, password and MFA help, lockouts) as PowerShell levers through the bridge, each dry-run first, approved by a lead, verified, reversible where possible, and announced to the person.",
+      "entry_steps": [
+        "The owner applies: a second synthetic lead in config/identities.json (dual approval for R3), the Pester 5 / PSScriptAnalyzer install decision (OQ-11) or confirms plain-script tests continue, mypy `files` += adapters, levers/python."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts.",
+        "Move core/levers/tenant.py to adapters/graph/mock_state.py in one PR once every Graph lever reads state through the adapter (move M-04 in 04-repo-organization.md)."
+      ],
+      "items": [
+        {
+          "id": "B-28",
+          "title": "Runner: idempotency enforcement, per-client lock, audit v2 fields, R3 dual approval",
+          "inventory_ids": [
+            "W-TOOL-01",
+            "W-ONB-02",
+            "W-EP-08"
+          ],
+          "controls": [
+            "C-18",
+            "C-29",
+            "C-06",
+            "C-07",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-16",
+            "B-17",
+            "B-89"
+          ],
+          "owns": [
+            "core/levers/runner.py",
+            "core/levers/models.py",
+            "tests/py/levers/test_b28_runner3.py",
+            "specs/B-28.md",
+            "docs/changes/B-28.md"
+          ],
+          "acceptance": [
+            "B28-1: a second execute whose idempotency key already has an `applied: true` record not authorised by this approval is denied and audited (STD-LV-6a)",
+            "B28-2: executes for two different clients run concurrently; two for one client serialise (SL-05); a test proves both",
+            "B28-3: an R3 lever executes only with two approvals from two different leads, neither the requester, both scoped to the client (HO-3); a single approval is denied and audited",
+            "B28-4: every record the runner writes carries request_id, actor_kind and lever_version",
+            "B28-5: an `irreversible` lever executes only with an approval younger than 24 hours, and the approval page shows `no undo` (STD-LV-4); the runner owns this rule so device and mailbox families in later waves do not need to edit runner.py",
+            "B28-6: an R2 or R3 approval is accepted only from an approver authenticated by the B-89 token validator; the demo identity picker works only behind `--demo` and its approvals are marked `demo` in the audit (D6-05, D-024)",
+            "B28-7: the approver minimum per risk class (R2: 1, R3: 2 distinct humans, never the requester, never an agent) can be raised per lever or per client from the client record, never lowered; a lowered value fails the load (D6-05)",
+            "B28-8: levers declaring `verification: \"requester+contact\"` (MFA reset, TAP, authentication-method or contact-detail changes) need two verification records: callback-on-file (number source recorded, never the number) and confirmation by the client's authorized contact; a target holding a privileged directory role is refused (D6-06)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-AU",
+            "STD-PY",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The runner rules that identity changes at scale depend on."
+        },
+        {
+          "id": "B-29",
+          "title": "IdentityOps: revoke sessions, enable (undo of disable), mover property changes",
+          "inventory_ids": [
+            "W-ONB-08",
+            "W-SEC-04",
+            "W-ONB-16"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-30",
+            "C-33",
+            "C-35"
+          ],
+          "depends_on": [
+            "B-28",
+            "B-16",
+            "B-19"
+          ],
+          "owns": [
+            "levers/powershell/IdentityOps/",
+            "levers/registry.d/identity.json",
+            "workflows/notify/templates/user.revoke-sessions.md",
+            "workflows/notify/templates/user.enable.md",
+            "workflows/notify/templates/user.set-properties.md",
+            "fixtures/tenant/contoso-dental/sessions.json",
+            "fixtures/tenant/fabrikam-capital/sessions.json",
+            "specs/B-29.md",
+            "docs/changes/B-29.md"
+          ],
+          "acceptance": [
+            "B29-1: `user.revoke-sessions` (R2, `graph_scopes: [User.RevokeSessions.All]`) dry-runs a diff and its README states the documented lag and that it does not apply to guest users",
+            "B29-2: `user.enable` (R2) is the registered `undo` of `user.disable`; disable then enable returns the fixture to byte-identical state",
+            "B29-3: `user.set-properties` changes only department, jobTitle and manager (enum of fields); idempotent; Pester or plain-script tests per STD-PS-9 cover dry-run, execute, idempotency and a scope denial"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PS",
+            "STD-XL",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The first real offboarding and mover steps, each reversible."
+        },
+        {
+          "id": "B-30",
+          "title": "Password reset and Temporary Access Pass with out-of-band delivery",
+          "inventory_ids": [
+            "W-IDM-01",
+            "W-ONB-05"
+          ],
+          "controls": [
+            "C-10",
+            "C-30",
+            "C-06",
+            "C-07",
+            "C-11"
+          ],
+          "depends_on": [
+            "B-28",
+            "B-16",
+            "B-19"
+          ],
+          "owns": [
+            "levers/powershell/CredentialOps/",
+            "levers/registry.d/credential.json",
+            "core/levers/oob.py",
+            "workflows/notify/templates/user.reset-password.md",
+            "workflows/notify/templates/user.new-tap.md",
+            "tests/py/levers/test_b30_oob.py",
+            "specs/B-30.md",
+            "docs/changes/B-30.md"
+          ],
+          "acceptance": [
+            "B30-1: `user.reset-password` and `user.new-tap` are R3 and need requester verification; the generated value goes only to the out-of-band channel (mock: a file under .tmp/oob/ readable by the requesting technician) and never into the lever result, the queue, the audit, a notice or a prompt",
+            "B30-2: a sweep test runs both levers end to end and finds no secret-shaped value in any audit record, proposal, result object or log",
+            "B30-3: the audit records that a credential was issued (type, expiry, target id) and nothing else",
+            "B30-4: both levers declare `verification: \"requester+contact\"` (B28-8) and refuse targets holding a privileged directory role; a TAP is single-use with the shortest lifetime the tenant policy allows (D6-06)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-SC",
+            "STD-AU",
+            "STD-PS"
+          ],
+          "owner_only": false,
+          "why": "Password help is the most common lockout fix; the secret never touches the AI."
+        },
+        {
+          "id": "B-31",
+          "title": "LicenseOps: assign and remove from free stock only",
+          "inventory_ids": [
+            "W-ONB-03",
+            "W-ONB-11",
+            "W-VND-02"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-32",
+            "C-35"
+          ],
+          "depends_on": [
+            "B-28",
+            "B-16",
+            "B-19"
+          ],
+          "owns": [
+            "levers/powershell/LicenseOps/",
+            "levers/registry.d/license.json",
+            "workflows/notify/templates/license.add.md",
+            "workflows/notify/templates/license.remove.md",
+            "fixtures/tenant/contoso-dental/licenses.json",
+            "fixtures/tenant/fabrikam-capital/licenses.json",
+            "specs/B-31.md",
+            "docs/changes/B-31.md"
+          ],
+          "acceptance": [
+            "B31-1: `license.add` (R1) succeeds in dry-run only when the SKU has a free seat; with none it returns `no free seat: a purchase needs the client's consent (W-VND-02)` and proposes nothing",
+            "B31-2: `license.remove` (R2) after the retention window only; the diff shows the SKU and the date the window ended",
+            "B31-3: no lever named license.purchase or similar can load (never-automate gate)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PS",
+            "STD-FX"
+          ],
+          "owner_only": false,
+          "why": "New hires get licensed on day one without anyone spending the client's money."
+        },
+        {
+          "id": "B-32",
+          "title": "GroupOps: group membership with privileged-group refusal",
+          "inventory_ids": [
+            "W-ONB-04",
+            "W-ONB-16",
+            "W-IDM-07"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-32",
+            "C-01"
+          ],
+          "depends_on": [
+            "B-28",
+            "B-16",
+            "B-19"
+          ],
+          "owns": [
+            "levers/powershell/GroupOps/",
+            "levers/registry.d/group.json",
+            "workflows/notify/templates/group.add-member.md",
+            "workflows/notify/templates/group.remove-member.md",
+            "fixtures/tenant/contoso-dental/groups.json",
+            "fixtures/tenant/fabrikam-capital/groups.json",
+            "specs/B-32.md",
+            "docs/changes/B-32.md"
+          ],
+          "acceptance": [
+            "B32-1: `group.add-member` and `group.remove-member` (R2 when the group grants data access, R1 for distribution only, from a group attribute in the fixture)",
+            "B32-2: a role-assignable group or a group named in the client's privileged list is refused in dry-run with the W-IDM-07 reason",
+            "B32-3: each change is idempotent and has the other as its undo"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PS",
+            "STD-FX"
+          ],
+          "owner_only": false,
+          "why": "Right access on day one and on a move, never admin rights by automation."
+        },
+        {
+          "id": "B-33",
+          "title": "MailboxOps and OneDrive transfer",
+          "inventory_ids": [
+            "W-M365-01",
+            "W-M365-02",
+            "W-M365-09",
+            "W-ONB-09",
+            "W-ONB-10"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-35",
+            "C-25"
+          ],
+          "depends_on": [
+            "B-28",
+            "B-16",
+            "B-19"
+          ],
+          "owns": [
+            "levers/powershell/MailboxOps/",
+            "levers/registry.d/mailbox.json",
+            "workflows/notify/templates/mailbox/",
+            "fixtures/tenant/contoso-dental/mailboxes.json",
+            "fixtures/tenant/fabrikam-capital/mailboxes.json",
+            "specs/B-33.md",
+            "docs/changes/B-33.md"
+          ],
+          "acceptance": [
+            "B33-1: levers for DL membership, Full Access and Send As grants, convert to shared, auto-reply, archive enable, and a time-bound manager grant to a leaver's OneDrive; each with dry-run diff, undo where one exists, and a template",
+            "B33-2: external forwarding is not offered as a lever (it is flagged by W-M365-05 instead); a test asserts no registered lever sets forwarding to an external domain",
+            "B33-3: SOURCES.md entries mark which shapes are Exchange Online PowerShell rather than Graph and which are UNVERIFIED"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PS",
+            "STD-FX"
+          ],
+          "owner_only": false,
+          "why": "The mailbox half of joiners and leavers, which technicians do by hand many times a month."
+        },
+        {
+          "id": "B-34",
+          "title": "Requester authorization check and authorized contacts",
+          "inventory_ids": [
+            "W-ONB-01",
+            "W-KB-06",
+            "W-IDM-04"
+          ],
+          "controls": [
+            "C-30",
+            "C-04",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-28",
+            "B-18",
+            "B-14"
+          ],
+          "owns": [
+            "levers/registry.d/contact.json",
+            "levers/python/contact.py",
+            "fixtures/psa/contacts-authorized.json",
+            "tests/py/levers/test_b34_contacts.py",
+            "specs/B-34.md",
+            "docs/changes/B-34.md"
+          ],
+          "acceptance": [
+            "B34-1: `contact.check` (R0) answers whether a named requester may request a given change type for a client, from that client's authorized-contacts list only",
+            "B34-2: an unknown requester returns `not authorized: confirm with the client's primary contact`, never a guess; another client's list is never read",
+            "B34-3: the result is shown on the approval page as evidence for the verification record; it never sets verification by itself (verification stays a human act, W-IDM-04)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-LV",
+            "STD-ID",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Stops an outsider from requesting a new account or access in someone else's name."
+        },
+        {
+          "id": "B-35",
+          "title": "Onboarding change plan",
+          "inventory_ids": [
+            "W-ONB-01",
+            "W-ONB-02",
+            "W-ONB-07"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-07",
+            "C-29",
+            "C-35"
+          ],
+          "depends_on": [
+            "B-29",
+            "B-30",
+            "B-31",
+            "B-32",
+            "B-33",
+            "B-34"
+          ],
+          "owns": [
+            "levers/powershell/Provisioning/",
+            "levers/registry.d/provisioning.json",
+            "workflows/onboarding/",
+            "workflows/notify/templates/user.new.md",
+            "tests/py/onboarding/test_b35_onboarding.py",
+            "specs/B-35.md",
+            "docs/changes/B-35.md"
+          ],
+          "acceptance": [
+            "B35-1: from a structured new-hire request (form fields, never free text) the workflow builds one change plan: `user.new` (R3, dual approval), licenses, groups, mailbox, TAP; each step is a dry-run proposal with its diff",
+            "B35-2: the plan is refused when `contact.check` says the requester is not authorized",
+            "B35-3: a welcome and manager-handoff draft is produced after the plan executes (never sent); a plan re-run after partial execution proposes only the remaining steps (idempotent)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PR",
+            "STD-PS",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A new hire can work on day one, and the request is proven to be legitimate."
+        },
+        {
+          "id": "B-36",
+          "title": "Offboarding change plan with completion proof",
+          "inventory_ids": [
+            "W-ONB-08",
+            "W-ONB-09",
+            "W-ONB-10",
+            "W-ONB-11",
+            "W-ONB-13",
+            "W-ONB-14"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-08",
+            "C-33",
+            "C-35"
+          ],
+          "depends_on": [
+            "B-29",
+            "B-31",
+            "B-32",
+            "B-33"
+          ],
+          "owns": [
+            "workflows/offboarding/",
+            "tests/py/offboarding/test_b36_offboarding.py",
+            "specs/B-36.md",
+            "docs/changes/B-36.md"
+          ],
+          "acceptance": [
+            "B36-1: the plan orders block sign-in, revoke sessions, mailbox conversion and auto-reply, OneDrive grant, group removal, and license removal after the retention window; device steps are listed as `manual until W6` and line-of-business apps as a checklist from the client record",
+            "B36-2: after execution a read-only verify step checks every target state and writes a completion record; any step not in its target state is listed, not hidden (W-ONB-14)",
+            "B36-3: the completion record is part of the client's evidence (it reconciles with the audit records of the plan)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PR",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A leaver's access is provably gone, which protects the client's patients and customers."
+        },
+        {
+          "id": "B-37",
+          "title": "Fact packs for human-only identity decisions",
+          "inventory_ids": [
+            "W-ONB-15",
+            "W-IDM-04",
+            "W-IDM-06",
+            "W-IDM-07"
+          ],
+          "controls": [
+            "C-20",
+            "C-27",
+            "C-42"
+          ],
+          "depends_on": [
+            "B-19"
+          ],
+          "owns": [
+            "workflows/factpack/",
+            "docs/runbooks/urgent-termination.md",
+            "docs/runbooks/caller-verification.md",
+            "tests/py/factpack/test_b37_factpack.py",
+            "specs/B-37.md",
+            "docs/changes/B-37.md"
+          ],
+          "acceptance": [
+            "B37-1: `python -m workflows.factpack <kind> --client <id> --target <id>` assembles read-only facts (accounts, sessions, devices, roles, CA policies) for one person or one policy and registers no lever and proposes nothing",
+            "B37-2: the urgent-termination runbook keeps timing and conduct with named humans; the caller-verification runbook describes the callback-on-file method the approval page records",
+            "B37-3: a test asserts the fact pack module imports no runner execute path"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC",
+            "STD-ID",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Humans decide the hardest cases faster, with facts in front of them, and no bot in the loop."
+        },
+        {
+          "id": "B-38",
+          "title": "Guests, stale accounts and baseline-sourced proposals",
+          "inventory_ids": [
+            "W-ONB-17",
+            "W-IDM-11"
+          ],
+          "controls": [
+            "C-30",
+            "C-05",
+            "C-32"
+          ],
+          "depends_on": [
+            "B-29",
+            "B-40"
+          ],
+          "owns": [
+            "workflows/baseline_proposals/",
+            "fixtures/tenant/contoso-dental/guests.json",
+            "tests/py/baseline/test_b38_baseline_proposals.py",
+            "specs/B-38.md",
+            "docs/changes/B-38.md"
+          ],
+          "acceptance": [
+            "B38-1: from findings.json (TenantBaseline) and guest fixtures, the workflow proposes `user.disable` for stale members and expired guests, each with `verification.method: finding-reference` and the finding id",
+            "B38-2: break-glass accounts are never proposed (pattern from the baseline config)",
+            "B38-3: at most N proposals per client per run (blast-radius cap from the workflow config), the rest listed as deferred"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PR",
+            "STD-LV",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Dormant accounts stop being an open door, without bulk changes nobody reviewed."
+        },
+        {
+          "id": "B-39",
+          "title": "Sign-in failure and lockout investigation",
+          "inventory_ids": [
+            "W-IDM-03"
+          ],
+          "controls": [
+            "C-20",
+            "C-27",
+            "C-12"
+          ],
+          "depends_on": [
+            "B-19",
+            "B-14"
+          ],
+          "owns": [
+            "levers/registry.d/signin.json",
+            "levers/python/signin.py",
+            "fixtures/tenant/contoso-dental/signins.json",
+            "fixtures/tenant/fabrikam-capital/signins.json",
+            "workflows/lockout/",
+            "tests/py/lockout/test_b39_lockout.py",
+            "specs/B-39.md",
+            "docs/changes/B-39.md"
+          ],
+          "acceptance": [
+            "B39-1: `signins.list` (R0) returns one user's recent sign-ins from the client's mock; read results are never written to the audit",
+            "B39-2: the lockout summary maps failure codes to plain causes from a cited table (Microsoft Learn sign-in error codes, marked UNVERIFIED per code where not checked) and suggests the right lever, never executes",
+            "B39-3: IP addresses and locations appear only in the technician's view, not in prompts (DC-3 minimum necessary)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-FX",
+            "STD-SC"
+          ],
+          "owner_only": false,
+          "why": "The 'why can't I sign in' call is answered in minutes."
+        },
+        {
+          "id": "B-40",
+          "title": "TenantBaseline: MFA and SSPR coverage, break-glass sign-in watch",
+          "inventory_ids": [
+            "W-IDM-13",
+            "W-IDM-08"
+          ],
+          "controls": [
+            "C-21",
+            "C-20"
+          ],
+          "depends_on": [],
+          "owns": [
+            "levers/powershell/TenantBaseline/TenantBaseline.psm1",
+            "tests/sliceb/Test-SliceB.ps1",
+            "fixtures/graph/contoso/userRegistrationDetails.json",
+            "specs/B-40.md",
+            "docs/changes/B-40.md"
+          ],
+          "acceptance": [
+            "B40-1: new checks: SSPR registration coverage per client and any sign-in by a break-glass account in the window (high severity)",
+            "B40-2: SB-1 holds for the new checks: exactly the seeded problems on Contoso, none on the clean fixture; SB-2 reconciliation covers the new counts",
+            "B40-3: the demo's 14-finding output is unchanged unless the demo script is updated in the same PR"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PS",
+            "STD-FX",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Coverage gaps and break-glass use are found before an attacker finds them."
+        },
+        {
+          "id": "B-41",
+          "title": "Rollback from recorded before-state",
+          "inventory_ids": [
+            "W-GOV-04",
+            "W-CMP-04"
+          ],
+          "controls": [
+            "C-33",
+            "C-31",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-29"
+          ],
+          "owns": [
+            "workflows/rollback/",
+            "tests/py/rollback/test_b41_rollback.py",
+            "specs/B-41.md",
+            "docs/changes/B-41.md"
+          ],
+          "acceptance": [
+            "B41-1: given an applied audit record whose lever has an `undo`, the workflow builds the undo proposal from the recorded before-state, in dry-run, for normal approval (IR-3)",
+            "B41-2: for a lever without `undo` it prints the manual undo steps from the lever README and proposes nothing",
+            "B41-3: a full test: disable, then rollback proposal, approval, execute; the fixture returns to byte-identical state and both actions are in the audit"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PR",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "When an automation is wrong, the person is put back first (EU-8)."
+        },
+        {
+          "id": "B-68",
+          "title": "Backup adapter mock, daily job review and failed-backup triage",
+          "inventory_ids": [
+            "W-BDR-01",
+            "W-BDR-02"
+          ],
+          "controls": [
+            "C-27",
+            "C-21",
+            "C-05"
+          ],
+          "depends_on": [
+            "B-18",
+            "B-14"
+          ],
+          "owns": [
+            "adapters/backup/",
+            "fixtures/backup/",
+            "workflows/backup_review/",
+            "levers/registry.d/backup.json",
+            "levers/python/backup.py",
+            "workflows/notify/templates/backup.retry-job.md",
+            "tests/py/backup/test_b68_backup.py",
+            "specs/B-68.md",
+            "docs/changes/B-68.md"
+          ],
+          "acceptance": [
+            "B68-1: daily review lists failed, missed and long-running jobs per client with the reason from the job record",
+            "B68-2: `backup.retry-job` (R2) dry-runs and needs approval; repeated failures are grouped into one ticket draft",
+            "B68-3: counts reconcile; job data of another client is never shown",
+            "B68-4: the backup mock models image-based appliance and agent jobs (with boot-check screenshot result) and Microsoft 365 SaaS backup jobs as two job types, field names marked UNVERIFIED; the review is read-only and `backup.retry-job` is the only write (D6-24)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-ER",
+            "STD-FX",
+            "STD-LV"
+          ],
+          "owner_only": false,
+          "why": "A failed backup is fixed the same day, not discovered during a restore. Pulled from W6 to W3 because it is the highest-leverage chain and the MSP sells backup (D6-24)."
+        }
+      ]
+    },
+    {
+      "id": "W4",
+      "name": "Security monitoring and compliance evidence",
+      "window": "about 3 weeks",
+      "goal": "Protect the client business: group and enrich alerts, contain account compromise with a reviewed plan, watch drift and expiries, and produce the evidence that HIPAA business associates, Safeguards service providers and the MSP's own SOC 2 audit need.",
+      "entry_steps": [
+        "The owner confirms whether W4 waits for answers to GQ-01 (compliance owner) and GQ-11 (SOC 2 scope); evidence packs are built either way but labelled 'mapping, confirm with counsel'."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-42",
+          "title": "Runner: blast-radius caps and per-client audit chains",
+          "inventory_ids": [
+            "W-TOOL-01",
+            "W-CMP-01"
+          ],
+          "controls": [
+            "C-32",
+            "C-39",
+            "C-27",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-28"
+          ],
+          "owns": [
+            "core/levers/runner.py",
+            "core/levers/caps.py",
+            "core/audit/router.py",
+            "core/levers/__main__.py",
+            "core/queue/store.py",
+            "ui/app.py",
+            "core/levers/models.py",
+            "levers/registry.d/identity.json",
+            "levers/registry.json",
+            "schemas/lever-registry.schema.json",
+            "tests/py/levers/test_b42_caps.py",
+            "specs/B-42.md",
+            "docs/changes/B-42.md"
+          ],
+          "acceptance": [
+            "B42-1: each write lever's caps (targets per run, executes per client per hour, clients per day) come from the registry; the N+1th execute in a window is denied and audited (HO-6)",
+            "B42-2: audit records go to `audit/<client>.jsonl` plus `audit/_msp.jsonl` for MSP-level events (SL-01 step 1); each chain verifies alone; a client's chain exported alone reveals no other client",
+            "B42-3: a cross-process file lock guards append (SL-01 step 2); the UI and CLI construct the router, not a single log",
+            "B42-4: write levers flagged `window: business-hours` or `window: maintenance` are refused outside the window held on the client record (business hours, time zone, maintenance window); a client with no window defined is refused, not defaulted; an approval may record a named override (D6-08, RQ-13)",
+            "B42-5: pre-authorized containment: `user.disable`, `user.revoke-sessions` and device isolate may execute on one on-call approval when the client record sets `containment_preauthorized: true`; the runner opens a second-review item due by the next business day, an overdue review is audited and alerts; `irreversible` levers never use this path (D6-08)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-AU",
+            "STD-ID",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "One runaway or one mistake cannot spread across 300 tenants."
+        },
+        {
+          "id": "B-43",
+          "title": "Security alert adapter mock, grouping and after-hours summary",
+          "inventory_ids": [
+            "W-SEC-01",
+            "W-SD-12",
+            "W-EP-02"
+          ],
+          "controls": [
+            "C-12",
+            "C-13",
+            "C-27",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-18"
+          ],
+          "owns": [
+            "adapters/alerts/",
+            "fixtures/alerts/",
+            "workflows/alerts/",
+            "evals/alerts/",
+            "tests/py/alerts/test_b43_alerts.py",
+            "specs/B-43.md",
+            "docs/changes/B-43.md"
+          ],
+          "acceptance": [
+            "B43-1: alerts are grouped per client by entity and time window; a group never mixes clients",
+            "B43-2: the on-call summary lists groups by severity with the facts used and the read levers that would enrich them; alert text is wrapped untrusted",
+            "B43-3: fixture-based grouping precision and recall against gold groups; RMM agent and Defender sensor health alerts form their own group type",
+            "B43-4: alert sources are modelled as types, not products: EDR/MDR, Microsoft 365 identity threat detection, SIEM, RMM monitors and backup; when an external SOC already owns an alert, the group carries its case id and the summary says the SOC is the responder (D6-04)",
+            "B43-5: SaaS-monitoring alerts (MP-20; vendor possibly SaaS Alerts, UNVERIFIED) are one more source type through the same grouping path"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-ER",
+            "STD-FX",
+            "STD-SC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "On-call engineers wake up to five grouped events, not fifty alerts."
+        },
+        {
+          "id": "B-44",
+          "title": "Alert enrichment and risky sign-in review",
+          "inventory_ids": [
+            "W-SEC-02",
+            "W-IDM-05",
+            "W-SD-07"
+          ],
+          "controls": [
+            "C-20",
+            "C-27",
+            "C-12"
+          ],
+          "depends_on": [
+            "B-43"
+          ],
+          "owns": [
+            "workflows/enrichment/",
+            "levers/registry.d/risk.json",
+            "levers/python/risk.py",
+            "fixtures/tenant/contoso-dental/risky-users.json",
+            "tests/py/enrichment/test_b44_enrichment.py",
+            "specs/B-44.md",
+            "docs/changes/B-44.md"
+          ],
+          "acceptance": [
+            "B44-1: an enrichment pack adds user, device and recent sign-in facts through read levers only, each fact citing its lever and field",
+            "B44-2: `risk.list-users` (R0) reads the mock riskyUsers shape (Entra ID P2 dependency noted UNVERIFIED per client); the review lists recommended levers, never executes",
+            "B44-3: no read result enters the audit log; packs are built under one client"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-FX",
+            "STD-SC"
+          ],
+          "owner_only": false,
+          "why": "The analyst sees the whole picture in one place."
+        },
+        {
+          "id": "B-45",
+          "title": "Phishing triage, message trace and quarantine release",
+          "inventory_ids": [
+            "W-SEC-03",
+            "W-M365-03",
+            "W-M365-04"
+          ],
+          "controls": [
+            "C-12",
+            "C-13",
+            "C-14",
+            "C-05",
+            "C-06"
+          ],
+          "depends_on": [
+            "B-43",
+            "B-16"
+          ],
+          "owns": [
+            "workflows/phishing/",
+            "levers/powershell/MailFlowOps/",
+            "levers/registry.d/mailflow.json",
+            "fixtures/mailflow/",
+            "evals/phishing/",
+            "workflows/notify/templates/quarantine.release.md",
+            "specs/B-45.md",
+            "docs/changes/B-45.md"
+          ],
+          "acceptance": [
+            "B45-1: a reported message is analysed from headers and URLs as data only (no URL is fetched, no attachment opened); the verdict draft cites the header fields used",
+            "B45-2: `message.trace` (R0) and `quarantine.release` (R2) levers; release is refused for messages with a high-confidence phish or malware verdict",
+            "B45-3: the injection corpus emails (hidden instructions) are flagged and get no lever; verdict accuracy reported fixture-based",
+            "B45-4: the user-reported message fixture is shaped like an INKY phish report (MP-21; cited, unverified fields marked UNVERIFIED) beside the Defender shape, and both take the same verdict path"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-SC",
+            "STD-TS",
+            "STD-FX"
+          ],
+          "owner_only": false,
+          "why": "The user who reports a phish gets an answer, and the next user is protected."
+        },
+        {
+          "id": "B-46",
+          "title": "Business email compromise containment plan and inbox-rule audit",
+          "inventory_ids": [
+            "W-SEC-04",
+            "W-M365-05"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-07",
+            "C-30",
+            "C-32",
+            "C-35"
+          ],
+          "depends_on": [
+            "B-45"
+          ],
+          "owns": [
+            "workflows/bec/",
+            "levers/registry.d/inboxrule.json",
+            "levers/python/inboxrule.py",
+            "fixtures/tenant/contoso-dental/inbox-rules.json",
+            "fixtures/tenant/fabrikam-capital/inbox-rules.json",
+            "workflows/notify/templates/inboxrule.disable.md",
+            "tests/py/bec/test_b46_bec.py",
+            "specs/B-46.md",
+            "docs/changes/B-46.md"
+          ],
+          "acceptance": [
+            "B46-1: `inboxrule.list` (R0) flags rules that forward externally, delete, or move to RSS or obscure folders; `inboxrule.disable` (R2, undo `inboxrule.enable`) turns one rule off",
+            "B46-2: the containment plan for one user proposes, in order: block sign-in, revoke sessions, reset MFA, disable the flagged rules; each a dry-run proposal needing approval; one target per plan",
+            "B46-3: the plan's evidence (rules found, times) goes into an incident timeline (B-48 format) and never into a prompt"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PR",
+            "STD-LV",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A compromised mailbox is contained in minutes, with a person approving each step."
+        },
+        {
+          "id": "B-47",
+          "title": "Vulnerability, advisory and emergency-patch relevance",
+          "inventory_ids": [
+            "W-SEC-06",
+            "W-SEC-08",
+            "W-PAT-05"
+          ],
+          "controls": [
+            "C-21",
+            "C-27"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/advisories/",
+            "fixtures/advisories/",
+            "tests/py/advisories/test_b47_advisories.py",
+            "specs/B-47.md",
+            "docs/changes/B-47.md"
+          ],
+          "acceptance": [
+            "B47-1: a fixture shaped like the CISA Known Exploited Vulnerabilities JSON feed (cited, shape verified on read date) is matched to each client's synthetic software inventory; output lists affected clients and devices per CVE",
+            "B47-2: prioritisation uses KEV presence, exposure and asset criticality, each shown; no number is invented (counts reconcile to the fixture)",
+            "B47-3: the emergency-patch list is a report and proposed change windows only; nothing is deployed",
+            "B47-4: scanner and penetration-test findings come from fixtures shaped like a Tenable Nessus export and a Vonahi vPenTest findings report (MP-25, MP-26; cited, unverified fields marked UNVERIFIED) and are joined to the KEV match by CVE"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-FX",
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The one exploited bug that matters to this client is found first."
+        },
+        {
+          "id": "B-48",
+          "title": "Incident and recovery fact packs and timeline export",
+          "inventory_ids": [
+            "W-SEC-07",
+            "W-BDR-07",
+            "W-SEC-09",
+            "W-VND-06"
+          ],
+          "controls": [
+            "C-34",
+            "C-08",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-42"
+          ],
+          "owns": [
+            "workflows/timeline/",
+            "tests/py/timeline/test_b48_timeline.py",
+            "specs/B-48.md",
+            "docs/changes/B-48.md"
+          ],
+          "acceptance": [
+            "B48-1: exports one client's incident timeline from its audit chain, alerts and ticket ids (no ticket text), verified chain first",
+            "B48-2: fact packs for breach determination, recovery-point choice, firewall rule and DNS changes list facts only; they register no lever",
+            "B48-3: the export states on its first line that declaration and notification decisions belong to the client and counsel",
+            "B48-4: firewall and SASE events in the timeline come from a fixture shaped like a FortiGate event log (MP-27, MP-28; cited); rule changes stay human (NN-05)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-AU",
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The people who must decide get a trustworthy timeline fast."
+        },
+        {
+          "id": "B-49",
+          "title": "Access reviews: tenant admins and agent/technician identities",
+          "inventory_ids": [
+            "W-IDM-09",
+            "W-GOV-03"
+          ],
+          "controls": [
+            "C-38",
+            "C-03",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-42",
+            "B-28"
+          ],
+          "owns": [
+            "workflows/access_review/",
+            "tests/py/access_review/test_b49_access_review.py",
+            "specs/B-49.md",
+            "docs/changes/B-49.md"
+          ],
+          "acceptance": [
+            "B49-1: quarterly per-client export of directory role members (from Graph mock) and of every repo identity with role and client list, dated and SHA-256 hashed",
+            "B49-2: each row has a lead decision field (keep, remove, investigate); the export is re-verifiable from its hash",
+            "B49-3: agents with any execute capability or with more clients than their workflow needs are flagged"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-ID",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Who can touch each client is reviewed, as SOC 2 CC6.2 and HIPAA 164.308(a)(4) expect."
+        },
+        {
+          "id": "B-50",
+          "title": "Conditional Access and baseline drift over time",
+          "inventory_ids": [
+            "W-IDM-06",
+            "W-M365-11"
+          ],
+          "controls": [
+            "C-21",
+            "C-20"
+          ],
+          "depends_on": [],
+          "owns": [
+            "levers/powershell/TenantBaseline/",
+            "tests/sliceb/",
+            "specs/B-50.md",
+            "docs/changes/B-50.md"
+          ],
+          "acceptance": [
+            "B50-1: `-CompareTo <previous findings.json>` reports new, resolved and unchanged findings and any Conditional Access policy whose state or assignments changed",
+            "B50-2: drift output is a report only; CA changes are never proposed as levers (never-automate)",
+            "B50-3: SB-1 and SB-2 still pass; the demo command is unchanged"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-PS",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A silently weakened policy is noticed the next morning."
+        },
+        {
+          "id": "B-51",
+          "title": "SOC 2 evidence bundle and change records",
+          "inventory_ids": [
+            "W-CMP-01",
+            "W-CMP-04",
+            "W-CMP-05",
+            "W-CMP-07"
+          ],
+          "controls": [
+            "C-08",
+            "C-37",
+            "C-38",
+            "C-39"
+          ],
+          "depends_on": [
+            "B-42",
+            "B-49"
+          ],
+          "owns": [
+            "workflows/evidence/",
+            "tests/py/evidence/test_b51_evidence.py",
+            "specs/B-51.md",
+            "docs/changes/B-51.md"
+          ],
+          "acceptance": [
+            "B51-1: a monthly bundle per period: audit verify output per chain, approvals and denials summary, registry snapshot with lever versions, access-review exports, merged PR list from a local git log, all hashed into a manifest",
+            "B51-2: re-running for the same period produces the same manifest hash (deterministic, `as_of`)",
+            "B51-3: the bundle supports a human's management assertion and says so; it never signs or asserts anything (W-CMP-07)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-AU",
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Audit evidence is collected every month, not rebuilt the week before the auditor arrives."
+        },
+        {
+          "id": "B-52",
+          "title": "HIPAA and FTC Safeguards evidence packs per client, BAA and vendor tracking",
+          "inventory_ids": [
+            "W-CMP-02",
+            "W-CMP-03",
+            "W-CMP-06"
+          ],
+          "controls": [
+            "C-25",
+            "C-43",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-51"
+          ],
+          "owns": [
+            "workflows/regpacks/",
+            "fixtures/regpacks/",
+            "tests/py/regpacks/test_b52_regpacks.py",
+            "specs/B-52.md",
+            "docs/changes/B-52.md"
+          ],
+          "acceptance": [
+            "B52-1: for a dental client, findings and controls are mapped to 45 CFR 164.308/312 items; for a financial client, to 16 CFR 314.4 elements; every mapping line cites the governance map id (BA-n, GLBA-n)",
+            "B52-2: a BAA and vendor due-diligence tracker lists each vendor, data classes, contract status and review date (synthetic rows)",
+            "B52-3: every page is labelled 'mapping for the client's compliance owner; not legal advice'",
+            "B52-4: for an investment-adviser client, findings map to SEC Regulation S-P as amended in 2024 (incident response program, service-provider oversight, customer notice), each mapping marked hedged until checked against the rule text; the HIPAA pack stays for any healthcare client (D6-12)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-FX"
+          ],
+          "owner_only": false,
+          "why": "Small regulated clients get the evidence their own obligations need."
+        },
+        {
+          "id": "B-53",
+          "title": "Oversharing, Copilot readiness and labels/DLP assessment",
+          "inventory_ids": [
+            "W-M365-07",
+            "W-PRJ-04",
+            "W-M365-08"
+          ],
+          "controls": [
+            "C-25",
+            "C-21",
+            "C-20"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/copilot_readiness/",
+            "fixtures/sharepoint/",
+            "tests/py/copilot/test_b53_copilot.py",
+            "specs/B-53.md",
+            "docs/changes/B-53.md"
+          ],
+          "acceptance": [
+            "B53-1: from SharePoint/OneDrive sharing fixtures (Everyone links, external shares, unlabelled sensitive sites) the assessment scores readiness per client with every point traced to a finding",
+            "B53-2: label and DLP gaps are reported as recommendations; no policy change is proposed as a lever",
+            "B53-3: the score's formula is printed with the report; counts reconcile to the fixture"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-FX",
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Copilot does not surface the wrong patient file to the wrong employee."
+        },
+        {
+          "id": "B-54",
+          "title": "Expiry watch: DMARC/SPF/DKIM, app secrets, TLS certificates, GDAP relationships",
+          "inventory_ids": [
+            "W-M365-10",
+            "W-IDM-12",
+            "W-VND-05",
+            "W-IDM-10"
+          ],
+          "controls": [
+            "C-38",
+            "C-20",
+            "C-21"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/expiry/",
+            "fixtures/dns/",
+            "fixtures/partner/",
+            "tests/py/expiry/test_b54_expiry.py",
+            "specs/B-54.md",
+            "docs/changes/B-54.md"
+          ],
+          "acceptance": [
+            "B54-1: DNS fixtures (no live lookups in tests) are checked for SPF, DKIM and DMARC policy per domain; app-registration secrets and certificates expiring within N days and GDAP relationships expiring or holding Global Administrator are listed per client",
+            "B54-2: fixture shapes for Partner Center GDAP are marked UNVERIFIED field by field",
+            "B54-3: every reminder is a report row with the date and owner; nothing is renewed by automation",
+            "B54-4: DMARC aggregate reports are read from a fixture shaped like the RFC 7489 aggregate XML that EasyDMARC collects (MP-22; cited); pass, fail, policy and alignment are shown per domain"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-FX",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Mail stops being spoofable and nothing expires by surprise on a Monday."
+        }
+      ]
+    },
+    {
+      "id": "W5",
+      "name": "Knowledge and retrieval",
+      "window": "about 2 weeks",
+      "goal": "Answer technicians' questions from the right client's documents with citations, refuse when there is no source, never leak one client's knowledge into another's answer, and keep PHI and NPI out of prompts by default.",
+      "entry_steps": [
+        "The owner decides whether a vector store dependency is allowed (pgvector or Qdrant need installs); until then retrieval uses a standard-library index behind the same interface."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-55",
+          "title": "Data classes and the pre-prompt redaction gate",
+          "inventory_ids": [
+            "W-GOV-01",
+            "W-SD-01"
+          ],
+          "controls": [
+            "C-25",
+            "C-15",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-21"
+          ],
+          "owns": [
+            "core/guard/classify.py",
+            "core/guard/redact_prompt.py",
+            "core/gateway/gateway.py",
+            "evals/redaction/",
+            "tests/py/guard/test_b55_redaction.py",
+            "specs/B-55.md",
+            "docs/changes/B-55.md"
+          ],
+          "acceptance": [
+            "B55-1: every text passed to the gateway carries a data class (DC-0 to DC-6); unknown text takes the client's industry floor (dental DC-4; financial, legal and accounting DC-5) from the client record (D6-12)",
+            "B55-2: PHI- and NPI-shaped strings from the Phase 2 set are replaced by typed placeholders before any prompt; DC-6 shapes block the call",
+            "B55-3: redaction eval: leak rate on the synthetic PHI/NPI set reported fixture-based, with the miss list; the gateway refuses a hosted route for DC-4/DC-5 text"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-SC",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A patient's name in a printer ticket never reaches a model it should not."
+        },
+        {
+          "id": "B-56",
+          "title": "RAG ingestion with per-client namespaces and vault exclusion",
+          "inventory_ids": [
+            "W-KB-04",
+            "W-KB-07"
+          ],
+          "controls": [
+            "C-26",
+            "C-12",
+            "C-13",
+            "C-25"
+          ],
+          "depends_on": [
+            "B-55",
+            "B-18"
+          ],
+          "owns": [
+            "rag/__init__.py",
+            "rag/ingest/",
+            "rag/store/",
+            "fixtures/kb/",
+            "tests/py/rag/test_b56_ingest.py",
+            "specs/B-56.md",
+            "docs/changes/B-56.md"
+          ],
+          "acceptance": [
+            "B56-1: each client's documents go into that client's namespace plus one MSP-internal namespace; the namespace comes from the ingestion job's client, never from document text",
+            "B56-2: documents are scanned with the injection tripwire and classified before indexing; flagged passages are stored with the flag",
+            "B56-3: sources tagged as credential vault or containing DC-6 shapes are refused (W-KB-07), proven with canary secrets"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-ID",
+            "STD-SC",
+            "STD-FX",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The knowledge base is useful without becoming a cross-client leak or a credential store."
+        },
+        {
+          "id": "B-57",
+          "title": "Cited retrieval, refusal and leakage evals",
+          "inventory_ids": [
+            "W-KB-04"
+          ],
+          "controls": [
+            "C-26",
+            "C-27",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-56"
+          ],
+          "owns": [
+            "rag/retrieve/",
+            "levers/registry.d/rag.json",
+            "evals/rag/",
+            "tests/py/rag/test_b57_retrieve.py",
+            "specs/B-57.md",
+            "docs/changes/B-57.md"
+          ],
+          "acceptance": [
+            "B57-1: `rag.search` (R0) returns passages with article ids from the caller's client and MSP-internal namespaces only; the filter is applied in the store",
+            "B57-2: answers cite every claim; with no passage above the threshold the answer is `no source found`",
+            "B57-3: leakage eval: canary strings planted in client B never appear for client A across the whole question set (must be 0); groundedness and refusal rates reported fixture-based"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-ID",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Technicians get answers they can check, and clients' knowledge stays theirs."
+        },
+        {
+          "id": "B-58",
+          "title": "KB drafts from resolved tickets; stale and conflicting article detection",
+          "inventory_ids": [
+            "W-KB-01",
+            "W-KB-05"
+          ],
+          "controls": [
+            "C-12",
+            "C-25",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-57"
+          ],
+          "owns": [
+            "workflows/kb_drafts/",
+            "evals/kb_drafts/",
+            "tests/py/kb/test_b58_kb_drafts.py",
+            "specs/B-58.md",
+            "docs/changes/B-58.md"
+          ],
+          "acceptance": [
+            "B58-1: a resolved ticket produces an article draft with steps and the ticket id as source; PHI placeholders stay placeholders",
+            "B58-2: articles older than N days or contradicting another article on the same topic (same client) are listed with both ids",
+            "B58-3: drafts are never published by code; eval reports step coverage fixture-based"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Knowledge from one fix helps the next person with the same problem."
+        },
+        {
+          "id": "B-59",
+          "title": "Client documentation upkeep and runbook linting",
+          "inventory_ids": [
+            "W-KB-02",
+            "W-KB-03"
+          ],
+          "controls": [
+            "C-27",
+            "C-21"
+          ],
+          "depends_on": [
+            "B-56"
+          ],
+          "owns": [
+            "workflows/doc_upkeep/",
+            "tools/lint_runbook.py",
+            "tests/py/kb/test_b59_doc_upkeep.py",
+            "specs/B-59.md",
+            "docs/changes/B-59.md"
+          ],
+          "acceptance": [
+            "B59-1: compares a client's documentation fixture with observed adapter state (devices, contacts, licenses) and proposes doc updates as drafts",
+            "B59-2: the runbook linter checks required sections (purpose, prerequisites, steps, rollback, verification, owner) and fails a runbook missing any",
+            "B59-3: docs/RUNBOOKS.md passes the linter or each gap is listed"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Documentation that matches reality, so the 2 a.m. engineer is not misled."
+        },
+        {
+          "id": "B-60",
+          "title": "Answer drafts: security questionnaires, cyber insurance, project scoping",
+          "inventory_ids": [
+            "W-CMP-09",
+            "W-CMP-08",
+            "W-PRJ-06"
+          ],
+          "controls": [
+            "C-26",
+            "C-45",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-57"
+          ],
+          "owns": [
+            "workflows/questionnaires/",
+            "fixtures/questionnaires/",
+            "tests/py/questionnaires/test_b60_questionnaires.py",
+            "specs/B-60.md",
+            "docs/changes/B-60.md"
+          ],
+          "acceptance": [
+            "B60-1: each answer cites MSP-internal policy passages; a question without a source is marked `needs a human answer`",
+            "B60-2: client-specific facts come only from that client's namespace; answers about controls cite the control id",
+            "B60-3: project scoping drafts list similar past synthetic projects with their actual hours as cited ranges, never a single promised number"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Hours of copy-paste per questionnaire become a review of cited drafts."
+        }
+      ]
+    },
+    {
+      "id": "W6",
+      "name": "Endpoints, patching and backup",
+      "window": "about 3 weeks",
+      "goal": "Keep each person's device working and each client's data recoverable: RMM, Intune and backup adapters as mocks, vetted remediation scripts as levers, device R3 actions under dual approval, and patch and backup reports that reconcile.",
+      "entry_steps": [
+        "The MSP answers Q-01 (RMM, backup products) and Q-09 (is backup in scope) or the owner confirms building against generic mock shapes."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-61",
+          "title": "RMM and Intune mock adapters and device reconciliation",
+          "inventory_ids": [
+            "W-EP-01"
+          ],
+          "controls": [
+            "C-27",
+            "C-21"
+          ],
+          "depends_on": [
+            "B-18",
+            "B-16"
+          ],
+          "owns": [
+            "adapters/rmm/",
+            "adapters/intune/",
+            "fixtures/rmm/",
+            "fixtures/intune/",
+            "workflows/device_reconcile/",
+            "tests/py/devices/test_b61_reconcile.py",
+            "specs/B-61.md",
+            "docs/changes/B-61.md"
+          ],
+          "acceptance": [
+            "B61-1: devices are matched across RMM, Intune and PSA assets per client by serial, then name; each mismatch type (only in one system, stale, duplicate) is listed",
+            "B61-2: counts reconcile to the fixtures; no device of another client is ever compared",
+            "B61-3: real adapter selection fails closed (`real adapter not configured`)",
+            "B61-4: the RMM mock follows the public Datto RMM API shape (sites, devices, alerts, jobs, components), each field marked Verified or UNVERIFIED; existing RMM components are listed read-only and never run by the program until vetted into the registry (D6-01, D6-26)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-ER",
+            "STD-FX",
+            "STD-ID"
+          ],
+          "owner_only": false,
+          "why": "One true device list per client, which billing, patching and security all need."
+        },
+        {
+          "id": "B-62",
+          "title": "Device remediation script levers",
+          "inventory_ids": [
+            "W-SD-11",
+            "W-EP-03",
+            "W-EP-07"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-17",
+            "C-32",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-61",
+            "B-28",
+            "B-42"
+          ],
+          "owns": [
+            "levers/powershell/DeviceOps/",
+            "levers/registry.d/device.json",
+            "workflows/notify/templates/device/",
+            "tests/py/devices/test_b62_remed.py",
+            "specs/B-62.md",
+            "docs/changes/B-62.md"
+          ],
+          "acceptance": [
+            "B62-1: levers for print spooler restart, mapped-drive repair, Outlook profile reset, temp cleanup, service restart and reboot run only vetted scripts named in the registry (no free-form script parameter)",
+            "B62-2: each dry-run returns what would run and on which device; reboot is flagged `window: business-hours` (servers `window: maintenance`) and the runner rule B42-4 refuses it inside the client's business hours unless the approval records an override; the lever holds no time logic (D6-08)",
+            "B62-3: per-script golden tests on mock RMM output; caps per client per hour apply",
+            "B62-4: a remediation proposal links the technicians remote-support session record when one exists, from a fixture shaped like a Splashtop session log (MP-13; cited, unverified fields marked UNVERIFIED)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PS",
+            "STD-SC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Tier 1 fixes take one approval instead of a remote session."
+        },
+        {
+          "id": "B-63",
+          "title": "Software deployment from an approved catalog and third-party patching",
+          "inventory_ids": [
+            "W-EP-04",
+            "W-PAT-04"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-32"
+          ],
+          "depends_on": [
+            "B-61"
+          ],
+          "owns": [
+            "levers/registry.d/software.json",
+            "levers/python/software.py",
+            "fixtures/catalog/approved-software.json",
+            "workflows/notify/templates/device.install-app.md",
+            "tests/py/devices/test_b63_deploy.py",
+            "specs/B-63.md",
+            "docs/changes/B-63.md"
+          ],
+          "acceptance": [
+            "B63-1: `device.install-app` (R2) accepts only catalog ids (enum from the client's approved catalog); an unknown package is refused",
+            "B63-2: third-party updates are proposed per ring with the device count; idempotent when already at the version",
+            "B63-3: deployment is a proposal; nothing installs without approval"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-LV",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The person gets the app they need without an unvetted installer."
+        },
+        {
+          "id": "B-64",
+          "title": "Device compliance, encryption and LAPS coverage reports; provisioning readiness",
+          "inventory_ids": [
+            "W-EP-05",
+            "W-EP-06",
+            "W-EP-11",
+            "W-ONB-06"
+          ],
+          "controls": [
+            "C-20",
+            "C-21",
+            "C-10"
+          ],
+          "depends_on": [
+            "B-61"
+          ],
+          "owns": [
+            "workflows/device_reports/",
+            "tests/py/devices/test_b64_device_reports.py",
+            "specs/B-64.md",
+            "docs/changes/B-64.md"
+          ],
+          "acceptance": [
+            "B64-1: per client: non-compliant devices with reason, encryption status, LAPS coverage, and Autopilot/enrollment readiness for incoming hires",
+            "B64-2: recovery keys and LAPS passwords are never retrieved or shown (status only); a test asserts no secret-shaped value in any output",
+            "B64-3: counts reconcile to the fixtures"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-SC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Gaps on devices are known before a lost laptop becomes a breach."
+        },
+        {
+          "id": "B-65",
+          "title": "Device R3 levers: lock, retire, wipe and isolate with dual approval",
+          "inventory_ids": [
+            "W-EP-08",
+            "W-ONB-12",
+            "W-SEC-05"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-07",
+            "C-29",
+            "C-30",
+            "C-32"
+          ],
+          "depends_on": [
+            "B-61",
+            "B-28",
+            "B-16",
+            "B-42"
+          ],
+          "owns": [
+            "levers/powershell/DeviceR3/",
+            "levers/registry.d/device-r3.json",
+            "workflows/notify/templates/device-r3/",
+            "tests/py/devices/test_b65_device_r3.py",
+            "specs/B-65.md",
+            "docs/changes/B-65.md"
+          ],
+          "acceptance": [
+            "B65-1: lock, retire, wipe and Defender isolate are R3: two leads approve, the requester is verified, one device per approval",
+            "B65-2: wipe is `irreversible`: approval older than 24 hours is refused by the runner rule from B28-5 and the page shows `no undo`; isolate has `release` as its undo",
+            "B65-3: after-hours execution is refused unless the client record allows it, enforced by runner rules B42-4 and B42-5; wipe and retire never use pre-authorized containment, and wipe stays human-executed after approval (D6-08)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-PS",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A stolen laptop is contained fast, and nobody wipes the wrong device."
+        },
+        {
+          "id": "B-66",
+          "title": "macOS and Linux levers through a bash runtime",
+          "inventory_ids": [
+            "W-EP-09"
+          ],
+          "controls": [
+            "C-05",
+            "C-17",
+            "C-01"
+          ],
+          "depends_on": [
+            "B-61"
+          ],
+          "owns": [
+            "core/levers/bridge.py",
+            "levers/bash/",
+            "levers/registry.d/unix.json",
+            "tests/py/levers/test_b66_bash.py",
+            "specs/B-66.md",
+            "docs/changes/B-66.md"
+          ],
+          "acceptance": [
+            "B66-1: `runtime: \"bash\"` levers run a vetted script named in the registry, through the bridge, with the same JSON request and result schemas; dry-run is a `--what-if` flag the script must honour",
+            "B66-2: three levers (disk usage report, service restart, cache clear) with golden-output tests; if shellcheck is not installed the test reports skipped, never passed",
+            "B66-3: no script accepts a free-form command parameter"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-XL",
+            "STD-SC"
+          ],
+          "owner_only": false,
+          "why": "Mac and Linux users get the same safe automation as Windows users."
+        },
+        {
+          "id": "B-67",
+          "title": "Patch review pack, compliance report, failed-patch triage, server windows, firmware report",
+          "inventory_ids": [
+            "W-PAT-01",
+            "W-PAT-02",
+            "W-PAT-03",
+            "W-PAT-06",
+            "W-PAT-07"
+          ],
+          "controls": [
+            "C-21",
+            "C-05",
+            "C-37"
+          ],
+          "depends_on": [
+            "B-61"
+          ],
+          "owns": [
+            "workflows/patching/",
+            "fixtures/patches/",
+            "tests/py/patching/test_b67_patching.py",
+            "specs/B-67.md",
+            "docs/changes/B-67.md"
+          ],
+          "acceptance": [
+            "B67-1: monthly review pack lists released updates by ring with known issues (fixture) for a human approval; compliance per client reconciles to the fixture",
+            "B67-2: failed patches are grouped by error code with a suggested remediation lever; server windows produce a client notice draft",
+            "B67-3: network firmware is a version report only (never upgraded by automation)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Patching becomes a reviewed monthly rhythm with proof per client."
+        },
+        {
+          "id": "B-69",
+          "title": "Restore requests to an alternate location and scheduled restore tests",
+          "inventory_ids": [
+            "W-BDR-03",
+            "W-BDR-04"
+          ],
+          "controls": [
+            "C-05",
+            "C-06",
+            "C-30",
+            "C-08"
+          ],
+          "depends_on": [
+            "B-68"
+          ],
+          "owns": [
+            "levers/registry.d/restore.json",
+            "levers/python/restore.py",
+            "workflows/restore_tests/",
+            "workflows/notify/templates/restore.to-alternate.md",
+            "tests/py/backup/test_b69_restore.py",
+            "specs/B-69.md",
+            "docs/changes/B-69.md"
+          ],
+          "acceptance": [
+            "B69-1: `restore.to-alternate` (R2) restores a file, mailbox item or VM to an alternate location only; in-place overwrite is not a lever",
+            "B69-2: a scheduled restore test picks a random synthetic item per client, restores it to the alternate location in the mock, verifies its hash and records evidence",
+            "B69-3: the requester is verified for user-data restores"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The person gets their file back, and the client knows restores actually work."
+        },
+        {
+          "id": "B-70",
+          "title": "M365 backup coverage, retention and immutability review, DR plan upkeep",
+          "inventory_ids": [
+            "W-BDR-05",
+            "W-BDR-08",
+            "W-BDR-06"
+          ],
+          "controls": [
+            "C-21",
+            "C-39"
+          ],
+          "depends_on": [
+            "B-68"
+          ],
+          "owns": [
+            "workflows/backup_coverage/",
+            "tests/py/backup/test_b70_coverage.py",
+            "specs/B-70.md",
+            "docs/changes/B-70.md"
+          ],
+          "acceptance": [
+            "B70-1: lists users, mailboxes and sites not covered by M365 backup per client and policies without immutability or with retention below the client's requirement",
+            "B70-2: a DR plan checklist per client flags sections older than N months and produces a tabletop exercise outline draft",
+            "B70-3: counts reconcile to the fixtures"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Ransomware does not find the one mailbox nobody backed up."
+        }
+      ]
+    },
+    {
+      "id": "W7",
+      "name": "Client reporting, licensing and billing inputs",
+      "window": "about 2 weeks",
+      "goal": "Give account managers and clients reports whose every number reconciles to source data, and give the MSP clean inputs for licences, renewals and billing, without ever judging an individual technician.",
+      "entry_steps": [
+        "The owner confirms the Power BI export format (CSV only, or CSV plus Parquet, which needs a dependency)."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-71",
+          "title": "Monthly client health report with reconciliation",
+          "inventory_ids": [
+            "W-RPT-01",
+            "W-SEC-10"
+          ],
+          "controls": [
+            "C-21",
+            "C-27",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-21",
+            "B-50"
+          ],
+          "owns": [
+            "workflows/reporting/health/",
+            "tests/py/reporting/test_b71_health.py",
+            "specs/B-71.md",
+            "docs/changes/B-71.md"
+          ],
+          "acceptance": [
+            "B71-1: one HTML report per client from tickets, baseline, patching, backup and security-awareness fixtures; a validator fails the run if any number differs from its source (C-21 pattern)",
+            "B71-2: the plain-English summary is generated from computed counts, then (optionally) rephrased through the gateway; the validator runs after the rephrase",
+            "B71-3: no other client's data appears (isolation test)",
+            "B71-4: the security-awareness lines (phishing simulation results, vault audit score; MP-23, MP-24) come from per-client fixtures labelled service-level with the vendor UNVERIFIED"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-TS",
+            "STD-DC",
+            "STD-ID"
+          ],
+          "owner_only": false,
+          "why": "A client owner sees, in plain words, what is healthy and what is not."
+        },
+        {
+          "id": "B-72",
+          "title": "QBR draft and weekly 'what we did for you' digest",
+          "inventory_ids": [
+            "W-RPT-02",
+            "W-RPT-03"
+          ],
+          "controls": [
+            "C-21",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-71"
+          ],
+          "owns": [
+            "workflows/reporting/qbr/",
+            "workflows/reporting/digest/",
+            "tests/py/reporting/test_b72_qbr.py",
+            "specs/B-72.md",
+            "docs/changes/B-72.md"
+          ],
+          "acceptance": [
+            "B72-1: the QBR draft reuses the health data for the quarter with trends; every number reconciles",
+            "B72-2: the weekly digest lists closed tickets and changes in plain words without ticket free text; it is a draft (an Outlook draft arrives in W9)",
+            "B72-3: both start with the draft label"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Account managers spend their time on the conversation, not the slides."
+        },
+        {
+          "id": "B-73",
+          "title": "Technology roadmap recommendations and the client AI-use policy starter",
+          "inventory_ids": [
+            "W-RPT-04",
+            "W-RPT-05"
+          ],
+          "controls": [
+            "C-21",
+            "C-42",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-71"
+          ],
+          "owns": [
+            "workflows/reporting/roadmap/",
+            "governance/templates/client-ai-policy-starter.md",
+            "tests/py/reporting/test_b73_vcio.py",
+            "specs/B-73.md",
+            "docs/changes/B-73.md"
+          ],
+          "acceptance": [
+            "B73-1: roadmap recommendations list hardware lifecycle, licence and security items with the finding each rests on and a budget range from the fixture price list",
+            "B73-2: the AI-use policy starter is filled with the client's industry (dental or financial) defaults from the governance map and labelled 'starter, review with your counsel'",
+            "B73-3: no recommendation without a cited finding"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Small clients get a credible plan and a first AI policy."
+        },
+        {
+          "id": "B-74",
+          "title": "Operations metrics, Power BI exports, problem and CSAT analysis",
+          "inventory_ids": [
+            "W-RPT-06",
+            "W-SD-13",
+            "W-SD-14",
+            "W-TRN-03",
+            "W-TRN-04"
+          ],
+          "controls": [
+            "C-21",
+            "C-41"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/reporting/ops/",
+            "docs/EXPORTS.md",
+            "docs/POWERBI_SEMANTIC_MODEL.md",
+            "tests/py/reporting/test_b74_ops.py",
+            "specs/B-74.md",
+            "docs/changes/B-74.md"
+          ],
+          "acceptance": [
+            "B74-1: CSV exports (resolution time, first-contact resolution, reopen rate, suggestion acceptance and correction rates) with a documented semantic model",
+            "B74-2: recurring-issue analysis groups resolved tickets by cause per client; CSAT comments are summarised by theme with counts",
+            "B74-3: no metric is grouped by individual technician; a test fails if any export has a technician id column (W-TRN-04 guard)",
+            "B74-4: the per-person metric is time until the person can work again: PSA completed minus created, plus a proposed `user confirmed working` field; CSAT comes from a mock CSAT-tool export, never per technician (D6-21)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Leadership sees where time goes, and nobody is ranked by an AI."
+        },
+        {
+          "id": "B-75",
+          "title": "Licence reconciliation, seat and device true-up, renewals, hardware lifecycle",
+          "inventory_ids": [
+            "W-VND-01",
+            "W-VND-02",
+            "W-BIL-02",
+            "W-VND-03",
+            "W-EP-10"
+          ],
+          "controls": [
+            "C-21",
+            "C-27"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/licensing/",
+            "fixtures/licensing/",
+            "tests/py/licensing/test_b75_licensing.py",
+            "specs/B-75.md",
+            "docs/changes/B-75.md"
+          ],
+          "acceptance": [
+            "B75-1: per client: licences bought vs assigned vs active users, unused seats, users and devices for billing true-up; all counts reconcile",
+            "B75-2: renewals (subscriptions, warranties, domains) due in N days and hardware past lifecycle are listed",
+            "B75-3: purchases and reductions are recommendations with the evidence; nothing is bought or cancelled (W-VND-02)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-FX",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Clients stop paying for seats nobody uses, with proof."
+        },
+        {
+          "id": "B-76",
+          "title": "Billing classification and time-entry note quality",
+          "inventory_ids": [
+            "W-BIL-01",
+            "W-BIL-03"
+          ],
+          "controls": [
+            "C-14",
+            "C-41"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/billing/",
+            "evals/billing/",
+            "tests/py/billing/test_b76_billing.py",
+            "specs/B-76.md",
+            "docs/changes/B-76.md"
+          ],
+          "acceptance": [
+            "B76-1: each ticket is suggested managed vs project vs out-of-scope against a fixture contract scope with the clause cited; a human decides",
+            "B76-2: time-entry notes missing the work done, outcome or time are flagged with a suggested rewrite draft",
+            "B76-3: accuracy against gold labels reported fixture-based; no per-technician score is produced"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Clients are billed for what their contract says, and notes explain the work."
+        },
+        {
+          "id": "B-77",
+          "title": "MSP client onboarding discovery, offboarding checklist, migration pre-flight checks",
+          "inventory_ids": [
+            "W-PRJ-01",
+            "W-PRJ-02",
+            "W-PRJ-03"
+          ],
+          "controls": [
+            "C-20",
+            "C-27",
+            "C-45"
+          ],
+          "depends_on": [],
+          "owns": [
+            "workflows/client_lifecycle/",
+            "docs/runbooks/client-offboarding.md",
+            "tests/py/projects/test_b77_client_lifecycle.py",
+            "specs/B-77.md",
+            "docs/changes/B-77.md"
+          ],
+          "acceptance": [
+            "B77-1: a discovery pack for a new client runs the baseline, device reconciliation and licence report in read-only mode and lists gaps",
+            "B77-2: the MSP offboarding checklist (credentials handed back, GDAP removed, documentation exported) is a human runbook; nothing is automated",
+            "B77-3: migration pre-flight checks (mailbox sizes, licence availability, conflicting addresses) are read-only; executing migrations stays in not-now"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "A new client starts with a clear baseline; a departing client leaves cleanly."
+        }
+      ]
+    },
+    {
+      "id": "W8",
+      "name": "Scale, evaluation and hardening",
+      "window": "about 3 weeks",
+      "goal": "Make the system hold at 50-500 tenants and many technicians: routing set by evals, budgets and circuit breakers, a scheduler with per-client fan-out, database-backed queue and audit, operational logs and alerts, and CI gates on every eval.",
+      "entry_steps": [
+        "The owner decides on any new dependency the items need (OpenTelemetry SDK, a SQLite version check) per STD-PY-2.",
+        "After B-84 lands, the owner adds `tools/eval_gate.py` to CI (protected files)."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-78",
+          "title": "Routing evals and escalation thresholds",
+          "inventory_ids": [
+            "W-TOOL-02",
+            "W-TOOL-14"
+          ],
+          "controls": [
+            "C-16",
+            "C-41",
+            "C-15"
+          ],
+          "depends_on": [],
+          "owns": [
+            "evals/routing/",
+            "tests/py/evals/test_b78_routing.py",
+            "specs/B-78.md",
+            "docs/changes/B-78.md"
+          ],
+          "acceptance": [
+            "B78-1: the golden sets run on the mock and, when installed, the local model; a table reports accuracy, latency and estimated cost per task and model, labelled fixture-based",
+            "B78-2: escalation thresholds are written to a proposed routing change file for review, never applied automatically",
+            "B78-3: without a local model the report says `skipped: no local model`, never a number"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "The smallest model that is good enough does the work."
+        },
+        {
+          "id": "B-79",
+          "title": "Injection corpus for email, documents and tool output; guard maintenance",
+          "inventory_ids": [
+            "W-TOOL-05"
+          ],
+          "controls": [
+            "C-12",
+            "C-13",
+            "C-14"
+          ],
+          "depends_on": [],
+          "owns": [
+            "evals/injection/corpus-v2.jsonl",
+            "evals/injection/report_v2.py",
+            "tests/py/evals/test_b79_injection_v2.py",
+            "specs/B-79.md",
+            "docs/changes/B-79.md"
+          ],
+          "acceptance": [
+            "B79-1: at least 150 new synthetic cases across email, KB documents and tool output, plus benign look-alikes; held-out cases written by a different author pass are labelled so",
+            "B79-2: the report shows precision and recall per channel and states the held-out result separately",
+            "B79-3: for every flagged case in every workflow, no lever is proposed (structural test across workflows)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-SC",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "The tripwire is measured on cases it was not tuned on."
+        },
+        {
+          "id": "B-80",
+          "title": "Gateway budgets, circuit breaker and model-call audit",
+          "inventory_ids": [
+            "W-TOOL-02",
+            "W-TOOL-09"
+          ],
+          "controls": [
+            "C-17",
+            "C-32",
+            "C-40",
+            "C-11"
+          ],
+          "depends_on": [
+            "B-17"
+          ],
+          "owns": [
+            "core/gateway/gateway.py",
+            "core/gateway/budget.py",
+            "tests/py/gateway/test_b80_budgets.py",
+            "specs/B-80.md",
+            "docs/changes/B-80.md"
+          ],
+          "acceptance": [
+            "B80-1: per-client and global budgets (calls, tokens) from config; over budget returns `Completion(ok=False, error=\"budget exceeded\")`",
+            "B80-2: a provider failing N times opens a breaker for T seconds; calls fail fast and recover after T",
+            "B80-3: each call writes a `model.complete` v2 audit record with provider, model, task, prompt SHA-256, lengths, latency and ok, and no prompt or completion text (DR-17)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-AU",
+            "STD-ER",
+            "STD-CF"
+          ],
+          "owner_only": false,
+          "why": "A loop or an outage cannot run up cost or hide behind silence."
+        },
+        {
+          "id": "B-81",
+          "title": "Scheduler with per-client fan-out and job keys",
+          "inventory_ids": [
+            "W-TOOL-09",
+            "W-IDM-09",
+            "W-M365-11"
+          ],
+          "controls": [
+            "C-32",
+            "C-18",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-42"
+          ],
+          "owns": [
+            "core/scheduler/",
+            "tests/py/scheduler/test_b81_scheduler.py",
+            "specs/B-81.md",
+            "docs/changes/B-81.md"
+          ],
+          "acceptance": [
+            "B81-1: jobs are config (name, workflow, schedule, per-client enable, concurrency cap); a run fans out one unit per client with key `job/client/period`",
+            "B81-2: a repeated key is skipped (idempotent); caps per client and global are honoured in a test with 300 synthetic clients",
+            "B81-3: results become reports or proposals, never direct writes"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-PY",
+            "STD-ID",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Daily baselines and monthly evidence run for every client without a person remembering."
+        },
+        {
+          "id": "B-82",
+          "title": "SQLite queue and append-only audit store",
+          "inventory_ids": [
+            "W-TOOL-06",
+            "W-CMP-05"
+          ],
+          "controls": [
+            "C-08",
+            "C-09",
+            "C-39",
+            "C-07"
+          ],
+          "depends_on": [
+            "B-42"
+          ],
+          "owns": [
+            "core/queue/sqlite_store.py",
+            "core/audit/sqlite_store.py",
+            "tests/py/storage/test_b82_sqlite.py",
+            "specs/B-82.md",
+            "docs/changes/B-82.md"
+          ],
+          "acceptance": [
+            "B82-1: proposal status changes use `UPDATE ... WHERE id = ? AND status = 'pending'` (compare-and-set); two leads deciding at once produce one decision",
+            "B82-2: audit rows are insert-only (triggers refuse UPDATE and DELETE); the hash chain is kept and verifies the same as the JSONL store",
+            "B82-3: the JSONL stores remain the default until a DECISIONS entry switches them"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-AU",
+            "STD-PR",
+            "STD-PY"
+          ],
+          "owner_only": false,
+          "why": "Many leads and many jobs at once without a forked chain."
+        },
+        {
+          "id": "B-83",
+          "title": "Operational logs, request ids and monitoring alert rules",
+          "inventory_ids": [
+            "W-TOOL-09"
+          ],
+          "controls": [
+            "C-40",
+            "C-11",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-80"
+          ],
+          "owns": [
+            "core/obs/",
+            "workflows/monitoring/",
+            "tests/py/obs/test_b83_obs.py",
+            "specs/B-83.md",
+            "docs/changes/B-83.md"
+          ],
+          "acceptance": [
+            "B83-1: content-free JSON logs with request_id, component, event, outcome and timing; a test fails if any log line holds ticket text, a prompt or a secret shape",
+            "B83-2: alert rules over the audit stream: denial spikes, after-hours executes, approvals faster than a human could read, verify failures; replayed synthetic incidents fire the expected alerts",
+            "B83-3: client id is a label on every log line"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-SC",
+            "STD-AU",
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Problems are seen by the MSP before the client calls."
+        },
+        {
+          "id": "B-84",
+          "title": "Load, failure and retry tests; eval gates in CI",
+          "inventory_ids": [
+            "W-TOOL-04",
+            "W-TOOL-07"
+          ],
+          "controls": [
+            "C-41",
+            "C-17",
+            "C-18"
+          ],
+          "depends_on": [
+            "B-82"
+          ],
+          "owns": [
+            "evals/gates.json",
+            "tests/py/load/test_b84_load.py",
+            "tools/eval_gate.py",
+            "specs/B-84.md",
+            "docs/changes/B-84.md"
+          ],
+          "acceptance": [
+            "B84-1: evals/gates.json holds each workflow's threshold; `tools/eval_gate.py` fails when any report is below its gate (owner adds it to CI)",
+            "B84-2: load test: 10,000 synthetic lever calls across 300 clients complete with zero chain breaks and zero cross-client results",
+            "B84-3: failure tests: adapter timeouts and crashes produce `error` results with nothing applied; retries never double-apply (idempotency)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-TS"
+          ],
+          "owner_only": false,
+          "why": "Quality is enforced by CI, not remembered."
+        }
+      ]
+    },
+    {
+      "id": "W9",
+      "name": "Cloud, DevOps and Microsoft 365 integrations",
+      "window": "about 3 weeks",
+      "goal": "Show the Azure and Microsoft 365 side of the job as code that validates but never deploys: Bicep, Azure DevOps pipelines, Key Vault with managed identity, MCP, Teams, Outlook and SharePoint integration mocks, Entra sign-in for approvers, and the gate that keeps hosted models off until approved.",
+      "entry_steps": [
+        "The owner confirms the Bicep CLI is installed (`az bicep build` and `what-if` only; the hooks already limit az to those)."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts."
+      ],
+      "items": [
+        {
+          "id": "B-85",
+          "title": "Bicep: Key Vault, managed identity, Log Analytics; secrets doc",
+          "inventory_ids": [
+            "W-TOOL-08",
+            "W-PRJ-05"
+          ],
+          "controls": [
+            "C-39",
+            "C-40",
+            "C-10"
+          ],
+          "depends_on": [],
+          "owns": [
+            "infra/bicep/core/",
+            "docs/SECRETS.md",
+            "tests/py/infra/test_b85_bicep_core.py",
+            "specs/B-85.md",
+            "docs/changes/B-85.md"
+          ],
+          "acceptance": [
+            "B85-1: modules build with `az bicep build` and lint clean; Key Vault uses Azure RBAC, soft delete and purge protection; no secret value in any parameter file",
+            "B85-2: docs/SECRETS.md shows the managed-identity-first pattern and how an adapter binding names a secret reference; rotation stays a human task (W-TOOL-08)",
+            "B85-3: nothing is deployed: the test asserts no `az deployment ... create` appears in any script",
+            "B85-4: one Key Vault per environment (dev, prod), secrets named `client-<id>-<purpose>`, access by managed identity with RBAC; a separate per-client vault only where a client contract requires it, recorded on the client record (D6-10)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-SC",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "The secrets pattern the MSP would actually run, reviewed as code."
+        },
+        {
+          "id": "B-86",
+          "title": "Bicep compute and Azure DevOps pipeline; branching and release doc",
+          "inventory_ids": [
+            "W-TOOL-07",
+            "W-PRJ-05"
+          ],
+          "controls": [
+            "C-24",
+            "C-37"
+          ],
+          "depends_on": [
+            "B-85"
+          ],
+          "owns": [
+            "infra/bicep/compute/",
+            "infra/azure-pipelines.yml",
+            "docs/BRANCHING_RELEASE.md",
+            "specs/B-86.md",
+            "docs/changes/B-86.md"
+          ],
+          "acceptance": [
+            "B86-1: Functions, Logic App and Automation Account modules build and lint clean; managed identities, no keys",
+            "B86-2: azure-pipelines.yml mirrors ci.yml (same suites, secret scan, eval gate) and adds a validate and what-if stage with a manual approval before any deploy stage (deploy stage disabled)",
+            "B86-3: the release doc covers branches, PR rules, versioning (STD-VR), staged rollout rings (CM-5) and rollback (CM-6)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-VR",
+            "STD-SC",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "The same quality gates in the pipeline tool the MSP uses."
+        },
+        {
+          "id": "B-87",
+          "title": "MCP server over approved levers",
+          "inventory_ids": [
+            "W-TOOL-10"
+          ],
+          "controls": [
+            "C-01",
+            "C-03",
+            "C-04",
+            "C-43"
+          ],
+          "depends_on": [
+            "B-16",
+            "B-42"
+          ],
+          "owns": [
+            "mcp/",
+            "tests/py/mcp/test_b87_mcp.py",
+            "specs/B-87.md",
+            "docs/changes/B-87.md"
+          ],
+          "acceptance": [
+            "B87-1: the server exposes registered R0 levers by default; write levers are exposed only in dry-run; every call goes through the runner with the caller's identity",
+            "B87-2: token audience is validated and tokens are never passed through to adapters; an unknown or out-of-scope lever is denied and audited",
+            "B87-3: runs on stdio or 127.0.0.1 only; the security checks are listed in mcp/README.md with their tests"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-SC",
+            "STD-ER"
+          ],
+          "owner_only": false,
+          "why": "Other agents can press only the buttons they are allowed to."
+        },
+        {
+          "id": "B-88",
+          "title": "Teams approval card, Outlook draft and SharePoint ingestion mocks; site creation lever",
+          "inventory_ids": [
+            "W-TOOL-10",
+            "W-RPT-03",
+            "W-M365-06"
+          ],
+          "controls": [
+            "C-06",
+            "C-19",
+            "C-26"
+          ],
+          "depends_on": [
+            "B-03",
+            "B-56"
+          ],
+          "owns": [
+            "adapters/m365/",
+            "workflows/teams_approvals/",
+            "levers/registry.d/site.json",
+            "workflows/notify/templates/site.new.md",
+            "tests/py/m365/test_b88_m365.py",
+            "specs/B-88.md",
+            "docs/changes/B-88.md"
+          ],
+          "acceptance": [
+            "B88-1: an Adaptive Card JSON for a pending proposal shows the diff, undo and impact; a card response is validated exactly like a UI decision (scope, four-eyes, verification)",
+            "B88-2: the weekly digest becomes an Outlook draft in the mock (never sent); SharePoint documents ingest into the client's RAG namespace in the mock",
+            "B88-3: `site.new` (R2) creates a Teams or SharePoint site in the mock with an owner and default private sharing"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-LV",
+            "STD-SC",
+            "STD-FX"
+          ],
+          "owner_only": false,
+          "why": "Approvals and drafts arrive where technicians already work."
+        },
+        {
+          "id": "B-90",
+          "title": "Hosted provider approval gate and Azure OpenAI adapter (mocked)",
+          "inventory_ids": [
+            "W-TOOL-02",
+            "W-GOV-02"
+          ],
+          "controls": [
+            "C-28",
+            "C-43",
+            "C-15",
+            "C-25"
+          ],
+          "depends_on": [
+            "B-55"
+          ],
+          "owns": [
+            "core/gateway/azure_openai.py",
+            "core/gateway/gateway.py",
+            "governance/ai-vendor-register.json",
+            "tests/py/gateway/test_b90_hosted.py",
+            "specs/B-90.md",
+            "docs/changes/B-90.md"
+          ],
+          "acceptance": [
+            "B90-1: a hosted provider loads only when config names an approval id present in governance/ai-vendor-register.json with allowed data classes, retention terms and review date",
+            "B90-2: the Azure OpenAI adapter is tested against a fake server on 127.0.0.1 only; no real endpoint is ever called in tests",
+            "B90-3: DC-4/DC-5 text is refused by a hosted route unless the register entry allows that class (C-25)",
+            "B90-4: governance/ai-vendor-register.json starts with Azure OpenAI and the Anthropic API as `status: pending` with no allowed data classes; nothing hosted loads until the MSP approves in writing, and a client record defaults to `model_processing: none` (D6-11)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-SC",
+            "STD-CF",
+            "STD-ER"
+          ],
+          "owner_only": false,
+          "why": "Hosted models stay off until someone accountable says yes in writing."
+        },
+        {
+          "id": "B-91",
+          "title": "Adapter contract tests and real-adapter stubs",
+          "inventory_ids": [
+            "W-TOOL-11"
+          ],
+          "controls": [
+            "C-02",
+            "C-27"
+          ],
+          "depends_on": [
+            "B-18",
+            "B-61",
+            "B-68"
+          ],
+          "owns": [
+            "tests/py/contract/test_b91_adapters.py",
+            "docs/ADAPTERS.md",
+            "specs/B-91.md",
+            "docs/changes/B-91.md"
+          ],
+          "acceptance": [
+            "B91-1: one contract suite per adapter interface runs against every implementation present (mocks today); a real implementation must pass it before it can be selected",
+            "B91-2: docs/ADAPTERS.md lists for each system the real API, least-privilege scopes, throttling behaviour (Graph 429 and Retry-After, cited) and what is UNVERIFIED",
+            "B91-3: every adapter's real implementation selection fails closed when not configured",
+            "B91-4: docs/ADAPTERS.md names, per Microsoft 365 lever, the least-privileged GDAP role and the Secure Application Model delegated scope; app-only access is listed only for documented per-client app registrations (D6-09)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-TS",
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "When the MSP's real PSA and RMM are known, plugging them in is a checked step."
+        }
+      ]
+    },
+    {
+      "id": "W10",
+      "name": "Governance pack, people and packaging",
+      "window": "about 2 weeks",
+      "goal": "Finish the parts of the job that are about people and decisions: policies, approval processes, incident response, training, prioritisation by ROI, adoption recommendations, and a packaged demo with an honest coverage audit.",
+      "entry_steps": [
+        "The owner reviews which governance documents should be adoptable by the MSP as-is versus kept as examples (GQ-02)."
+      ],
+      "exit_steps": [
+        "Fold every docs/changes/B-nn.md of the wave into docs/DECISIONS.md, docs/COVERAGE.md, CHANGELOG.md and docs/RUNBOOKS.md (one PR, `tools/fold_changes.py` once B-09 exists; by hand before).",
+        "Update `repo_status` in map/inventory.json and `implemented_in`/`evidence` in map/controls.json for every id the wave touched; a control moves to built only with a named passing test.",
+        "All suites green locally and in CI; map integrity test (B-06) green; demo smoke test (B-10) green.",
+        "The owner reviews the wave report (BUILT / MOCKED / NOT DONE / RISKS / HOW TO RUN / WHAT I SHOULD REVIEW) and says yes before the next wave starts.",
+        "Final COVERAGE.md audit: every row's status word is checked against tests (Phase 11)."
+      ],
+      "items": [
+        {
+          "id": "B-92",
+          "title": "AI policy, acceptable use and DLP mapping",
+          "inventory_ids": [
+            "W-GOV-01"
+          ],
+          "controls": [
+            "C-42",
+            "C-25",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-55"
+          ],
+          "owns": [
+            "governance/AI_POLICY.md",
+            "governance/ACCEPTABLE_USE.md",
+            "governance/DLP_MAPPING.md",
+            "specs/B-92.md",
+            "docs/changes/B-92.md"
+          ],
+          "acceptance": [
+            "B92-1: the policy and acceptable-use page each fit on two pages and reference data classes DC-0 to DC-6 and the never-automate list",
+            "B92-2: DLP mapping lists for each data class what may enter a local prompt, a hosted prompt, a log and an index, matching governance map section 1 exactly (a test compares the tables)",
+            "B92-3: every page carries the synthetic-data and not-legal-advice labels"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "One short policy staff can actually follow."
+        },
+        {
+          "id": "B-93",
+          "title": "Model and tool approval process",
+          "inventory_ids": [
+            "W-GOV-02"
+          ],
+          "controls": [
+            "C-28",
+            "C-43"
+          ],
+          "depends_on": [
+            "B-90"
+          ],
+          "owns": [
+            "governance/MODEL_TOOL_APPROVAL.md",
+            "governance/templates/ai-change-request.md",
+            "specs/B-93.md",
+            "docs/changes/B-93.md"
+          ],
+          "acceptance": [
+            "B93-1: the process names who proposes, who approves and what evidence is needed (retention terms, BAA or ZDR status, eval results) for a model, provider, MCP server or tool",
+            "B93-2: the AI change request template carries inventory id, risk class, data classes and rollback",
+            "B93-3: the process is the only way an entry is added to the vendor register (B-90 file)"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "New AI tools arrive through a door, not a side window."
+        },
+        {
+          "id": "B-94",
+          "title": "AI incident response runbook, notification templates review and tabletop",
+          "inventory_ids": [
+            "W-GOV-04"
+          ],
+          "controls": [
+            "C-34",
+            "C-35",
+            "C-31",
+            "C-33"
+          ],
+          "depends_on": [
+            "B-41",
+            "B-02"
+          ],
+          "owns": [
+            "docs/runbooks/ai-incident-response.md",
+            "governance/templates/notifications/",
+            "docs/TABLETOP_2026.md",
+            "specs/B-94.md",
+            "docs/changes/B-94.md"
+          ],
+          "acceptance": [
+            "B94-1: the runbook follows IR-1 to IR-9 with commands for pause, scope (audit query) and rollback that exist in the repo",
+            "B94-2: notification templates for the affected person, client contact and privacy officer are plain language and list the timelines as 'confirm with counsel'",
+            "B94-3: one tabletop on synthetic tenants (wrong user disabled at Contoso Dental) is recorded with times and lessons"
+          ],
+          "size": "S",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "When something goes wrong, the person is restored first and the client hears from a human."
+        },
+        {
+          "id": "B-95",
+          "title": "Use-case intake, ROI tracker, SOC 2 control mapping and risk register",
+          "inventory_ids": [
+            "W-TOOL-13"
+          ],
+          "controls": [
+            "C-37",
+            "C-45"
+          ],
+          "depends_on": [
+            "B-06"
+          ],
+          "owns": [
+            "governance/USE_CASE_INTAKE.md",
+            "docs/ROI_TRACKER.md",
+            "governance/SOC2_CONTROL_MAPPING.md",
+            "governance/RISK_REGISTER.md",
+            "docs/planned/ROI_TRACKER.md",
+            "specs/B-95.md",
+            "docs/changes/B-95.md"
+          ],
+          "acceptance": [
+            "B95-1: intake scores a use case by hours (assumed), acceptance rate (measured on fixtures), effort and risk weight, as docs/planned/ROI_TRACKER.md planned; the planned file is moved to docs/ROI_TRACKER.md (move M-07)",
+            "B95-2: the ROI tracker is filled from this repo's eval reports and labelled fixture-based on every row",
+            "B95-3: the SOC 2 mapping and risk register are generated from map/controls.json and the governance map AIR table, so they cannot drift"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Leadership can rank the next automation by measured value and risk."
+        },
+        {
+          "id": "B-96",
+          "title": "Staff training, client conversation guide, explainer and data-handling summary",
+          "inventory_ids": [
+            "W-TRN-01",
+            "W-TRN-02"
+          ],
+          "controls": [
+            "C-42"
+          ],
+          "depends_on": [],
+          "owns": [
+            "docs/STAFF_TRAINING.md",
+            "docs/CLIENT_CONVERSATION_GUIDE.md",
+            "docs/AI_EXPLAINER.md",
+            "docs/CLIENT_DATA_HANDLING.md",
+            "docs/planned/STAFF_TRAINING.md",
+            "docs/planned/CLIENT_CONVERSATION_GUIDE.md",
+            "specs/B-96.md",
+            "docs/changes/B-96.md"
+          ],
+          "acceptance": [
+            "B96-1: the planned outlines are filled and moved out of docs/planned (move M-07); the ten-minute exercise uses synthetic tickets from fixtures",
+            "B96-2: the explainer and data-handling summary are one page each, readable by a client owner (grade 8 or lower, computed)",
+            "B96-3: every claim about what the system does links to the test that proves it"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Technicians and clients understand what the AI does and does not do."
+        },
+        {
+          "id": "B-97",
+          "title": "Tech radar, leadership brief, 30/60/90 plan and automation framework review method",
+          "inventory_ids": [
+            "W-TOOL-14",
+            "W-TOOL-12"
+          ],
+          "controls": [
+            "C-43",
+            "C-45"
+          ],
+          "depends_on": [],
+          "owns": [
+            "docs/TECH_RADAR.md",
+            "docs/LEADERSHIP_BRIEF.md",
+            "docs/PLAN_30_60_90.md",
+            "docs/AUTOMATION_FRAMEWORK_REVIEW.md",
+            "docs/planned/TECH_RADAR.md",
+            "specs/B-97.md",
+            "docs/changes/B-97.md"
+          ],
+          "acceptance": [
+            "B97-1: radar rings are assigned only from this repo's eval results or cited sources; every 'adopt' names its evidence",
+            "B97-2: the leadership brief ranks automations by ROI and risk from the intake scores",
+            "B97-3: the framework review method is a checklist for existing RMM scripts (rights, secrets, idempotency, logging, owner) with no claim about any real script (Q-07)"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC"
+          ],
+          "owner_only": false,
+          "why": "Recommendations are earned by evidence, not enthusiasm."
+        },
+        {
+          "id": "B-98",
+          "title": "Packaged demo, final README and coverage audit",
+          "inventory_ids": [
+            "W-TOOL-07"
+          ],
+          "controls": [
+            "C-45",
+            "C-41"
+          ],
+          "depends_on": [
+            "B-10"
+          ],
+          "owns": [
+            "docker-compose.yml",
+            "Dockerfile",
+            "README.md",
+            "docs/ARCHITECTURE.md",
+            "specs/B-98.md",
+            "docs/changes/B-98.md"
+          ],
+          "acceptance": [
+            "B98-1: `docker compose up` (when Docker is available) starts the UI with seeded synthetic data on 127.0.0.1 only; without Docker the README gives the uv path",
+            "B98-2: the README has the architecture diagram, design trade-offs, honest limitations and 'how I would adapt this to a real MSP in week one'",
+            "B98-3: the demo smoke test passes inside the container image"
+          ],
+          "size": "M",
+          "standards": [
+            "STD-DC",
+            "STD-SC"
+          ],
+          "owner_only": false,
+          "why": "A reviewer can run the whole thing in five minutes."
+        }
+      ]
+    }
+  ],
+  "not_now": [
+    {
+      "id": "NN-01",
+      "what": "eDiscovery, retention and litigation-hold requests",
+      "inventory_ids": [
+        "W-M365-12"
+      ],
+      "why": "Never-automate: legal authority and message content. No tooling, not even a fact pack, until the MSP's legal owner asks for one.",
+      "revisit": "only on a written request from the MSP's legal or compliance owner"
+    },
+    {
+      "id": "NN-02",
+      "what": "Contract terms, pricing and billing disputes",
+      "inventory_ids": [
+        "W-BIL-04"
+      ],
+      "why": "Never-automate: relationships, not tasks. Billing inputs (B-76) stop at classification suggestions.",
+      "revisit": "never as automation"
+    },
+    {
+      "id": "NN-03",
+      "what": "Technician performance coaching or ranking from AI output or ticket metrics",
+      "inventory_ids": [
+        "W-TRN-04"
+      ],
+      "why": "Never-automate; B-74 adds a test that no export carries a per-technician column.",
+      "revisit": "never"
+    },
+    {
+      "id": "NN-04",
+      "what": "Executing tenant-to-tenant or mailbox migrations",
+      "inventory_ids": [
+        "W-PRJ-03"
+      ],
+      "why": "R3 bulk change across many users; mature vendor tools exist. Only read-only pre-flight checks are planned (B-77).",
+      "revisit": "after W3 identity levers have a record of clean executions and the MSP names its migration tool"
+    },
+    {
+      "id": "NN-05",
+      "what": "Licence purchase or cancellation, Conditional Access changes, privileged role or PIM grants, firewall/SASE and DNS registrar changes",
+      "inventory_ids": [
+        "W-VND-02",
+        "W-IDM-06",
+        "W-IDM-07",
+        "W-SEC-09",
+        "W-VND-06"
+      ],
+      "why": "Never-automate or kept human; the never-automate gate (B-14) refuses levers that would do them. Reports and fact packs only.",
+      "revisit": "never for the change itself"
+    },
+    {
+      "id": "NN-06",
+      "what": "Unattended R1 standard changes (HO-5 autonomy)",
+      "inventory_ids": [],
+      "why": "Needs 30 days of shadow mode per tenant with no corrections, which needs real tickets.",
+      "revisit": "after a pilot at the MSP with real data and the MSP's approval"
+    },
+    {
+      "id": "NN-07",
+      "what": "Any real tenant, PSA, RMM or backup connection",
+      "inventory_ids": [],
+      "why": "Hard rule: synthetic data only. Real adapters stay stubs that fail closed.",
+      "revisit": "after hire, with an MSP test tenant and written approval"
+    },
+    {
+      "id": "NN-08",
+      "what": "Hosted models on client data",
+      "inventory_ids": [],
+      "why": "C-28 gate stays closed until a provider is approved with retention and BAA terms (GQ-04).",
+      "revisit": "when the MSP approves a provider in writing"
+    },
+    {
+      "id": "NN-09",
+      "what": "Vector database product, Postgres, multi-host deployment, FastAPI rewrite of the UI",
+      "inventory_ids": [],
+      "why": "Each needs a dependency or install decision; the interfaces are built so the swap is local.",
+      "revisit": "W5/W8 decisions, or after hire"
+    },
+    {
+      "id": "NN-10",
+      "what": "Proposal id v2 with a separator (DR-19)",
+      "inventory_ids": [],
+      "why": "Theoretical collision only; changing ids now churns every test and the demo.",
+      "revisit": "when two levers with colliding names are proposed"
+    },
+    {
+      "id": "NN-11",
+      "what": "Publishing the repo or choosing a license",
+      "inventory_ids": [],
+      "why": "The owner's decision (D-008, GQ-13).",
+      "revisit": "The owner"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "_note": "SYNTHETIC software inventory for one client, in the neutral shape this repo uses (it stands in for an RMM software list; no RMM schema is claimed). Invented devices and products.",
+  "client": "litware-legal",
+  "display_name": "Litware Legal (synthetic, clean twin: nothing in the KEV fixture matches)",
+  "as_of": "2026-10-21T12:00:00Z",
+  "change_windows": [
+    {
+      "label": "Sat night",
+      "start": "2026-10-24T03:00:00Z",
+      "end": "2026-10-24T07:00:00Z"
+    }
+  ],
+  "devices": [
+    {
+      "id": "LL-FS01",
+      "hostname": "LL-FS01",
+      "kind": "server",
+      "criticality": "high",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Adatum",
+          "product": "DocuVault",
+          "version": "3.0"
+        }
+      ]
+    },
+    {
+      "id": "LL-PC01",
+      "hostname": "LL-PC01",
+      "kind": "workstation",
+      "criticality": "medium",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Adatum",
+          "product": "DocuVault",
+          "version": "3.0"
+        }
+      ]
+    }
+  ]
+}

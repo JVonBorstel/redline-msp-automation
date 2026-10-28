@@ -1,0 +1,81 @@
+{
+  "_note": "SYNTHETIC software inventory for one client, in the neutral shape this repo uses (it stands in for an RMM software list; no RMM schema is claimed). Invented devices and products.",
+  "client": "contoso-dental",
+  "display_name": "Contoso Dental (synthetic)",
+  "as_of": "2026-10-21T12:00:00Z",
+  "change_windows": [
+    {
+      "label": "Sat night",
+      "start": "2026-10-24T03:00:00Z",
+      "end": "2026-10-24T07:00:00Z"
+    },
+    {
+      "label": "Sat night +1w",
+      "start": "2026-10-31T03:00:00Z",
+      "end": "2026-10-31T07:00:00Z"
+    }
+  ],
+  "devices": [
+    {
+      "id": "CD-FS01",
+      "hostname": "CD-FS01",
+      "kind": "server",
+      "criticality": "high",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Examplesoft",
+          "product": "RemoteDesk Server",
+          "version": "4.2"
+        },
+        {
+          "vendor": "Adatum",
+          "product": "DocuVault",
+          "version": "3.0"
+        }
+      ]
+    },
+    {
+      "id": "CD-FRONT01",
+      "hostname": "CD-FRONT01",
+      "kind": "workstation",
+      "criticality": "critical",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Examplesoft",
+          "product": "PrintHub",
+          "version": "2.1"
+        }
+      ]
+    },
+    {
+      "id": "CD-FW01",
+      "hostname": "CD-FW01",
+      "kind": "firewall",
+      "criticality": "critical",
+      "exposure": "internet",
+      "software": [
+        {
+          "vendor": "Northwind Systems",
+          "product": "EdgeVPN Gateway",
+          "version": "9.0"
+        }
+      ]
+    },
+    {
+      "id": "CD-PC02",
+      "hostname": "CD-PC02",
+      "kind": "workstation",
+      "criticality": "low",
+      "exposure": "internal",
+      "software": [
+        {
+          "vendor": "Adatum",
+          "product": "DocuVault",
+          "version": "3.0"
+        }
+      ]
+    }
+  ]
+}

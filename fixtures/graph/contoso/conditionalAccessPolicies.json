@@ -1,0 +1,75 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/conditionalAccess/policies",
+  "value": [
+    {
+      "id": "c0000000-0000-4000-8000-000000000201",
+      "displayName": "Require MFA for all users",
+      "createdDateTime": "2024-01-15T10:00:00Z",
+      "modifiedDateTime": "2026-02-01T10:00:00Z",
+      "state": "enabled",
+      "conditions": {
+        "clientAppTypes": ["all"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": ["All"],
+          "excludeUsers": ["c0000000-0000-4000-8000-000000000014", "c0000000-0000-4000-8000-000000000015"],
+          "includeGroups": [], "excludeGroups": [], "includeRoles": [], "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["mfa"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000202",
+      "displayName": "Require MFA for admins",
+      "createdDateTime": "2024-01-15T10:05:00Z",
+      "modifiedDateTime": "2026-02-01T10:05:00Z",
+      "state": "enabled",
+      "conditions": {
+        "clientAppTypes": ["all"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": [],
+          "excludeUsers": ["c0000000-0000-4000-8000-000000000014", "c0000000-0000-4000-8000-000000000015"],
+          "includeGroups": [], "excludeGroups": [],
+          "includeRoles": ["62e90394-69f5-4237-9190-012177145e10", "fe930be7-5e62-47db-91af-98c3a49a38b1"],
+          "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["mfa"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000203",
+      "displayName": "Block legacy authentication",
+      "createdDateTime": "2025-11-03T10:00:00Z",
+      "modifiedDateTime": "2025-11-03T10:00:00Z",
+      "state": "enabledForReportingButNotEnforced",
+      "conditions": {
+        "clientAppTypes": ["exchangeActiveSync", "other"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": ["All"],
+          "excludeUsers": ["c0000000-0000-4000-8000-000000000014", "c0000000-0000-4000-8000-000000000015"],
+          "includeGroups": [], "excludeGroups": [], "includeRoles": [], "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["block"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000204",
+      "displayName": "Block legacy auth (front desk pilot)",
+      "createdDateTime": "2026-06-10T10:00:00Z",
+      "modifiedDateTime": "2026-06-10T10:00:00Z",
+      "state": "enabled",
+      "conditions": {
+        "clientAppTypes": ["other"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": [],
+          "excludeUsers": ["c0000000-0000-4000-8000-000000000014", "c0000000-0000-4000-8000-000000000015"],
+          "includeGroups": ["c0000000-0000-4000-8000-000000000301"], "excludeGroups": [], "includeRoles": [], "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["block"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    }
+  ]
+}

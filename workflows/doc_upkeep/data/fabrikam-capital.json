@@ -1,0 +1,26 @@
+{
+  "_note": "Synthetic documentation fixture for Fabrikam Capital (B-59). It is what the written pages claim (review dates and structured claims about devices, contacts and licences); the claims were invented to plant stale, missing and contradictory cases. Pages are matched to fixtures/kb/fabrikam-capital/manifest.json by article_id. Not a capture from a real documentation system.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-23",
+  "review_months": 12,
+  "required_tags": ["backup", "reporting", "vpn"],
+  "pages": [
+    {
+      "article_id": "KB-FC-001",
+      "last_reviewed": "2026-09-10",
+      "claims": [
+        {"kind": "device", "key": "FAB-FS01", "attrs": {"category": "Server"}},
+        {"kind": "device", "key": "FAB-WS03", "attrs": {"category": "Laptop"}},
+        {"kind": "license", "key": "ENTERPRISEPACK", "attrs": {"seats": 5}}
+      ]
+    },
+    {
+      "article_id": "KB-FC-002",
+      "last_reviewed": null,
+      "claims": [
+        {"kind": "contact", "key": "Morgan Reyes", "attrs": {"title": "Advisor"}},
+        {"kind": "license", "key": "ENTERPRISEPACK", "attrs": {"seats": 3}}
+      ]
+    }
+  ]
+}

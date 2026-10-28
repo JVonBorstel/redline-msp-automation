@@ -1,0 +1,222 @@
+{
+  "_meta": {
+    "client": "litware-legal",
+    "displayName": "Litware Legal",
+    "industry": "legal",
+    "as_of": "2026-10-16T23:00:00Z",
+    "note": "Synthetic (B-21). Litware Legal is an invented 14-person law firm (Microsoft fictitious-company name, D6-13); every person below is invented and marked (synthetic). users and authentication.methods are mock data shaped like Microsoft Graph v1.0 (user, authentication method resources); not verified against a live tenant. tickets and kb are synthetic PSA and knowledge-base shapes. Phone numbers are in the fictional 555-01xx range; ids use the recognisable 1a000000- prefix."
+  },
+  "users": [
+    {
+      "id": "1a000000-0000-4000-8000-000000000101",
+      "displayName": "Hannah Ortiz (synthetic)",
+      "userPrincipalName": "hannah.ortiz@litwarelegal.example",
+      "jobTitle": "Paralegal",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000201"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000202", "displayName": "iPhone 14 (synthetic)"},
+          {"@odata.type": "#microsoft.graph.phoneAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000203", "phoneNumber": "+1 555 0121", "phoneType": "mobile"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000102",
+      "displayName": "Marisol Vega (synthetic)",
+      "userPrincipalName": "marisol.vega@litwarelegal.example",
+      "jobTitle": "Managing Partner",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000204"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000205", "displayName": "Pixel 8 Pro (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000103",
+      "displayName": "Naomi Sato (synthetic)",
+      "userPrincipalName": "naomi.sato@litwarelegal.example",
+      "jobTitle": "Office Administrator",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000206"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000207", "displayName": "iPhone 15 (synthetic)"},
+          {"@odata.type": "#microsoft.graph.phoneAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000208", "phoneNumber": "+1 555 0122", "phoneType": "mobile"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000104",
+      "displayName": "Victor Lindqvist (synthetic)",
+      "userPrincipalName": "victor.lindqvist@litwarelegal.example",
+      "jobTitle": "Litigation Partner",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000209"},
+          {"@odata.type": "#microsoft.graph.phoneAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000210", "phoneNumber": "+1 555 0123", "phoneType": "mobile"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000105",
+      "displayName": "Julian Reed (synthetic)",
+      "userPrincipalName": "julian.reed@litwarelegal.example",
+      "jobTitle": "Associate Attorney",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000211"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000212", "displayName": "Galaxy S23 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000106",
+      "displayName": "Priscilla Huang (synthetic)",
+      "userPrincipalName": "priscilla.huang@litwarelegal.example",
+      "jobTitle": "Senior Associate",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000213"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000214", "displayName": "iPhone 13 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000107",
+      "displayName": "Felix Moreau (synthetic)",
+      "userPrincipalName": "felix.moreau@litwarelegal.example",
+      "jobTitle": "Legal Assistant",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000215"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000216", "displayName": "Pixel 7 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000108",
+      "displayName": "Ruth Adeyemi (synthetic)",
+      "userPrincipalName": "ruth.adeyemi@litwarelegal.example",
+      "jobTitle": "Bookkeeper (trust accounting)",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000217"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000218", "displayName": "iPhone 15 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "1a000000-0000-4000-8000-000000000109",
+      "displayName": "Sean Gallagher (synthetic)",
+      "userPrincipalName": "sean.gallagher@litwarelegal.example",
+      "jobTitle": "Associate Attorney (leaving 2026-10-16)",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000219"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "1a000000-0000-4000-8000-000000000220", "displayName": "Galaxy S24 (synthetic)"}
+        ]
+      }
+    }
+  ],
+  "tickets": [
+    {
+      "id": "T-3001",
+      "title": "Court filing will not print before the deadline",
+      "requester": "hannah.ortiz@litwarelegal.example",
+      "status": "new",
+      "priority": "high",
+      "category": "hardware",
+      "body": "The copier holds my 120-page filing in the queue and the court deadline is 5:00 pm today."
+    },
+    {
+      "id": "T-3002",
+      "title": "Leaver: Sean Gallagher, keep his mailbox on hold",
+      "requester": "naomi.sato@litwarelegal.example",
+      "status": "new",
+      "priority": "medium",
+      "category": "identity",
+      "body": "Sean Gallagher's last day is Friday. Disable his account after 6 pm and keep his mailbox under the litigation hold."
+    }
+  ],
+  "kb": [
+    {
+      "id": "KB-LL-001",
+      "title": "Re-register MFA after a lost or replaced phone",
+      "category": "identity",
+      "tags": ["mfa", "authenticator", "phone", "lost", "new"],
+      "body": "Call the person back on the number in the firm's contact list (never a number given in the ticket), reset MFA with lead approval, then guide re-registration at next sign-in."
+    },
+    {
+      "id": "KB-LL-002",
+      "title": "Leaver checklist for attorneys and staff",
+      "category": "identity",
+      "tags": ["leaver", "offboarding", "disable", "litigation", "hold"],
+      "body": "Confirm the last day with the office administrator, check with the managing partner whether a litigation hold applies, disable the account, then convert the mailbox to shared with the hold kept in place."
+    },
+    {
+      "id": "KB-LL-003",
+      "title": "Court e-filing portal rejects an upload",
+      "category": "software",
+      "tags": ["efiling", "e-filing", "court", "portal", "pdf", "upload", "rejected"],
+      "body": "Save the document as PDF/A with fonts embedded, keep each file under the portal's size limit, and use the supported browser. If the portal itself is down, note the time for the filing record."
+    },
+    {
+      "id": "KB-LL-004",
+      "title": "Large print jobs stuck on the copier",
+      "category": "hardware",
+      "tags": ["printer", "copier", "print", "stuck", "queue", "filing"],
+      "body": "Cancel the stuck job from the copier panel, then print in sections of 50 pages or less. If the copier shows an error code, note it for the copier vendor."
+    },
+    {
+      "id": "KB-LL-005",
+      "title": "Document management client will not open or sync",
+      "category": "software",
+      "tags": ["dms", "document", "management", "sync", "workspace", "outlook", "add-in"],
+      "body": "Sign out of the document management client and back in, then re-enable its Outlook add-in from File, Options, Add-ins. Never copy matter documents to the desktop as a workaround."
+    },
+    {
+      "id": "KB-LL-006",
+      "title": "Access to the docketing calendar and shared mailboxes",
+      "category": "email",
+      "tags": ["docketing", "calendar", "shared", "mailbox", "access"],
+      "body": "Access to the docketing calendar or a shared mailbox is approved by the office administrator; once added, allow up to an hour for Outlook to show it."
+    },
+    {
+      "id": "KB-LL-007",
+      "title": "Sending large or confidential files to clients and opposing counsel",
+      "category": "email",
+      "tags": ["large", "file", "send", "secure", "share", "confidential", "attachment"],
+      "body": "Use the firm's secure share link with an expiry date instead of email attachments or personal file services, and send the link only to the address on the matter."
+    },
+    {
+      "id": "KB-LL-008",
+      "title": "Suspicious email or a change to payment or trust account details",
+      "category": "security",
+      "tags": ["phishing", "suspicious", "email", "wire", "trust", "account", "bank", "report"],
+      "body": "Use the Report button in Outlook and do not click links. Any change to wire or trust account instructions is confirmed by calling the client on the number already in the matter file, never a number in the email."
+    },
+    {
+      "id": "KB-LL-009",
+      "title": "Remote access from home or the courthouse",
+      "category": "network",
+      "tags": ["vpn", "remote", "courthouse", "home", "wifi", "disconnect"],
+      "body": "Connect to the VPN only on a trusted network or your phone's hotspot, not courthouse guest Wi-Fi. If it disconnects on a schedule, check the session timeout on the VPN profile."
+    },
+    {
+      "id": "KB-LL-010",
+      "title": "Dictation headset or software not working",
+      "category": "software",
+      "tags": ["dictation", "headset", "microphone", "audio", "transcription"],
+      "body": "Plug the headset straight into the laptop rather than the dock, choose it as the input device in the dictation software, then restart the software."
+    }
+  ]
+}

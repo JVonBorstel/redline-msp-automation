@@ -1,0 +1,56 @@
+"""Duplicate, related-ticket and outage grouping (B-23). Suggests links; a lead approves them.
+
+grouping = group_client("fabrikam-capital", tickets, load_config())   # duplicate groups and outage groups
+"""
+
+from workflows.duplicates.duplicates import (
+    DEFAULT_CONFIG_PATH,
+    DEFAULT_TICKETS_DIR,
+    DUPLICATE_AGENT,
+    Candidate,
+    DuplicateConfig,
+    DuplicatesError,
+    DupTicket,
+    Group,
+    Grouping,
+    Pool,
+    Topic,
+    TopicHit,
+    candidates_for,
+    classify,
+    group_client,
+    load_config,
+    load_tickets,
+    normalise,
+    pool_for,
+    propose_links,
+    similarity,
+    summary,
+    utc,
+)
+
+__all__ = [
+    "DEFAULT_CONFIG_PATH",
+    "DEFAULT_TICKETS_DIR",
+    "DUPLICATE_AGENT",
+    "Candidate",
+    "DupTicket",
+    "DuplicateConfig",
+    "DuplicatesError",
+    "Group",
+    "Grouping",
+    "Pool",
+    "Topic",
+    "TopicHit",
+    "candidates_for",
+    "classify",
+    "group_client",
+    "load_config",
+    "load_tickets",
+    "normalise",
+    "pool_for",
+    "propose_links",
+    "similarity",
+    "summary",
+    "utc",
+]

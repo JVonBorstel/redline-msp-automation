@@ -1,0 +1,76 @@
+{
+  "_note": "Synthetic September 2026 tenant baseline for Contoso Dental (invented tenant), written by script from the October fixture (findings minus the October 'new', plus the October 'resolved'). The drift block is hand-made and lists everything as unchanged. Not a captured run. Fixture-based.",
+  "client": "contoso-dental",
+  "tenant": "tenant-contoso-dental",
+  "as_of": "2026-09-22T06:00:00Z",
+  "findings": [
+    {
+      "Id": "F-01",
+      "CheckId": "GLOBALADMIN",
+      "Severity": "High",
+      "Title": "More Global Administrators than the baseline allows",
+      "Subject": "tenant"
+    },
+    {
+      "Id": "F-02",
+      "CheckId": "STALE",
+      "Severity": "Medium",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "old.locum@contosodental.example"
+    },
+    {
+      "Id": "F-03",
+      "CheckId": "GUESTADMIN",
+      "Severity": "Medium",
+      "Title": "A guest holds an admin role",
+      "Subject": "vendor.guest@outside.example"
+    },
+    {
+      "Id": "F-04",
+      "CheckId": "STALE",
+      "Severity": "Low",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "former.temp@contosodental.example"
+    },
+    {
+      "Id": "F-05",
+      "CheckId": "STALE",
+      "Severity": "Low",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "gone.user@contosodental.example"
+    }
+  ],
+  "drift": {
+    "compared_to": "2026-08-22",
+    "new": [],
+    "resolved": [],
+    "unchanged": [
+      {
+        "CheckId": "GLOBALADMIN",
+        "Subject": "tenant"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "old.locum@contosodental.example"
+      },
+      {
+        "CheckId": "GUESTADMIN",
+        "Subject": "vendor.guest@outside.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "former.temp@contosodental.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "gone.user@contosodental.example"
+      }
+    ],
+    "ca": {
+      "added": [],
+      "removed": [],
+      "state_changed": [],
+      "assignments_changed": []
+    }
+  }
+}

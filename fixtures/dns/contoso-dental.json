@@ -1,0 +1,60 @@
+{
+  "_note": "DNS and TLS fixture. Synthetic (invented domains, people, tenants). Pinned to as_of 2026-10-21. Not a capture from a real DNS zone, certificate store or tenant. TXT strings follow RFC 7208 (SPF), RFC 6376 (DKIM key record) and RFC 7489 (DMARC). Seeded problems are listed in fixtures/dns/SOURCES.md.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-21",
+  "domains": [
+    {
+      "domain": "contosodental.example",
+      "owner": "tech-ana",
+      "spf": "v=spf1 include:spf.protection.outlook.com ~all",
+      "dkim": [
+        {
+          "selector": "selector1",
+          "published": true
+        },
+        {
+          "selector": "selector2",
+          "published": true
+        }
+      ],
+      "dmarc": "v=DMARC1; p=none; rua=mailto:dmarc@contosodental.example"
+    },
+    {
+      "domain": "smile.contosodental.example",
+      "owner": "tech-ana",
+      "spf": null,
+      "dkim": [],
+      "dmarc": null
+    },
+    {
+      "domain": "appointments.contosodental.example",
+      "owner": "tech-ana",
+      "spf": "v=spf1 include:spf.protection.outlook.com -all",
+      "dkim": [
+        {
+          "selector": "selector1",
+          "published": true
+        },
+        {
+          "selector": "selector2",
+          "published": true
+        }
+      ],
+      "dmarc": "v=DMARC1; p=reject; rua=mailto:dmarc@contosodental.example"
+    }
+  ],
+  "tlsCertificates": [
+    {
+      "id": "tls-vpn",
+      "subject": "vpn.contosodental.example",
+      "notAfter": "2026-11-05T00:00:00Z",
+      "owner": "tech-ana"
+    },
+    {
+      "id": "tls-portal",
+      "subject": "portal.contosodental.example",
+      "notAfter": "2027-03-01T00:00:00Z",
+      "owner": "tech-ana"
+    }
+  ]
+}

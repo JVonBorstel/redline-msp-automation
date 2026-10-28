@@ -1,0 +1,92 @@
+{
+  "_note": "Synthetic alert feed for one invented client. Neutral vendor-independent shape (source TYPES, not products); field names are this repo's own and every vendor mapping is UNVERIFIED, see SOURCES.md. Pinned to as_of 2026-10-20T06:30:00Z.",
+  "client": "fabrikam-capital",
+  "account_id": "alerts-fabrikam-001",
+  "as_of": "2026-10-20T06:30:00Z",
+  "alerts": [
+    {
+      "id": "A-2007",
+      "client": "fabrikam-capital",
+      "source_type": "backup",
+      "severity": "medium",
+      "category": "backup-warning",
+      "title": "Backup finished with warnings (synthetic)",
+      "description": "Some items skipped (synthetic).",
+      "created_at": "2026-10-20T00:30:00Z",
+      "entity_kind": "job",
+      "entity_id": "sharepoint-backup"
+    },
+    {
+      "id": "A-2003",
+      "client": "fabrikam-capital",
+      "source_type": "m365-itdr",
+      "severity": "high",
+      "category": "risky-sign-in",
+      "title": "Risky sign-in for a user (synthetic)",
+      "description": "Sign-in from an unfamiliar location (synthetic).",
+      "created_at": "2026-10-20T01:15:00Z",
+      "entity_kind": "user",
+      "entity_id": "dana.whitfield@fabrikam-capital.example"
+    },
+    {
+      "id": "A-2004",
+      "client": "fabrikam-capital",
+      "source_type": "saas-monitoring",
+      "severity": "medium",
+      "category": "mass-download",
+      "title": "Mass file download (synthetic)",
+      "description": "Hundreds of files downloaded in minutes (synthetic).",
+      "created_at": "2026-10-20T01:50:00Z",
+      "entity_kind": "user",
+      "entity_id": "dana.whitfield@fabrikam-capital.example"
+    },
+    {
+      "id": "A-2001",
+      "client": "fabrikam-capital",
+      "source_type": "edr-mdr",
+      "severity": "high",
+      "category": "lateral-movement",
+      "title": "Lateral movement attempt (synthetic)",
+      "description": "Remote service started from another host (synthetic).",
+      "created_at": "2026-10-20T03:20:00Z",
+      "entity_kind": "device",
+      "entity_id": "SRV-FILE-01"
+    },
+    {
+      "id": "A-2002",
+      "client": "fabrikam-capital",
+      "source_type": "siem",
+      "severity": "high",
+      "category": "port-scan",
+      "title": "Internal port scan (synthetic)",
+      "description": "One host probed many ports (synthetic).",
+      "created_at": "2026-10-20T03:35:00Z",
+      "entity_kind": "device",
+      "entity_id": "SRV-FILE-01"
+    },
+    {
+      "id": "A-2005",
+      "client": "fabrikam-capital",
+      "source_type": "rmm-monitor",
+      "severity": "low",
+      "category": "agent-offline",
+      "title": "Monitoring agent offline (synthetic)",
+      "description": "No check-in for 30 minutes (synthetic).",
+      "created_at": "2026-10-20T04:00:00Z",
+      "entity_kind": "device",
+      "entity_id": "FCP-WS-031"
+    },
+    {
+      "id": "A-2006",
+      "client": "fabrikam-capital",
+      "source_type": "edr-mdr",
+      "severity": "medium",
+      "category": "sensor-health",
+      "title": "Endpoint sensor stopped (synthetic)",
+      "description": "Sensor service not running (synthetic).",
+      "created_at": "2026-10-20T04:10:00Z",
+      "entity_kind": "device",
+      "entity_id": "FCP-WS-031"
+    }
+  ]
+}

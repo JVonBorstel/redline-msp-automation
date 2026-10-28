@@ -1,0 +1,126 @@
+{
+  "_note": "Synthetic per-device installed software and update ring (B-63), pinned to asOf. Keyed by client then RMM device uid. Each client also holds one record of the other client's decoy device, which must never be proposed. Field status: fixtures/catalog/SOURCES.md.",
+  "asOf": "2026-10-22T12:00:00Z",
+  "clients": {
+    "contoso-dental": {
+      "devices": {
+        "c0000000-0000-4000-8000-0000000d0001": {
+          "ring": "pilot",
+          "installed": {
+            "7zip": "24.08",
+            "firefox-esr": "128.5.0",
+            "adobe-reader": "24.005.20320"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0002": {
+          "ring": "pilot",
+          "installed": {
+            "7zip": "23.01",
+            "firefox-esr": "128.2.0",
+            "adobe-reader": "24.005.20320"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0003": {
+          "ring": "hold",
+          "installed": {
+            "7zip": "22.01",
+            "firefox-esr": "115.0.0"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0004": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "23.01",
+            "dental-imaging-viewer": "5.1.0",
+            "adobe-reader": "23.008.20533"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0005": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "21.07",
+            "firefox-esr": "128.5.0",
+            "legacy-pdf-tool": "2.0"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0006": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "24.09",
+            "notepadpp": "8.6.9",
+            "firefox-esr": "127.0.0"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0007": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "23.01",
+            "dental-imaging-viewer": "5.2.1",
+            "adobe-reader": "24.005.20320"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0008": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "23.01",
+            "adobe-reader": "24.005.20320"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0009": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "unreadable-build",
+            "firefox-esr": "128.5.0"
+          }
+        },
+        "f0000000-0000-4000-8000-0000000d0900": {
+          "ring": "pilot",
+          "installed": {
+            "7zip": "1.00"
+          }
+        }
+      }
+    },
+    "fabrikam-capital": {
+      "devices": {
+        "f0000000-0000-4000-8000-0000000d0001": {
+          "ring": "pilot",
+          "installed": {
+            "7zip": "24.08",
+            "firefox-esr": "128.5.0",
+            "vlc": "3.0.21"
+          }
+        },
+        "f0000000-0000-4000-8000-0000000d0002": {
+          "ring": "pilot",
+          "installed": {
+            "7zip": "24.08",
+            "firefox-esr": "128.5.0",
+            "vlc": "3.0.21"
+          }
+        },
+        "f0000000-0000-4000-8000-0000000d0003": {
+          "ring": "broad",
+          "installed": {
+            "7zip": "24.08",
+            "firefox-esr": "128.5.0",
+            "adobe-reader": "24.005.20320"
+          }
+        },
+        "f0000000-0000-4000-8000-0000000d0004": {
+          "ring": "hold",
+          "installed": {
+            "7zip": "24.08",
+            "firefox-esr": "128.5.0"
+          }
+        },
+        "c0000000-0000-4000-8000-0000000d0900": {
+          "ring": "pilot",
+          "installed": {
+            "7zip": "1.00"
+          }
+        }
+      }
+    }
+  }
+}

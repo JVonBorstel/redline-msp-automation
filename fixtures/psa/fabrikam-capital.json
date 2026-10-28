@@ -1,0 +1,22 @@
+{
+  "_note": "Synthetic PSA data for Fabrikam Capital (invented). Shaped like the public Autotask REST API entities Companies, Contacts, Tickets, TicketNotes, Resources and ServiceLevelAgreements; field names are from memory and marked UNVERIFIED in fixtures/psa/SOURCES.md. Pinned to as_of 2026-10-20. Not a capture from a real PSA.",
+  "client": "fabrikam-capital",
+  "company": {"id": 30002, "companyName": "Fabrikam Capital (synthetic)", "companyType": 1, "isActive": true, "phone": "555-0141", "webAddress": "https://fabrikamcapital.example"},
+  "contacts": [
+    {"id": 40101, "companyID": 30002, "firstName": "Morgan", "lastName": "Reyes", "title": "Advisor", "emailAddress": "morgan.reyes@fabrikamcapital.example", "isActive": 1},
+    {"id": 40102, "companyID": 30002, "firstName": "Dana", "lastName": "Kim", "title": "Operations lead", "emailAddress": "dana.kim@fabrikamcapital.example", "isActive": 1}
+  ],
+  "resources": [
+    {"id": 50002, "firstName": "Ben", "lastName": "(technician, synthetic)", "userName": "tech-ben", "email": "ben@msp.example", "isActive": true}
+  ],
+  "slaSettings": [
+    {"id": 60002, "name": "Priority 7x12 (synthetic)", "isActive": true, "firstResponseHours": 0.5, "resolutionPlanHours": 2, "resolutionHours": 6}
+  ],
+  "tickets": [
+    {"id": 70201, "ticketNumber": "T-3201", "companyID": 30002, "contactID": 40101, "title": "Authenticator empty on my new Galaxy", "description": "Requester changed phones; sign-in prompts have no device.", "status": 1, "priority": 2, "queueID": 80001, "ticketCategory": 3, "ticketType": 2, "assignedResourceID": 50002, "serviceLevelAgreementID": 60002, "createDate": "2026-10-20T07:30:00Z", "dueDateTime": "2026-10-20T13:30:00Z"},
+    {"id": 70202, "ticketNumber": "T-3202", "companyID": 30002, "contactID": 40102, "title": "Phone stolen - need MFA reset", "description": "Phone reported stolen; requester asks for an MFA reset.", "status": 1, "priority": 1, "queueID": 80001, "ticketCategory": 3, "ticketType": 2, "assignedResourceID": 50002, "serviceLevelAgreementID": 60002, "createDate": "2026-10-20T09:05:00Z", "dueDateTime": "2026-10-20T11:05:00Z"}
+  ],
+  "ticketNotes": [
+    {"id": 90101, "ticketID": 70202, "title": "Intake", "description": "Possible device theft; verify by call-back before any identity change (synthetic).", "noteType": 1, "publish": 1, "creatorResourceID": 50002, "createDateTime": "2026-10-20T09:10:00Z"}
+  ]
+}

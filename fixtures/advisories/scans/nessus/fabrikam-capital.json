@@ -1,0 +1,37 @@
+{
+  "_note": "SYNTHETIC. Imitates a Tenable Nessus CSV export (column names as commonly exported; UNVERIFIED, see SOURCES.md). One JSON object per CSV row. Hosts and CVE ids are invented.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-21T12:00:00Z",
+  "rows": [
+    {
+      "Plugin ID": "900002",
+      "CVE": "CVE-2099-0001",
+      "CVSS v2.0 Base Score": "10.0",
+      "Risk": "Critical",
+      "Host": "FC-RDS01",
+      "Protocol": "tcp",
+      "Port": "3389",
+      "Name": "Synthetic RemoteDesk Server authentication bypass"
+    },
+    {
+      "Plugin ID": "900004",
+      "CVE": "CVE-2099-0004",
+      "CVSS v2.0 Base Score": "7.2",
+      "Risk": "High",
+      "Host": "FC-OLD07",
+      "Protocol": "tcp",
+      "Port": "9100",
+      "Name": "Synthetic PrintHub privilege escalation"
+    },
+    {
+      "Plugin ID": "900101",
+      "CVE": "",
+      "CVSS v2.0 Base Score": "0.0",
+      "Risk": "None",
+      "Host": "FC-TRD01",
+      "Protocol": "tcp",
+      "Port": "0",
+      "Name": "Synthetic informational: OS fingerprint"
+    }
+  ]
+}

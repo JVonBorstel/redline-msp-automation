@@ -1,0 +1,98 @@
+{
+  "_note": "Synthetic device-security data for Contoso Dental (invented), read beside the Intune fixture by B-64. LAPS entries are metadata only (no password, ever); Autopilot and hire records are invented. Shaped like Microsoft Graph deviceLocalCredentialInfo and windowsAutopilotDeviceIdentity; field status in fixtures/SOURCES.md. Pinned to asOf. Holds one LAPS decoy of the other client on purpose. Not a capture from a real tenant.",
+  "client": "contoso-dental",
+  "asOf": "2026-10-22T12:00:00Z",
+  "tenantId": "c0000000-0000-4000-8000-000000000001",
+  "localCredentials": {
+    "value": [
+      {
+        "id": "c0000000-0000-4000-8000-0000000f0001",
+        "deviceName": "FRONTDESK-01",
+        "lastBackupDateTime": "2026-10-12T03:00:00Z",
+        "refreshDateTime": "2026-11-11T03:00:00Z"
+      },
+      {
+        "id": "c0000000-0000-4000-8000-0000000f0002",
+        "deviceName": "operatory-02",
+        "lastBackupDateTime": "2026-10-15T03:00:00Z",
+        "refreshDateTime": "2026-11-14T03:00:00Z"
+      },
+      {
+        "id": "c0000000-0000-4000-8000-0000000f0003",
+        "deviceName": "LAPTOP-PNAIR",
+        "lastBackupDateTime": "2026-08-20T03:00:00Z",
+        "refreshDateTime": "2026-09-19T03:00:00Z"
+      },
+      {
+        "id": "c0000000-0000-4000-8000-0000000f0005",
+        "deviceName": "HYGIENE-03",
+        "lastBackupDateTime": "2026-10-18T03:00:00Z",
+        "refreshDateTime": "2026-11-17T03:00:00Z"
+      },
+      {
+        "id": "f0000000-0000-4000-8000-0000000f0001",
+        "deviceName": "FAB-WS01",
+        "lastBackupDateTime": "2026-10-12T03:00:00Z",
+        "refreshDateTime": "2026-11-11T03:00:00Z"
+      }
+    ]
+  },
+  "autopilotDevices": {
+    "value": [
+      {
+        "id": "c0000000-0000-4000-8000-0000000c0001",
+        "serialNumber": "CD-0021-LT",
+        "groupTag": "contoso-dental-laptop",
+        "enrollmentState": "notContacted",
+        "deploymentProfileAssignmentStatus": "assignedInSync",
+        "lastContactedDateTime": "0001-01-01T00:00:00Z"
+      },
+      {
+        "id": "c0000000-0000-4000-8000-0000000c0002",
+        "serialNumber": "CD-0022-LT",
+        "groupTag": "contoso-dental-laptop",
+        "enrollmentState": "notContacted",
+        "deploymentProfileAssignmentStatus": "notAssigned",
+        "lastContactedDateTime": "0001-01-01T00:00:00Z"
+      },
+      {
+        "id": "c0000000-0000-4000-8000-0000000c0003",
+        "serialNumber": "CD-0024-LT",
+        "groupTag": "contoso-dental-laptop",
+        "enrollmentState": "notContacted",
+        "deploymentProfileAssignmentStatus": "assignedInSync",
+        "lastContactedDateTime": "0001-01-01T00:00:00Z"
+      }
+    ]
+  },
+  "incomingHires": [
+    {
+      "hireId": "H-CD-001",
+      "displayName": "Noor Haddad (synthetic)",
+      "userPrincipalName": "noor.haddad@contosodental.example",
+      "startDate": "2026-11-02",
+      "assignedSerial": "CD-0021-LT"
+    },
+    {
+      "hireId": "H-CD-002",
+      "displayName": "Eli Park (synthetic)",
+      "userPrincipalName": "eli.park@contosodental.example",
+      "startDate": "2026-10-28",
+      "assignedSerial": "CD-0022-LT"
+    },
+    {
+      "hireId": "H-CD-003",
+      "displayName": "Sam Ortiz (synthetic)",
+      "userPrincipalName": "sam.ortiz@contosodental.example",
+      "startDate": "2026-11-09",
+      "assignedSerial": null
+    },
+    {
+      "hireId": "H-CD-004",
+      "displayName": "Ines Duarte (synthetic)",
+      "userPrincipalName": "ines.duarte@contosodental.example",
+      "startDate": "2026-11-16",
+      "assignedSerial": "CD-0023-LT"
+    }
+  ]
+}

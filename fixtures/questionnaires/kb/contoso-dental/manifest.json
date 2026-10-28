@@ -1,0 +1,21 @@
+{
+  "sources": [
+    {
+      "source_id": "cq-backup", "article_id": "KB-CQ-001", "title": "Contoso Dental backup arrangement",
+      "tags": ["backup"], "origin": "questionnaires/contoso-dental/backup", "declared_class": "DC-2",
+      "paragraphs": [
+        "Contoso Dental chart data is copied nightly to a cloud backup service.",
+        "The imaging server is included in the nightly backup.",
+        "Reference phrase for this record: zebra-cq-canary-5521."
+      ]
+    },
+    {
+      "source_id": "cq-mailbox", "article_id": "KB-CQ-002", "title": "Contoso Dental shared mailbox",
+      "tags": ["mail"], "origin": "questionnaires/contoso-dental/mailbox", "declared_class": "DC-2",
+      "paragraphs": [
+        "Three front desk staff share one mailbox at Contoso Dental.",
+        "The practice manager approves mailbox access requests."
+      ]
+    }
+  ]
+}

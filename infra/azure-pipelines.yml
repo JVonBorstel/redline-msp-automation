@@ -1,0 +1,219 @@
+# PROPOSAL for a human (B-86). Azure DevOps pipeline definition. Not installed, not run, not parsed by any Azure DevOps service:
+# the build machine has no Azure CLI, Bicep or Azure DevOps access, and this repo never deploys (docs/BLUEPRINT.md rule 6).
+# It lives under infra/ because agents may not edit .github/** or register pipelines. A human reviews it, creates the pipeline in
+# Azure DevOps, creates the service connection and the approver group, and replaces the <placeholders> below.
+#
+# Shape (the order is tested by tests/py/infra/test_b86_compute_pipeline.py):
+#   Test      mirrors .github/workflows/ci.yml: the same suites on the same OS split, plus the secret-scan checks and the eval gate.
+#   Lint      az bicep build and lint of infra/bicep/core and infra/bicep/compute. No cloud sign-in.
+#   WhatIf    validate and what-if against an existing resource group, read-only. Skipped on pull requests.
+#   Approval  a person must approve in Azure DevOps (ManualValidation). Times out as REJECT, never as approve.
+#   Deploy    DISABLED (condition: false) and only echoes. Enabling it is a reviewed change by a human, who writes the deploy step.
+# Every UNVERIFIED item is listed in docs/changes/B-86.md.
+
+name: $(Date:yyyyMMdd)$(Rev:.r)
+
+# Same triggers as ci.yml: merges to main, pull requests that change more than docs, and a nightly run.
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - docs
+      - map
+      - '*.md'
+
+pr:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - docs
+      - map
+      - '*.md'
+
+# 09:17 UTC is 03:17 in Mountain time (MDT), as in ci.yml. always: true because the repo does not change between nights.
+schedules:
+  - cron: '17 9 * * *'
+    displayName: Nightly
+    branches:
+      include:
+        - main
+    always: true
+
+parameters:
+  # Names only. The service connection is created by a human in Azure DevOps with the least role that can run what-if
+  # (Reader plus the deployment-validate permission); it is never a stored login in this file.
+  - name: azureServiceConnection
+    type: string
+    default: '<service-connection-name>'
+  - name: resourceGroupName
+    type: string
+    default: '<existing-resource-group>'
+  - name: environmentName
+    type: string
+    default: dev
+    values:
+      - dev
+      - prod
+  - name: approverGroup
+    type: string
+    default: '<approver-group-or-emails>'
+
+variables:
+  UV_PYTHON_PREFERENCE: only-managed
+
+stages:
+  - stage: Test
+    displayName: Tests (mirrors ci.yml)
+    jobs:
+      # Windows job: the suites that need Windows PowerShell behaviour (ci.yml job powershell).
+      - job: WindowsSuites
+        displayName: Lever modules, Slice B, demo (windows)
+        pool:
+          vmImage: windows-latest
+        timeoutInMinutes: 20
+        steps:
+          - checkout: self
+            persistCredentials: false
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '3.12'
+          - script: python -m pip install uv==0.13.3
+            displayName: Install uv (pinned)
+          - pwsh: |
+              pwsh -NoProfile -File tests/ps/Test-Modules.ps1
+              exit $LASTEXITCODE
+            displayName: PowerShell lever modules and schemas
+            timeoutInMinutes: 15
+          - pwsh: |
+              pwsh -NoProfile -File tests/sliceb/Test-SliceB.ps1
+              exit $LASTEXITCODE
+            displayName: Slice B tests (Microsoft 365 baseline, PowerShell)
+            timeoutInMinutes: 10
+          - pwsh: |
+              pwsh -NoProfile -File tests/demo/Test-Demo.ps1
+              exit $LASTEXITCODE
+            displayName: Demo smoke test (offline)
+            timeoutInMinutes: 10
+
+      # Linux job: the Python suites, eval gate and static infra checks (ci.yml job python).
+      - job: PythonSuites
+        displayName: Phase 1, roadmap item tests, eval gate (ubuntu)
+        pool:
+          vmImage: ubuntu-latest
+        timeoutInMinutes: 25
+        steps:
+          - checkout: self
+            persistCredentials: false
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '3.12'
+          - script: python -m pip install uv==0.13.3
+            displayName: Install uv (pinned)
+          - pwsh: |
+              pwsh -NoProfile -File tests/phase1/Test-Phase1.ps1
+              exit $LASTEXITCODE
+            displayName: Phase 1 tests (pytest, ruff, mypy through uv)
+            timeoutInMinutes: 15
+          - pwsh: |
+              uv run --frozen pytest -p no:cacheprovider tests/py --deselect tests/py/levers/test_b26_fix_levers.py::test_b26_3_slice_b_suite_passes
+              exit $LASTEXITCODE
+            displayName: Roadmap item tests (tests/py, includes tests/py/infra static IaC checks)
+            timeoutInMinutes: 10
+          # The eval gate (B-84, tools/eval_gate.py) is not in ci.yml yet; it is added here so the pipeline fails on a regression.
+          - script: uv run --frozen python tools/eval_gate.py
+            displayName: Eval gate (fixture-based thresholds)
+            timeoutInMinutes: 10
+
+  - stage: Lint
+    displayName: Bicep build and lint (no cloud sign-in)
+    jobs:
+      - job: BicepLint
+        pool:
+          vmImage: ubuntu-latest
+        timeoutInMinutes: 10
+        steps:
+          - checkout: self
+            persistCredentials: false
+          - script: |
+              set -eu
+              for dir in infra/bicep/core infra/bicep/compute; do
+                az bicep build --file "$dir/main.bicep" --stdout > /dev/null
+                az bicep lint --file "$dir/main.bicep"
+                for p in "$dir"/*.bicepparam; do
+                  az bicep build-params --file "$p" --stdout > /dev/null
+                done
+              done
+            displayName: az bicep build, lint and build-params (core and compute)
+
+  - stage: WhatIf
+    displayName: Validate and what-if (read-only)
+    dependsOn:
+      - Test
+      - Lint
+    # Pull requests never reach the cloud.
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - job: WhatIfJob
+        pool:
+          vmImage: ubuntu-latest
+        timeoutInMinutes: 20
+        steps:
+          - checkout: self
+            persistCredentials: false
+          - task: AzureCLI@2
+            displayName: Validate and what-if (core, then compute)
+            inputs:
+              azureSubscription: ${{ parameters.azureServiceConnection }}
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -eu
+                mkdir -p "$(Build.ArtifactStagingDirectory)/whatif"
+                for dir in core compute; do
+                  param="infra/bicep/$dir/main.${{ parameters.environmentName }}.bicepparam"
+                  az deployment group validate --resource-group "${{ parameters.resourceGroupName }}" --parameters "$param"
+                  az deployment group what-if --resource-group "${{ parameters.resourceGroupName }}" --parameters "$param" --no-pretty-print > "$(Build.ArtifactStagingDirectory)/whatif/$dir.json"
+                done
+          # The approver reads this file before approving.
+          - task: PublishPipelineArtifact@1
+            displayName: Keep the what-if output for the approver
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)/whatif
+              artifact: whatif
+
+  - stage: Approval
+    displayName: Human approval (nothing deploys without it)
+    dependsOn:
+      - WhatIf
+    jobs:
+      - job: WaitForApproval
+        displayName: Wait for a person
+        pool: server
+        timeoutInMinutes: 1440
+        steps:
+          - task: ManualValidation@1
+            displayName: Approve only after reading the what-if artifact
+            timeoutInMinutes: 1440
+            inputs:
+              notifyUsers: ${{ parameters.approverGroup }}
+              instructions: Read the whatif artifact. Approve only if it shows exactly the changes you expect, and not your own change.
+              onTimeout: reject
+
+  - stage: Deploy
+    displayName: Deploy (DISABLED)
+    dependsOn:
+      - Approval
+    # Disabled on purpose. A human turns this on in a reviewed change, adds an Azure DevOps environment with its own approval check,
+    # and writes the deploy step. Until then the stage never runs.
+    condition: false
+    jobs:
+      - job: DisabledDeploy
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - script: echo "Deploy stage is disabled. No step in this repository deploys."
+            displayName: Placeholder (does nothing)

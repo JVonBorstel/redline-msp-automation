@@ -1,0 +1,83 @@
+{
+  "_note": "Answer key for the B-43 eval. Evals and tests only; the adapter and workflow never read this file (STD-FX-5). Groups of two or more alerts that a person would want handled together; any alert not listed is a singleton. Written by the same author as the fixtures and the grouping rule, so results are pipeline checks, not model quality (D-022).",
+  "clients": {
+    "contoso-dental": {
+      "G1": {
+        "type": "incident",
+        "alerts": [
+          "A-1001",
+          "A-1002",
+          "A-1003",
+          "A-1011"
+        ],
+        "why": "one user, one chain inside the window, three source types"
+      },
+      "G2": {
+        "type": "incident",
+        "alerts": [
+          "A-1004",
+          "A-1005"
+        ],
+        "why": "one device, the external SOC owns it"
+      },
+      "G3": {
+        "type": "health",
+        "alerts": [
+          "A-1006",
+          "A-1007"
+        ],
+        "why": "RMM agent and EDR sensor health on one server"
+      },
+      "G4": {
+        "type": "incident",
+        "alerts": [
+          "A-1009",
+          "A-1010"
+        ],
+        "why": "one backup job failed twice"
+      },
+      "G5": {
+        "type": "incident",
+        "alerts": [
+          "A-1015",
+          "A-1016"
+        ],
+        "why": "one file server, SIEM plus EDR"
+      },
+      "G6": {
+        "type": "incident",
+        "alerts": [
+          "A-1017",
+          "A-1018"
+        ],
+        "why": "a person would link the payload on a device to the sign-in of the user who opened it; no shared entity id, so the entity rule misses it (known limit, enrichment is B-44)"
+      }
+    },
+    "fabrikam-capital": {
+      "F1": {
+        "type": "incident",
+        "alerts": [
+          "A-2001",
+          "A-2002"
+        ],
+        "why": "one file server"
+      },
+      "F2": {
+        "type": "incident",
+        "alerts": [
+          "A-2003",
+          "A-2004"
+        ],
+        "why": "one user, identity alert then mass download"
+      },
+      "F3": {
+        "type": "health",
+        "alerts": [
+          "A-2005",
+          "A-2006"
+        ],
+        "why": "RMM agent and EDR sensor health on one workstation"
+      }
+    }
+  }
+}

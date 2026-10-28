@@ -1,0 +1,17 @@
+{
+  "_note": "Synthetic technician notes for the B-22 gold check (invented; no real ticket or person). Each note is what a technician might have typed while working the ticket. The eval expects every sentence of a note to appear under 'steps tried' in that ticket's escalation package, cited to the note.",
+  "notes": [
+    {"ticket": "T-5116", "client": "contoso-dental", "description": "Power-cycled the firewall and the front desk switch. The WAN light on the firewall stays amber."},
+    {"ticket": "T-5126", "client": "contoso-dental", "description": "Pinged the scanner from the front desk PC and it answers. Re-entered the scan folder path and the error is the same."},
+    {"ticket": "T-5112", "client": "contoso-dental", "description": "Checked the reminder sender in the message trace and it was delivered. Asked the practice for the junk folder headers."},
+    {"ticket": "T-5102", "client": "contoso-dental", "description": "Confirmed the caller by the call-back number on file. Waiting for approval before the sign-in methods are cleared."},
+    {"ticket": "T-5257", "client": "fabrikam-capital", "description": "Started Outlook in safe mode and it stays open. Disabled the add-ins one at a time and the crash did not return after the CRM add-in was off."},
+    {"ticket": "T-5205", "client": "fabrikam-capital", "description": "Reviewed the sign-in log for the account and it shows two sessions per sign-in. Cleared the saved credentials in Windows Credential Manager."},
+    {"ticket": "T-5235", "client": "fabrikam-capital", "description": "Ran a speed test from the trading floor switch and it matches the plan. Moved the market data feed to the second uplink for a test."},
+    {"ticket": "T-5262", "client": "fabrikam-capital", "description": "Opened a case with the portfolio system vendor and gave them the export log. Waiting for the vendor to reply."},
+    {"ticket": "T-5344", "client": "litware-legal", "description": "Swapped the HDMI cable for a spare and the screen still shows no signal. Tried a second laptop and got the same result."},
+    {"ticket": "T-5302", "client": "litware-legal", "description": "Confirmed the call-back number on file with the user. The lead has the sign-in methods change waiting for approval."},
+    {"ticket": "T-5359", "client": "litware-legal", "description": "Reinstalled the check printing driver on the accounting PC. The error is unchanged and the vendor has the log."},
+    {"ticket": "T-5311", "client": "litware-legal", "description": "Asked the office manager to confirm the approval in writing. Nothing changed on the docketing calendar yet."}
+  ]
+}

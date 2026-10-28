@@ -1,0 +1,11 @@
+{
+  "Id": "TB-MFA-01",
+  "CheckId": "MFA",
+  "Severity": "High",
+  "Title": "User has no MFA method registered",
+  "Subject": "ben.carter@contosodental.example",
+  "Evidence": "isMfaRegistered=false; methodsRegistered=none; accountEnabled=true; userType=Member",
+  "FixLever": "user.require-mfa",
+  "FixMode": "dry-run",
+  "FixTarget": "ben.carter@contosodental.example"
+}

@@ -1,0 +1,71 @@
+{
+  "_note": "Synthetic PSA asset data for Fabrikam Capital (invented). Shaped like the public Autotask REST API entity ConfigurationItems (a query response {\"items\": [...]}); field status in workflows/device_reconcile/psa_assets/SOURCES.md. Pinned to asOf. Holds one decoy item of the other client's company on purpose. Not a capture from a real PSA.",
+  "client": "fabrikam-capital",
+  "asOf": "2026-10-22T12:00:00Z",
+  "companyID": 30002,
+  "configurationItems": {
+    "items": [
+      {
+        "id": 70101,
+        "companyID": 30002,
+        "configurationItemType": 1,
+        "referenceTitle": "FAB-WS01",
+        "serialNumber": "FC-0001-WS",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70102,
+        "companyID": 30002,
+        "configurationItemType": 1,
+        "referenceTitle": "FAB-WS02",
+        "serialNumber": "FC-0002-WS",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70103,
+        "companyID": 30002,
+        "configurationItemType": 1,
+        "referenceTitle": "FAB-WS03",
+        "serialNumber": "FC-0003-WS",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70104,
+        "companyID": 30002,
+        "configurationItemType": 1,
+        "referenceTitle": "FAB-FS01",
+        "serialNumber": "FC-0004-FS",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      },
+      {
+        "id": 70199,
+        "companyID": 30001,
+        "configurationItemType": 1,
+        "referenceTitle": "FAB-WS01",
+        "serialNumber": "FC-0001-WS",
+        "isActive": true,
+        "installDate": "2025-03-01T00:00:00Z",
+        "createDate": "2025-03-01T09:00:00Z",
+        "lastModifiedTime": "2026-09-30T12:00:00Z"
+      }
+    ],
+    "pageDetails": {
+      "count": 5,
+      "requestCount": 500,
+      "prevPageUrl": null,
+      "nextPageUrl": null
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "_note": "Synthetic findings, invented for this fixture set. They are not results of any assessment of a real tenant. `topics` is how a finding is matched to mapping items.",
+  "findings": [
+    {"id": "F-001", "client": "contoso-dental", "title": "Two administrator accounts have no second sign-in factor registered (synthetic)", "topics": ["authentication", "access"], "controls": ["C-03", "C-38"]},
+    {"id": "F-002", "client": "contoso-dental", "title": "A shared mailbox is still readable by a former employee (synthetic)", "topics": ["access"], "controls": ["C-38"]},
+    {"id": "F-003", "client": "contoso-dental", "title": "Audit log retention is shorter than the practice's own policy (synthetic)", "topics": ["audit", "retention"], "controls": ["C-08"]},
+    {"id": "F-004", "client": "contoso-dental", "title": "No named contact for the privacy officer in the incident runbook (synthetic)", "topics": ["incident"], "controls": ["C-34"]},
+    {"id": "F-005", "client": "contoso-dental", "title": "Scheduling vendor has no signed business associate agreement on file (synthetic)", "topics": ["vendor"], "controls": ["C-43"]},
+    {"id": "F-006", "client": "contoso-dental", "title": "Backup restore test is older than twelve months (synthetic)", "topics": ["contingency"], "controls": []},
+    {"id": "F-101", "client": "fabrikam-capital", "title": "One advisor account signs in without multi-factor prompts (synthetic)", "topics": ["authentication", "access"], "controls": ["C-03", "C-38"]},
+    {"id": "F-102", "client": "fabrikam-capital", "title": "Customer-information systems are not on the client's data inventory (synthetic)", "topics": ["inventory"], "controls": ["C-25"]},
+    {"id": "F-103", "client": "fabrikam-capital", "title": "Custodian portal vendor review is overdue (synthetic)", "topics": ["vendor"], "controls": ["C-43"]},
+    {"id": "F-104", "client": "fabrikam-capital", "title": "Written incident response plan does not name the notification owner (synthetic)", "topics": ["incident", "notification"], "controls": ["C-34"]},
+    {"id": "F-105", "client": "fabrikam-capital", "title": "Administrator activity logs are reviewed ad hoc, not on a schedule (synthetic)", "topics": ["audit"], "controls": ["C-08"]}
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "asOf": "2026-10-01",
+  "staleDays": 90,
+  "maxGlobalAdmins": 4,
+  "globalAdminRoleTemplateId": "62e90394-69f5-4237-9190-012177145e10",
+  "breakGlass": {
+    "namePrefix": "bg-",
+    "candidateDisplayNamePattern": "(?i)break.?glass|emergency",
+    "requireCloudOnly": true,
+    "requireExcludedFromEnabledCaPolicies": true,
+    "requireGlobalAdmin": true,
+    "minimumCompliantAccounts": 2
+  },
+  "fixLevers": {
+    "MFA": "user.require-mfa",
+    "STALE": "user.disable",
+    "GLOBALADMIN": "",
+    "LEGACYAUTH": "ca.block-legacy-auth",
+    "BREAKGLASS": "",
+    "GUESTADMIN": "role.remove-member"
+  },
+  "plannedFixLevers": ["user.require-mfa", "ca.block-legacy-auth", "role.remove-member"],
+  "tenants": {
+    "contoso-dental": { "displayName": "Contoso Dental", "fixtureDir": "contoso", "aliases": ["contoso"] },
+    "fabrikam-capital": { "displayName": "Fabrikam Capital", "fixtureDir": "clean", "aliases": ["clean"] }
+  },
+  "graph": {
+    "tenantIdEnvVar": "REDLINE_TENANT_ID",
+    "requiredScopes": ["User.Read.All", "AuditLog.Read.All", "Policy.Read.All", "RoleManagement.Read.Directory", "Reports.Read.All"],
+    "optionalScopes": ["SecurityEvents.Read.All"]
+  }
+}

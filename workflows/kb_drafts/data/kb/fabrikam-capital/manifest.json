@@ -1,0 +1,10 @@
+{
+  "sources": [
+    {"source_id": "b58-fc-printer-a", "article_id": "KB-FC-201", "title": "Printer shows offline", "tags": ["printing"], "origin": "kb/fabrikam-capital/b58-printer-a", "declared_class": "DC-2",
+     "paragraphs": ["The compliance floor printer shows offline after the nightly router restart.", "Restart the print spooler service on the workstation."]},
+    {"source_id": "b58-fc-printer-b", "article_id": "KB-FC-202", "title": "Printer offline do not restart", "tags": ["printing"], "origin": "kb/fabrikam-capital/b58-printer-b", "declared_class": "DC-2",
+     "paragraphs": ["When the printer shows offline after the router restart, do not restart the print spooler service on the workstation.", "Reference phrase: quokka-b58-fabrikam-article."]},
+    {"source_id": "b58-fc-backup", "article_id": "KB-FC-203", "title": "Backup schedule", "tags": ["backup"], "origin": "kb/fabrikam-capital/b58-backup", "declared_class": "DC-2",
+     "paragraphs": ["Full backups of the practice server run every 90 days."]}
+  ]
+}

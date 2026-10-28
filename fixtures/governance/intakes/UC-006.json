@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-006",
+  "title": "Show the local admin password to the technician",
+  "client_scope": "one-client",
+  "client": "fabrikam-capital",
+  "problem": "Technicians ask for the local administrator password during endpoint repairs; fetch it for them.",
+  "effect": "read-only",
+  "data_classes": [
+    "DC-6"
+  ],
+  "model_route": "none",
+  "proposed_levers": [
+    "laps.get"
+  ],
+  "inventory_ids": [
+    "W-EP-11"
+  ],
+  "minutes_per_run": 4,
+  "runs_per_month": 60,
+  "effort_days": 5,
+  "roi_row": null
+}

@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "licenses",
+    "note": "Synthetic. SKUs and assignments imitate a Microsoft Graph subscribedSku (skuId, skuPartNumber, prepaidUnits.enabled) and a user's assignedLicenses (skuId); those field names are UNVERIFIED here (written from memory, not read from the docs this session). `assignments` (a flat list with userPrincipalName, assignedOn, retentionEndsOn) and the free-seat count (prepaidUnits.enabled minus assignments of the SKU) are this repo's own shape, not Graph. skuId values are invented, not Microsoft's; skuPartNumber strings are modelled on real names and UNVERIFIED. Not captured from a real tenant."
+  },
+  "skus": [
+    {
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "displayName": "Business Premium (synthetic)",
+      "prepaidUnits": {
+        "enabled": 10,
+        "suspended": 0,
+        "warning": 0
+      }
+    },
+    {
+      "skuId": "f0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "ENTERPRISEPACK",
+      "displayName": "Enterprise E3 (synthetic)",
+      "prepaidUnits": {
+        "enabled": 3,
+        "suspended": 0,
+        "warning": 0
+      }
+    }
+  ],
+  "assignments": [
+    {
+      "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "dana.kim@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "alex.ward@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "chris.osei@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "quinn.ford@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000501",
+      "skuPartNumber": "O365_BUSINESS_PREMIUM",
+      "assignedOn": "2024-02-20",
+      "retentionEndsOn": "2026-10-01"
+    },
+    {
+      "userPrincipalName": "morgan.reyes@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "ENTERPRISEPACK",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "riley.brooks@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "ENTERPRISEPACK",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    },
+    {
+      "userPrincipalName": "dana.kim@fabrikamcapital.example",
+      "skuId": "f0000000-0000-4000-8000-000000000502",
+      "skuPartNumber": "ENTERPRISEPACK",
+      "assignedOn": "2025-01-15",
+      "retentionEndsOn": null
+    }
+  ]
+}

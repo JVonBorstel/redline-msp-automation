@@ -1,0 +1,33 @@
+{
+  "_note": "B-88 SharePoint document-library fixture for the ingestion source mock. Synthetic (invented client, people, tenant). Not a capture from a real tenant. Field names are UNVERIFIED shapes, see specs/B-88.md.",
+  "client": "fabrikam-capital",
+  "tenantId": "f0000000-0000-4000-8000-0000000000a1",
+  "as_of": "2026-10-27",
+  "libraries": [
+    {
+      "siteId": "f0000000-0000-4000-8000-0000000000b1",
+      "siteName": "Operations",
+      "driveName": "Documents",
+      "items": [
+        {
+          "id": "01FC0001",
+          "name": "Trading floor printer queue.txt",
+          "path": "Runbooks/Trading floor printer queue.txt",
+          "mimeType": "text/plain",
+          "lastModifiedDateTime": "2026-10-19T14:00:00Z",
+          "eTag": "\"{FC0001},2\"",
+          "text": "When the second floor printer queue is stuck, clear the queue from the print server and ask the analyst to print again. Statements are never printed on the shared device."
+        },
+        {
+          "id": "01FC0002",
+          "name": "Offsite backup schedule.md",
+          "path": "Runbooks/Offsite backup schedule.md",
+          "mimeType": "text/markdown",
+          "lastModifiedDateTime": "2026-10-20T16:45:00Z",
+          "eTag": "\"{FC0002},1\"",
+          "text": "# Offsite backup\n\nThe file server is copied offsite every night. The technician confirms the copy finished before the market opens and raises a ticket if it did not."
+        }
+      ]
+    }
+  ]
+}

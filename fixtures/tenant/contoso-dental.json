@@ -1,0 +1,139 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "note": "Synthetic. users and authentication.methods are mock data shaped like Microsoft Graph v1.0 (user, authentication method resources); not verified against a live tenant. tickets and kb are synthetic PSA and knowledge-base shapes."
+  },
+  "users": [
+    {
+      "id": "3f1c9a52-7d4e-4b8a-9c21-0a5e6b7c8d91",
+      "displayName": "Ana Lopez",
+      "userPrincipalName": "ana.lopez@contosodental.example",
+      "jobTitle": "Office Manager",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "8e2a4c10-1b3d-4f5e-8a7b-9c0d1e2f3a4b"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "b7d2e9f1-4a6c-4e8b-a1c3-5d7e9f0a2b4c", "displayName": "Pixel 8 (synthetic)"},
+          {"@odata.type": "#microsoft.graph.phoneAuthenticationMethod", "id": "c4e6a8b0-2d4f-4a6c-8e0a-1b3d5f7a9c1e", "phoneNumber": "+1 555 0101", "phoneType": "mobile"}
+        ]
+      }
+    },
+    {
+      "id": "5a7b9c1d-3e5f-4a7b-9c1d-2e4f6a8b0c2d",
+      "displayName": "Dr. Sam Patel",
+      "userPrincipalName": "sam.patel@contosodental.example",
+      "jobTitle": "Dentist",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "1c3e5a7b-9d1f-4b3d-8f5a-7c9e1a3b5d7f"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "2d4f6b8c-0e2a-4c4e-9a6b-8d0f2b4c6e8a", "displayName": "iPhone 15 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "7c9e1f3a-5b7d-4c9e-8f1a-3b5d7f9a1c3e",
+      "displayName": "Jamie Chen",
+      "userPrincipalName": "jamie.chen@contosodental.example",
+      "jobTitle": "Front Desk (left the practice)",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "4f6a8c0e-2b4d-4e6f-8a0c-2e4a6c8e0b2d"}
+        ]
+      }
+    },
+    {
+      "id": "afbbebce-68b5-530e-b8f7-49957cbac346",
+      "displayName": "Priya Nair",
+      "userPrincipalName": "priya.nair@contosodental.example",
+      "jobTitle": "Dental Hygienist",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "ea1d6e4b-ea57-5246-95c4-1c81de7d8188"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "dfee6671-bbb1-5b9e-8df6-5ebb7b9ad969", "displayName": "iPhone 13 (synthetic)"}
+        ]
+      }
+    },
+    {
+      "id": "e9d42287-2097-5578-bfb4-f2aeff493a92",
+      "displayName": "Tom Baker",
+      "userPrincipalName": "tom.baker@contosodental.example",
+      "jobTitle": "Dental Assistant",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "95abc87d-85d6-50b3-b658-4aec17da07eb"},
+          {"@odata.type": "#microsoft.graph.phoneAuthenticationMethod", "id": "b76e0891-073b-5c04-8a98-8fb09022e4ef", "phoneNumber": "+1 555 0142", "phoneType": "mobile"}
+        ]
+      }
+    },
+    {
+      "id": "b82db3c5-4dc7-560d-817a-6ed5cd3c516d",
+      "displayName": "Lena Fischer",
+      "userPrincipalName": "lena.fischer@contosodental.example",
+      "jobTitle": "Billing Coordinator",
+      "accountEnabled": true,
+      "authentication": {
+        "methods": [
+          {"@odata.type": "#microsoft.graph.passwordAuthenticationMethod", "id": "58aea33f-0585-5aab-bb7c-6fa79dbd3be0"},
+          {"@odata.type": "#microsoft.graph.microsoftAuthenticatorAuthenticationMethod", "id": "9ddc8dbb-d1f6-5b16-9060-caf3e36ed190", "displayName": "Pixel 7 (synthetic)"}
+        ]
+      }
+    }
+  ],
+  "tickets": [
+    {
+      "id": "T-1001",
+      "title": "Lost phone, cannot approve sign-in",
+      "requester": "ana.lopez@contosodental.example",
+      "status": "new",
+      "priority": "high",
+      "category": "identity",
+      "body": "I lost my phone over the weekend and the Authenticator prompts go nowhere. Can you reset my MFA?"
+    },
+    {
+      "id": "T-1002",
+      "title": "Disable account for staff member who left",
+      "requester": "sam.patel@contosodental.example",
+      "status": "new",
+      "priority": "medium",
+      "category": "identity",
+      "body": "Jamie Chen left the practice on Friday. Please disable their account."
+    },
+    {
+      "id": "T-1003",
+      "title": "Front desk printer offline",
+      "requester": "ana.lopez@contosodental.example",
+      "status": "open",
+      "priority": "low",
+      "category": "hardware",
+      "body": "The reception printer shows offline again after the power cut."
+    }
+  ],
+  "kb": [
+    {
+      "id": "KB-CD-001",
+      "title": "Re-register MFA after a lost or replaced phone",
+      "category": "identity",
+      "tags": ["mfa", "authenticator", "phone", "lost"],
+      "body": "Verify the caller with the practice's call-back list, reset MFA (lead approval), then guide re-registration at next sign-in."
+    },
+    {
+      "id": "KB-CD-002",
+      "title": "Leaver checklist for practice staff",
+      "category": "identity",
+      "tags": ["leaver", "offboarding", "disable"],
+      "body": "Confirm the leave date with the practice manager, disable the account, then convert the mailbox to shared."
+    },
+    {
+      "id": "KB-CD-003",
+      "title": "Reception printer shows offline",
+      "category": "hardware",
+      "tags": ["printer", "offline"],
+      "body": "Power-cycle the printer, then check that it kept its reserved IP address."
+    }
+  ]
+}

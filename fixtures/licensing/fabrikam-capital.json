@@ -1,0 +1,28 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "licensing",
+    "note": "Synthetic (B-75). Billing agreement counts, unit prices, renewal dates, hardware purchase and warranty dates and the overlap list are invented for this prototype; no billing system, distributor portal or vendor portal was read. Purchased and assigned seats come from fixtures/tenant/<client>/licenses.json, users from fixtures/tenant/<client>.json, sign-ins from fixtures/tenant/<client>/signins.json, devices from fixtures/rmm/<client>.json and workflows/device_reconcile/psa_assets/<client>.json (all synthetic, read only). Every figure computed from these files is fixture-based. Not a capture from a real system."
+  },
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-22",
+  "agreement": {
+    "billed_users": 4,
+    "billed_devices": 4
+  },
+  "unit_prices_monthly": {
+    "O365_BUSINESS_PREMIUM": 22.0,
+    "ENTERPRISEPACK": 36.0
+  },
+  "overlap_groups": [["O365_BUSINESS_PREMIUM", "ENTERPRISEPACK"]],
+  "renewals": [
+    {"id": "R-FC-01", "kind": "subscription", "name": "ENTERPRISEPACK", "ends_on": "2026-11-05", "owner": "account manager"},
+    {"id": "R-FC-02", "kind": "subscription", "name": "O365_BUSINESS_PREMIUM", "ends_on": "2026-12-31", "owner": "account manager"},
+    {"id": "R-FC-03", "kind": "domain", "name": "fabrikamcapital.example", "ends_on": "2027-06-30", "owner": "account manager"}
+  ],
+  "hardware": [
+    {"hostname": "FAB-FS01", "purchased_on": "2021-03-10", "warranty_ends_on": "2024-03-10", "lifecycle_years": 5},
+    {"hostname": "FAB-WS01", "purchased_on": "2025-01-15", "warranty_ends_on": "2028-01-15", "lifecycle_years": 5}
+  ]
+}

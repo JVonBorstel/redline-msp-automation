@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "as_of": "2026-10-22T09:00:00Z",
+    "note": "Synthetic mail-flow state for the offline MailFlowOps levers (B-45), the isolation twin of contoso-dental. Shapes imitate Exchange Online message trace and quarantine output; every field name is UNVERIFIED (see fixtures/mailflow/SOURCES.md)."
+  },
+  "messageTrace": [
+    {"messageTraceId": "f0000000-0000-4000-8000-00000000b101", "messageId": "<s2001.4410@woodgrovebank.example>", "received": "2026-10-21T12:40:00Z", "senderAddress": "statements@woodgrovebank.example", "recipientAddress": "morgan.reyes@fabrikamcapital.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "f0000000-0000-4000-8000-00000000b102", "messageId": "<s2001.4410@woodgrovebank.example>", "received": "2026-10-21T12:40:01Z", "senderAddress": "statements@woodgrovebank.example", "recipientAddress": "riley.brooks@fabrikamcapital.example", "status": "Delivered", "quarantineId": null},
+    {"messageTraceId": "f0000000-0000-4000-8000-00000000b201", "messageId": "<s2002.7315@litware-offers.example>", "received": "2026-10-21T11:15:00Z", "senderAddress": "deals@litware-offers.example", "recipientAddress": "dana.kim@fabrikamcapital.example", "status": "Quarantined", "quarantineId": "Q-2002"}
+  ],
+  "quarantine": [
+    {"id": "Q-2002", "messageId": "<s2002.7315@litware-offers.example>", "quarantineType": "Spam", "senderAddress": "deals@litware-offers.example", "recipients": ["dana.kim@fabrikamcapital.example"], "releasedTo": []}
+  ]
+}

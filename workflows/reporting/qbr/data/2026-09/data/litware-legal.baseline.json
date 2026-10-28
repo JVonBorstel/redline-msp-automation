@@ -1,0 +1,19 @@
+{
+  "_note": "Synthetic September 2026 tenant baseline for Litware Legal (invented tenant), written by script from the October fixture (findings minus the October 'new', plus the October 'resolved'). The drift block is hand-made and lists everything as unchanged. Not a captured run. Fixture-based.",
+  "client": "litware-legal",
+  "tenant": "tenant-litware-legal",
+  "as_of": "2026-09-22T06:00:00Z",
+  "findings": [],
+  "drift": {
+    "compared_to": "2026-08-22",
+    "new": [],
+    "resolved": [],
+    "unchanged": [],
+    "ca": {
+      "added": [],
+      "removed": [],
+      "state_changed": [],
+      "assignments_changed": []
+    }
+  }
+}

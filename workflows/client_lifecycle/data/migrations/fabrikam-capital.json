@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "migration-plan",
+    "note": "Synthetic (B-77). The clean twin (STD-FX-4): a planned tenant-to-tenant move of Fabrikam Capital's mailboxes into the client's own new tenant that passes every pre-flight check. The destination block is an invented read-only snapshot (domain, mailbox quota, target SKU seats, addresses already in use); it is this repo's own shape, not a vendor migration tool's. .example domains only."
+  },
+  "version": 1,
+  "client": "fabrikam-capital",
+  "kind": "tenant-to-tenant",
+  "mailboxes": [
+    "morgan.reyes@fabrikamcapital.example",
+    "riley.brooks@fabrikamcapital.example",
+    "dana.kim@fabrikamcapital.example",
+    "alex.ward@fabrikamcapital.example",
+    "chris.osei@fabrikamcapital.example",
+    "compliance@fabrikamcapital.example"
+  ],
+  "destination": {
+    "label": "Fabrikam Capital new tenant (synthetic)",
+    "domain": "fabrikamcapitalgroup.example",
+    "mailbox_quota_gb": 100,
+    "licence": {"skuPartNumber": "O365_BUSINESS_PREMIUM", "enabled": 10, "assigned": 1},
+    "addresses_in_use": ["admin@fabrikamcapitalgroup.example"]
+  }
+}

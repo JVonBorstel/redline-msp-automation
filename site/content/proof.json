@@ -1,0 +1,24 @@
+{
+  "lede": "What I can show, how, and what I cannot. Numbers in the first block are read from the project at the commit shown. The recorded runs below are dated results of commands I ran, not live numbers.",
+  "recorded_runs": [
+    {"date": "2026-10-27", "what": "Twelve-minute demo script, every typed command run by a test", "command": "uv run --frozen pytest -p no:cacheprovider on the long-form demo test file", "result": "25 passed, exit 0", "commit": "cba50c1"}
+  ],
+  "claims": [
+    {"claim": "Permissions live on the lever, not the model", "evidence": "Lever runner gates, registry validators", "tests": "tests/phase1/test_levers.py, tests/py/levers/test_b02_runner_gates.py", "state": "proven on fixtures"},
+    {"claim": "Edits to the audit log are detected", "evidence": "Hash chain with head pin; browser verifier agrees with the Python one", "tests": "tests/phase1/test_audit.py, tests/py/audit/test_b17_audit_v2.py, site chain parity test", "state": "proven on fixtures"},
+    {"claim": "A requester-verified change is refused without a callback", "evidence": "Runner and approval page", "tests": "tests/py/queue/test_b03_approval_page.py", "state": "proven on fixtures"},
+    {"claim": "A hostile ticket gets no lever", "evidence": "Tripwire plus fixed category table", "tests": "tests/phase1/test_guard.py, triage tests", "state": "proven on a 50-case corpus written with the rules"},
+    {"claim": "Each client is isolated from the others", "evidence": "One-client adapters, per-client chains", "tests": "tests/py/adapters/", "state": "proven on mocks"},
+    {"claim": "Rollback proposes the registered undo only when state matches the record", "evidence": "Rollback workflow", "tests": "tests/py/rollback/test_b41_rollback.py", "state": "proven on fixtures"},
+    {"claim": "The summary numbers in the baseline report match the findings", "evidence": "Machine-checked reconciliation", "tests": "levers/powershell/TenantBaseline/Test-SummaryReconciles.ps1", "state": "proven on fixtures"}
+  ],
+  "not_proven": [
+    "Anything against a real tenant, real tickets or real users.",
+    "Real Microsoft sign-in. The issuer is a mock; claim names follow public documentation and are unchecked against a live token.",
+    "The two-approver rule on the shipped page. It is enforced and tested in the runner only.",
+    "Model quality. The classifier is a deterministic mock and the labels share an author with the rules.",
+    "Vendor field names and enum values for PSA, backup, alerts and device tools. They are neutral placeholders.",
+    "Production behaviour: load, failure, throttling, and the single-writer limit of the audit log.",
+    "That the guard hooks fire in every live assistant session."
+  ]
+}

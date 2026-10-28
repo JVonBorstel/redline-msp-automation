@@ -1,0 +1,49 @@
+{
+  "_note": "Synthetic September 2026 patch status for Litware Legal (invented devices), written by script from the October fixture with dates moved back 30 days and one device given a waiting critical update. Neutral shape of this repository's own (UNVERIFIED). Fixture-based.",
+  "client": "litware-legal",
+  "as_of": "2026-09-22T12:00:00Z",
+  "devices": [
+    {
+      "id": "LL-SER01",
+      "kind": "server",
+      "last_patched": "2026-09-16",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "LL-WOR02",
+      "kind": "workstation",
+      "last_patched": "2026-09-13",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "LL-WOR03",
+      "kind": "workstation",
+      "last_patched": "2026-09-13",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "LL-WOR04",
+      "kind": "workstation",
+      "last_patched": "2026-09-13",
+      "pending_critical": 0,
+      "pending_other": 1
+    },
+    {
+      "id": "LL-LAP05",
+      "kind": "laptop",
+      "last_patched": "2026-09-09",
+      "pending_critical": 0,
+      "pending_other": 0
+    },
+    {
+      "id": "LL-LAP06",
+      "kind": "laptop",
+      "last_patched": "2026-09-09",
+      "pending_critical": 0,
+      "pending_other": 0
+    }
+  ]
+}

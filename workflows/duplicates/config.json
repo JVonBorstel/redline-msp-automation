@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "_note": "B-23 configuration for duplicate, related-ticket and outage grouping. Synthetic. The topic words were written with the Phase 2 gold tickets in view (fixture-based, so scores on that set show the pipeline working, not detection quality on real tickets). Terms are lower case with punctuation removed; a ticket's subject counts double.",
+  "window_hours": 4,
+  "outage_min_tickets": 3,
+  "outage_min_requesters": 2,
+  "related_min_similarity": 0.4,
+  "topics": [
+    {"id": "internet", "category": "network", "terms": ["internet", "imaging server", "network down"]},
+    {"id": "vpn", "category": "network", "terms": ["vpn"]},
+    {"id": "wifi", "category": "network", "terms": ["wifi", "wi fi"]},
+    {"id": "market-data", "category": "network", "terms": ["market data", "market terminal", "quotes", "prices", "feed", "terminal"]},
+    {"id": "copier", "category": "hardware", "terms": ["copier"]},
+    {"id": "printer", "category": "hardware", "terms": ["printer", "print", "printing", "superbills"]},
+    {"id": "scanner", "category": "hardware", "terms": ["scanner", "scanning", "scan"]},
+    {"id": "conference-display", "category": "hardware", "terms": ["conference room", "no signal", "display"]},
+    {"id": "outlook-crash", "category": "software", "terms": ["crashes", "crashed", "crashing", "closes itself", "stay open", "disappears"]},
+    {"id": "teams-phone", "category": "software", "terms": ["teams phone", "dial tone", "desk phone"]},
+    {"id": "wire-portal", "category": "software", "terms": ["wire confirmation", "bank portal", "blank page"]},
+    {"id": "court-portal", "category": "software", "terms": ["court portal", "e filing", "filing portal", "court filing site", "service unavailable"]},
+    {"id": "document-system", "category": "software", "terms": ["document system", "document management", "dms"]},
+    {"id": "suspicious-email", "category": "security", "terms": ["suspicious email", "looks fake", "filing rejected", "rejected filing", "strange domain"]}
+  ]
+}

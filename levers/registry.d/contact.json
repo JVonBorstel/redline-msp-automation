@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "_note": "B-34. Requester authorization check on the client's authorized-contacts list (fixtures/psa/contacts-authorized.json). Mock only; no real PSA is called. Evidence for the verification record; it never sets verification.",
+  "levers": [
+    {
+      "name": "contact.check",
+      "description": "Answer whether a named requester may request a given change type for this client, from the client's own authorized-contacts list only. Evidence for the approval page; it never verifies the requester.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": [
+        "requester",
+        "change_type"
+      ],
+      "entry": "levers.python.contact:contact_check",
+      "params": {
+        "requester": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "Email address the request came from or names, e.g. sam.patel@contosodental.example"
+        },
+        "change_type": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "new-account",
+            "access-change",
+            "mfa-reset",
+            "password-reset",
+            "disable-account"
+          ],
+          "description": "The kind of change being requested"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A stranger cannot get an account or access in someone else's name; a real person not yet listed is sent to their primary contact, not refused for good.",
+        "L2": "The client decides who may ask for changes in its name, and an unknown requester goes back to the client's primary contact instead of being guessed at.",
+        "L3": "The technician gets a fast, repeatable answer, kept as evidence beside the callback; verification stays a human act, so the check is not a rubber stamp.",
+        "L4": "Only the client's own list is read, so one office's contacts are never visible to, or used for, another's."
+      }
+    }
+  ]
+}

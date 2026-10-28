@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-005",
+  "title": "Bulk sign-in block for leavers across tenants",
+  "client_scope": "many-clients",
+  "problem": "Offboarding batches block sign-in for many leavers at once; a lever would do the batch after approval.",
+  "effect": "irreversible-or-identity-or-tenant-wide",
+  "data_classes": [
+    "DC-3"
+  ],
+  "model_route": "none",
+  "proposed_levers": [
+    "user.disable"
+  ],
+  "inventory_ids": [
+    "W-ONB-08"
+  ],
+  "minutes_per_run": 6,
+  "runs_per_month": 300,
+  "effort_days": 20,
+  "client": null,
+  "roi_row": null
+}

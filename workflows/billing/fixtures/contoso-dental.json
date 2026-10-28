@@ -1,0 +1,45 @@
+{
+  "_note": "Synthetic billing fixture for Contoso Dental (invented): a managed-services contract scope, tickets and time entries. Written for B-76; not a capture from a real PSA or contract. Tickets T-3101 and T-3102 also exist in fixtures/psa/contoso-dental.json (titles must match); the rest exist only here. Fixture-based.",
+  "client": "contoso-dental",
+  "contract": {
+    "id": "MSA-CONTOSO (synthetic)",
+    "projects": [{"id": "P-100", "name": "Front-desk PC refresh (synthetic)", "clause": "4.1"}],
+    "clauses": [
+      {"id": "1.4", "category": "non-billable", "text": "Provider internal work (training, quoting) is never billed.", "when": {"work_types": ["internal", "training", "quoting"]}},
+      {"id": "4.1", "category": "project", "text": "Work under a signed project order is billed to that project, not to the monthly fee.", "when": {"has_project": true}},
+      {"id": "2.3", "category": "billable", "text": "Support outside 08:00-17:00 on weekdays is billed time and materials.", "when": {"after_hours": true}},
+      {"id": "2.2", "category": "billable", "text": "On-site visits are billed time and materials.", "when": {"work_types": ["onsite"]}},
+      {"id": "2.4", "category": "contract-covered", "text": "Remote support is covered up to 10 hours per calendar month; hours beyond that are billed time and materials.", "when": {"work_types": ["remote-support"]}, "monthly_cap_hours": 10, "overflow": {"category": "billable"}},
+      {"id": "2.1", "category": "contract-covered", "text": "Patching, monitoring, backup checks and user administration are covered by the monthly fee.", "when": {"work_types": ["patching", "monitoring", "backup-check", "user-admin"]}},
+      {"id": "3.1", "category": "billable", "text": "Support for line-of-business applications is outside the managed scope and billed time and materials.", "when": {"work_types": ["app-support"]}}
+    ]
+  },
+  "tickets": [
+    {"ticket": "T-3101", "title": "Phone in the lake, Authenticator gone", "ticket_type": "incident"},
+    {"ticket": "T-3102", "title": "New iPhone - move my MFA", "ticket_type": "service-request"},
+    {"ticket": "T-9301", "title": "Printer queue stuck at front desk", "ticket_type": "incident"},
+    {"ticket": "T-9302", "title": "Monthly patch window", "ticket_type": "service-request"},
+    {"ticket": "T-9303", "title": "Operatory 2 workstation will not boot", "ticket_type": "incident"},
+    {"ticket": "T-9304", "title": "Practice software cannot reach server, clinic open Saturday", "ticket_type": "incident"},
+    {"ticket": "T-9305", "title": "Technician security training", "ticket_type": "service-request"},
+    {"ticket": "T-9306", "title": "Front-desk PC refresh, unit 3", "ticket_type": "project"},
+    {"ticket": "T-9307", "title": "Imaging software reports a licence error", "ticket_type": "incident"},
+    {"ticket": "T-9308", "title": "Question about moving to a new phone system", "ticket_type": "service-request"},
+    {"ticket": "T-9309", "title": "Backup alert review", "ticket_type": "service-request"}
+  ],
+  "entries": [
+    {"id": "E-1001", "ticket": "T-3101", "date": "2026-10-20", "hours": 0.5, "work_type": "remote-support", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Reset MFA for the hygienist because her phone was lost and she could not approve sign-in prompts. Confirmed she can sign in on the new phone."},
+    {"id": "E-1002", "ticket": "T-3102", "date": "2026-10-20", "hours": 0.5, "work_type": "remote-support", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Reset MFA for the practice manager after the old phone was wiped and the authenticator did not transfer. Registered the new iPhone and the user confirmed sign-in works."},
+    {"id": "E-1003", "ticket": "T-9301", "date": "2026-10-05", "hours": 3.5, "work_type": "remote-support", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Cleared the stuck print queue and restarted the spooler on the front-desk PC because jobs had been failing since morning. Test page printed, user confirmed."},
+    {"id": "E-1004", "ticket": "T-9301", "date": "2026-10-08", "hours": 4.0, "work_type": "remote-support", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Reinstalled the printer driver and removed the duplicate printer object because the queue jammed again. Printed five test pages without errors."},
+    {"id": "E-1005", "ticket": "T-9301", "date": "2026-10-12", "hours": 2.0, "work_type": "remote-support", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Updated the firmware on the printer since the vendor advisory listed the jam as a known fault. Printer stable after two days, ticket closed."},
+    {"id": "E-1006", "ticket": "T-9302", "date": "2026-10-14", "hours": 1.5, "work_type": "patching", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Installed October cumulative updates on four workstations as scheduled. All rebooted cleanly and reported as compliant."},
+    {"id": "E-1007", "ticket": "T-9303", "date": "2026-10-15", "hours": 2.0, "work_type": "onsite", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Replaced the failed SSD in the operatory 2 workstation because it would not boot. Restored the image and the clinician confirmed the imaging software opens."},
+    {"id": "E-1008", "ticket": "T-9304", "date": "2026-10-17", "hours": 1.0, "work_type": "remote-support", "after_hours": true, "project_id": null, "psa_billing_code": "billable", "note": "Restarted the practice software service on the server because clinic was open Saturday and workstations could not connect. Workstations connected again."},
+    {"id": "E-1009", "ticket": "T-9305", "date": "2026-10-16", "hours": 1.0, "work_type": "training", "after_hours": false, "project_id": null, "psa_billing_code": "non-billable", "note": "security training"},
+    {"id": "E-1010", "ticket": "T-9306", "date": "2026-10-19", "hours": 3.0, "work_type": "remote-support", "after_hours": false, "project_id": "P-100", "psa_billing_code": "project", "note": "Imaged and enrolled the new front-desk PC for unit 3 as part of the refresh, and migrated the user profile. Unit handed over and the user confirmed her shared drives open."},
+    {"id": "E-1011", "ticket": "T-9307", "date": "2026-10-21", "hours": 1.0, "work_type": "app-support", "after_hours": false, "project_id": null, "psa_billing_code": "billable", "note": "worked on issue"},
+    {"id": "E-1012", "ticket": "T-9308", "date": "2026-10-22", "hours": 1.0, "work_type": "consulting", "after_hours": false, "project_id": null, "psa_billing_code": null, "note": "Reviewed the new phone system proposal and compared call-flow options for the practice because the manager asked about moving next quarter. Sent options to the manager; waiting on her choice."},
+    {"id": "E-1013", "ticket": "T-9309", "date": "2026-10-23", "hours": 0, "work_type": "monitoring", "after_hours": false, "project_id": null, "psa_billing_code": "contract", "note": "Reviewed the failed backup alert and found the job had failed because the NAS was full. Cleared old restore points and reran the job; it completed."}
+  ]
+}

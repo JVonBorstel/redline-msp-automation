@@ -1,0 +1,13 @@
+{
+  "_note": "Synthetic restorable items (invented) for B-69. Each item stands for something a backup holds: a file, a mailbox item or a VM. content is a short invented text; sha256 is its hash recorded 'at backup time'. Every field name and value is UNVERIFIED: none was checked against a vendor API (workflows/restore_tests/catalog/SOURCES.md). Not a capture.",
+  "client": "contoso-dental",
+  "asOf": "2026-10-21T07:00:00Z",
+  "organizationId": 81001,
+  "items": [
+    {"id": "RI-1001", "organizationId": 81001, "kind": "file", "name": "treatment-plan-template.txt", "originalLocation": "//DENTAL-SRV01/Shared/Forms/treatment-plan-template.txt", "sourceJobId": "BJ-1001", "content": "Treatment plan template (synthetic)\nPatient: <name>\nProcedure: <code>\nEstimate: <amount>\n", "sha256": "8aee2e876933eb2b27bdbdfe29229a141e848945622360f5e057592eb4eb8e0d"},
+    {"id": "RI-1002", "organizationId": 81001, "kind": "file", "name": "imaging-index.csv", "originalLocation": "//DENTAL-SRV01/Imaging/index.csv", "sourceJobId": "BJ-1003", "content": "study,date,room\nS-0001,2026-10-01,2\nS-0002,2026-10-02,1\n", "sha256": "4b6bb94c2edb3b2bcced31cbc397dd345f8b53bdd63946fc5313fe387e610696"},
+    {"id": "RI-1003", "organizationId": 81001, "kind": "mailbox-item", "name": "Appointment reminders draft", "originalLocation": "mailbox:frontdesk@contoso-dental.example/Drafts/Appointment reminders", "sourceJobId": "BJ-1006", "content": "Subject: Appointment reminders (synthetic draft)\nHello, this is a reminder of your visit.\n", "sha256": "c8ef3cfb508c42803da00c0f7a164b13f54b7b98449b4f0f5818ac246f655521"},
+    {"id": "RI-1004", "organizationId": 81001, "kind": "vm", "name": "FRONTDESK-PC1 image", "originalLocation": "image:FRONTDESK-PC1", "sourceJobId": "BJ-1004", "content": "image manifest (synthetic)\nvolume C: 120 GB\nboot: ok\n", "sha256": "e20db18c8d1c7d7d16318d87de77d9d7150445d3ec30cc2c647cf3a5100ead6c"},
+    {"id": "RI-9001", "organizationId": 81002, "kind": "file", "name": "fab-dc-notes.txt", "originalLocation": "//FAB-DC01/Admin/notes.txt", "sourceJobId": "BJ-2001", "content": "Another client's file (synthetic decoy)\n", "sha256": "c2ba8dac38b5cee635083c5e026e5277142d26ce45e68e85573e4018211cc1e8"}
+  ]
+}

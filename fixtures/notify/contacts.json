@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "_note": "Synthetic. The fast way back (EU-2, C-36) per client: the help-desk line an affected person calls after an automation changed their account. Phone numbers are in the 555-01xx fictional range and are not anyone's personal number. Read by workflows/notify (B-04).",
+  "clients": {
+    "contoso-dental": {
+      "team": "your IT help desk",
+      "fast_phone": "555-0190",
+      "hours": "8am to 6pm, Monday to Friday"
+    },
+    "fabrikam-capital": {
+      "team": "your IT help desk",
+      "fast_phone": "555-0191",
+      "hours": "7am to 7pm, Monday to Friday"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "_note": "B-46. Inbox-rule levers on the mock tenant (fixtures/tenant/<client>/inbox-rules.json, Graph messageRule shape, field names UNVERIFIED). Mock only; no mailbox is called. The write levers record the change in the client's base state under inboxRuleChanges (levers/python/inboxrule.py). graph_scopes are the least-privilege set a real adapter would be reviewed against; UNVERIFIED.",
+  "levers": [
+    {
+      "name": "inboxrule.list",
+      "description": "Read the client's inbox rules (one mailbox when upn is given) and flag each rule that sends mail on to an address outside the client's domains, deletes mail, or moves it to an RSS or obscure folder. Mock of Graph messageRules; technician view only, because rules hold addresses.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["upn", "flagged_only"],
+      "entry": "levers.python.inboxrule:inboxrule_list",
+      "params": {
+        "upn": {"type": "string", "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of one user of this client (default: every mailbox of the client)"},
+        "flagged_only": {"type": "boolean", "description": "Only rules with at least one flag (default false)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "graph_scopes": ["MailboxSettings.Read"],
+      "impact": {
+        "L1": "A technician sees which rules sort, forward or delete one person's mail, including the addresses mail goes to; nothing about the mailbox changes.",
+        "L2": "The client learns that mail is being quietly forwarded or hidden before money or patient data leaves the practice.",
+        "L3": "Every read is registered, scoped and audited by who asked; the rules themselves are not copied into the audit.",
+        "L4": "Rules are read per client from that client's own data, so one office's mailboxes are never listed for another."
+      }
+    },
+    {
+      "name": "inboxrule.disable",
+      "description": "Turn off one inbox rule of one user's mailbox. The rule stays, so it can be read as evidence and turned back on. Mock of a Graph messageRule update (isEnabled false).",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["upn", "rule_id"],
+      "entry": "levers.python.inboxrule:inboxrule_disable",
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of the mailbox owner"},
+        "rule_id": {"type": "string", "required": true, "max_length": 10, "pattern": "^IR-[A-Z]{2}-[0-9]{4}$", "description": "The inbox rule to turn off, e.g. IR-CD-0003 (mock id shape)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "graph_scopes": ["MailboxSettings.ReadWrite"],
+      "impact": {
+        "L1": "Mail that a rule was forwarding, hiding or deleting reaches the person's inbox again; a rule they made themselves stops sorting their mail until it is turned back on.",
+        "L2": "The client stops losing invoices or patient mail to an outside address within minutes of approval; nothing is deleted, so the rule remains as evidence.",
+        "L3": "A containment step the MSP can show an auditor: read first, dry-run diff, lead approval, audit record, and an exact undo.",
+        "L4": "The same reviewed step cuts off forwarding rules at every client, so one stolen mailbox does not become a fraud channel."
+      }
+    },
+    {
+      "name": "inboxrule.enable",
+      "description": "Turn one inbox rule of one user's mailbox back on. The undo of inboxrule.disable. Mock of a Graph messageRule update (isEnabled true).",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["upn", "rule_id"],
+      "entry": "levers.python.inboxrule:inboxrule_enable",
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of the mailbox owner"},
+        "rule_id": {"type": "string", "required": true, "max_length": 10, "pattern": "^IR-[A-Z]{2}-[0-9]{4}$", "description": "The inbox rule to turn back on, e.g. IR-CD-0003 (mock id shape)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "graph_scopes": ["MailboxSettings.ReadWrite"],
+      "impact": {
+        "L1": "A rule the person relies on sorts their mail again; turning on an attacker's rule would start forwarding or hiding mail again.",
+        "L2": "The client gets a mistaken disable fixed; a wrong enable reopens a fraud channel, so a lead checks the rule first.",
+        "L3": "The undo half of containment: dry-run diff, lead approval, audit record, and it reverses inboxrule.disable exactly.",
+        "L4": "A fast, exact undo makes people willing to contain quickly, which protects every client."
+      },
+      "undo_of": "inboxrule.disable",
+      "undo": "inboxrule.disable"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "_note": "Thresholds and the error-code table for the patch pack (B-67). The meanings and suggested levers are UNVERIFIED: written from general knowledge, no vendor page was opened. A wrong meaning changes the wording of a suggestion, never a count.",
+  "version": 1,
+  "grace_days": 7,
+  "stale_days": 30,
+  "notice_lead_days": 5,
+  "required_classifications": ["Security", "ServicingStack"],
+  "products": [
+    {"os_contains": "Windows 11", "product": "win11"},
+    {"os_contains": "Windows Server 2022", "product": "winserver2022"}
+  ],
+  "error_codes": {
+    "0x80070005": {
+      "meaning": "Install was refused with an access-denied error, often a permissions problem or a security tool blocking the update (UNVERIFIED).",
+      "lever": "device.clear-update-cache"
+    },
+    "0x800F0922": {
+      "meaning": "Install could not finish, often because the system partition is short of free space (UNVERIFIED).",
+      "lever": "device.temp-cleanup"
+    }
+  }
+}

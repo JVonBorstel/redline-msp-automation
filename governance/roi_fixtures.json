@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "basis": "fixture-based",
+  "label": "Acceptance numbers are read from this repo's committed eval reports (author-written gold labels, mock providers). Minutes, runs and effort are invented placeholders. Nothing here is a measured saving at a real client.",
+  "rows": [
+    {
+      "id": "triage-category",
+      "automation": "Ticket triage: category",
+      "inventory_id": "W-SD-02",
+      "report": "evals/triage/report.md",
+      "anchor": "| category | 58/60 | 96.7% |",
+      "metric": "ticket category correct on 60 synthetic tickets",
+      "numerator": 58, "denominator": 60,
+      "risk_class": "R0",
+      "minutes_per_run": 3, "runs_per_month": 1500, "effort_days": 6
+    },
+    {
+      "id": "replies-source-recall",
+      "automation": "Reply drafts from the client's own KB",
+      "inventory_id": "W-SD-05",
+      "report": "evals/replies/report.md",
+      "anchor": "Source recall on tickets labelled with a reply source: 34 of 49 (69.4%)",
+      "metric": "labelled reply sources found, of 49 labelled tickets",
+      "numerator": 34, "denominator": 49,
+      "risk_class": "R0",
+      "minutes_per_run": 5, "runs_per_month": 400, "effort_days": 10
+    },
+    {
+      "id": "summary-fact-recall",
+      "automation": "Ticket summary and escalation package",
+      "inventory_id": "W-SD-04",
+      "report": "evals/summary/report.md",
+      "anchor": "| Fact recall at least 90% | 100.0% (319 of 319) | yes |",
+      "metric": "gold facts found in the package, of 319",
+      "numerator": 319, "denominator": 319,
+      "risk_class": "R0",
+      "minutes_per_run": 8, "runs_per_month": 300, "effort_days": 8
+    },
+    {
+      "id": "duplicates-pairs",
+      "automation": "Duplicate and outage grouping",
+      "inventory_id": "W-SD-03",
+      "report": "evals/duplicates/report.md",
+      "anchor": "| **all** | 210 | 13 | 33 | 33 | 33 | 100.0% | 100.0% |",
+      "metric": "true duplicate pairs found, of 33",
+      "numerator": 33, "denominator": 33,
+      "risk_class": "R0",
+      "minutes_per_run": 2, "runs_per_month": 600, "effort_days": 4
+    },
+    {
+      "id": "alerts-pair-recall",
+      "automation": "Alert grouping",
+      "inventory_id": "W-SEC-01",
+      "report": "evals/alerts/report.md",
+      "anchor": "| **all** | 25 | 15 | 9 | 14 | 13 | 13 | 100.0% | 92.9% |",
+      "metric": "true alert pairs found, of 14",
+      "numerator": 13, "denominator": 14,
+      "risk_class": "R0",
+      "minutes_per_run": 4, "runs_per_month": 800, "effort_days": 7
+    },
+    {
+      "id": "phishing-verdicts",
+      "automation": "Phishing report triage",
+      "inventory_id": "W-SEC-03",
+      "report": "evals/phishing/report.md",
+      "anchor": "| **all** | 14 | 14 | 100.0% |",
+      "metric": "verdicts equal to the gold verdict, of 14",
+      "numerator": 14, "denominator": 14,
+      "risk_class": "R0",
+      "minutes_per_run": 10, "runs_per_month": 120, "effort_days": 5
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "_note": "B-36 offboarding plan. `order` is the order of the steps; `steps` names the lever each one calls. Lever param names were read from levers/registry.json and levers/registry.d/*.json. Nothing here is per person or per client.",
+  "queue_source": "baseline",
+  "order": ["block-sign-in", "revoke-sessions", "convert-mailbox", "auto-reply", "onedrive-grant", "remove-group", "remove-license"],
+  "steps": {
+    "block-sign-in": {"lever": "user.disable", "label": "Block sign-in"},
+    "revoke-sessions": {"lever": "user.revoke-sessions", "label": "Revoke sign-in sessions"},
+    "convert-mailbox": {"lever": "mailbox.convert-shared", "label": "Convert the mailbox to shared"},
+    "auto-reply": {"lever": "mailbox.set-auto-reply", "label": "Turn on the automatic reply"},
+    "onedrive-grant": {"lever": "mailbox.grant-onedrive-manager", "label": "Give the manager OneDrive access until the end date"},
+    "remove-group": {"lever": "group.remove-member", "label": "Remove from group"},
+    "remove-license": {"lever": "license.remove", "label": "Remove the license after the retention window"}
+  },
+  "onedrive_days": 14,
+  "auto_reply_message": "This person has left the practice. Please contact the front desk and someone will help you.",
+  "block_reason": "Offboarding: the person has left",
+  "device_steps": [
+    "Collect the person's laptop and phone",
+    "Wipe or retire each device and record the date",
+    "Remove each device from management"
+  ],
+  "device_label": "manual until W6"
+}

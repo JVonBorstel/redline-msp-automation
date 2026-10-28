@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "_note": "Work that stays with people (inventory automation_pattern none-keep-human). core/levers/registry.py refuses any lever whose name matches a pattern (fnmatch, lowercase, * matches any characters). Read-only fact packs use other names (B-37, B-48). Changing this file needs a DECISIONS entry. Synthetic prototype.",
+  "entries": [
+    {
+      "inventory_id": "W-ONB-15",
+      "name": "Urgent or hostile termination",
+      "reason": "The decision and the timing are human; people may press pre-built levers (W-ONB-08, W-EP-08) with approval.",
+      "patterns": ["termination.*", "user.terminate*", "offboard.urgent*"]
+    },
+    {
+      "inventory_id": "W-IDM-04",
+      "name": "Caller identity verification",
+      "reason": "A model never judges whether a caller is who they claim; tooling may only show the callback number on file and record that a person verified.",
+      "patterns": ["caller.*", "identity.verify*", "identity.confirm*", "verification.*"]
+    },
+    {
+      "inventory_id": "W-IDM-06",
+      "name": "Conditional Access policy change",
+      "reason": "Needs a change record, report-only testing and engineer sign-off; drift detection stays read-only.",
+      "patterns": ["ca.set*", "ca.new*", "ca.add*", "ca.update*", "ca.remove*", "ca.delete*", "ca.enable*", "ca.disable*", "ca.block*", "ca.exclude*"]
+    },
+    {
+      "inventory_id": "W-IDM-07",
+      "name": "Privileged role grants and PIM activation approval",
+      "reason": "Admin grants define who controls a client tenant; agents may only report who holds what.",
+      "patterns": ["role.grant*", "role.assign*", "role.activate*", "role.approve*", "pim.*"]
+    },
+    {
+      "inventory_id": "W-M365-08",
+      "name": "Sensitivity labels and DLP policy changes",
+      "reason": "Policy changes are human with change approval; agents may report state and simulation results.",
+      "patterns": ["dlp.set*", "dlp.new*", "dlp.add*", "dlp.remove*", "dlp.enable*", "dlp.disable*", "label.set*", "label.new*", "label.publish*", "label.remove*"]
+    },
+    {
+      "inventory_id": "W-M365-12",
+      "name": "Retention, litigation hold and eDiscovery requests",
+      "reason": "Legal authority, scope and content handling are human; content is never placed in a prompt.",
+      "patterns": ["hold.*", "ediscovery.*", "retention.set*", "retention.new*", "retention.remove*", "retention.disable*"]
+    },
+    {
+      "inventory_id": "W-EP-06",
+      "name": "Disk encryption status and recovery key retrieval",
+      "reason": "Key retrieval is human after identity verification; key values never reach a model, a ticket body or a log.",
+      "patterns": ["bitlocker.*", "recoverykey.*", "encryption.get-key*", "encryption.reveal*"]
+    },
+    {
+      "inventory_id": "W-EP-11",
+      "name": "Local admin password (LAPS) retrieval and admin-rights requests",
+      "reason": "Retrieval is human; password values never reach a model or a log. Agents may report LAPS coverage only.",
+      "patterns": ["laps.*", "localadmin.*"]
+    },
+    {
+      "inventory_id": "W-PAT-07",
+      "name": "Network device firmware (firewalls, switches, access points)",
+      "reason": "Upgrades are human; agents may report versions against advisories.",
+      "patterns": ["firmware.*", "netdevice.*"]
+    },
+    {
+      "inventory_id": "W-BDR-07",
+      "name": "Ransomware or disaster recovery decision",
+      "reason": "The people in charge decide; agents may only fetch read-only status for them.",
+      "patterns": ["ransomware.*", "dr.*", "failover.*", "recovery.declare*", "disaster.*"]
+    },
+    {
+      "inventory_id": "W-SEC-07",
+      "name": "Security incident declaration and breach notification decision",
+      "reason": "Breach determination and notification are legal decisions owned by the client with counsel; agents may assemble a factual timeline from the audit log.",
+      "patterns": ["incident.declare*", "incident.close*", "breach.*"]
+    },
+    {
+      "inventory_id": "W-SEC-09",
+      "name": "Firewall and SASE rule changes",
+      "reason": "A human change with a change record; agents may diff current rules against documentation, read-only.",
+      "patterns": ["firewall.*", "sase.*"]
+    },
+    {
+      "inventory_id": "W-CMP-07",
+      "name": "Policy attestations and management assertions",
+      "reason": "A signature is a person's accountable statement.",
+      "patterns": ["attestation.*", "assertion.*", "policy.attest*", "policy.sign*"]
+    },
+    {
+      "inventory_id": "W-VND-02",
+      "name": "License purchase or reduction",
+      "reason": "Spending is human: agents may recommend, the client approves and a human orders.",
+      "patterns": ["license.purchase*", "license.order*", "license.reduce*", "license.cancel*", "license.buy*", "license.subscribe*", "license.add-seat*", "license.increase*"]
+    },
+    {
+      "inventory_id": "W-VND-06",
+      "name": "Domain and DNS registrar changes",
+      "reason": "Human only with a change record; agents may validate a proposed record set, read-only.",
+      "patterns": ["dns.*", "domain.*", "registrar.*"]
+    },
+    {
+      "inventory_id": "W-KB-07",
+      "name": "Credential vault entries in the documentation platform",
+      "reason": "No AI access to vault contents; they are excluded from retrieval, prompts and logs.",
+      "patterns": ["vault.*", "credential.*", "password.reveal*", "password.get*"]
+    },
+    {
+      "inventory_id": "W-BIL-04",
+      "name": "Contract terms, pricing and billing disputes",
+      "reason": "Commercial relationships are human; agents may fetch facts.",
+      "patterns": ["contract.set*", "contract.new*", "contract.update*", "contract.renew*", "pricing.set*", "pricing.update*", "billing.dispute*", "billing.adjust*", "billing.credit*"]
+    },
+    {
+      "inventory_id": "W-PRJ-02",
+      "name": "Client offboarding from the MSP",
+      "reason": "Human-run; agents may produce the checklist and the read-only proof that MSP access is gone.",
+      "patterns": ["client.offboard*", "client.remove*", "msp.offboard*"]
+    },
+    {
+      "inventory_id": "W-TOOL-08",
+      "name": "Secrets and managed identity management",
+      "reason": "Humans create and rotate secrets; code only references them; agents never read secret values.",
+      "patterns": ["secret.*", "managedidentity.*", "keyvault.*"]
+    },
+    {
+      "inventory_id": "W-GOV-02",
+      "name": "Model and tool approval",
+      "reason": "Approving a provider or tool is a human decision recorded in DECISIONS.",
+      "patterns": ["provider.approve*", "tool.approve*", "model.approve*"]
+    },
+    {
+      "inventory_id": "W-GOV-04",
+      "name": "AI incident response",
+      "reason": "Humans lead; agents can be switched off by one config change and supply the audit timeline.",
+      "patterns": ["aiincident.*"]
+    },
+    {
+      "inventory_id": "W-TRN-04",
+      "name": "New technician onboarding and performance coaching",
+      "reason": "Judgments about people are never automated; AI output and metrics are never the basis for ratings or discipline.",
+      "patterns": ["technician.rate*", "technician.score*", "technician.discipline*", "performance.*", "coaching.*"]
+    }
+  ]
+}

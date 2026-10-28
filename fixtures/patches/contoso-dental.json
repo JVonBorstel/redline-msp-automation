@@ -1,0 +1,37 @@
+{
+  "_note": "SYNTHETIC per-device update state for Contoso Dental (invented), neutral shape of this repo, not a vendor schema. Device uids are the RMM fixture's (fixtures/rmm/contoso-dental.json). Holds one decoy record for a device of the other client's RMM site on purpose (it must be dropped and counted). Seeded cases are listed in fixtures/patches/SOURCES.md. Pinned to as_of.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-22T12:00:00Z",
+  "cycle": "2026-10",
+  "server_window": {"weekday": "Saturday", "start_local": "22:00", "duration_hours": 4, "utc_offset": "-06:00", "label": "Mountain time, fixed offset (synthetic)"},
+  "devices": [
+    {"uid": "c0000000-0000-4000-8000-0000000d0001", "ring": "pilot", "updates": [
+      {"kb": "KB-SYN-1001", "state": "installed"}, {"kb": "KB-SYN-1003", "state": "installed"},
+      {"kb": "KB-SYN-1004", "state": "installed"}, {"kb": "KB-SYN-1005", "state": "pending"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0002", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "failed", "error_code": "0x80070005", "error_text": "Access is denied (synthetic).", "last_attempt": "2026-10-21T22:10:00Z"},
+      {"kb": "KB-SYN-1003", "state": "installed"}, {"kb": "KB-SYN-1004", "state": "installed"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0003", "ring": "server", "reboot_required": true, "post_checks": ["DentalDB", "FileShare"], "updates": [
+      {"kb": "KB-SYN-1002", "state": "installed"}, {"kb": "KB-SYN-1007", "state": "pending"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0004", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "pending"}, {"kb": "KB-SYN-1003", "state": "installed"},
+      {"kb": "KB-SYN-1004", "state": "failed", "error_code": "0x800f0922", "error_text": "Not enough free space on the system partition (synthetic).", "last_attempt": "2026-10-21T17:00:00Z"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0005", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "pending"}, {"kb": "KB-SYN-1003", "state": "pending"}, {"kb": "KB-SYN-1004", "state": "pending"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0006", "ring": "pilot", "updates": [
+      {"kb": "KB-SYN-1001", "state": "installed"}, {"kb": "KB-SYN-1003", "state": "installed"}, {"kb": "KB-SYN-1004", "state": "installed"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0007", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "failed", "error_code": "0x80070005", "error_text": "Access is denied (synthetic).", "last_attempt": "2026-07-15T14:00:00Z"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0008", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "failed", "error_code": "0x80070005", "error_text": "Access is denied (synthetic).", "last_attempt": "2026-10-22T02:10:00Z"},
+      {"kb": "KB-SYN-1003", "state": "installed"}, {"kb": "KB-SYN-1004", "state": "installed"}]},
+    {"uid": "f0000000-0000-4000-8000-0000000d0900", "ring": "pilot", "updates": [
+      {"kb": "KB-SYN-1001", "state": "failed", "error_code": "0x80070005", "error_text": "Decoy record of the other client's site (synthetic).", "last_attempt": "2026-10-21T08:00:00Z"}]}
+  ],
+  "network_devices": [
+    {"hostname": "CD-FW01", "kind": "firewall", "vendor": "Northwind Systems", "model": "NW-Edge-50 (synthetic)", "current_version": "9.1.3", "latest_known_version": "9.1.7", "advisory_id": "ADV-SYN-2026-014", "advisory_fixed_version": "9.1.5"},
+    {"hostname": "CD-SW01", "kind": "switch", "vendor": "Tailspin Labs", "model": "TL-Switch-24 (synthetic)", "current_version": "4.2.0", "latest_known_version": "4.2.0", "advisory_id": null, "advisory_fixed_version": null},
+    {"hostname": "CD-AP01", "kind": "access-point", "vendor": "Adatum", "model": "AD-Air-6 (synthetic)", "current_version": "7.0.12", "latest_known_version": "7.1.0", "advisory_id": null, "advisory_fixed_version": null},
+    {"hostname": "CD-AP02", "kind": "access-point", "vendor": "Adatum", "model": "AD-Air-6 (synthetic)", "current_version": "beta-3", "latest_known_version": "7.1.0", "advisory_id": null, "advisory_fixed_version": null}
+  ]
+}

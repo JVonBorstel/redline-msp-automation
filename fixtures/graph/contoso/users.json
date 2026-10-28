@@ -1,0 +1,263 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users(id,displayName,userPrincipalName,userType,accountEnabled,createdDateTime,onPremisesSyncEnabled,signInActivity)",
+  "value": [
+    {
+      "id": "c0000000-0000-4000-8000-000000000001",
+      "displayName": "Alice Nguyen",
+      "userPrincipalName": "alice.nguyen@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2024-02-12T15:04:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-30T16:20:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-30T18:02:11Z",
+        "lastSuccessfulSignInDateTime": "2026-09-30T18:02:11Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000002",
+      "displayName": "Ben Carter",
+      "userPrincipalName": "ben.carter@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2024-06-03T14:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-29T08:11:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-30T07:55:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-30T07:55:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000003",
+      "displayName": "Dana Lopez",
+      "userPrincipalName": "dana.lopez@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2023-11-20T10:30:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-05-10T09:12:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-05-10T09:40:00Z",
+        "lastSuccessfulSignInDateTime": "2026-05-10T09:40:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000004",
+      "displayName": "Frank Ortiz",
+      "userPrincipalName": "frank.ortiz@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2024-01-08T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-07-03T00:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-06-30T12:00:00Z",
+        "lastSuccessfulSignInDateTime": "2026-07-03T00:00:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000005",
+      "displayName": "Kyle Moss",
+      "userPrincipalName": "kyle.moss@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2024-03-15T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-07-04T00:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-07-01T08:00:00Z",
+        "lastSuccessfulSignInDateTime": "2026-07-04T00:00:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000006",
+      "displayName": "Erin Brooks",
+      "userPrincipalName": "erin.brooks@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2024-09-09T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-04-01T13:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-28T07:45:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-28T07:45:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000007",
+      "displayName": "Omar Hassan",
+      "userPrincipalName": "omar.hassan@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2023-08-21T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-30T03:14:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-04-02T10:05:00Z",
+        "lastSuccessfulSignInDateTime": "2026-04-02T10:05:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000008",
+      "displayName": "Carl Reyes",
+      "userPrincipalName": "carl.reyes@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2026-03-01T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": null
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000009",
+      "displayName": "Nina Shah",
+      "userPrincipalName": "nina.shah@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2026-09-25T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": null
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000010",
+      "displayName": "Grace Kim",
+      "userPrincipalName": "grace.kim@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2022-05-02T09:00:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-30T09:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-30T11:30:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-30T11:30:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000011",
+      "displayName": "Henry Adams",
+      "userPrincipalName": "henry.adams@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2022-05-02T09:05:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-29T10:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-29T10:20:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-29T10:20:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000012",
+      "displayName": "Ivy Patel",
+      "userPrincipalName": "ivy.patel@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2023-01-16T09:00:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-25T15:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-30T15:00:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-30T15:00:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000013",
+      "displayName": "Jack Wu",
+      "userPrincipalName": "jack.wu@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2023-04-10T09:00:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-22T12:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-28T12:00:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-28T12:00:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000014",
+      "displayName": "Break Glass Alpha",
+      "userPrincipalName": "bg-alpha@contosodental.onmicrosoft.com",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2022-05-01T08:00:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-27T03:12:00Z",
+        "lastNonInteractiveSignInDateTime": null,
+        "lastSuccessfulSignInDateTime": "2026-09-27T03:12:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000015",
+      "displayName": "Break Glass Beta",
+      "userPrincipalName": "bg-beta@contosodental.onmicrosoft.com",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2022-05-01T08:05:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-08-15T14:10:00Z",
+        "lastNonInteractiveSignInDateTime": null,
+        "lastSuccessfulSignInDateTime": "2026-08-15T14:10:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000016",
+      "displayName": "Emergency Admin",
+      "userPrincipalName": "emergency.admin@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": true,
+      "createdDateTime": "2021-10-04T08:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-02T09:00:00Z",
+        "lastNonInteractiveSignInDateTime": null,
+        "lastSuccessfulSignInDateTime": "2026-09-02T09:00:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000017",
+      "displayName": "Old Contractor",
+      "userPrincipalName": "old.contractor@contosodental.example",
+      "userType": "Member",
+      "accountEnabled": false,
+      "createdDateTime": "2025-01-10T09:00:00Z",
+      "onPremisesSyncEnabled": true,
+      "signInActivity": {
+        "lastSignInDateTime": "2025-11-30T17:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2025-11-30T17:05:00Z",
+        "lastSuccessfulSignInDateTime": "2025-11-30T17:05:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000018",
+      "displayName": "Pat Vendor (Northwind)",
+      "userPrincipalName": "pat_northwind.example#EXT#@contosodental.onmicrosoft.com",
+      "userType": "Guest",
+      "accountEnabled": true,
+      "createdDateTime": "2025-06-12T09:00:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-26T19:00:00Z",
+        "lastNonInteractiveSignInDateTime": "2026-09-26T19:30:00Z",
+        "lastSuccessfulSignInDateTime": "2026-09-26T19:30:00Z"
+      }
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000019",
+      "displayName": "Lee Auditor (Tailspin)",
+      "userPrincipalName": "lee_tailspin.example#EXT#@contosodental.onmicrosoft.com",
+      "userType": "Guest",
+      "accountEnabled": true,
+      "createdDateTime": "2026-02-02T09:00:00Z",
+      "onPremisesSyncEnabled": null,
+      "signInActivity": {
+        "lastSignInDateTime": "2026-09-18T16:00:00Z",
+        "lastNonInteractiveSignInDateTime": null,
+        "lastSuccessfulSignInDateTime": "2026-09-18T16:00:00Z"
+      }
+    }
+  ]
+}

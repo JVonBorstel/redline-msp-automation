@@ -1,0 +1,30 @@
+{
+  "_how_to_add": "To add a project card, append one object to \"projects\" below and rebuild (python -B build.py). Fields: id (kebab-case), name, status (live | building | idea), kicker (3 to 6 words), summary (1 to 3 sentences), skills (list), proof (list of {label, href}; href is a page of this site or omitted), links (list of {label, href}; only https links you are happy to publish). Everything here is published, so keep private names and people out. The site tests check this file for private wording; run scan/privacy-scan.ps1 on dist before any publish.",
+  "intro": "One place to see what I build, how I decide, and what I can prove. Each project below states what is real, what is synthetic and what is still unproven.",
+  "skills": [
+    {"area": "AI governance and safety", "detail": "Permissions on the tool, not the model. Dry-run, approval, undo and a tamper-evident audit log. Prompt-injection tripwire with a separate hard control."},
+    {"area": "Automation engineering", "detail": "Python orchestration with PowerShell actions through a fail-closed bridge, schema checked on both sides."},
+    {"area": "Microsoft 365 and identity", "detail": "Baseline checks over Graph-shaped data, joiner and leaver plans, requester verification, rollback from recorded before-state."},
+    {"area": "Testing and honesty", "detail": "Every claim points at a test. Every unknown is labelled. Demo commands are run by a test."},
+    {"area": "Product and UX", "detail": "A static, accessible site with no third-party requests, light and dark themes, built from real runs of the code."},
+    {"area": "Delivery process", "detail": "Specs before code, change notes per item, decisions written down, independent review before merge."}
+  ],
+  "projects": [
+    {
+      "id": "redline",
+      "name": "Redline",
+      "status": "live",
+      "kicker": "A governed AI automation prototype",
+      "summary": "An AI and automation program for a managed service provider, built as runnable, tested software. Small tested scripts do the work. A model only suggests which one to press, and every action is dry-run first, approved by a lead and written to a hash-chained log.",
+      "skills": ["Python", "PowerShell 7", "Microsoft Graph (mocked)", "JSON Schema", "Prompt-injection defence", "Static site generation"],
+      "proof": [
+        {"label": "Triage 60 synthetic tickets", "href": "triage.html"},
+        {"label": "Approve, tamper, verify", "href": "approvals.html"},
+        {"label": "Hostile ticket gets nothing", "href": "injection.html"},
+        {"label": "Evidence and limits", "href": "proof.html"},
+        {"label": "Roadmap with status", "href": "roadmap.html"}
+      ],
+      "links": []
+    }
+  ]
+}

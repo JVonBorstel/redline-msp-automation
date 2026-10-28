@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "displayName": "Fabrikam Capital",
+    "family": "groups",
+    "note": "Synthetic. Group property names id, displayName, description, groupTypes, mailEnabled, securityEnabled, isAssignableToRole, mail, mailNickname, visibility and the members collection are VERIFIED against https://learn.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0 (read 2026-10-22). Simplifications: members is embedded as a short list of {id, userPrincipalName} (Graph returns directoryObject items from GET /groups/{id}/members). redlineAccessClass ('data' or 'distribution') and redlinePrivilegedGroups (a client's own list of group display names that automation never changes) are this repo's own fields, not Graph properties. Per the Graph docs, adding members through Graph is supported for security and Microsoft 365 groups only; a mail-enabled distribution group is changed through Exchange Online, which this mock does not distinguish (UNVERIFIED for a real tenant). Not captured from a real tenant."
+  },
+  "redlinePrivilegedGroups": [
+    "Wire Approvers"
+  ],
+  "value": [
+    {
+      "id": "f1000000-0000-4000-8000-000000000001",
+      "displayName": "Research Share Readers",
+      "description": "Read access to the research document library (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": false,
+      "mailNickname": "researchreaders",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": [
+        {
+          "id": "9a1b3c5d-7e9f-4a1b-8c3d-5e7f9a1b3c5d",
+          "userPrincipalName": "morgan.reyes@fabrikamcapital.example"
+        }
+      ]
+    },
+    {
+      "id": "f1000000-0000-4000-8000-000000000002",
+      "displayName": "Compliance Bulletin List",
+      "description": "Mail list for compliance bulletins (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": true,
+      "securityEnabled": false,
+      "isAssignableToRole": false,
+      "mailNickname": "compbulletin",
+      "visibility": "Private",
+      "redlineAccessClass": "distribution",
+      "members": [
+        {
+          "id": "9a1b3c5d-7e9f-4a1b-8c3d-5e7f9a1b3c5d",
+          "userPrincipalName": "morgan.reyes@fabrikamcapital.example"
+        },
+        {
+          "id": "2b4d6f8a-0c2e-4d6f-9a0c-4e6a8c0e2b4d",
+          "userPrincipalName": "riley.brooks@fabrikamcapital.example"
+        }
+      ]
+    },
+    {
+      "id": "f1000000-0000-4000-8000-000000000003",
+      "displayName": "Privileged Access Admins",
+      "description": "Role-assignable group for tenant admins (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": true,
+      "mailNickname": "privadmins",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": []
+    },
+    {
+      "id": "f1000000-0000-4000-8000-000000000004",
+      "displayName": "Wire Approvers",
+      "description": "Approve outgoing wires; on the client's privileged list (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": false,
+      "mailNickname": "wireapprovers",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": []
+    }
+  ]
+}

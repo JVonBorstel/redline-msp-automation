@@ -1,0 +1,9 @@
+{
+  "_note": "SHA-256 of each released prompt file (LF line endings). A released version never changes; add a new version and its line here in the same PR. Synthetic data only.",
+  "version": 1,
+  "files": {
+    "classify.v1.md": "198aa7242d82578a4162a3473f4207da59f1ffaeea3cbf1ba0e424872931eddf",
+    "reason.v1.md": "a759e86af197596fdc0f4878b10be669fdb4ae0434499175313311134bb8a308",
+    "summarize.v1.md": "1b244e4aeab15b1402e785e8c070e4317bf21691b4fa77f54ea0b380411543b7"
+  }
+}

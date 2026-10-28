@@ -1,0 +1,82 @@
+{
+  "_note": "SYNTHETIC monthly update release list for the patch review pack (B-67). Neutral shape of this repo, not a vendor schema: no RMM, Intune or Windows Update API response is imitated or claimed. KB ids (KB-SYN-*) are invented and match no real update. Pinned to as_of.",
+  "as_of": "2026-10-22T12:00:00Z",
+  "cycle": "2026-10",
+  "patch_tuesday": "2026-10-13",
+  "rings": [
+    {"id": "pilot", "order": 1, "products": ["win11"], "soak_days": 3},
+    {"id": "broad", "order": 2, "products": ["win11"], "soak_days": 0},
+    {"id": "server", "order": 3, "products": ["winserver2022"], "soak_days": 0}
+  ],
+  "updates": [
+    {
+      "kb": "KB-SYN-1001",
+      "title": "Cumulative security update for Windows 11 (synthetic)",
+      "classification": "Security",
+      "severity": "Critical",
+      "product": "win11",
+      "released": "2026-10-13",
+      "known_issues": [
+        {"id": "KI-SYN-01", "summary": "Printing to some network printers can fail after install; a driver re-add is the workaround.", "status": "open", "fixed_in": null}
+      ]
+    },
+    {
+      "kb": "KB-SYN-1002",
+      "title": "Cumulative security update for Windows Server 2022 (synthetic)",
+      "classification": "Security",
+      "severity": "Important",
+      "product": "winserver2022",
+      "released": "2026-10-13",
+      "known_issues": []
+    },
+    {
+      "kb": "KB-SYN-1003",
+      "title": ".NET security update for Windows 11 (synthetic)",
+      "classification": "Security",
+      "severity": "Important",
+      "product": "win11",
+      "released": "2026-10-13",
+      "known_issues": [
+        {"id": "KI-SYN-02", "summary": "A line-of-business app can close on start; fixed by the out-of-band update.", "status": "fixed", "fixed_in": "KB-SYN-1005"}
+      ]
+    },
+    {
+      "kb": "KB-SYN-1004",
+      "title": "Servicing stack update for Windows 11 (synthetic)",
+      "classification": "ServicingStack",
+      "severity": "Important",
+      "product": "win11",
+      "released": "2026-10-13",
+      "known_issues": []
+    },
+    {
+      "kb": "KB-SYN-1005",
+      "title": "Out-of-band security fix for Windows 11 (synthetic)",
+      "classification": "Security",
+      "severity": "Important",
+      "product": "win11",
+      "released": "2026-10-20",
+      "known_issues": []
+    },
+    {
+      "kb": "KB-SYN-1006",
+      "title": "Optional preview update for Windows 11 (synthetic)",
+      "classification": "Preview",
+      "severity": "Low",
+      "product": "win11",
+      "released": "2026-10-15",
+      "known_issues": []
+    },
+    {
+      "kb": "KB-SYN-1007",
+      "title": "Remote Desktop security update for Windows Server 2022 (synthetic)",
+      "classification": "Security",
+      "severity": "Important",
+      "product": "winserver2022",
+      "released": "2026-10-13",
+      "known_issues": [
+        {"id": "KI-SYN-03", "summary": "The licensing service can stay stopped after the first reboot; start it by hand.", "status": "open", "fixed_in": null}
+      ]
+    }
+  ]
+}

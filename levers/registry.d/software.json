@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "_note": "B-63. Software install request on the mock tenant state, from the approved catalog only (fixtures/catalog/approved-software.json; a test keeps the package_id enum equal to the catalog ids). Mock only; no RMM is called and nothing installs. Update proposals come from levers.python.software.propose_updates and are dry-run calls of this lever.",
+  "levers": [
+    {
+      "name": "device.install-app",
+      "description": "Ask for one approved-catalog package, at the version and hash the catalog pins, to be installed on one device of the client. Mock of an RMM software deployment; records a request in the client's own state.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["device_uid", "package_id"],
+      "entry": "levers.python.software:device_install_app",
+      "params": {
+        "device_uid": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client"
+        },
+        "package_id": {
+          "type": "string",
+          "required": true,
+          "enum": ["7zip", "adobe-reader", "dental-imaging-viewer", "firefox-esr", "notepadpp", "vlc"],
+          "description": "Catalog id of the package; only ids of the approved catalog pass, and only if the client approved it"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "The person gets the app they need from the vetted list, not from an installer they found; an install can slow their PC for a few minutes.",
+        "L2": "Only software the client approved, at a pinned version and hash, reaches its devices; a wrong time can interrupt a working PC in the office.",
+        "L3": "Each software request is one approved, audited change per device and package however often it is asked, so the MSP can show what was installed.",
+        "L4": "A request names one client's own device and that client's approved catalog only, so one office's software list is never applied to another's."
+      }
+    }
+  ]
+}

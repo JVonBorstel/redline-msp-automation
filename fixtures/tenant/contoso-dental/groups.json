@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "groups",
+    "note": "Synthetic. Group property names id, displayName, description, groupTypes, mailEnabled, securityEnabled, isAssignableToRole, mail, mailNickname, visibility and the members collection are VERIFIED against https://learn.microsoft.com/en-us/graph/api/resources/group?view=graph-rest-1.0 (read 2026-10-22). Simplifications: members is embedded as a short list of {id, userPrincipalName} (Graph returns directoryObject items from GET /groups/{id}/members). redlineAccessClass ('data' or 'distribution') and redlinePrivilegedGroups (a client's own list of group display names that automation never changes) are this repo's own fields, not Graph properties. Per the Graph docs, adding members through Graph is supported for security and Microsoft 365 groups only; a mail-enabled distribution group is changed through Exchange Online, which this mock does not distinguish (UNVERIFIED for a real tenant). Not captured from a real tenant."
+  },
+  "redlinePrivilegedGroups": [
+    "Billing Administrators"
+  ],
+  "value": [
+    {
+      "id": "c1000000-0000-4000-8000-000000000001",
+      "displayName": "Front Desk Staff",
+      "description": "Scheduling and patient check-in apps (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": false,
+      "mailNickname": "frontdesk",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": [
+        {
+          "id": "3f1c9a52-7d4e-4b8a-9c21-0a5e6b7c8d91",
+          "userPrincipalName": "ana.lopez@contosodental.example"
+        }
+      ]
+    },
+    {
+      "id": "c1000000-0000-4000-8000-000000000002",
+      "displayName": "Clinical Records Access",
+      "description": "Read and write access to the practice records share (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": false,
+      "mailNickname": "clinicalrecords",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": [
+        {
+          "id": "5a7b9c1d-3e5f-4a7b-9c1d-2e4f6a8b0c2d",
+          "userPrincipalName": "sam.patel@contosodental.example"
+        }
+      ]
+    },
+    {
+      "id": "c1000000-0000-4000-8000-000000000003",
+      "displayName": "All Staff Announcements",
+      "description": "Mail list for practice-wide notices (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": true,
+      "securityEnabled": false,
+      "isAssignableToRole": false,
+      "mailNickname": "allstaff",
+      "visibility": "Private",
+      "redlineAccessClass": "distribution",
+      "members": [
+        {
+          "id": "3f1c9a52-7d4e-4b8a-9c21-0a5e6b7c8d91",
+          "userPrincipalName": "ana.lopez@contosodental.example"
+        },
+        {
+          "id": "5a7b9c1d-3e5f-4a7b-9c1d-2e4f6a8b0c2d",
+          "userPrincipalName": "sam.patel@contosodental.example"
+        },
+        {
+          "id": "e9d42287-2097-5578-bfb4-f2aeff493a92",
+          "userPrincipalName": "tom.baker@contosodental.example"
+        }
+      ]
+    },
+    {
+      "id": "c1000000-0000-4000-8000-000000000004",
+      "displayName": "IT Admin Role Group",
+      "description": "Group that holds a directory admin role (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": true,
+      "mailNickname": "itadminrole",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": []
+    },
+    {
+      "id": "c1000000-0000-4000-8000-000000000005",
+      "displayName": "Billing Administrators",
+      "description": "Insurance billing system admins; on the client's privileged list (synthetic).",
+      "groupTypes": [],
+      "mailEnabled": false,
+      "securityEnabled": true,
+      "isAssignableToRole": false,
+      "mailNickname": "billingadmins",
+      "visibility": "Private",
+      "redlineAccessClass": "data",
+      "members": []
+    }
+  ]
+}

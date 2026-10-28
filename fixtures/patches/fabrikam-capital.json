@@ -1,0 +1,24 @@
+{
+  "_note": "SYNTHETIC per-device update state for Fabrikam Capital (invented), neutral shape of this repo, not a vendor schema. Device uids are the RMM fixture's (fixtures/rmm/fabrikam-capital.json). Holds one decoy record for a device of the other client's RMM site on purpose (it must be dropped and counted). Seeded cases are listed in fixtures/patches/SOURCES.md. Pinned to as_of.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-22T12:00:00Z",
+  "cycle": "2026-10",
+  "server_window": {"weekday": "Sunday", "start_local": "02:00", "duration_hours": 3, "utc_offset": "-05:00", "label": "Central time, fixed offset (synthetic)"},
+  "devices": [
+    {"uid": "f0000000-0000-4000-8000-0000000d0001", "ring": "pilot", "updates": [
+      {"kb": "KB-SYN-1001", "state": "installed"}, {"kb": "KB-SYN-1003", "state": "installed"}, {"kb": "KB-SYN-1004", "state": "installed"}]},
+    {"uid": "f0000000-0000-4000-8000-0000000d0002", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "installed"}, {"kb": "KB-SYN-1003", "state": "installed"}, {"kb": "KB-SYN-1004", "state": "installed"}]},
+    {"uid": "f0000000-0000-4000-8000-0000000d0003", "ring": "broad", "updates": [
+      {"kb": "KB-SYN-1001", "state": "failed", "error_code": "0x8FFF0001", "error_text": "Unrecognised install error (synthetic).", "last_attempt": "2026-10-22T03:00:00Z"},
+      {"kb": "KB-SYN-1003", "state": "installed"}, {"kb": "KB-SYN-1004", "state": "installed"}]},
+    {"uid": "f0000000-0000-4000-8000-0000000d0004", "ring": "server", "reboot_required": false, "post_checks": ["FileShare", "BackupAgent"], "updates": [
+      {"kb": "KB-SYN-1002", "state": "installed"}, {"kb": "KB-SYN-1007", "state": "installed"}]},
+    {"uid": "c0000000-0000-4000-8000-0000000d0900", "ring": "pilot", "updates": [
+      {"kb": "KB-SYN-1001", "state": "failed", "error_code": "0x800f0922", "error_text": "Decoy record of the other client's site (synthetic).", "last_attempt": "2026-10-21T08:00:00Z"}]}
+  ],
+  "network_devices": [
+    {"hostname": "FAB-FW01", "kind": "firewall", "vendor": "Northwind Systems", "model": "NW-Edge-50 (synthetic)", "current_version": "9.1.7", "latest_known_version": "9.1.7", "advisory_id": "ADV-SYN-2026-014", "advisory_fixed_version": "9.1.5"},
+    {"hostname": "FAB-SW01", "kind": "switch", "vendor": "Tailspin Labs", "model": "TL-Switch-24 (synthetic)", "current_version": "4.1.9", "latest_known_version": "4.2.0", "advisory_id": null, "advisory_fixed_version": null}
+  ]
+}

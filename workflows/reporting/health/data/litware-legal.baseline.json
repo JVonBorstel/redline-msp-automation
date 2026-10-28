@@ -1,0 +1,32 @@
+{
+  "_note": "Synthetic tenant baseline result for Litware Legal (invented tenant). Shaped like a subset of the TenantBaseline findings.json (B-50): findings with CheckId, Severity and Subject, plus the drift block reduced to the keys this report uses. The drift block is written by hand to match the findings; it is not a captured run. Fixture-based, not a real tenant.",
+  "client": "litware-legal",
+  "tenant": "tenant-litware-legal",
+  "as_of": "2026-10-22T06:00:00Z",
+  "findings": [
+    {
+      "Id": "F-01",
+      "CheckId": "STALE",
+      "Severity": "Low",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "summer.clerk@litwarelegal.example"
+    }
+  ],
+  "drift": {
+    "compared_to": "2026-09-22",
+    "new": [
+      {
+        "CheckId": "STALE",
+        "Subject": "summer.clerk@litwarelegal.example"
+      }
+    ],
+    "resolved": [],
+    "unchanged": [],
+    "ca": {
+      "added": [],
+      "removed": [],
+      "state_changed": [],
+      "assignments_changed": []
+    }
+  }
+}

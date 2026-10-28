@@ -1,0 +1,57 @@
+{
+  "_note": "Synthetic Microsoft 365 backup coverage data (invented). Not a capture from any backup product or tenant. Every field name is an UNVERIFIED stand-in (specs/B-70.md). Mailbox ids and addresses match fixtures/tenant/contoso-dental/mailboxes.json; site ids match fixtures/sharepoint/contoso-dental.json.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-26",
+  "requirements": {
+    "min_retention_days": 365,
+    "immutability_required": true,
+    "dr_max_age_months": 12
+  },
+  "inventory": {
+    "users": [
+      {"id": "c0000000-0000-4000-8000-000000000701", "upn": "ana.lopez@contosodental.example", "user_type": "Member", "account_enabled": true},
+      {"id": "c0000000-0000-4000-8000-000000000702", "upn": "sam.patel@contosodental.example", "user_type": "Member", "account_enabled": true},
+      {"id": "c0000000-0000-4000-8000-000000000703", "upn": "jamie.chen@contosodental.example", "user_type": "Member", "account_enabled": true},
+      {"id": "c0000000-0000-4000-8000-000000000704", "upn": "priya.nair@contosodental.example", "user_type": "Member", "account_enabled": true},
+      {"id": "c0000000-0000-4000-8000-000000000705", "upn": "tom.baker@contosodental.example", "user_type": "Member", "account_enabled": true},
+      {"id": "c0000000-0000-4000-8000-000000000706", "upn": "lena.fischer@contosodental.example", "user_type": "Member", "account_enabled": true},
+      {"id": "c0000000-0000-4000-8000-000000000707", "upn": "old.contractor@contosodental.example", "user_type": "Member", "account_enabled": false},
+      {"id": "c0000000-0000-4000-8000-000000000708", "upn": "pat_northwind.example#EXT#@contosodental.onmicrosoft.com", "user_type": "Guest", "account_enabled": true}
+    ],
+    "mailboxes": [
+      {"id": "c0000000-0000-4000-8000-000000000201", "address": "ana.lopez@contosodental.example", "kind": "user"},
+      {"id": "c0000000-0000-4000-8000-000000000202", "address": "sam.patel@contosodental.example", "kind": "user"},
+      {"id": "c0000000-0000-4000-8000-000000000203", "address": "jamie.chen@contosodental.example", "kind": "user"},
+      {"id": "c0000000-0000-4000-8000-000000000204", "address": "priya.nair@contosodental.example", "kind": "user"},
+      {"id": "c0000000-0000-4000-8000-000000000205", "address": "tom.baker@contosodental.example", "kind": "user"},
+      {"id": "c0000000-0000-4000-8000-000000000206", "address": "lena.fischer@contosodental.example", "kind": "user"},
+      {"id": "c0000000-0000-4000-8000-000000000207", "address": "info@contosodental.example", "kind": "shared"}
+    ],
+    "sites": [
+      {"id": "c0000000-0000-4000-8000-000000000001", "name": "Patient Records"},
+      {"id": "c0000000-0000-4000-8000-000000000003", "name": "Billing"},
+      {"id": "c0000000-0000-4000-8000-000000000004", "name": "Marketing"}
+    ]
+  },
+  "policies": [
+    {"id": "POL-C1", "name": "Mailboxes nightly", "service": "Exchange", "state": "active", "retention_days": 365, "immutable": false,
+     "scope": {"mode": "selected", "ids": ["c0000000-0000-4000-8000-000000000201", "c0000000-0000-4000-8000-000000000202", "c0000000-0000-4000-8000-000000000203", "c0000000-0000-4000-8000-000000000204", "c0000000-0000-4000-8000-000000000205"]}},
+    {"id": "POL-C2", "name": "OneDrive all users", "service": "OneDrive", "state": "active", "retention_days": 90, "immutable": true,
+     "scope": {"mode": "all", "ids": [], "excluded": ["c0000000-0000-4000-8000-000000000706"]}},
+    {"id": "POL-C3", "name": "Core sites", "service": "SharePoint", "state": "active", "retention_days": 365, "immutable": true,
+     "scope": {"mode": "selected", "ids": ["c0000000-0000-4000-8000-000000000001", "c0000000-0000-4000-8000-000000000003"]}},
+    {"id": "POL-C4", "name": "Marketing site (paused)", "service": "SharePoint", "state": "paused", "retention_days": 365, "immutable": true,
+     "scope": {"mode": "selected", "ids": ["c0000000-0000-4000-8000-000000000004"]}}
+  ],
+  "dr_plan": {
+    "document": "Contoso Dental disaster recovery plan (synthetic)",
+    "sections": [
+      {"id": "DR-1", "title": "Contacts and escalation", "owner": "lead-lee", "last_reviewed": "2026-08-12"},
+      {"id": "DR-2", "title": "Critical systems and recovery order", "owner": "lead-lee", "last_reviewed": "2025-06-03"},
+      {"id": "DR-3", "title": "Backup and restore procedures", "owner": "tech-ana", "last_reviewed": "2025-10-26"},
+      {"id": "DR-4", "title": "Microsoft 365 recovery", "owner": "tech-ana", "last_reviewed": "2024-11-20"},
+      {"id": "DR-5", "title": "Communications plan", "owner": "lead-lee", "last_reviewed": "2026-03-01"},
+      {"id": "DR-6", "title": "Tabletop exercise log", "owner": "lead-lee", "last_reviewed": null}
+    ]
+  }
+}

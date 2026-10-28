@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "note": "Synthetic. One device list per client for the fact packs (B-37). The repo has no device source yet, so this file is the stand-in. EVERY field name is UNVERIFIED against vendor documentation (no Intune or other device API page was read); no vendor shape is claimed. Names, serials and dates are invented."
+  },
+  "clients": {
+    "contoso-dental": {
+      "asOf": "2026-10-21T07:00:00Z",
+      "devices": [
+        {"id": "dev-c-001", "owner": "ana.lopez@contosodental.example", "name": "CD-FRONT-01", "os": "Windows 11", "managed": true, "compliance": "compliant", "lastCheckIn": "2026-10-21T06:41:00Z"},
+        {"id": "dev-c-002", "owner": "ana.lopez@contosodental.example", "name": "ANA-PHONE", "os": "Android 15", "managed": false, "compliance": "unknown", "lastCheckIn": "2026-10-20T19:12:00Z"},
+        {"id": "dev-c-003", "owner": "sam.patel@contosodental.example", "name": "CD-OPS-02", "os": "Windows 11", "managed": true, "compliance": "noncompliant", "lastCheckIn": "2026-10-18T08:03:00Z"},
+        {"id": "dev-c-004", "owner": "grace.kim@contosodental.example", "name": "CD-ADMIN-01", "os": "Windows 11", "managed": true, "compliance": "compliant", "lastCheckIn": "2026-10-21T05:55:00Z"}
+      ]
+    },
+    "fabrikam-capital": {
+      "asOf": "2026-10-21T07:00:00Z",
+      "devices": [
+        {"id": "dev-f-001", "owner": "morgan.reyes@fabrikamcapital.example", "name": "FC-LAP-014", "os": "Windows 11", "managed": true, "compliance": "compliant", "lastCheckIn": "2026-10-21T06:30:00Z"},
+        {"id": "dev-f-002", "owner": "rosa.diaz@fabrikamcapital.example", "name": "FC-LAP-001", "os": "macOS 15", "managed": true, "compliance": "compliant", "lastCheckIn": "2026-10-21T06:50:00Z"}
+      ]
+    }
+  }
+}

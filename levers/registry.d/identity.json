@@ -1,0 +1,156 @@
+{
+  "version": 1,
+  "_note": "B-29. IdentityOps PowerShell levers over the offline mock tenant (fixtures/tenant/<client>.json and <client>/sessions.json). Graph permission names in graph_scopes are the least-privilege set a real adapter would be reviewed against; they are UNVERIFIED except where levers/powershell/IdentityOps/README.md says otherwise. Mock only; no real tenant is called.",
+  "levers": [
+    {
+      "name": "user.revoke-sessions",
+      "runtime": "powershell",
+      "entry": "IdentityOps\\Revoke-UserSessions",
+      "description": "Revoke a member user's sign-in sessions (refresh tokens) so they must sign in again. Mock of Graph revokeSignInSessions. Takes effect after a documented lag and does not apply to guest users.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 20,
+        "clients_per_day": 40
+      },
+      "preauthorized_containment": true,
+      "graph_scopes": [
+        "User.RevokeSessions.All"
+      ],
+      "impact": {
+        "L1": "One person is signed out of every app and must sign in again; unsaved work in open apps can be lost, and access tokens may work for a short while longer.",
+        "L2": "The client cuts off a possibly stolen session without disabling the account; a wrong target interrupts that person's day.",
+        "L3": "A containment step the MSP can show an auditor: dry-run diff, lead approval, audit record; the lag is stated up front so nobody over-promises.",
+        "L4": "Fast, repeatable session revocation limits the damage from a stolen sign-in at every client, not just the one that noticed."
+      }
+    },
+    {
+      "name": "user.enable",
+      "runtime": "powershell",
+      "entry": "IdentityOps\\Enable-UserAccount",
+      "description": "Enable a user account (accountEnabled = true). The undo of user.disable. Mock of a Graph user update.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "verification": "requester",
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 20,
+        "clients_per_day": 30
+      },
+      "graph_scopes": [
+        "User.EnableDisableAccount.All"
+      ],
+      "impact": {
+        "L1": "One person can sign in again; a wrong target or an impostor's request gives the wrong person access.",
+        "L2": "The client gets a mistaken disable fixed, or restores a returning employee; a wrong enable reopens an account that was closed on purpose.",
+        "L3": "Re-enabling is the other half of offboarding: verified requester, lead approval, audit record, and it reverses user.disable exactly.",
+        "L4": "A fast, safe undo makes people willing to automate containment, which protects every client."
+      },
+      "undo_of": "user.disable",
+      "undo": "user.disable"
+    },
+    {
+      "name": "user.set-properties",
+      "runtime": "powershell",
+      "entry": "IdentityOps\\Set-UserProperty",
+      "description": "Change one directory property of a user for a mover: department, jobTitle or manager. Nothing else can be changed with this lever. Mock of a Graph user update.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "upn",
+        "field",
+        "value"
+      ],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName"
+        },
+        "field": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "department",
+            "jobTitle",
+            "manager"
+          ],
+          "description": "Which property to set"
+        },
+        "value": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9 ,&'.@_%+-]{0,112}$",
+          "description": "New department or job title, or the new manager's userPrincipalName"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "verification": "requester",
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 30,
+        "clients_per_day": 40
+      },
+      "graph_scopes": [
+        "User.ReadWrite.All"
+      ],
+      "impact": {
+        "L1": "One person's department, title or manager changes in the directory; group-based access that follows those fields can change with it.",
+        "L2": "The client's address book, approvals and dynamic access follow the new values; a wrong manager sends approvals to the wrong person.",
+        "L3": "A mover step the MSP can show an auditor: only three fields, dry-run diff, lead approval, and set the old value back with the same lever.",
+        "L4": "Movers are where leftover access piles up; changing the fields in one tested path keeps that cleanup the same at every client."
+      }
+    }
+  ]
+}

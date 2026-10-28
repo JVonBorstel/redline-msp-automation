@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "client": "fabrikam-capital",
+    "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+    "as_of": "2026-10-22T12:00:00Z",
+    "note": "Synthetic mock RMM device state for B-62 (specs/B-62.md). Invented machines; shapes follow fixtures/rmm. Every field status is in levers/powershell/DeviceOps/SOURCES.md. Nothing here came from a real RMM."
+  },
+  "devices": [
+    {
+      "uid": "f0000000-0000-4000-8000-0000000d0001",
+      "hostname": "FAB-WS01",
+      "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+      "deviceType": {
+        "category": "Laptop",
+        "type": "Windows"
+      },
+      "online": true,
+      "lastBoot": "2026-10-17T08:10:00Z",
+      "pendingReboot": false,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Hung"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 2
+      },
+      "mappedDrives": {
+        "K": {
+          "path": "\\\\FAB-FS01\\Deals",
+          "state": "Disconnected"
+        }
+      },
+      "outlookProfiles": {
+        "alex.ward": {
+          "state": "Corrupt",
+          "backup": null
+        }
+      },
+      "tempBytes": 3000000000,
+      "tempStaleBytes": 2500000000,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    },
+    {
+      "uid": "f0000000-0000-4000-8000-0000000d0004",
+      "hostname": "FAB-FS01",
+      "siteUid": "f0000000-0000-4000-8000-0000000a0002",
+      "deviceType": {
+        "category": "Server",
+        "type": "Windows Server"
+      },
+      "online": true,
+      "lastBoot": "2026-10-01T03:00:00Z",
+      "pendingReboot": true,
+      "services": {
+        "Spooler": {
+          "status": "Running",
+          "health": "Ok"
+        },
+        "W32Time": {
+          "status": "Running",
+          "health": "Ok"
+        }
+      },
+      "printQueue": {
+        "stuckJobs": 0
+      },
+      "mappedDrives": {},
+      "outlookProfiles": {},
+      "tempBytes": 900000000,
+      "tempStaleBytes": 0,
+      "tempQuarantineBytes": 0,
+      "faults": []
+    }
+  ]
+}

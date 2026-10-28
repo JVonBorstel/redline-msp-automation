@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "source_id": "fq-remote", "article_id": "KB-FQ-001", "title": "Fabrikam Capital trading desk remote access",
+      "tags": ["remote"], "origin": "questionnaires/fabrikam-capital/remote", "declared_class": "DC-2",
+      "paragraphs": [
+        "Fabrikam Capital traders connect to the trading desk through the company VPN with a hardware token.",
+        "Reference phrase for this record: quokka-fq-canary-6602."
+      ]
+    },
+    {
+      "source_id": "fq-backup", "article_id": "KB-FQ-002", "title": "Fabrikam Capital trade record copies",
+      "tags": ["backup"], "origin": "questionnaires/fabrikam-capital/backup", "declared_class": "DC-2",
+      "paragraphs": [
+        "Fabrikam Capital trade records are copied weekly to an offsite vault."
+      ]
+    }
+  ]
+}

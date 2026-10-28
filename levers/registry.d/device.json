@@ -1,0 +1,310 @@
+{
+  "version": 1,
+  "_note": "B-62. DeviceOps write levers (PowerShell, offline mock RMM device state; no RMM is called). Each runs one vetted script from levers/powershell/DeviceOps/vetted-scripts.json; there is no script, path or command parameter. reboot carries window business-hours and reboot-server window maintenance; the runner (B-42) applies the window, the lever holds no time logic. All field shapes are UNVERIFIED stand-ins; see levers/powershell/DeviceOps/SOURCES.md.",
+  "levers": [
+    {
+      "name": "device.restart-spooler",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Restart-DevicePrintSpooler",
+      "description": "Restart the Print Spooler on one device of the client and clear its stuck print jobs, using the vetted script dev-spooler-restart. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "Printing works again for the person at that desk; the stuck jobs are removed, so they print them again.",
+        "L2": "A front desk or office that cannot print is back to work without a remote session.",
+        "L3": "A request technicians handle many times a week becomes one approved, audited step.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 10,
+        "clients_per_day": 25
+      }
+    },
+    {
+      "name": "device.repair-mapped-drive",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Repair-DeviceMappedDrive",
+      "description": "Reconnect one mapped network drive letter on one device of the client, using the vetted script dev-drive-repair. The share path is the one already saved on the device. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device",
+        "drive"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        },
+        "drive": {
+          "type": "string",
+          "required": true,
+          "max_length": 1,
+          "pattern": "^[D-Z]$",
+          "description": "Drive letter D to Z that is already mapped on the device"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "The person gets their shared files back; a drive letter that does not exist on the device is refused.",
+        "L2": "The office keeps working from its file share instead of waiting for a remote session.",
+        "L3": "One of the most common Tier 1 fixes becomes a named, approved and audited step.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 10,
+        "clients_per_day": 25
+      }
+    },
+    {
+      "name": "device.reset-outlook-profile",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Reset-DeviceOutlookProfile",
+      "description": "Rename one user's Outlook profile data on one device to a dated backup so a new profile is built, using the vetted script dev-outlook-reset. Mail on the server is not touched. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device",
+        "user"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        },
+        "user": {
+          "type": "string",
+          "required": true,
+          "max_length": 32,
+          "pattern": "^[a-z][a-z0-9._-]{1,31}$",
+          "description": "Windows account name whose Outlook profile is reset, as listed on the device"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "The person's Outlook opens again with a new profile; cached data is rebuilt, so the first start is slow.",
+        "L2": "A mailbox that will not open stops blocking a person's day; the old profile data is kept under a dated name.",
+        "L3": "A fix that took a remote session and a risky manual rename becomes an approved step with a rollback note.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 5,
+        "clients_per_day": 25
+      }
+    },
+    {
+      "name": "device.cleanup-temp",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Clear-DeviceTemp",
+      "description": "Move temp files older than 7 days on one device into a dated quarantine folder, using the vetted script dev-temp-cleanup. Nothing is deleted. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "The device frees disk space and runs better; nothing is deleted, the old files wait in a quarantine folder.",
+        "L2": "A full disk stops being the reason for slow or failing software at the office.",
+        "L3": "A routine cleanup is one approved step that records how much was moved.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 5,
+        "clients_per_day": 25
+      }
+    },
+    {
+      "name": "device.restart-service",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Restart-DeviceService",
+      "description": "Restart one service from the approved list (Dnscache, W32Time, BITS, wuauserv, LanmanWorkstation) on one device, using the vetted script dev-service-restart. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device",
+        "service"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        },
+        "service": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "Dnscache",
+            "W32Time",
+            "BITS",
+            "wuauserv",
+            "LanmanWorkstation"
+          ],
+          "description": "Service name from the approved list"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "A stuck name lookup, clock or update service on that device works again without a reboot.",
+        "L2": "The office avoids a restart in the middle of the day for a problem one service caused.",
+        "L3": "Only five named services can be restarted; anything else is not a lever.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 3,
+        "clients_per_day": 25
+      }
+    },
+    {
+      "name": "device.reboot",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Restart-DeviceWorkstation",
+      "description": "Restart one workstation or laptop of the client, using the vetted script dev-reboot-workstation. A server is refused. The runner's business-hours window rule applies. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "The person's machine restarts; unsaved work in open programs is lost, so they are told first.",
+        "L2": "A frozen or half-updated workstation is fixed with one approved restart at a time the client's window allows.",
+        "L3": "Restarts are rationed per client per hour, so a mistake cannot restart a whole office.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 6,
+        "clients_per_day": 25
+      },
+      "window": "business-hours"
+    },
+    {
+      "name": "device.reboot-server",
+      "runtime": "powershell",
+      "entry": "DeviceOps\\Restart-DeviceServer",
+      "description": "Restart one server of the client, using the vetted script dev-reboot-server. A workstation is refused. The runner's maintenance-window rule applies. Mock RMM only.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "device"
+      ],
+      "params": {
+        "device": {
+          "type": "string",
+          "required": true,
+          "max_length": 36,
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "RMM device uid of one device of the client (from the device list), for example c0000000-0000-4000-8000-0000000d0001"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "Everyone using that server's files or applications loses their connection while it restarts.",
+        "L2": "A server restart happens only in the maintenance window on the client's record, never by default.",
+        "L3": "Server restarts are the tightest capped lever in the family: two per client per hour.",
+        "L4": "Same-client device only; another client's device answers like an absent one, and the script cannot be changed by the caller."
+      },
+      "caps": {
+        "targets_per_run": 1,
+        "executes_per_client_per_hour": 2,
+        "clients_per_day": 10
+      },
+      "window": "maintenance"
+    }
+  ]
+}

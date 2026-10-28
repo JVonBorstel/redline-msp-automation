@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "identities": [
+    {
+      "id": "tech-ana",
+      "display_name": "Ana (technician, synthetic)",
+      "role": "technician",
+      "clients": ["contoso-dental"]
+    },
+    {
+      "id": "tech-ben",
+      "display_name": "Ben (technician, synthetic)",
+      "role": "technician",
+      "clients": ["fabrikam-capital"]
+    },
+    {
+      "id": "lead-lee",
+      "display_name": "Lee (service desk lead, synthetic)",
+      "role": "lead",
+      "clients": ["contoso-dental", "fabrikam-capital"]
+    },
+    {
+      "id": "triage-bot",
+      "display_name": "Triage agent (button pusher)",
+      "role": "agent",
+      "clients": ["contoso-dental", "fabrikam-capital"]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "_note": "B-61 configuration for device reconciliation. Synthetic starting values, not tuned on real devices. An RMM or Intune record not seen for stale_days before as_of is stale. A serial in placeholder_serials (case ignored) counts as no serial, so the record is matched by name instead.",
+  "stale_days": 30,
+  "placeholder_serials": ["", "to be filled by o.e.m.", "default string", "system serial number", "0", "none", "n/a", "not applicable", "123456789"]
+}

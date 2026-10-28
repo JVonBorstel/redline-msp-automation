@@ -1,0 +1,50 @@
+{
+  "_note": "Synthetic Microsoft 365 backup coverage data (invented). Not a capture from any backup product or tenant. Every field name is an UNVERIFIED stand-in (specs/B-70.md). Mailbox ids and addresses match fixtures/tenant/fabrikam-capital/mailboxes.json; site ids match fixtures/sharepoint/fabrikam-capital.json.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-10-26",
+  "requirements": {
+    "min_retention_days": 2555,
+    "immutability_required": true,
+    "dr_max_age_months": 6
+  },
+  "inventory": {
+    "users": [
+      {"id": "f0000000-0000-4000-8000-000000000701", "upn": "morgan.reyes@fabrikamcapital.example", "user_type": "Member", "account_enabled": true},
+      {"id": "f0000000-0000-4000-8000-000000000702", "upn": "riley.brooks@fabrikamcapital.example", "user_type": "Member", "account_enabled": true},
+      {"id": "f0000000-0000-4000-8000-000000000703", "upn": "dana.kim@fabrikamcapital.example", "user_type": "Member", "account_enabled": true},
+      {"id": "f0000000-0000-4000-8000-000000000704", "upn": "alex.ward@fabrikamcapital.example", "user_type": "Member", "account_enabled": true},
+      {"id": "f0000000-0000-4000-8000-000000000705", "upn": "chris.osei@fabrikamcapital.example", "user_type": "Member", "account_enabled": true},
+      {"id": "f0000000-0000-4000-8000-000000000706", "upn": "quinn_litware.example#EXT#@fabrikamcapital.onmicrosoft.com", "user_type": "Guest", "account_enabled": true}
+    ],
+    "mailboxes": [
+      {"id": "f0000000-0000-4000-8000-000000000201", "address": "morgan.reyes@fabrikamcapital.example", "kind": "user"},
+      {"id": "f0000000-0000-4000-8000-000000000202", "address": "riley.brooks@fabrikamcapital.example", "kind": "user"},
+      {"id": "f0000000-0000-4000-8000-000000000203", "address": "dana.kim@fabrikamcapital.example", "kind": "user"},
+      {"id": "f0000000-0000-4000-8000-000000000204", "address": "alex.ward@fabrikamcapital.example", "kind": "user"},
+      {"id": "f0000000-0000-4000-8000-000000000205", "address": "chris.osei@fabrikamcapital.example", "kind": "user"},
+      {"id": "f0000000-0000-4000-8000-000000000206", "address": "compliance@fabrikamcapital.example", "kind": "shared"}
+    ],
+    "sites": [
+      {"id": "f0000000-0000-4000-8000-000000000001", "name": "Client Portfolios"},
+      {"id": "f0000000-0000-4000-8000-000000000002", "name": "Legal Hold"}
+    ]
+  },
+  "policies": [
+    {"id": "POL-F1", "name": "Mailboxes all", "service": "Exchange", "state": "active", "retention_days": 2555, "immutable": true,
+     "scope": {"mode": "all", "ids": [], "excluded": []}},
+    {"id": "POL-F2", "name": "OneDrive all users", "service": "OneDrive", "state": "active", "retention_days": 1095, "immutable": true,
+     "scope": {"mode": "all", "ids": [], "excluded": []}},
+    {"id": "POL-F3", "name": "Sites all", "service": "SharePoint", "state": "active", "retention_days": null, "immutable": null,
+     "scope": {"mode": "all", "ids": [], "excluded": []}}
+  ],
+  "dr_plan": {
+    "document": "Fabrikam Capital disaster recovery plan (synthetic)",
+    "sections": [
+      {"id": "DR-1", "title": "Contacts and escalation", "owner": "lead-lee", "last_reviewed": "2026-09-02"},
+      {"id": "DR-2", "title": "Critical systems and recovery order", "owner": "lead-lee", "last_reviewed": "2026-05-14"},
+      {"id": "DR-3", "title": "Backup and restore procedures", "owner": "tech-ana", "last_reviewed": "2026-03-30"},
+      {"id": "DR-4", "title": "Microsoft 365 recovery", "owner": "tech-ana", "last_reviewed": "2026-07-21"},
+      {"id": "DR-5", "title": "Tabletop exercise log", "owner": "lead-lee", "last_reviewed": "2026-02-05"}
+    ]
+  }
+}

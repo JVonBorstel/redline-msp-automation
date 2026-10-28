@@ -1,0 +1,447 @@
+{
+  "_note": "Synthetic September 2026 ticket counts for Litware Legal (invented client), derived by hand-written script from the October set with dates moved back 30 days. Only the fields the QBR reads (id, client, source, status, created, updated); no ticket text, people or labels. Fixture-based, not real tickets.",
+  "client": "litware-legal",
+  "as_of": "2026-09-30T23:00:00Z",
+  "tickets": [
+    {
+      "id": "T-4301",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-05T14:00:00Z",
+      "updated": "2026-09-05T20:00:00Z"
+    },
+    {
+      "id": "T-4302",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T14:53:00Z",
+      "updated": "2026-09-14T15:53:00Z"
+    },
+    {
+      "id": "T-4303",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T15:46:00Z",
+      "updated": "2026-09-09T21:46:00Z"
+    },
+    {
+      "id": "T-4304",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T16:39:00Z",
+      "updated": "2026-09-06T22:39:00Z"
+    },
+    {
+      "id": "T-4305",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T17:32:00Z",
+      "updated": "2026-09-15T18:32:00Z"
+    },
+    {
+      "id": "T-4306",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T18:25:00Z",
+      "updated": "2026-09-13T00:25:00Z"
+    },
+    {
+      "id": "T-4307",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-13T17:20:00Z",
+      "updated": "2026-09-13T18:20:00Z"
+    },
+    {
+      "id": "T-4308",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T20:00:00Z",
+      "updated": "2026-09-15T21:00:00Z"
+    },
+    {
+      "id": "T-4309",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-13T21:04:00Z",
+      "updated": "2026-09-14T17:04:00Z"
+    },
+    {
+      "id": "T-4310",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T21:57:00Z",
+      "updated": "2026-09-09T03:57:00Z"
+    },
+    {
+      "id": "T-4311",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "waiting-client",
+      "created": "2026-09-05T22:50:00Z",
+      "updated": "2026-09-06T00:50:00Z"
+    },
+    {
+      "id": "T-4312",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-14T14:43:00Z",
+      "updated": "2026-09-14T15:43:00Z"
+    },
+    {
+      "id": "T-4313",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "waiting-client",
+      "created": "2026-09-09T15:36:00Z",
+      "updated": "2026-09-09T17:36:00Z"
+    },
+    {
+      "id": "T-4314",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-06T16:29:00Z",
+      "updated": "2026-09-08T08:29:00Z"
+    },
+    {
+      "id": "T-4315",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-15T17:22:00Z",
+      "updated": "2026-09-15T18:22:00Z"
+    },
+    {
+      "id": "T-4316",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-09T15:10:00Z",
+      "updated": "2026-09-09T21:10:00Z"
+    },
+    {
+      "id": "T-4317",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-09T15:18:00Z",
+      "updated": "2026-09-09T21:18:00Z"
+    },
+    {
+      "id": "T-4318",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-09T15:31:00Z",
+      "updated": "2026-09-09T21:31:00Z"
+    },
+    {
+      "id": "T-4319",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-13T20:54:00Z",
+      "updated": "2026-09-14T02:54:00Z"
+    },
+    {
+      "id": "T-4320",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T21:47:00Z",
+      "updated": "2026-09-09T00:47:00Z"
+    },
+    {
+      "id": "T-4321",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-05T22:40:00Z",
+      "updated": "2026-09-06T04:40:00Z"
+    },
+    {
+      "id": "T-4322",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-14T14:33:00Z",
+      "updated": "2026-09-14T15:33:00Z"
+    },
+    {
+      "id": "T-4323",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-09T15:26:00Z",
+      "updated": "2026-09-10T11:26:00Z"
+    },
+    {
+      "id": "T-4324",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-06T16:19:00Z",
+      "updated": "2026-09-07T12:19:00Z"
+    },
+    {
+      "id": "T-4325",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-15T17:12:00Z",
+      "updated": "2026-09-15T18:12:00Z"
+    },
+    {
+      "id": "T-4326",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-12T18:05:00Z",
+      "updated": "2026-09-13T00:05:00Z"
+    },
+    {
+      "id": "T-4327",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-07T18:58:00Z",
+      "updated": "2026-09-08T14:58:00Z"
+    },
+    {
+      "id": "T-4328",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "new",
+      "created": "2026-09-16T19:51:00Z",
+      "updated": "2026-09-16T19:51:00Z"
+    },
+    {
+      "id": "T-4329",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-13T20:44:00Z",
+      "updated": "2026-09-15T12:44:00Z"
+    },
+    {
+      "id": "T-4330",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-08T21:37:00Z",
+      "updated": "2026-09-10T13:37:00Z"
+    },
+    {
+      "id": "T-4331",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-05T22:30:00Z",
+      "updated": "2026-09-06T18:30:00Z"
+    },
+    {
+      "id": "T-4332",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T14:23:00Z",
+      "updated": "2026-09-14T15:23:00Z"
+    },
+    {
+      "id": "T-4333",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T15:16:00Z",
+      "updated": "2026-09-10T11:16:00Z"
+    },
+    {
+      "id": "T-4334",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T16:09:00Z",
+      "updated": "2026-09-07T12:09:00Z"
+    },
+    {
+      "id": "T-4335",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T17:02:00Z",
+      "updated": "2026-09-15T18:02:00Z"
+    },
+    {
+      "id": "T-4336",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T17:55:00Z",
+      "updated": "2026-09-13T13:55:00Z"
+    },
+    {
+      "id": "T-4337",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-07T18:48:00Z",
+      "updated": "2026-09-08T14:48:00Z"
+    },
+    {
+      "id": "T-4338",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "new",
+      "created": "2026-09-16T19:41:00Z",
+      "updated": "2026-09-16T19:41:00Z"
+    },
+    {
+      "id": "T-4339",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-13T20:34:00Z",
+      "updated": "2026-09-14T02:34:00Z"
+    },
+    {
+      "id": "T-4340",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T21:27:00Z",
+      "updated": "2026-09-10T13:27:00Z"
+    },
+    {
+      "id": "T-4341",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T21:40:00Z",
+      "updated": "2026-09-09T03:40:00Z"
+    },
+    {
+      "id": "T-4342",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-08T21:47:00Z",
+      "updated": "2026-09-09T03:47:00Z"
+    },
+    {
+      "id": "T-4343",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-09T15:06:00Z",
+      "updated": "2026-09-10T11:06:00Z"
+    },
+    {
+      "id": "T-4344",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T19:55:00Z",
+      "updated": "2026-09-14T20:55:00Z"
+    },
+    {
+      "id": "T-4345",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-14T20:20:00Z",
+      "updated": "2026-09-14T21:20:00Z"
+    },
+    {
+      "id": "T-4346",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-12T17:45:00Z",
+      "updated": "2026-09-14T09:45:00Z"
+    },
+    {
+      "id": "T-4347",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-07T18:38:00Z",
+      "updated": "2026-09-08T14:38:00Z"
+    },
+    {
+      "id": "T-4348",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "new",
+      "created": "2026-09-16T19:31:00Z",
+      "updated": "2026-09-16T19:31:00Z"
+    },
+    {
+      "id": "T-4349",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-13T20:24:00Z",
+      "updated": "2026-09-14T02:24:00Z"
+    },
+    {
+      "id": "T-4350",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "new",
+      "created": "2026-09-16T21:30:00Z",
+      "updated": "2026-09-16T21:30:00Z"
+    },
+    {
+      "id": "T-4351",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "new",
+      "created": "2026-09-16T21:44:00Z",
+      "updated": "2026-09-16T21:44:00Z"
+    },
+    {
+      "id": "T-4352",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "new",
+      "created": "2026-09-16T22:05:00Z",
+      "updated": "2026-09-16T22:05:00Z"
+    },
+    {
+      "id": "T-4353",
+      "client": "litware-legal",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-12T15:00:00Z",
+      "updated": "2026-09-12T21:00:00Z"
+    },
+    {
+      "id": "T-4354",
+      "client": "litware-legal",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T15:06:00Z",
+      "updated": "2026-09-12T21:06:00Z"
+    },
+    {
+      "id": "T-4355",
+      "client": "litware-legal",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-12T15:12:00Z",
+      "updated": "2026-09-12T21:12:00Z"
+    }
+  ]
+}

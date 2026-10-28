@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://redline-msp-automation.example/schemas/client.schema.json",
+  "$comment": "Hand-written (B-13); proposed config/clients/<id>.json (ARC-16, ONB-01). The loader and its pydantic model come with B-18; the files themselves are the owner step W2-E1 (config/** is protected). The PSA company record is the source of truth for the id (D6-15). Regimes are set by the MSP's compliance owner, never by code (D6-12). model_processing has no default: a missing value is an error, never a silent hosted route (D6-11, STD-CF-3).",
+  "title": "Client",
+  "description": "One managed client: who it is, which rules apply, which levers and jobs are on, and how adapters reach it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version", "id", "display_name", "psa_company_id", "industry", "regimes", "model_processing", "retention_class",
+    "enabled_levers", "bindings"
+  ],
+  "properties": {
+    "version": {"const": 1},
+    "_note": {"type": "string", "description": "For humans; ignored by readers (STD-CF-5)."},
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,62}$", "description": "Must match the file name (checked by the loader)."},
+    "display_name": {"type": "string", "minLength": 1, "maxLength": 80},
+    "psa_company_id": {
+      "type": "string",
+      "pattern": "^[0-9]{1,12}$",
+      "description": "The PSA company id (for example an Autotask company id), written as a string (D6-15)."
+    },
+    "industry": {"enum": ["financial", "ria", "legal", "accounting", "dental", "other"]},
+    "regimes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["glba-ftc-safeguards", "sec-reg-s-p", "bank-ffiec", "ncua", "hipaa"]},
+      "description": "Set by the compliance owner (D6-12). An empty list means none recorded yet, not that none applies."
+    },
+    "model_processing": {
+      "enum": ["none", "local", "hosted"],
+      "description": "Which models may see this client's text (D6-11). Every client starts at none."
+    },
+    "retention_class": {"enum": ["standard", "regulated-financial", "legal-hold-capable"]},
+    "vault": {"enum": ["shared", "dedicated"], "description": "Key Vault layout (D6-10); dedicated only where a contract requires it."},
+    "enabled_levers": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/DottedName"},
+      "description": "A subset of the lever registry; the loader checks that each name exists."
+    },
+    "enabled_jobs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["job", "schedule"],
+        "properties": {
+          "job": {"$ref": "#/$defs/DottedName"},
+          "schedule": {"type": "string", "pattern": "^(daily|weekly|monthly)(@[0-9]{2}:[0-9]{2})?$"}
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "psa": {"$ref": "#/$defs/Binding"},
+        "rmm": {"$ref": "#/$defs/Binding"},
+        "documentation": {"$ref": "#/$defs/Binding"},
+        "backup": {"$ref": "#/$defs/Binding"},
+        "m365": {"$ref": "#/$defs/M365Binding"}
+      },
+      "description": "One binding per external system; an adapter instance is built from exactly one (TEN-04, B18-1)."
+    }
+  },
+  "$defs": {
+    "DottedName": {"type": "string", "maxLength": 64, "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9-]*)+$"},
+    "Implementation": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{1,31}$",
+      "description": "mock, or a real adapter name (for example autotask, datto-rmm, itglue, graph)."
+    },
+    "CredentialRef": {
+      "type": "string",
+      "pattern": "^client-[a-z0-9][a-z0-9-]{0,62}-[a-z][a-z0-9-]{1,31}$",
+      "description": "A Key Vault secret NAME (D6-10: client-<id>-<purpose>), never a value (STD-CF-7)."
+    },
+    "Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation", "external_id"],
+      "properties": {
+        "implementation": {"$ref": "#/$defs/Implementation"},
+        "external_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+        "credential_ref": {"$ref": "#/$defs/CredentialRef"}
+      }
+    },
+    "M365Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation", "external_id", "access"],
+      "properties": {
+        "implementation": {"$ref": "#/$defs/Implementation"},
+        "external_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "description": "The Microsoft 365 tenant id (a GUID)."
+        },
+        "access": {"enum": ["gdap", "app-registration"], "description": "D6-09: GDAP by default; app registration only by documented exception."},
+        "credential_ref": {"$ref": "#/$defs/CredentialRef"}
+      }
+    }
+  }
+}

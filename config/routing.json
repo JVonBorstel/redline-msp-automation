@@ -1,0 +1,8 @@
+{
+  "_note": "Task -> provider + model alias (see config/models.json). Default is the offline mock. Switch a task to the local model by setting provider to ollama.",
+  "routes": {
+    "classify": { "provider": "mock", "model": "small" },
+    "summarize": { "provider": "mock", "model": "small" },
+    "reason": { "provider": "mock", "model": "strong" }
+  }
+}

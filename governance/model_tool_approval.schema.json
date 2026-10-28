@@ -1,0 +1,335 @@
+{
+  "$defs": {
+    "ApprovalRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "Request id, AC-nnn.",
+          "pattern": "^AC-\\d{3}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "description": "What is being approved.",
+          "enum": [
+            "model",
+            "provider",
+            "mcp-server",
+            "lever-namespace",
+            "adapter"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "subject": {
+          "description": "model: provider/model-name; provider: name; mcp-server: server name; lever-namespace: the part of a lever name before the dot; adapter: folder name under adapters/.",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,100}$",
+          "title": "Subject",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 120,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "inventory_ids": {
+          "description": "Work inventory ids (W-AREA-nn) it serves.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Inventory Ids",
+          "type": "array"
+        },
+        "owner_role": {
+          "description": "Role that owns it, never a person's name.",
+          "pattern": "^[a-z][a-z0-9-]{2,40}$",
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "proposed_by_role": {
+          "description": "Role that proposed it. It may not also approve it.",
+          "enum": [
+            "technician",
+            "automation-engineer",
+            "lead",
+            "technical-reviewer",
+            "ai-change-approver",
+            "security-lead",
+            "compliance-owner"
+          ],
+          "title": "Proposed By Role",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "What it is for and what it is not for.",
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Purpose",
+          "type": "string"
+        },
+        "risk_class": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3"
+          ],
+          "title": "Risk Class",
+          "type": "string"
+        },
+        "data_classes": {
+          "description": "Every class it may touch. DC-6 never.",
+          "items": {
+            "enum": [
+              "DC-0",
+              "DC-1",
+              "DC-2",
+              "DC-3",
+              "DC-4",
+              "DC-5",
+              "DC-6"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Data Classes",
+          "type": "array"
+        },
+        "hosting": {
+          "description": "Where it runs. hosted needs terms and a vendor id.",
+          "enum": [
+            "local",
+            "hosted",
+            "none"
+          ],
+          "title": "Hosting",
+          "type": "string"
+        },
+        "retention_terms": {
+          "anyOf": [
+            {
+              "maxLength": 400,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Provider retention and training terms (hosted).",
+          "title": "Retention Terms"
+        },
+        "baa_status": {
+          "enum": [
+            "not-applicable",
+            "signed",
+            "none"
+          ],
+          "title": "Baa Status",
+          "type": "string"
+        },
+        "zdr_status": {
+          "enum": [
+            "not-applicable",
+            "confirmed",
+            "none"
+          ],
+          "title": "Zdr Status",
+          "type": "string"
+        },
+        "vendor_approval_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9-]{2,63}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Entry id in governance/ai-vendor-register.json (hosted only).",
+          "title": "Vendor Approval Id"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "reviewers": {
+          "items": {
+            "$ref": "#/$defs/Reviewer"
+          },
+          "title": "Reviewers",
+          "type": "array"
+        },
+        "rollback": {
+          "description": "How to switch it off and what that changes.",
+          "maxLength": 400,
+          "minLength": 1,
+          "title": "Rollback",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "approved",
+            "revoked",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "approved_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Approved On"
+        },
+        "review_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "After this day the approval stops covering anything.",
+          "title": "Review Date"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "subject",
+        "title",
+        "inventory_ids",
+        "owner_role",
+        "proposed_by_role",
+        "purpose",
+        "risk_class",
+        "data_classes",
+        "hosting",
+        "retention_terms",
+        "baa_status",
+        "zdr_status",
+        "vendor_approval_id",
+        "evidence",
+        "reviewers",
+        "rollback",
+        "status",
+        "approved_on",
+        "review_date"
+      ],
+      "title": "ApprovalRecord",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "description": "What kind of evidence this link is.",
+          "enum": [
+            "eval_report",
+            "contract_test",
+            "redaction_test"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "ref": {
+          "description": "Repo-relative path; a test link is path::test_name. Must exist when the record is checked.",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "ref"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Reviewer": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "description": "The role that decided, never a person's name.",
+          "enum": [
+            "technical-reviewer",
+            "ai-change-approver",
+            "security-lead",
+            "compliance-owner"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "decision": {
+          "enum": [
+            "approve",
+            "reject"
+          ],
+          "title": "Decision",
+          "type": "string"
+        },
+        "on": {
+          "description": "The day the decision was recorded.",
+          "format": "date",
+          "title": "On",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "decision",
+        "on"
+      ],
+      "title": "Reviewer",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1,
+      "title": "Version",
+      "type": "integer"
+    },
+    "data_basis": {
+      "const": "synthetic",
+      "title": "Data Basis",
+      "type": "string"
+    },
+    "_note": {
+      "default": "",
+      "title": "Note",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/ApprovalRecord"
+      },
+      "title": "Records",
+      "type": "array"
+    }
+  },
+  "required": [
+    "version",
+    "data_basis",
+    "records"
+  ],
+  "title": "ApprovalFile",
+  "type": "object"
+}

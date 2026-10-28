@@ -1,0 +1,7 @@
+{
+  "_note": "Synthetic device list for the FortiGate-shaped log fixtures (B-48). Invented device ids; role is firewall (MP-27) or sase (MP-28, vendor UNKNOWN). A log line from a device not listed for the client is dropped.",
+  "clients": {
+    "contoso-dental": {"FGT60FTK-CD0001": "firewall", "SASE-GW-CD01": "sase"},
+    "fabrikam-capital": {"FGT40FTK-FB0001": "firewall", "SASE-GW-FB01": "sase"}
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "_note": "Synthetic. `regimes` stands in for the list the MSP's compliance owner would set per client (D6-12). Code never decides which law applies. Fixture-based.",
+  "clients": {
+    "contoso-dental": {"display_name": "Contoso Dental", "regimes": ["hipaa"]},
+    "fabrikam-capital": {"display_name": "Fabrikam Capital", "regimes": ["glba-ftc-safeguards", "sec-reg-s-p"]},
+    "litware-legal": {"display_name": "Litware Legal", "regimes": []}
+  }
+}

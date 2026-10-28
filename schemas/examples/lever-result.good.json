@@ -1,0 +1,20 @@
+{
+  "status": "ok",
+  "reason": "dry-run: nothing applied",
+  "lever": "user.disable",
+  "client": "contoso-dental",
+  "identity": "triage-bot",
+  "mode": "dry-run",
+  "approver": null,
+  "data": null,
+  "diff": [
+    {
+      "op": "replace",
+      "path": "/users/priya.nair@contosodental.example/accountEnabled",
+      "before": true,
+      "after": false
+    }
+  ],
+  "applied": false,
+  "audit_seq": 7
+}

@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "_note": "B-57. Passage search over the synthetic knowledge base (fixtures/kb). Offline: the embedder is a word-overlap stand-in, no model is called. The client is the runner's, never a parameter; the store applies the namespace filter (caller's client plus msp-internal).",
+  "levers": [
+    {
+      "name": "rag.search",
+      "description": "Search the caller's client knowledge base and the MSP-internal runbooks; returns passages with chunk ids and article ids to cite. Ranking is word overlap (offline stand-in), not meaning. Never searches another client.",
+      "client_scope": "any",
+      "required_role": "agent",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["query", "k"],
+      "entry": "levers.python.rag:rag_search",
+      "params": {
+        "query": {"type": "string", "required": true, "max_length": 300, "description": "Free-text question or search terms"},
+        "k": {"type": "integer", "minimum": 1, "maximum": 10, "description": "Maximum passages (default 5)"}
+      },
+      "dry_run": true,
+      "timeout_s": 5,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A technician gets the client's own article passages, with ids to cite, instead of searching by hand; nothing changes.",
+        "L2": "Only that client's articles and the MSP's own runbooks are searched, so one practice's or firm's notes are never read for another.",
+        "L3": "Each search is registered, scoped and audited by who asked; the passages are not copied into the audit.",
+        "L4": "Knowledge stays inside each client's namespace and the filter lives in the store, not in the caller."
+      }
+    }
+  ]
+}

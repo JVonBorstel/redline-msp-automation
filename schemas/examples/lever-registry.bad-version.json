@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "levers": [
+    {
+      "name": "ticket.get",
+      "description": "Read one service ticket for the client (synthetic PSA data).",
+      "client_scope": "any",
+      "required_role": "agent",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": [
+        "ticket_id"
+      ],
+      "params": {
+        "ticket_id": {
+          "type": "string",
+          "required": true,
+          "max_length": 6,
+          "pattern": "^T-[0-9]{4}$"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 2,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "lever_version": 1
+    }
+  ]
+}

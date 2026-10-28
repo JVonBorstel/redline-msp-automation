@@ -1,0 +1,76 @@
+{
+  "_note": "Synthetic September 2026 tenant baseline for Fabrikam Capital (invented tenant), written by script from the October fixture (findings minus the October 'new', plus the October 'resolved'). The drift block is hand-made and lists everything as unchanged. Not a captured run. Fixture-based.",
+  "client": "fabrikam-capital",
+  "tenant": "tenant-fabrikam-capital",
+  "as_of": "2026-09-22T06:00:00Z",
+  "findings": [
+    {
+      "Id": "F-01",
+      "CheckId": "BREAKGLASS",
+      "Severity": "High",
+      "Title": "Break-glass account has not been tested",
+      "Subject": "bg-admin-1@fabrikamcapital.example"
+    },
+    {
+      "Id": "F-02",
+      "CheckId": "STALE",
+      "Severity": "Medium",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "ex.analyst@fabrikamcapital.example"
+    },
+    {
+      "Id": "F-03",
+      "CheckId": "STALE",
+      "Severity": "Low",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "intern.2025@fabrikamcapital.example"
+    },
+    {
+      "Id": "F-04",
+      "CheckId": "LEGACYAUTH",
+      "Severity": "Medium",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "tenant"
+    },
+    {
+      "Id": "F-05",
+      "CheckId": "GUESTADMIN",
+      "Severity": "Medium",
+      "Title": "Account not signed in for the configured number of days",
+      "Subject": "partner.guest@outside.example"
+    }
+  ],
+  "drift": {
+    "compared_to": "2026-08-22",
+    "new": [],
+    "resolved": [],
+    "unchanged": [
+      {
+        "CheckId": "BREAKGLASS",
+        "Subject": "bg-admin-1@fabrikamcapital.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "ex.analyst@fabrikamcapital.example"
+      },
+      {
+        "CheckId": "STALE",
+        "Subject": "intern.2025@fabrikamcapital.example"
+      },
+      {
+        "CheckId": "LEGACYAUTH",
+        "Subject": "tenant"
+      },
+      {
+        "CheckId": "GUESTADMIN",
+        "Subject": "partner.guest@outside.example"
+      }
+    ],
+    "ca": {
+      "added": [],
+      "removed": [],
+      "state_changed": [],
+      "assignments_changed": []
+    }
+  }
+}

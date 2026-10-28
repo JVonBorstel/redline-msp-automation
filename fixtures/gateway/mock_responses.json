@@ -1,0 +1,39 @@
+{
+  "_note": "Synthetic mock responses (Contoso Dental, Fabrikam Capital). Fixture-based, not model output. Rules: first keyword match wins (case-insensitive substring); otherwise a SHA-256 of (task, text) picks from fallback.",
+  "classify": {
+    "labels": ["security", "offboarding", "mfa", "account-access", "email", "network", "hardware", "software", "other"],
+    "rules": [
+      { "keywords": ["phish", "suspicious", "malware", "ransomware", "impossible travel", "virus", "infected", "spoof", "scam"], "response": "security" },
+      { "keywords": ["offboard", "leaver", "left the", "leaving", "last day", "resign", "no longer with", "termination"], "response": "offboarding" },
+      { "keywords": ["locked out", "lockout", "account is locked"], "response": "account-access" },
+      { "keywords": ["mfa", "authenticator", "multi-factor", "multifactor", "two-factor", "2fa", "verification code"], "response": "mfa" },
+      { "keywords": ["password", "sign in", "sign-in", "log in", "login", "access to", "permission"], "response": "account-access" },
+      { "keywords": ["outlook", "mailbox", "email", "e-mail", "calendar", "inbox", "out of office"], "response": "email" },
+      { "keywords": ["vpn", "wifi", "wi-fi", "internet", "firewall", "dns", "network", "router", "connection"], "response": "network" },
+      { "keywords": ["printer", "laptop", "monitor", "docking", "keyboard", "scanner", "battery", "webcam"], "response": "hardware" },
+      { "keywords": ["install", "license", "licence", "teams", "update", "crash", "dentrix", "excel", "power bi"], "response": "software" }
+    ],
+    "fallback": ["other"]
+  },
+  "summarize": {
+    "rules": [
+      { "keywords": ["mfa", "locked out"], "response": "A staff member could not sign in because of a multi-factor authentication problem. The technician reset the sign-in method and the user confirmed access. No data was exposed." },
+      { "keywords": ["phish"], "response": "A staff member reported a suspicious email. It was reviewed, quarantined for all mailboxes, and no one entered credentials. No further action is needed from the client." }
+    ],
+    "fallback": [
+      "The request was received and triaged. A technician is working on it and will confirm when it is resolved.",
+      "The issue was reviewed and a fix is planned. The client will be told before any change is made.",
+      "The reported problem was investigated. It affected one user and has a known, low-risk fix."
+    ]
+  },
+  "reason": {
+    "rules": [
+      { "keywords": ["vpn"], "response": "Likely cause: the VPN client certificate expired after the last update. Check the certificate date first, then the client version." }
+    ],
+    "fallback": [
+      "Likely cause: a recent configuration change. Compare current settings with the last known-good baseline first.",
+      "Likely cause: an expired credential or certificate. Check expiry dates before anything else.",
+      "Likely cause: a single-device fault. Reproduce on a second device to confirm before changing tenant settings."
+    ]
+  }
+}

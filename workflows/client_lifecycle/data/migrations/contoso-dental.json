@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "migration-plan",
+    "note": "Synthetic (B-77). A planned tenant-to-tenant move of Contoso Dental's mailboxes into the client's own new tenant. The destination block is an invented read-only snapshot of that tenant (domain, mailbox quota, target SKU seats, addresses already in use); it is this repo's own shape, not a vendor migration tool's. .example domains only. Seeded problems: sam.patel (21.0 GB) is over the 20 GB quota; 6 user mailboxes need a seat and 5 are free; jamie.chen's address is already in use at the destination."
+  },
+  "version": 1,
+  "client": "contoso-dental",
+  "kind": "tenant-to-tenant",
+  "mailboxes": [
+    "ana.lopez@contosodental.example",
+    "sam.patel@contosodental.example",
+    "jamie.chen@contosodental.example",
+    "priya.nair@contosodental.example",
+    "tom.baker@contosodental.example",
+    "lena.fischer@contosodental.example",
+    "info@contosodental.example"
+  ],
+  "destination": {
+    "label": "Contoso Dental new tenant (synthetic)",
+    "domain": "contosodentalgroup.example",
+    "mailbox_quota_gb": 20,
+    "licence": {"skuPartNumber": "O365_BUSINESS_PREMIUM", "enabled": 8, "assigned": 3},
+    "addresses_in_use": [
+      "admin@contosodentalgroup.example",
+      "jamie.chen@contosodentalgroup.example",
+      "frontdesk@contosodentalgroup.example"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#directoryRoles(members())",
+  "value": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000101",
+      "deletedDateTime": null,
+      "description": "Can manage all aspects of Microsoft Entra ID and Microsoft services that use Microsoft Entra identities.",
+      "displayName": "Global Administrator",
+      "roleTemplateId": "62e90394-69f5-4237-9190-012177145e10",
+      "members": [
+        { "@odata.type": "#microsoft.graph.user", "id": "f0000000-0000-4000-8000-000000000001", "displayName": "Rosa Diaz", "userPrincipalName": "rosa.diaz@fabrikamcapital.example" },
+        { "@odata.type": "#microsoft.graph.user", "id": "f0000000-0000-4000-8000-000000000002", "displayName": "Sam Okafor", "userPrincipalName": "sam.okafor@fabrikamcapital.example" },
+        { "@odata.type": "#microsoft.graph.user", "id": "f0000000-0000-4000-8000-000000000007", "displayName": "Break Glass 01", "userPrincipalName": "bg-01@fabrikamcapital.onmicrosoft.com" },
+        { "@odata.type": "#microsoft.graph.user", "id": "f0000000-0000-4000-8000-000000000008", "displayName": "Break Glass 02", "userPrincipalName": "bg-02@fabrikamcapital.onmicrosoft.com" }
+      ]
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000102",
+      "deletedDateTime": null,
+      "description": "Can read everything that a Global Administrator can, but not update anything.",
+      "displayName": "Global Reader",
+      "roleTemplateId": "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
+      "members": [
+        { "@odata.type": "#microsoft.graph.user", "id": "f0000000-0000-4000-8000-000000000003", "displayName": "Tara Singh", "userPrincipalName": "tara.singh@fabrikamcapital.example" }
+      ]
+    }
+  ]
+}

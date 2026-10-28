@@ -1,0 +1,74 @@
+{
+  "_note": "Synthetic approved-software catalog (B-63). Invented vendors and versions; nothing here is a real installer. Each sha256 is the SHA-256 of the text 'synthetic-installer:<id>:<version>' so a test can re-derive it. Field status: fixtures/catalog/SOURCES.md.",
+  "catalog_version": 1,
+  "asOf": "2026-10-22T12:00:00Z",
+  "packages": [
+    {
+      "id": "7zip",
+      "name": "7-Zip",
+      "publisher": "Igor Pavlov (synthetic)",
+      "version": "24.08",
+      "sha256": "cb9375201fc8f855fc39c09398eb18de79e8f8ea97f2f79608e099336eb89c89",
+      "installer": "7zip-24.08.msi.example"
+    },
+    {
+      "id": "notepadpp",
+      "name": "Notepad++",
+      "publisher": "Notepad++ team (synthetic)",
+      "version": "8.7.1",
+      "sha256": "365c7a9a059079c9cca5f1afab75a11baccc0462985052087f8b126c5a0eedb5",
+      "installer": "notepadpp-8.7.1.msi.example"
+    },
+    {
+      "id": "firefox-esr",
+      "name": "Firefox ESR",
+      "publisher": "Mozilla (synthetic)",
+      "version": "128.5.0",
+      "sha256": "dea62e43c69e9022922ded6bb14f568926789fa4544dab261de49d9bcadaf587",
+      "installer": "firefox-esr-128.5.0.msi.example"
+    },
+    {
+      "id": "adobe-reader",
+      "name": "Acrobat Reader",
+      "publisher": "Adobe (synthetic)",
+      "version": "24.005.20320",
+      "sha256": "70cda30e678c8d43cfa7322172200db66a4ad529a3c6310727ef6d15dd0b0735",
+      "installer": "adobe-reader-24.005.20320.msi.example"
+    },
+    {
+      "id": "vlc",
+      "name": "VLC media player",
+      "publisher": "VideoLAN (synthetic)",
+      "version": "3.0.21",
+      "sha256": "9f0ecbe139eb0d7139d3e19b1d76093f3fee8b832630ea6f008fda2b90833348",
+      "installer": "vlc-3.0.21.msi.example"
+    },
+    {
+      "id": "dental-imaging-viewer",
+      "name": "Dental Imaging Viewer",
+      "publisher": "Imagex Dental (synthetic)",
+      "version": "5.2.1",
+      "sha256": "333c3e57e0b6fae72d451dfd98286eb197faf360e86d083088fd6ae4f66989ca",
+      "installer": "dental-imaging-viewer-5.2.1.msi.example"
+    }
+  ],
+  "clients": {
+    "contoso-dental": {
+      "approved": [
+        "7zip",
+        "notepadpp",
+        "firefox-esr",
+        "adobe-reader",
+        "dental-imaging-viewer"
+      ]
+    },
+    "fabrikam-capital": {
+      "approved": [
+        "7zip",
+        "firefox-esr",
+        "adobe-reader",
+        "vlc"
+      ]
+    }
+  }
+}

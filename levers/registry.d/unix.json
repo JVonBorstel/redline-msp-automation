@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "_note": "B-66. macOS and Linux levers through the bash runtime (runtime \"bash\": a vetted script from levers/bash/scripts, pinned by hash in levers/bash/manifest.json, run by core/levers/bridge.py BashBridge). Mock only: the scripts read and change synthetic host files under levers/bash/mock; no systemctl, launchctl or real host is touched.",
+  "levers": [
+    {
+      "name": "unix.disk-usage",
+      "runtime": "bash",
+      "entry": "disk-usage-report.sh",
+      "description": "Report used space per mount of the client's one macOS or Linux host and which mounts are over a threshold. Read only. Mock host data.",
+      "client_scope": "any",
+      "required_role": "agent",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": [],
+      "params": {
+        "threshold_pct": {
+          "type": "integer",
+          "required": false,
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Flag mounts at or above this percent used (default 80)"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 10
+    },
+    {
+      "name": "unix.restart-service",
+      "runtime": "bash",
+      "entry": "restart-service.sh",
+      "description": "Restart one allowlisted service (cups, chronyd or rsyslog) on the client's macOS or Linux host. Mock of a service manager restart: bumps a counter in the client's own host state. A dry-run (--what-if) returns the same diff and changes nothing.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "service"
+      ],
+      "params": {
+        "service": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "cups",
+            "chronyd",
+            "rsyslog"
+          ],
+          "description": "The service to restart; only these three names exist"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 10,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A person whose printing, clock or logging stalled gets it back; a restart briefly interrupts that one service for whoever is using it.",
+        "L2": "The client's host is repaired the same day without a visit; restarting at the wrong hour can interrupt printing or log collection during a busy period.",
+        "L3": "A known fix is one approved, audited button instead of a remote shell session, and the allowlist keeps anything else from being restarted.",
+        "L4": "Mac and Linux users get the same safe automation as Windows users, with no free-form shell for a fooled model to reach."
+      }
+    },
+    {
+      "name": "unix.clear-cache",
+      "runtime": "bash",
+      "entry": "clear-cache.sh",
+      "description": "Delete the plain files in one allowlisted cache folder (user-cache or app-cache) of the client's macOS or Linux host. Mock host files. A dry-run (--what-if) lists exactly the files that would go and deletes nothing.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": [
+        "scope"
+      ],
+      "params": {
+        "scope": {
+          "type": "string",
+          "required": true,
+          "enum": [
+            "user-cache",
+            "app-cache"
+          ],
+          "description": "Which cache folder to clear; only these two exist"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A person with a full disk or a stale cache gets space and fresh data back; the first open of some apps is slower while the cache is rebuilt.",
+        "L2": "The client avoids a disk-full outage on a Mac or Linux workstation; clearing during work hours can slow an app that is rebuilding its cache.",
+        "L3": "The deletion is a listed, approved and audited set of named files, so the MSP can show exactly what was removed and when.",
+        "L4": "Cache files are disposable by definition and rebuilt by the application; folders, links and odd names are never touched."
+      }
+    }
+  ]
+}

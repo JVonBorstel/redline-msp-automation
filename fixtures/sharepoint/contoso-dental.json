@@ -1,0 +1,63 @@
+{
+  "_note": "SharePoint and OneDrive sharing fixture. Synthetic (invented clients, people, tenants). Pinned to as_of 2026-10-22. Not a capture from a real tenant. Field names are UNVERIFIED shapes, see fixtures/sharepoint/SOURCES.md, which also lists the seeded problems.",
+  "client": "contoso-dental",
+  "as_of": "2026-10-22",
+  "tenant": {
+    "labels": [
+      { "name": "Confidential Finance", "covers": ["finance"] }
+    ],
+    "dlpPolicies": [
+      { "name": "Card and bank numbers", "covers": ["finance"] }
+    ]
+  },
+  "sites": [
+    {
+      "id": "c0000000-0000-4000-8000-000000000001",
+      "name": "Patient Records",
+      "kind": "site",
+      "sensitivity": "health",
+      "label": null,
+      "owner": "tech-ana",
+      "links": [
+        { "id": "L1", "scope": "everyone-except-external", "target": "Recalls 2026.xlsx" },
+        { "id": "L2", "scope": "specific", "target": "Intake forms" }
+      ],
+      "shares": []
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000002",
+      "name": "Front Desk OneDrive",
+      "kind": "onedrive",
+      "sensitivity": "general",
+      "label": null,
+      "owner": "lead-lee",
+      "links": [],
+      "shares": [
+        { "id": "S1", "target": "Schedule export.csv", "recipient": "temp@partner-lab.example", "recipientType": "guest" },
+        { "id": "S2", "target": "Schedule export.csv", "recipient": "dr.ng@contosodental.example", "recipientType": "internal" }
+      ]
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000003",
+      "name": "Billing",
+      "kind": "site",
+      "sensitivity": "finance",
+      "label": "Confidential Finance",
+      "owner": "lead-lee",
+      "links": [
+        { "id": "L3", "scope": "organization", "target": "Fee schedule" }
+      ],
+      "shares": []
+    },
+    {
+      "id": "c0000000-0000-4000-8000-000000000004",
+      "name": "Marketing",
+      "kind": "site",
+      "sensitivity": "general",
+      "label": null,
+      "owner": "tech-ana",
+      "links": [],
+      "shares": []
+    }
+  ]
+}

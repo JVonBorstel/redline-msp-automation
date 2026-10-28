@@ -1,0 +1,55 @@
+{
+  "lede": "The design in one page: what the system is made of, the rules it will not break, and the path every change takes. Each rule cites the entry in the project's decision log that explains it.",
+  "principles": [
+    {"title": "The model proposes; code decides", "text": "A model may only name a category or suggest a registered lever. Permissions, scope and approvals are enforced in the lever runner, never in a prompt.", "ref": "D-016, D-022"},
+    {"title": "Dry-run first, always", "text": "Every write shows the exact field that would change before anything changes. Execution needs a recorded approval bound to that lever, client and parameters.", "ref": "D-016, D-037"},
+    {"title": "Ticket text is data, never instructions", "text": "Untrusted text is scanned, then wrapped as a labelled block. Lever parameters come from form fields, not from the text.", "ref": "D-019, D-022"},
+    {"title": "The tripwire is not the control", "text": "The injection detector catches obvious attacks. The real control is that even a fooled model can only reach registered levers within scope.", "ref": "D-019"},
+    {"title": "Humans verify people", "text": "Identity changes need a callback on the number on file, recorded as an attestation. The number is never typed or stored; only its source is recorded.", "ref": "D-027, D-028"},
+    {"title": "Every call is evidence", "text": "One hash-chained audit record per call, allowed or denied. Editing a record names the broken sequence number; deleting the newest is caught by a head pin.", "ref": "D-017, D-038"},
+    {"title": "One client, one boundary", "text": "Adapters are built per client. Another client's object answers exactly like one that does not exist.", "ref": "D-039, D-040"},
+    {"title": "Some work is never automated", "text": "A gate refuses to register levers for legal holds, privileged roles, Conditional Access changes, purchases and similar human-only work.", "ref": "D-035"},
+    {"title": "Undo comes from the record", "text": "A rollback is a normal proposal built from the audit's recorded before-state, and it needs its own approval. It never overwrites newer work.", "ref": "D-064"},
+    {"title": "Say what is unproven", "text": "Mocks are labelled. Vendor fields not checked against a source are listed. Numbers are fixture-based and say so.", "ref": "UNVERIFIED log"}
+  ],
+  "layers": [
+    {"name": "Intake and drafts", "text": "Triage, summaries, duplicate grouping, SLA watch, cited reply drafts. A person sends every draft."},
+    {"name": "Guard and prompts", "text": "Injection tripwire, untrusted-text wrapper, hash-locked prompt library, model gateway (mock by default, local-only if enabled, hosted off)."},
+    {"name": "Lever registry and runner", "text": "The only way anything changes. Role, client scope, approval, pause switch, verification, undo and impact trace live here."},
+    {"name": "Bridge to PowerShell", "text": "A scrubbed, time-limited process per call. Python authorises first; PowerShell acts and must report exactly the dry-run diff."},
+    {"name": "Adapters", "text": "One-client objects for PSA, Microsoft 365, backup, alerts and devices. Mocks today; real ones fail closed."},
+    {"name": "Approval queue and audit", "text": "A loopback-only page where leads decide (sign-in is validated offline against a mock issuer), and a verifier that checks the chain."}
+  ],
+  "flow": [
+    "A ticket arrives and is scanned",
+    "A rule picks at most one lever",
+    "The runner dry-runs it and shows who a wrong change would hurt",
+    "A lead calls back, records the source, and approves",
+    "The runner executes against the mock tenant",
+    "The audit chain grows; the person gets a plain notice",
+    "If it was wrong, rollback proposes the registered undo"
+  ],
+  "risk_classes": [
+    {"id": "R0", "text": "Read only"},
+    {"id": "R1", "text": "Low-impact write, lead approval"},
+    {"id": "R2", "text": "Access or data change, lead approval"},
+    {"id": "R3", "text": "Identity or irreversible change: two leads required by the runner (page wiring is planned), plus a callback where the lever asks"}
+  ],
+  "waves": {
+    "W1": {"name": "Core story: one person, end to end", "goal": "Impact trace, requester verification, pause switch, notices and a tested demo."},
+    "W2": {"name": "Platform seams and service-desk drafts", "goal": "Schemas, PowerShell bridge, audit v2, adapters, prompt library, gold ticket set."},
+    "W3": {"name": "Identity lifecycle", "goal": "Joiner, mover and leaver plans, credentials, licences, groups, mailboxes, rollback."},
+    "W4": {"name": "Security monitoring and compliance evidence", "goal": "Alert grouping, phishing and email-compromise handling, advisories, evidence packs."},
+    "W5": {"name": "Knowledge and retrieval", "goal": "Redaction gate, per-client retrieval, cited answers, leakage evals."},
+    "W6": {"name": "Endpoints, patching and backup", "goal": "Device reconciliation, remediation, patch review, restore tests."},
+    "W7": {"name": "Client reporting and billing inputs", "goal": "Monthly health report, QBR drafts, licence reconciliation, metrics exports."},
+    "W8": {"name": "Scale, evaluation and hardening", "goal": "Routing evals, budgets, scheduler, durable queue, load and failure tests."},
+    "W9": {"name": "Cloud, DevOps and Microsoft 365 integrations", "goal": "Infrastructure as code, pipeline, MCP server, Teams and Outlook mocks."},
+    "W10": {"name": "Governance pack, people and packaging", "goal": "AI policy, approval process, incident runbook, training, packaged demo."}
+  },
+  "title_overrides": {
+    "B-07": "CI wiring for the new test suites",
+    "B-08": "Repository hygiene: labels, milestones, templates, code owners",
+    "B-09": "Roadmap-to-issues exporter and change-note folder"
+  }
+}

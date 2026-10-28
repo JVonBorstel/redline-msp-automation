@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "data_basis": "synthetic",
+  "submitter_role": "Service desk lead role",
+  "id": "UC-010",
+  "title": "Alert grouping across security sources",
+  "client_scope": "many-clients",
+  "problem": "Alerts about one incident arrive from several sources; group them for the analyst.",
+  "effect": "read-only",
+  "data_classes": [
+    "DC-2"
+  ],
+  "model_route": "none",
+  "proposed_levers": [],
+  "inventory_ids": [
+    "W-SEC-01"
+  ],
+  "minutes_per_run": 4,
+  "runs_per_month": 800,
+  "effort_days": 7,
+  "roi_row": "alerts-pair-recall",
+  "client": null
+}

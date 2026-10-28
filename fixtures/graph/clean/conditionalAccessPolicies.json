@@ -1,0 +1,56 @@
+{
+  "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#identity/conditionalAccess/policies",
+  "value": [
+    {
+      "id": "f0000000-0000-4000-8000-000000000201",
+      "displayName": "Block legacy authentication",
+      "createdDateTime": "2023-02-01T10:00:00Z",
+      "modifiedDateTime": "2025-06-01T10:00:00Z",
+      "state": "enabled",
+      "conditions": {
+        "clientAppTypes": ["exchangeActiveSync", "other"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": ["All"],
+          "excludeUsers": ["f0000000-0000-4000-8000-000000000007", "f0000000-0000-4000-8000-000000000008"],
+          "includeGroups": [], "excludeGroups": [], "includeRoles": [], "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["block"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000202",
+      "displayName": "Require MFA for all users",
+      "createdDateTime": "2023-02-01T10:05:00Z",
+      "modifiedDateTime": "2025-06-01T10:05:00Z",
+      "state": "enabled",
+      "conditions": {
+        "clientAppTypes": ["all"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": ["All"],
+          "excludeUsers": ["f0000000-0000-4000-8000-000000000007", "f0000000-0000-4000-8000-000000000008"],
+          "includeGroups": [], "excludeGroups": [], "includeRoles": [], "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["mfa"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    },
+    {
+      "id": "f0000000-0000-4000-8000-000000000203",
+      "displayName": "Require compliant device (report-only trial)",
+      "createdDateTime": "2026-09-01T10:00:00Z",
+      "modifiedDateTime": "2026-09-01T10:00:00Z",
+      "state": "enabledForReportingButNotEnforced",
+      "conditions": {
+        "clientAppTypes": ["all"],
+        "applications": { "includeApplications": ["All"], "excludeApplications": [], "includeUserActions": [] },
+        "users": {
+          "includeUsers": ["All"],
+          "excludeUsers": [],
+          "includeGroups": [], "excludeGroups": [], "includeRoles": [], "excludeRoles": []
+        }
+      },
+      "grantControls": { "operator": "OR", "builtInControls": ["compliantDevice"], "customAuthenticationFactors": [], "termsOfUse": [] }
+    }
+  ]
+}

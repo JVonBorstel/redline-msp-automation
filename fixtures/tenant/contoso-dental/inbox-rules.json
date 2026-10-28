@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "client": "contoso-dental",
+    "displayName": "Contoso Dental",
+    "family": "inbox-rules",
+    "as_of": "2026-10-21T09:00:00Z",
+    "internal_domains": ["contosodental.example"],
+    "note": "Synthetic. Inbox rules for the inboxrule levers (B-46). Each rule is shaped like a Microsoft Graph v1.0 messageRule (subset: id, displayName, sequence, isEnabled, conditions, actions); each mailbox lists its mail folders (id, displayName) so a moveToFolder id can be named. Field names and the real rule-id shape are UNVERIFIED (no Graph page was read for this change). createdDateTime and lastModifiedDateTime are INVENTED for this mock: a real adapter would take rule times from the mailbox audit log, which this repo does not model. Invented people and addresses, .example domains; not captured from a real tenant."
+  },
+  "mailboxes": [
+    {
+      "userPrincipalName": "priya.nair@contosodental.example",
+      "mailFolders": [
+        {"id": "MF-CD-0101", "displayName": "Inbox"},
+        {"id": "MF-CD-0102", "displayName": "RSS Feeds"},
+        {"id": "MF-CD-0103", "displayName": "Conversation History"},
+        {"id": "MF-CD-0104", "displayName": "Lab orders"}
+      ],
+      "rules": [
+        {
+          "id": "IR-CD-0001",
+          "displayName": "Lab orders",
+          "sequence": 1,
+          "isEnabled": true,
+          "conditions": {"fromAddresses": [{"emailAddress": {"address": "orders@lab-partner.example"}}]},
+          "actions": {"moveToFolder": "MF-CD-0104", "stopProcessingRules": false},
+          "createdDateTime": "2026-03-02T15:10:00Z",
+          "lastModifiedDateTime": "2026-03-02T15:10:00Z"
+        },
+        {
+          "id": "IR-CD-0002",
+          "displayName": ".",
+          "sequence": 2,
+          "isEnabled": true,
+          "conditions": {"subjectContains": ["invoice", "payment", "wire"]},
+          "actions": {"moveToFolder": "MF-CD-0102", "markAsRead": true, "stopProcessingRules": true},
+          "createdDateTime": "2026-10-21T07:41:00Z",
+          "lastModifiedDateTime": "2026-10-21T07:41:00Z"
+        },
+        {
+          "id": "IR-CD-0003",
+          "displayName": "sync",
+          "sequence": 3,
+          "isEnabled": true,
+          "conditions": {},
+          "actions": {"forwardTo": [{"emailAddress": {"address": "statements.review@mailbox-relay.example"}}]},
+          "createdDateTime": "2026-10-21T07:43:00Z",
+          "lastModifiedDateTime": "2026-10-21T07:52:00Z"
+        },
+        {
+          "id": "IR-CD-0004",
+          "displayName": "cleanup",
+          "sequence": 4,
+          "isEnabled": true,
+          "conditions": {"fromAddresses": [{"emailAddress": {"address": "helpdesk@contosodental.example"}}]},
+          "actions": {"delete": true},
+          "createdDateTime": "2026-10-21T07:45:00Z",
+          "lastModifiedDateTime": "2026-10-21T07:45:00Z"
+        },
+        {
+          "id": "IR-CD-0005",
+          "displayName": "old forward",
+          "sequence": 5,
+          "isEnabled": false,
+          "conditions": {},
+          "actions": {"redirectTo": [{"emailAddress": {"address": "priya.home@personal-mail.example"}}]},
+          "createdDateTime": "2025-11-04T18:20:00Z",
+          "lastModifiedDateTime": "2026-01-09T09:00:00Z"
+        },
+        {
+          "id": "IR-CD-0006",
+          "displayName": "Archive chats",
+          "sequence": 6,
+          "isEnabled": true,
+          "conditions": {"subjectContains": ["chat transcript"]},
+          "actions": {"moveToFolder": "MF-CD-0103"},
+          "createdDateTime": "2026-10-21T07:47:00Z",
+          "lastModifiedDateTime": "2026-10-21T07:47:00Z"
+        }
+      ]
+    },
+    {
+      "userPrincipalName": "ana.lopez@contosodental.example",
+      "mailFolders": [
+        {"id": "MF-CD-0201", "displayName": "Inbox"},
+        {"id": "MF-CD-0202", "displayName": "Schedule changes"}
+      ],
+      "rules": [
+        {
+          "id": "IR-CD-0101",
+          "displayName": "Schedule changes",
+          "sequence": 1,
+          "isEnabled": true,
+          "conditions": {"subjectContains": ["reschedule"]},
+          "actions": {"moveToFolder": "MF-CD-0202"},
+          "createdDateTime": "2026-05-12T10:00:00Z",
+          "lastModifiedDateTime": "2026-05-12T10:00:00Z"
+        },
+        {
+          "id": "IR-CD-0102",
+          "displayName": "Copy to Sam",
+          "sequence": 2,
+          "isEnabled": true,
+          "conditions": {"subjectContains": ["referral"]},
+          "actions": {"forwardTo": [{"emailAddress": {"address": "sam.patel@contosodental.example"}}]},
+          "createdDateTime": "2026-06-01T08:30:00Z",
+          "lastModifiedDateTime": "2026-06-01T08:30:00Z"
+        }
+      ]
+    },
+    {
+      "userPrincipalName": "jamie.chen@contosodental.example",
+      "mailFolders": [{"id": "MF-CD-0301", "displayName": "Inbox"}],
+      "rules": []
+    }
+  ]
+}

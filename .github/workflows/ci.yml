@@ -1,0 +1,111 @@
+# CI. Lint, types and every test suite on clean runners. No secrets are used or needed.
+#   python:     ruff, mypy, the map check and pytest on Linux (pure Python through uv).
+#   powershell: the PowerShell lever suites, the Microsoft 365 baseline check and the demo smoke test on Windows.
+# Actions are pinned to released versions. Dependabot proposes updates weekly.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Least privilege: a read-only token. No job writes anything.
+permissions:
+  contents: read
+
+# A newer push to the same branch or pull request cancels the older run.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_PYTHON_PREFERENCE: only-managed
+
+jobs:
+  python:
+    name: Lint, types and Python tests (ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.3.0
+        with:
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install the locked environment
+        run: uv sync --frozen
+
+      - name: ruff check
+        run: uv run --frozen ruff check .
+
+      - name: ruff format --check
+        run: uv run --frozen ruff format --check .
+
+      - name: mypy
+        run: uv run --frozen mypy
+
+      - name: mypy --strict
+        run: uv run --frozen mypy --strict core workflows evals ui mcp rag
+
+      - name: Map integrity check
+        run: uv run --frozen python map/check_map.py
+
+      - name: pytest (tests/phase1)
+        run: uv run --frozen pytest -p no:cacheprovider tests/phase1
+
+      # One test only re-runs tests/sliceb/Test-SliceB.ps1, a Windows suite; the powershell job below runs that suite directly.
+      - name: pytest (tests/py, the roadmap item tests)
+        run: uv run --frozen pytest -p no:cacheprovider tests/py --deselect tests/py/levers/test_b26_fix_levers.py::test_b26_3_slice_b_suite_passes
+
+  powershell:
+    name: PowerShell suites and demo smoke test (windows)
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.3.0
+        with:
+          enable-cache: true
+          cache-python: true
+          cache-dependency-glob: uv.lock
+
+      - name: Install the locked environment
+        run: uv sync --frozen
+
+      - name: Show tool versions
+        shell: pwsh
+        run: |
+          $PSVersionTable.PSVersion.ToString()
+          git --version
+          uv --version
+
+      - name: PowerShell lever modules and schemas
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File tests/ps/Test-Modules.ps1
+          exit $LASTEXITCODE
+
+      - name: Microsoft 365 baseline check (Slice B)
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File tests/sliceb/Test-SliceB.ps1
+          exit $LASTEXITCODE
+
+      - name: Demo smoke test (every typed step in docs/DEMO.md, offline)
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File tests/demo/Test-Demo.ps1
+          exit $LASTEXITCODE

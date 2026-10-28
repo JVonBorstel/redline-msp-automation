@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "_note": "Registry fragment for the two PowerShell sample levers (B-16). NOT loaded by default: it lives with the module, not in levers/registry.d, so the live registry and the demo UI do not list sample levers. Tests load it; to try it, copy it into levers/registry.d/.",
+  "levers": [
+    {
+      "name": "sampleuser.get",
+      "runtime": "powershell",
+      "entry": "Sample\\Get-SampleUser",
+      "description": "Mock read of one user's display name, job title and enabled flag. Sample PowerShell lever.",
+      "client_scope": "any",
+      "required_role": "agent",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": [],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15
+    },
+    {
+      "name": "sampleuser.set-title",
+      "runtime": "powershell",
+      "entry": "Sample\\Set-SampleUserTitle",
+      "description": "Mock change of one user's job title. Sample PowerShell lever.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["upn", "title"],
+      "params": {
+        "upn": {
+          "type": "string",
+          "required": true,
+          "max_length": 113,
+          "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
+          "description": "userPrincipalName"
+        },
+        "title": {
+          "type": "string",
+          "required": true,
+          "max_length": 80,
+          "pattern": "^[A-Za-z][A-Za-z ,&'.-]{1,79}$",
+          "description": "The new job title, letters and basic punctuation only"
+        }
+      },
+      "dry_run": true,
+      "timeout_s": 15,
+      "risk_class": "R1",
+      "reversibility": "reversible",
+      "lever_version": 1,
+      "impact": {
+        "L1": "One person's job title changes in the directory; set the old title back with the same lever.",
+        "L2": "The client's address book and signatures show the new title; nothing about access or data changes.",
+        "L3": "A low-risk change the MSP can show an auditor: lead approval, dry-run diff, audit record.",
+        "L4": "Proves a PowerShell lever can be added with no core change, so many clients get the same tested path."
+      }
+    }
+  ]
+}

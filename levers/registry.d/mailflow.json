@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "_note": "B-45. MailFlowOps levers (PowerShell, offline mock mail-flow state in fixtures/mailflow; no Exchange Online is called). message.trace is R0 and quarantine.release R2 per the roadmap (W-SEC-03, W-M365-03, W-M365-04). Exchange cmdlet names are UNVERIFIED stand-ins; see fixtures/mailflow/SOURCES.md.",
+  "levers": [
+    {
+      "name": "message.trace",
+      "runtime": "powershell",
+      "entry": "MailFlowOps\\Get-MailFlowTrace",
+      "description": "List every person of the client who received one message, with delivery status and quarantine id; no subject or body. Mock of an Exchange Online message trace.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "class": "read",
+      "approval": "none",
+      "idempotency_keys": ["message_id"],
+      "params": {
+        "message_id": {"type": "string", "required": true, "max_length": 204, "pattern": "^<[A-Za-z0-9._%+-]{1,100}@[A-Za-z0-9.-]{1,100}>$", "description": "Internet message id of the reported message, angle brackets included"}
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R0",
+      "reversibility": "n/a",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "The person who reported a phish learns who else got it; nothing about anyone's mailbox changes.",
+        "L2": "The client sees how far one bad message reached, from its own mail flow only.",
+        "L3": "One scoped, audited read replaces a manual trace search, so the next recipient is warned sooner.",
+        "L4": "Another client's message id answers like an unknown one, so no office learns about another's mail."
+      }
+    },
+    {
+      "name": "quarantine.release",
+      "runtime": "powershell",
+      "entry": "MailFlowOps\\Restore-QuarantinedMessage",
+      "description": "Release one quarantined message to one of its own recipients. Refused for high-confidence phish or malware. Mock of an Exchange Online quarantine release.",
+      "client_scope": "any",
+      "required_role": "technician",
+      "dry_run_role": "agent",
+      "class": "write",
+      "approval": "lead",
+      "idempotency_keys": ["quarantine_id", "upn"],
+      "params": {
+        "upn": {"type": "string", "required": true, "max_length": 113, "pattern": "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", "description": "userPrincipalName of the person the message was sent to and who asked for it"},
+        "quarantine_id": {"type": "string", "required": true, "max_length": 6, "pattern": "^Q-[0-9]{4}$", "description": "Quarantine id of the held message, e.g. Q-1003"}
+      },
+      "dry_run": true,
+      "timeout_s": 20,
+      "risk_class": "R2",
+      "reversibility": "reversible",
+      "undo": null,
+      "lever_version": 1,
+      "impact": {
+        "L1": "A person gets a wrongly held message; a wrong release puts a phish in their inbox, so a lead approves each one.",
+        "L2": "Legitimate client mail is not lost to quarantine, and phish or malware verdicts are never released by a lever.",
+        "L3": "Release requests become checked, approved and audited changes instead of portal clicks with no record.",
+        "L4": "A release goes only to the message's own recipients in the same client, never to anyone else."
+      }
+    }
+  ]
+}

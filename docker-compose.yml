@@ -1,0 +1,31 @@
+# B-98. UNVERIFIED: never built or run (no Docker on the build machine). Offline, synthetic data only.
+# `docker compose up` runs the packaged demo once and exits. No port is published: the approval page binds
+# 127.0.0.1 only (SC-3), so it is not offered from a container.
+x-sandbox: &sandbox
+  build: .
+  network_mode: none
+  read_only: true
+  tmpfs:
+    - /tmp
+  cap_drop:
+    - ALL
+  security_opt:
+    - no-new-privileges:true
+
+services:
+  demo:
+    <<: *sandbox
+    command: ["uv", "run", "--frozen", "python", "tools/packaged_demo.py"]
+
+  smoke:
+    <<: *sandbox
+    profiles: ["test"]
+    command:
+      - uv
+      - run
+      - --frozen
+      - pytest
+      - -p
+      - no:cacheprovider
+      - tests/py/tools/test_b98_packaged_demo.py
+      - tests/py/tools/test_b98_coverage_audit.py

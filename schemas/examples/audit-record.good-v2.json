@@ -1,0 +1,25 @@
+{
+  "seq": 1,
+  "ts": "2026-10-21T09:00:00.000Z",
+  "agent": "triage-bot",
+  "client": "contoso-dental",
+  "lever": "user.reset-mfa",
+  "params": {
+    "upn": "priya.nair@contosodental.example"
+  },
+  "mode": "dry-run",
+  "result": {
+    "status": "ok",
+    "reason": "dry-run: nothing applied",
+    "applied": false,
+    "changes": []
+  },
+  "approver": null,
+  "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "v": 2,
+  "event": "lever.invoke",
+  "actor_kind": "agent",
+  "lever_version": 1,
+  "request_id": "req-0001-t3101",
+  "hash": "8647737b22db23c2aef01f410ac43404b35d72ecd5c3f8fc0c62140dab992da4"
+}

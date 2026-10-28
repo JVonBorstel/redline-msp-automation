@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "_note": "Prototype defaults for the device reports (B-64), not measured: a LAPS password backup older than this many days counts as stale (Windows LAPS rotates every 30 days by default, so 35 leaves 5 days of slack); a hire who is not ready and starts within starts_soon_days is marked urgent.",
+  "laps_max_backup_age_days": 35,
+  "starts_soon_days": 7
+}

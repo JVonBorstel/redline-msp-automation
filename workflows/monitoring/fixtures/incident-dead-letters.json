@@ -1,0 +1,106 @@
+{
+  "audit_events": [
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:59:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:58:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:56:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:55:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:53:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:52:25Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:50:55Z"
+    },
+    {
+      "client": "contoso-dental",
+      "event": "model.complete",
+      "provider": "mock",
+      "reason": "ok",
+      "ts": "2026-10-27T11:49:25Z"
+    }
+  ],
+  "chain_checks": [
+    {
+      "broken_seq": null,
+      "ok": true,
+      "scope": "contoso-dental"
+    },
+    {
+      "broken_seq": null,
+      "ok": true,
+      "scope": "fabrikam-capital"
+    },
+    {
+      "broken_seq": null,
+      "ok": true,
+      "scope": "_msp"
+    }
+  ],
+  "dead_letter_samples": [
+    {
+      "client": "fabrikam-capital",
+      "count": 2,
+      "ts": "2026-10-27T11:10:00Z"
+    },
+    {
+      "client": "fabrikam-capital",
+      "count": 6,
+      "ts": "2026-10-27T11:45:00Z"
+    },
+    {
+      "client": "fabrikam-capital",
+      "count": 9,
+      "ts": "2026-10-27T11:59:50Z"
+    },
+    {
+      "client": "contoso-dental",
+      "count": 1,
+      "ts": "2026-10-27T11:10:00Z"
+    },
+    {
+      "client": "contoso-dental",
+      "count": 1,
+      "ts": "2026-10-27T11:59:50Z"
+    }
+  ],
+  "now": "2026-10-27T12:00:00Z",
+  "pending_approvals": []
+}

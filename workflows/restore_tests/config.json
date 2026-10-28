@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "_note": "B-69 configuration for scheduled restore tests. Synthetic starting values. every is how often the scheduler runs one test per client; test_location is the throw-away alternate location a test restores into (it must start with ALT-); agent is the identity that records the test in the audit chain and must be scoped to the client.",
+  "every": "monthly",
+  "test_location": "ALT-RESTORE-TEST",
+  "agent": "triage-bot"
+}

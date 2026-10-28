@@ -1,0 +1,487 @@
+{
+  "_note": "Synthetic September 2026 ticket counts for Fabrikam Capital (invented client), derived by hand-written script from the October set with dates moved back 30 days. Only the fields the QBR reads (id, client, source, status, created, updated); no ticket text, people or labels. Fixture-based, not real tickets.",
+  "client": "fabrikam-capital",
+  "as_of": "2026-09-30T23:00:00Z",
+  "tickets": [
+    {
+      "id": "T-4201",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T12:50:00Z",
+      "updated": "2026-09-06T18:50:00Z"
+    },
+    {
+      "id": "T-4202",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T14:53:00Z",
+      "updated": "2026-09-14T15:53:00Z"
+    },
+    {
+      "id": "T-4203",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T15:46:00Z",
+      "updated": "2026-09-09T21:46:00Z"
+    },
+    {
+      "id": "T-4204",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T16:39:00Z",
+      "updated": "2026-09-06T22:39:00Z"
+    },
+    {
+      "id": "T-4205",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T17:32:00Z",
+      "updated": "2026-09-15T18:32:00Z"
+    },
+    {
+      "id": "T-4206",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T18:25:00Z",
+      "updated": "2026-09-13T00:25:00Z"
+    },
+    {
+      "id": "T-4207",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-14T16:15:00Z",
+      "updated": "2026-09-14T17:15:00Z"
+    },
+    {
+      "id": "T-4208",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-16T15:05:00Z",
+      "updated": "2026-09-16T16:05:00Z"
+    },
+    {
+      "id": "T-4209",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-13T21:04:00Z",
+      "updated": "2026-09-14T17:04:00Z"
+    },
+    {
+      "id": "T-4210",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T12:55:00Z",
+      "updated": "2026-09-08T18:55:00Z"
+    },
+    {
+      "id": "T-4211",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "waiting-client",
+      "created": "2026-09-05T22:50:00Z",
+      "updated": "2026-09-06T00:50:00Z"
+    },
+    {
+      "id": "T-4212",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "waiting-vendor",
+      "created": "2026-09-14T14:43:00Z",
+      "updated": "2026-09-14T16:43:00Z"
+    },
+    {
+      "id": "T-4213",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-09T15:36:00Z",
+      "updated": "2026-09-11T07:36:00Z"
+    },
+    {
+      "id": "T-4214",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "waiting-client",
+      "created": "2026-09-06T16:29:00Z",
+      "updated": "2026-09-06T18:29:00Z"
+    },
+    {
+      "id": "T-4215",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-15T17:22:00Z",
+      "updated": "2026-09-15T18:22:00Z"
+    },
+    {
+      "id": "T-4216",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-12T18:15:00Z",
+      "updated": "2026-09-13T00:15:00Z"
+    },
+    {
+      "id": "T-4217",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-07T19:08:00Z",
+      "updated": "2026-09-08T01:08:00Z"
+    },
+    {
+      "id": "T-4218",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "new",
+      "created": "2026-09-16T20:01:00Z",
+      "updated": "2026-09-16T20:01:00Z"
+    },
+    {
+      "id": "T-4219",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-13T20:54:00Z",
+      "updated": "2026-09-13T23:54:00Z"
+    },
+    {
+      "id": "T-4220",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T21:47:00Z",
+      "updated": "2026-09-09T03:47:00Z"
+    },
+    {
+      "id": "T-4221",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-05T22:40:00Z",
+      "updated": "2026-09-06T18:40:00Z"
+    },
+    {
+      "id": "T-4222",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-14T14:33:00Z",
+      "updated": "2026-09-14T15:33:00Z"
+    },
+    {
+      "id": "T-4223",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-09T15:26:00Z",
+      "updated": "2026-09-10T11:26:00Z"
+    },
+    {
+      "id": "T-4224",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-06T16:19:00Z",
+      "updated": "2026-09-06T22:19:00Z"
+    },
+    {
+      "id": "T-4225",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-15T17:12:00Z",
+      "updated": "2026-09-15T18:12:00Z"
+    },
+    {
+      "id": "T-4226",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-12T18:05:00Z",
+      "updated": "2026-09-13T14:05:00Z"
+    },
+    {
+      "id": "T-4227",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-07T18:58:00Z",
+      "updated": "2026-09-09T10:58:00Z"
+    },
+    {
+      "id": "T-4228",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "new",
+      "created": "2026-09-16T19:51:00Z",
+      "updated": "2026-09-16T19:51:00Z"
+    },
+    {
+      "id": "T-4229",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-13T20:44:00Z",
+      "updated": "2026-09-15T12:44:00Z"
+    },
+    {
+      "id": "T-4230",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-08T21:37:00Z",
+      "updated": "2026-09-09T17:37:00Z"
+    },
+    {
+      "id": "T-4231",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-05T22:30:00Z",
+      "updated": "2026-09-07T14:30:00Z"
+    },
+    {
+      "id": "T-4232",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-14T14:23:00Z",
+      "updated": "2026-09-14T15:23:00Z"
+    },
+    {
+      "id": "T-4233",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-09T15:16:00Z",
+      "updated": "2026-09-10T11:16:00Z"
+    },
+    {
+      "id": "T-4234",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-06T16:09:00Z",
+      "updated": "2026-09-07T12:09:00Z"
+    },
+    {
+      "id": "T-4235",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T17:02:00Z",
+      "updated": "2026-09-15T18:02:00Z"
+    },
+    {
+      "id": "T-4236",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-12T17:55:00Z",
+      "updated": "2026-09-14T09:55:00Z"
+    },
+    {
+      "id": "T-4237",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-07T18:48:00Z",
+      "updated": "2026-09-08T14:48:00Z"
+    },
+    {
+      "id": "T-4238",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T00:10:00Z",
+      "updated": "2026-09-08T06:10:00Z"
+    },
+    {
+      "id": "T-4239",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-08T00:22:00Z",
+      "updated": "2026-09-08T06:22:00Z"
+    },
+    {
+      "id": "T-4240",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T00:40:00Z",
+      "updated": "2026-09-08T06:40:00Z"
+    },
+    {
+      "id": "T-4241",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-13T13:32:00Z",
+      "updated": "2026-09-13T16:32:00Z"
+    },
+    {
+      "id": "T-4242",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-13T13:36:00Z",
+      "updated": "2026-09-13T16:36:00Z"
+    },
+    {
+      "id": "T-4243",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-13T13:41:00Z",
+      "updated": "2026-09-13T16:41:00Z"
+    },
+    {
+      "id": "T-4244",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-13T13:45:00Z",
+      "updated": "2026-09-13T16:45:00Z"
+    },
+    {
+      "id": "T-4245",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-15T16:52:00Z",
+      "updated": "2026-09-15T17:52:00Z"
+    },
+    {
+      "id": "T-4246",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-12T17:45:00Z",
+      "updated": "2026-09-12T23:45:00Z"
+    },
+    {
+      "id": "T-4247",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "waiting-vendor",
+      "created": "2026-09-07T18:38:00Z",
+      "updated": "2026-09-07T20:38:00Z"
+    },
+    {
+      "id": "T-4248",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "new",
+      "created": "2026-09-16T19:31:00Z",
+      "updated": "2026-09-16T19:31:00Z"
+    },
+    {
+      "id": "T-4249",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-13T20:24:00Z",
+      "updated": "2026-09-14T16:24:00Z"
+    },
+    {
+      "id": "T-4250",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T21:17:00Z",
+      "updated": "2026-09-10T13:17:00Z"
+    },
+    {
+      "id": "T-4251",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "resolved",
+      "created": "2026-09-05T22:10:00Z",
+      "updated": "2026-09-06T18:10:00Z"
+    },
+    {
+      "id": "T-4252",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-14T14:03:00Z",
+      "updated": "2026-09-14T15:03:00Z"
+    },
+    {
+      "id": "T-4253",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-09T14:56:00Z",
+      "updated": "2026-09-10T10:56:00Z"
+    },
+    {
+      "id": "T-4254",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-06T15:49:00Z",
+      "updated": "2026-09-08T07:49:00Z"
+    },
+    {
+      "id": "T-4255",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "resolved",
+      "created": "2026-09-08T17:05:00Z",
+      "updated": "2026-09-08T23:05:00Z"
+    },
+    {
+      "id": "T-4256",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "resolved",
+      "created": "2026-09-08T17:40:00Z",
+      "updated": "2026-09-08T23:40:00Z"
+    },
+    {
+      "id": "T-4257",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-15T14:30:00Z",
+      "updated": "2026-09-15T15:30:00Z"
+    },
+    {
+      "id": "T-4258",
+      "client": "fabrikam-capital",
+      "source": "portal",
+      "status": "in-progress",
+      "created": "2026-09-15T14:47:00Z",
+      "updated": "2026-09-15T15:47:00Z"
+    },
+    {
+      "id": "T-4259",
+      "client": "fabrikam-capital",
+      "source": "email",
+      "status": "in-progress",
+      "created": "2026-09-15T15:10:00Z",
+      "updated": "2026-09-15T16:10:00Z"
+    },
+    {
+      "id": "T-4260",
+      "client": "fabrikam-capital",
+      "source": "phone",
+      "status": "in-progress",
+      "created": "2026-09-08T21:07:00Z",
+      "updated": "2026-09-09T17:07:00Z"
+    }
+  ]
+}

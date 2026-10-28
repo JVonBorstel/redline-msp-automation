@@ -1,0 +1,33 @@
+[project]
+name = "redline-msp-automation"
+version = "0.1.0"
+description = "Governance-first AI automation prototype for an MSP (synthetic data only; independently built prototype)"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.9"]
+
+[dependency-groups]
+dev = ["pytest>=8.3", "ruff>=0.7", "mypy>=1.13"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests/phase1"]
+addopts = "-q"
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"site/**" = ["E501", "S603", "S607"]  # the showcase tooling shells out to git, uv and pwsh by design
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["core"]

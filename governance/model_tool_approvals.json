@@ -1,0 +1,1513 @@
+{
+  "_note": "Approval records (B-93). Baseline records AC-001 onward describe what existed on 2026-10-27, written by the prototype's builder in this synthetic repo; the reviewer entries are role placeholders, not real sign-off, and the MSP's approver must re-decide them. New things arrive only through governance/MODEL_TOOL_APPROVAL.md. Never put an endpoint, a key or a person's name here.",
+  "version": 1,
+  "data_basis": "synthetic",
+  "records": [
+    {
+      "id": "AC-001",
+      "kind": "provider",
+      "subject": "mock",
+      "title": "Mock provider",
+      "inventory_ids": [
+        "W-TOOL-02",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Fixture-backed provider so everything runs offline.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/phase1/test_gateway.py::test_mock_is_deterministic"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/guard/test_b55_redaction.py::test_b55_3_eval_refuses_every_ticket_on_the_hosted_route_and_serves_it_locally"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Set providers.mock.enabled to false in config/models.json; tests and demos stop answering.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-002",
+      "kind": "provider",
+      "subject": "ollama",
+      "title": "Local Ollama provider",
+      "inventory_ids": [
+        "W-TOOL-02",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Local OpenAI-compatible endpoint on 127.0.0.1; text never leaves the machine.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/phase1/test_gateway.py::test_mock_is_deterministic"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/guard/test_b55_redaction.py::test_b55_3_eval_refuses_every_ticket_on_the_hosted_route_and_serves_it_locally"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Set providers.ollama.enabled to false in config/models.json; routes fall back to the mock provider.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-003",
+      "kind": "model",
+      "subject": "mock/mock-small",
+      "title": "Mock small model",
+      "inventory_ids": [
+        "W-TOOL-02",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Offline deterministic stand-in used by tests and demos; reads fixtures only.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "eval_report",
+          "ref": "evals/routing/report.md"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/guard/test_b55_redaction.py::test_b55_3_eval_refuses_every_ticket_on_the_hosted_route_and_serves_it_locally"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Remove the mock-small alias from providers.mock.models in config/models.json; routes naming it fail closed to the next route.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-004",
+      "kind": "model",
+      "subject": "mock/mock-strong",
+      "title": "Mock strong model",
+      "inventory_ids": [
+        "W-TOOL-02",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Offline deterministic stand-in for the strong route; reads fixtures only.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "eval_report",
+          "ref": "evals/routing/report.md"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/guard/test_b55_redaction.py::test_b55_3_eval_refuses_every_ticket_on_the_hosted_route_and_serves_it_locally"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Remove the mock-strong alias from providers.mock.models in config/models.json; routes naming it fail closed to the next route.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-005",
+      "kind": "model",
+      "subject": "ollama/llama3.2:3b",
+      "title": "Local small model (example name)",
+      "inventory_ids": [
+        "W-TOOL-02",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Small local open-weight model for classify and summarise through the gateway on this machine. Not for DC-4 or DC-5 text without a separate client decision.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "eval_report",
+          "ref": "evals/routing/report.md"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/guard/test_b55_redaction.py::test_b55_3_eval_refuses_every_ticket_on_the_hosted_route_and_serves_it_locally"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Remove the llama3.2:3b alias from providers.ollama.models in config/models.json; routes naming it fail closed to the next route.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-006",
+      "kind": "model",
+      "subject": "ollama/qwen2.5:14b",
+      "title": "Local strong model (example name)",
+      "inventory_ids": [
+        "W-TOOL-02",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Larger local open-weight model for hard cases through the gateway on this machine. Not for DC-4 or DC-5 text without a separate client decision.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "eval_report",
+          "ref": "evals/routing/report.md"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/guard/test_b55_redaction.py::test_b55_3_eval_refuses_every_ticket_on_the_hosted_route_and_serves_it_locally"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Remove the qwen2.5:14b alias from providers.ollama.models in config/models.json; routes naming it fail closed to the next route.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-007",
+      "kind": "mcp-server",
+      "subject": "redline-levers",
+      "title": "MCP server over the registered levers",
+      "inventory_ids": [
+        "W-GOV-02",
+        "W-TOOL-01"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Lists registered levers as tools and turns a call into one dry-run runner call as the caller's identity; decides nothing about permission.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/mcp/test_b87_mcp.py::test_b87_1_no_write_lever_is_listed_by_default"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/mcp/test_b87_mcp.py::test_b87_2_token_is_never_passed_to_the_runner_the_audit_or_the_client"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop starting python -m mcp; clients lose the tool list and nothing else changes.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-008",
+      "kind": "lever-namespace",
+      "subject": "backup",
+      "title": "Lever namespace backup",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Backup job actions (mock). Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every backup.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-009",
+      "kind": "lever-namespace",
+      "subject": "contact",
+      "title": "Lever namespace contact",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read client contact records. Declared scope, not measured.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every contact.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-010",
+      "kind": "lever-namespace",
+      "subject": "device",
+      "title": "Lever namespace device",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Device actions including R3 lock, retire, wipe and isolate (mock, dual approval). Declared scope, not measured.",
+      "risk_class": "R3",
+      "data_classes": [
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every device.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-011",
+      "kind": "lever-namespace",
+      "subject": "group",
+      "title": "Lever namespace group",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Group membership changes (proposals). Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every group.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-012",
+      "kind": "lever-namespace",
+      "subject": "inboxrule",
+      "title": "Lever namespace inboxrule",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read and remove mailbox inbox rules. Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every inboxrule.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-013",
+      "kind": "lever-namespace",
+      "subject": "kb",
+      "title": "Lever namespace kb",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Keyword search over a client's knowledge base. Declared scope, not measured.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-0",
+        "DC-1",
+        "DC-2"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every kb.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-014",
+      "kind": "lever-namespace",
+      "subject": "license",
+      "title": "Lever namespace license",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "License assignment changes. Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every license.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-015",
+      "kind": "lever-namespace",
+      "subject": "mailbox",
+      "title": "Lever namespace mailbox",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Mailbox delegation, forwarding and related changes. Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every mailbox.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-016",
+      "kind": "lever-namespace",
+      "subject": "message",
+      "title": "Lever namespace message",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read message trace records. Declared scope, not measured.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every message.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-017",
+      "kind": "lever-namespace",
+      "subject": "quarantine",
+      "title": "Lever namespace quarantine",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Release or delete quarantined messages. Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every quarantine.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-018",
+      "kind": "lever-namespace",
+      "subject": "restore",
+      "title": "Lever namespace restore",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Restore job actions (mock). Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every restore.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-019",
+      "kind": "lever-namespace",
+      "subject": "risk",
+      "title": "Lever namespace risk",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read sign-in risk records. Declared scope, not measured.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every risk.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-020",
+      "kind": "lever-namespace",
+      "subject": "signins",
+      "title": "Lever namespace signins",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read sign-in records. Declared scope, not measured.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every signins.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-021",
+      "kind": "lever-namespace",
+      "subject": "ticket",
+      "title": "Lever namespace ticket",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read and annotate service tickets (synthetic PSA). Declared scope, not measured.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every ticket.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-022",
+      "kind": "lever-namespace",
+      "subject": "user",
+      "title": "Lever namespace user",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "User account actions in a client tenant, proposals only for agents. Declared scope, not measured.",
+      "risk_class": "R3",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every user.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-023",
+      "kind": "adapter",
+      "subject": "alerts",
+      "title": "Adapter alerts (mock and stub)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Vendor-neutral alerts interface with a mock and a not-wired real stub; no live endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_the_table_covers_every_interface_and_every_public_method"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_a_crash_inside_a_call_becomes_a_deterministic_reason_without_the_message"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop binding the alerts adapter in config; callers get the typed unavailable result.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-024",
+      "kind": "adapter",
+      "subject": "backup",
+      "title": "Adapter backup (mock and stub)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Vendor-neutral backup interface with a mock and a not-wired real stub; no live endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_the_table_covers_every_interface_and_every_public_method"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_a_crash_inside_a_call_becomes_a_deterministic_reason_without_the_message"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop binding the backup adapter in config; callers get the typed unavailable result.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-025",
+      "kind": "adapter",
+      "subject": "graph",
+      "title": "Adapter graph (mock and stub)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Vendor-neutral graph interface with a mock and a not-wired real stub; no live endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_the_table_covers_every_interface_and_every_public_method"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_a_crash_inside_a_call_becomes_a_deterministic_reason_without_the_message"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop binding the graph adapter in config; callers get the typed unavailable result.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-026",
+      "kind": "adapter",
+      "subject": "intune",
+      "title": "Adapter intune (mock and stub)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Vendor-neutral intune interface with a mock and a not-wired real stub; no live endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_the_table_covers_every_interface_and_every_public_method"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_a_crash_inside_a_call_becomes_a_deterministic_reason_without_the_message"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop binding the intune adapter in config; callers get the typed unavailable result.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-027",
+      "kind": "adapter",
+      "subject": "psa",
+      "title": "Adapter psa (mock and stub)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Vendor-neutral psa interface with a mock and a not-wired real stub; no live endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_the_table_covers_every_interface_and_every_public_method"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_a_crash_inside_a_call_becomes_a_deterministic_reason_without_the_message"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop binding the psa adapter in config; callers get the typed unavailable result.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-028",
+      "kind": "adapter",
+      "subject": "rmm",
+      "title": "Adapter rmm (mock and stub)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Vendor-neutral rmm interface with a mock and a not-wired real stub; no live endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_the_table_covers_every_interface_and_every_public_method"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/contract/test_b91_adapters.py::test_b91_1_a_crash_inside_a_call_becomes_a_deterministic_reason_without_the_message"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Stop binding the rmm adapter in config; callers get the typed unavailable result.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-029",
+      "kind": "adapter",
+      "subject": "m365",
+      "title": "Adapter m365 (Teams card, Outlook draft, SharePoint source mocks)",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Mock Teams approval card (link back only), Outlook draft builder (cannot send) and a one-client SharePoint source; no live Microsoft endpoint.",
+      "risk_class": "R1",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/m365/test_b88_m365.py::test_b88_1_card_has_no_button_that_can_decide"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/m365/test_b88_m365.py::test_b88_2_an_item_holding_a_secret_shape_refuses_the_whole_draft"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Remove the m365 adapter binding from config; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-030",
+      "kind": "lever-namespace",
+      "subject": "rag",
+      "title": "Lever namespace rag",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Read-only cited retrieval over one client's namespace plus msp-internal (stand-in embedder). Declared scope, not measured.",
+      "risk_class": "R0",
+      "data_classes": [
+        "DC-1",
+        "DC-2",
+        "DC-3"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every rag.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    },
+    {
+      "id": "AC-031",
+      "kind": "lever-namespace",
+      "subject": "unix",
+      "title": "Lever namespace unix",
+      "inventory_ids": [
+        "W-TOOL-01",
+        "W-GOV-02"
+      ],
+      "owner_role": "automation-engineer",
+      "proposed_by_role": "automation-engineer",
+      "purpose": "Bash-runtime levers on mock hosts (disk usage, restart service, clear cache). Declared scope, not measured.",
+      "risk_class": "R2",
+      "data_classes": [
+        "DC-1",
+        "DC-2"
+      ],
+      "hosting": "local",
+      "retention_terms": null,
+      "baa_status": "not-applicable",
+      "zdr_status": "not-applicable",
+      "vendor_approval_id": null,
+      "evidence": [
+        {
+          "type": "contract_test",
+          "ref": "tests/py/levers/test_b02_runner_gates.py::test_b02_1_global_pause_denies_dry_run_and_execute_with_the_reason"
+        },
+        {
+          "type": "redaction_test",
+          "ref": "tests/py/audit/test_b17_audit_v2.py::test_b17_1_request_id_is_capped_and_redacted"
+        }
+      ],
+      "reviewers": [
+        {
+          "role": "ai-change-approver",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "security-lead",
+          "decision": "approve",
+          "on": "2026-10-27"
+        },
+        {
+          "role": "compliance-owner",
+          "decision": "approve",
+          "on": "2026-10-27"
+        }
+      ],
+      "rollback": "Pause every unix.* lever with the global pause, then remove or disable the registry fragment; nothing else depends on it.",
+      "status": "approved",
+      "approved_on": "2026-10-27",
+      "review_date": "2027-04-27"
+    }
+  ]
+}

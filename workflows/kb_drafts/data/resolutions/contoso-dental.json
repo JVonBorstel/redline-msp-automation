@@ -1,0 +1,77 @@
+{
+  "_note": "Synthetic recorded resolutions for resolved Contoso Dental tickets (B-58). Invented for this prototype: what a technician wrote down when closing the ticket. Keyed by ticket id into the dated Contoso Dental ticket set (B-21). Some records are deliberately awkward (a record naming another client, a ticket that is not a Contoso ticket, a ticket not resolved, an empty resolution, a poisoned ticket) to exercise the draft rules. Not a capture from a real PSA.",
+  "client": "contoso-dental",
+  "records": [
+    {
+      "ticket_id": "T-5101",
+      "recorded_on": "2026-10-05",
+      "title": "Reset multi-factor methods after a phone change",
+      "tags": ["mfa"],
+      "steps": [
+        "Verify the user by calling back the number on file (555-0142) before changing anything.",
+        "Reset the multi-factor methods for priya.nair@contosodental.example in the admin portal.",
+        "Ask Priya Nair to sign in and register the new Authenticator app.",
+        "Confirm a sign-in succeeds, then note the result in the ticket."
+      ]
+    },
+    {
+      "ticket_id": "T-5104",
+      "recorded_on": "2026-10-06",
+      "title": "Sign-in codes still go to an old phone number",
+      "tags": ["mfa"],
+      "steps": [
+        "Open the user's authentication methods and remove the old phone number.",
+        "Add the new number only after the user answers a call-back on the number on file.",
+        "Reference phrase for this draft: zebra-b58-contoso-only."
+      ]
+    },
+    {
+      "ticket_id": "T-5121",
+      "recorded_on": "2026-10-13",
+      "title": "Reception printer offline after the router restart",
+      "tags": ["printing"],
+      "steps": [
+        "Check that the printer still holds its reserved address.",
+        "Restart the print spooler service on the reception workstation.",
+        "Print a test chart for patient Marisol Quintero, DOB 04/11/1987, member 12-3456-7890, then discard it.",
+        "Close the ticket once the test page prints for [PATIENT_NAME_1] and a second user."
+      ]
+    },
+    {
+      "ticket_id": "T-5146",
+      "recorded_on": "2026-10-15",
+      "title": "Printer jam at reception",
+      "tags": ["printing"],
+      "steps": ["Open the rear door and clear the jam.", "Run a test page."]
+    },
+    {
+      "ticket_id": "T-5102",
+      "recorded_on": "2026-10-06",
+      "title": "Sign-in prompts stopped after a phone repair",
+      "tags": ["mfa"],
+      "steps": ["Not finished yet: waiting on the user."]
+    },
+    {
+      "ticket_id": "T-5107",
+      "recorded_on": "2026-10-08",
+      "title": "Password expired while on leave",
+      "tags": ["account-access"],
+      "steps": []
+    },
+    {
+      "ticket_id": "T-5201",
+      "client": "fabrikam-capital",
+      "recorded_on": "2026-10-05",
+      "title": "A record that names another client",
+      "tags": ["mfa"],
+      "steps": ["quokka-b58-fabrikam-only must never appear in a Contoso draft."]
+    },
+    {
+      "ticket_id": "T-5202",
+      "recorded_on": "2026-10-05",
+      "title": "A ticket id that is not a Contoso ticket",
+      "tags": ["mfa"],
+      "steps": ["Another quokka-b58-fabrikam-only canary."]
+    }
+  ]
+}

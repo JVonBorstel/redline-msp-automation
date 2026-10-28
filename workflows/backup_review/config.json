@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "_note": "B-68 configuration for the daily backup review. Synthetic starting values, not tuned on real jobs. A job scheduled in the last review_window_hours is reviewed; running longer than long_running_factor times its expected duration is long-running; a scheduled job with no start missed_grace_minutes after its time is missed; repeat_min_failures failures of one asset inside lookback_days make one repeated-failure ticket draft.",
+  "review_window_hours": 24,
+  "long_running_factor": 2.0,
+  "missed_grace_minutes": 60,
+  "repeat_min_failures": 2,
+  "lookback_days": 7
+}
