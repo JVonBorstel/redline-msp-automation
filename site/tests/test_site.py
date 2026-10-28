@@ -325,6 +325,37 @@ class TestHtml(unittest.TestCase):
                 if t == "button":
                     self.assertTrue(a.get("type"), f"{page}: every button has a type")
 
+    def test_no_inline_style_attributes(self) -> None:
+        # The CSP (style-src 'self') makes browsers drop style="" attributes, so anything drawn with one silently
+        # disappears (the roadmap bars once did). Sizes go in SVG attributes or classes instead.
+        for page in PAGES:
+            for t, a in self.parse(DIST / f"{page}.html").tags:
+                self.assertNotIn("style", a, f"{page}: <{t}> has an inline style the CSP would block")
+
+    def test_hero_scene_and_mascot(self) -> None:
+        c = self.parse(DIST / "index.html")
+        scene = [a for t, a in c.tags if t == "svg" and "scene" in (a.get("class") or "").split()]
+        self.assertEqual(len(scene), 1, "the overview has one hero scene")
+        self.assertEqual(scene[0].get("role"), "img")
+        self.assertIn("scene-title", c.ids, "the scene is described for screen readers")
+        self.assertIn('class="mascot', (DIST / "404.html").read_text(encoding="utf-8"))
+        for page in PAGES:
+            text = (DIST / f"{page}.html").read_text(encoding="utf-8")
+            self.assertIn('id="menu-btn"', text, page)
+            self.assertIn('id="motion-btn"', text, f"{page}: the motion switch (WCAG 2.3.3)")
+
+    def test_pipeline_steps_link_to_their_pages(self) -> None:
+        c = self.parse(DIST / "index.html")
+        hrefs, inside = [], False
+        for t, a in c.tags:
+            if t == "ol" and a.get("class") == "flow":
+                inside = True
+            elif t == "ol":
+                inside = False
+            elif inside and t == "a":
+                hrefs.append(a["href"])
+        self.assertEqual(len(hrefs), 8, "every pipeline step is a link")
+
     def test_nav_marks_the_current_page(self) -> None:
         for page in PAGES[:-1]:
             c = self.parse(DIST / f"{page}.html")

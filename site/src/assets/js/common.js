@@ -126,6 +126,56 @@ export function initTheme() {
     } catch (e) { /* storage blocked: keep the choice for this page view only */ }
     label();
   });
+  enhance();
+}
+
+// Shared by every page (each page script calls initTheme): the mobile menu, back-to-top, the motion switch and the
+// hero scene's replay. Numbers and text are never animated: what the build wrote is what the reader sees.
+function enhance() {
+  const root = document.documentElement;
+  const header = document.querySelector(".site-header");
+  const menu = document.getElementById("menu-btn");
+  if (header && menu) {
+    const set = (open) => { header.classList.toggle("open", open); menu.setAttribute("aria-expanded", String(open)); };
+    menu.addEventListener("click", () => set(!header.classList.contains("open")));
+    document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && header.classList.contains("open")) { set(false); menu.focus(); } });
+  }
+
+  const top = document.getElementById("to-top");
+  if (top) {
+    const onScroll = () => top.classList.toggle("show", window.scrollY > 700);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Motion switch (WCAG 2.3.3): off stops every animation and the page-to-page camera moves, and is remembered.
+  const motion = document.getElementById("motion-btn");
+  if (motion) {
+    const label = () => {
+      const off = root.dataset.motion === "reduce";
+      motion.textContent = off ? "Motion: off" : "Motion: on";
+      motion.setAttribute("aria-pressed", String(!off));
+    };
+    label();
+    motion.addEventListener("click", () => {
+      const off = root.dataset.motion !== "reduce";
+      if (off) root.dataset.motion = "reduce"; else delete root.dataset.motion;
+      try { if (off) window.localStorage.setItem("motion", "reduce"); else window.localStorage.removeItem("motion"); } catch (e) { /* blocked */ }
+      label();
+    });
+  }
+
+  // The hero scene plays once on load; Replay runs it again (restarting CSS animations by re-adding the class).
+  const replay = document.getElementById("scene-replay");
+  const scene = document.querySelector(".scene");
+  if (replay && scene) {
+    replay.hidden = false;
+    replay.addEventListener("click", () => {
+      scene.classList.remove("play");
+      void scene.getBoundingClientRect();
+      scene.classList.add("play");
+    });
+  }
 }
 
 export function prettyJSON(value) {

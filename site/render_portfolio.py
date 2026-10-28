@@ -18,14 +18,19 @@ def _stat(n: object, label: str) -> str:
 
 
 def _bar(counts: dict[str, int]) -> str:
+    # Drawn as SVG: widths are attributes, not inline styles, which the site's CSP (style-src 'self') would drop.
     total = sum(counts.values()) or 1
-    seg = "".join(
-        f'<span class="seg {k}" style="width:{counts[k] / total * 100:.1f}%"></span>'
-        for k in ("built", "specced", "planned")
-        if counts[k]
-    )
+    seg, x = [], 0.0
+    for k in ("built", "specced", "planned"):
+        if counts[k]:
+            w = counts[k] / total * 100
+            seg.append(f'<rect class="seg {k}" x="{x:.2f}" y="0" width="{w:.2f}" height="10"/>')
+            x += w
     label = f"{counts['built']} built, {counts['specced']} specced, {counts['planned']} planned"
-    return f'<span class="bar" role="img" aria-label="{esc(label)}">{seg}</span>'
+    return (
+        f'<svg class="bar" viewBox="0 0 100 10" preserveAspectRatio="none" role="img" aria-label="{esc(label)}">'
+        f"{''.join(seg)}</svg>"
+    )
 
 
 def page_portfolio(content: dict[str, Any]) -> tuple[str, str, str]:
