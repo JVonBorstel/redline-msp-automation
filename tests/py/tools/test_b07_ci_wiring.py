@@ -19,7 +19,7 @@ def _ci() -> str:
     return CI.read_text(encoding="utf-8")
 
 
-def test_b07_1_ci_runs_lint_types_and_every_suite() -> None:
+def test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test() -> None:
     text = _ci()
     for needed in (
         "ruff check",
@@ -41,11 +41,11 @@ def test_b07_1_ci_compiles_the_infrastructure_and_runs_the_container() -> None:
     assert "docker compose build" in text and "run --rm demo" in text
 
 
-def test_b07_1_every_action_is_pinned_to_a_released_version() -> None:
+def test_b07_1_every_action_is_pinned_to_a_full_commit_sha() -> None:
     uses = re.findall(r"^\s*-?\s*uses:\s*(\S+)", _ci(), flags=re.M)
     assert uses, "no actions found in ci.yml"
-    loose = [u for u in uses if not re.fullmatch(r"[\w.-]+/[\w./-]+@(v\d+(\.\d+){0,2}|[0-9a-f]{40})", u)]
-    assert not loose, f"actions not pinned to a release tag or SHA: {loose}"
+    loose = [u for u in uses if not re.fullmatch(r"[\w.-]+/[\w./-]+@[0-9a-f]{40}", u)]
+    assert not loose, f"actions not pinned to a 40-character commit SHA: {loose}"
 
 
 def test_b07_1_the_token_stays_read_only() -> None:
