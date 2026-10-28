@@ -1,18 +1,18 @@
 # Every change needs the owner's review.
-* @JVonBorstel
+* @VonBorstel-J
 
 # Guardrails and CI: explicit so a rename or a new owner never silently drops them.
-/scripts/ @JVonBorstel
-/.github/ @JVonBorstel
-/docs/BLUEPRINT.md @JVonBorstel
+/scripts/ @VonBorstel-J
+/.github/ @VonBorstel-J
+/docs/BLUEPRINT.md @VonBorstel-J
 
 # Permissions and evidence: every change here changes what automation may do (docs/map/04-repo-organization.md 6.4).
-/core/levers/ @JVonBorstel
-/core/audit/ @JVonBorstel
-/core/identity/ @JVonBorstel
-/levers/registry.json @JVonBorstel
-/levers/registry.d/ @JVonBorstel
-/config/ @JVonBorstel
-/governance/ @JVonBorstel
-/schemas/ @JVonBorstel
-/infra/ @JVonBorstel
+/core/levers/ @VonBorstel-J
+/core/audit/ @VonBorstel-J
+/core/identity/ @VonBorstel-J
+/levers/registry.json @VonBorstel-J
+/levers/registry.d/ @VonBorstel-J
+/config/ @VonBorstel-J
+/governance/ @VonBorstel-J
+/schemas/ @VonBorstel-J
+/infra/ @VonBorstel-J

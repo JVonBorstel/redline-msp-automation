@@ -11,7 +11,7 @@
 This is a prototype with no production deployment and no real-world results. Its controls (lever permissions, approvals, audit chain, injection tripwire, secret scan) are tested on synthetic fixtures; their known limits are listed in `docs/THREAT_MODEL.md`. Nothing here has had a human or third-party security review.
 
 ## Reporting a vulnerability or a data leak
-Please do not open a public issue for a security problem. Use GitHub's private vulnerability reporting on this repository (Security tab, "Report a vulnerability") if it is enabled, otherwise contact the owner, @JVonBorstel, through GitHub. Include what you found, where, and how to reproduce it, without pasting any real secret or real data. This is a one-person project: there is no SLA, but reports are read.
+Please do not open a public issue for a security problem. Use GitHub's private vulnerability reporting on this repository (Security tab, "Report a vulnerability") if it is enabled, otherwise contact the owner, @VonBorstel-J, through GitHub. Include what you found, where, and how to reproduce it, without pasting any real secret or real data. This is a one-person project: there is no SLA, but reports are read.
 
 ## Supported versions
 Only the `main` branch.

@@ -17,7 +17,7 @@ Thanks for looking. This is a one-person portfolio project, so changes are welco
    Optional: `pwsh -File scripts/install-hooks.ps1` enables a commit-time secret scan. Python is run through uv (`uv run ...`), never a bare interpreter.
 4. **Open a pull request** into `main` and fill in the template.
 5. **CI must be green.** The `ci` workflow runs lint, types and the test suites on Linux and Windows. Do not merge on red.
-6. **Owner approval.** `.github/CODEOWNERS` makes the owner (@JVonBorstel) the required reviewer. Nobody merges their own pull request without that approval, and automated agents never approve or merge.
+6. **Owner approval.** `.github/CODEOWNERS` makes the owner (@VonBorstel-J) the required reviewer. Nobody merges their own pull request without that approval, and automated agents never approve or merge.
 7. **Merge**, then delete the branch.
 
 ## Things that need the owner's explicit say-so

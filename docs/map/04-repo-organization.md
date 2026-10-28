@@ -161,7 +161,7 @@ Each suite runs with one command and prints one summary line `"<Suite> tests: N 
 
 ## 6. GitHub organization
 
-Repo: `JVonBorstel/redline-msp-automation` (private, D-021). Everything in this section that lives in `.github/` or is a GitHub setting is applied by the owner: agents are blocked from both (hooks protected paths). Roadmap item `B-08`, with the commands printed by `B-09`.
+Repo: `VonBorstel-J/redline-msp-automation` (private, D-021). Everything in this section that lives in `.github/` or is a GitHub setting is applied by the owner: agents are blocked from both (hooks protected paths). Roadmap item `B-08`, with the commands printed by `B-09`.
 
 ### 6.1 Labels
 
@@ -281,22 +281,22 @@ body:
 
 ### 6.4 CODEOWNERS (target)
 
-Today every path is owned by `@JVonBorstel`, with explicit lines for the guardrails. The target keeps that, and adds explicit lines for the paths whose review carries the most risk, so a later second reviewer (at the MSP, a named role) can be added per path without restructuring:
+Today every path is owned by `@VonBorstel-J`, with explicit lines for the guardrails. The target keeps that, and adds explicit lines for the paths whose review carries the most risk, so a later second reviewer (at the MSP, a named role) can be added per path without restructuring:
 
 ```
-*                               @JVonBorstel
+*                               @VonBorstel-J
 # Guardrails and CI (existing)
-/docs/BLUEPRINT.md  /scripts/  /.github/   @JVonBorstel
+/docs/BLUEPRINT.md  /scripts/  /.github/   @VonBorstel-J
 # Permissions and evidence: every change here changes what automation may do
-/core/levers/                   @JVonBorstel
-/core/audit/                    @JVonBorstel
-/core/identity/                 @JVonBorstel
-/levers/registry.json           @JVonBorstel
-/levers/registry.d/             @JVonBorstel
-/config/                        @JVonBorstel
-/governance/                    @JVonBorstel
-/schemas/                       @JVonBorstel
-/infra/                         @JVonBorstel
+/core/levers/                   @VonBorstel-J
+/core/audit/                    @VonBorstel-J
+/core/identity/                 @VonBorstel-J
+/levers/registry.json           @VonBorstel-J
+/levers/registry.d/             @VonBorstel-J
+/config/                        @VonBorstel-J
+/governance/                    @VonBorstel-J
+/schemas/                       @VonBorstel-J
+/infra/                         @VonBorstel-J
 ```
 
 (Real CODEOWNERS syntax takes one path per line; the guardrail line above is shortened for reading and is written out in full in `B-08`.) At the MSP the same paths would map to roles (for example an automation lead for `levers/`, the security or compliance owner for `governance/` and `core/audit/`), named only once the MSP says who holds them (GQ-01 in map 05).
