@@ -722,7 +722,10 @@ def test_b66_2_shellcheck_runs_clean_or_is_reported_skipped_never_passed() -> No
         pytest.skip("shellcheck is not installed; the B66-2 lint check did NOT run")
     files = sorted(str(p) for p in BASH_SRC.rglob("*.sh"))
     done = subprocess.run(  # noqa: S603 - fixed argv, repo files
-        [shellcheck, "--shell=bash", "--external-sources", *files], capture_output=True, text=True, check=False
+        [shellcheck, "--shell=bash", "--external-sources", "--source-path=SCRIPTDIR", *files],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     assert done.returncode == 0, done.stdout
 

@@ -94,7 +94,7 @@ Verify the chains first, then list every applied execute of the lever across eve
 
 ```powershell
 uv run --frozen python -m core.levers verify
-Get-ChildItem .tmp/demo/audit -Filter *.jsonl | Get-Content | ConvertFrom-Json | Where-Object { $_.lever -eq '<lever>' -and $_.mode -eq 'execute' -and $_.result.applied } | Select-Object client, seq, ts, agent, approver, @{n='target'; e={ $_.params.upn }} | Format-Table -AutoSize
+Get-ChildItem .tmp/demo/audit -Filter *.jsonl | Get-Content | ConvertFrom-Json | Where-Object { $_.lever -eq '<lever>' -and $_.mode -eq 'execute' -and $_.result.applied } | Select-Object client, seq, ts, agent, approver, @{n='target'; e={ $_.params.upn }} | Format-Table -AutoSize | Out-String -Width 400
 uv run --frozen python -m core.levers export --client <client> --out .tmp/ir-<client>
 ```
 

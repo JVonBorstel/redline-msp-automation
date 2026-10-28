@@ -77,5 +77,6 @@ lever_find_host() {
     if [[ -z "$root" || ! -d "$root/$LEVER_CLIENT" ]]; then
         lever_fail "no mock unix host for client $LEVER_CLIENT; nothing was read"
     fi
+    # shellcheck disable=SC2034  # read by the lever scripts that source this library
     LEVER_HOST="$root/$LEVER_CLIENT"
 }

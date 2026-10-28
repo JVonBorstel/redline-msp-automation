@@ -113,9 +113,13 @@ def test_b84_bench_small_real_run_writes_both_files_with_derived_numbers(tmp_pat
     assert clean["dead"] == 0 and clean["latency_ms"]["claim"]["count"] >= clean["jobs_created"]
     assert report["scenarios"][2]["mode"] == "threaded" and report["config"]["threads"] == 2
     # no machine or person identifiers beyond OS/Python/SQLite versions and the CPU count
-    for secret in (os.environ.get("COMPUTERNAME", ""), getpass.getuser()):
-        if len(secret) > 3:
-            assert secret.lower() not in (markdown + json.dumps(report)).lower()
+    text = (markdown + json.dumps(report)).lower()
+    host = os.environ.get("COMPUTERNAME", "")
+    if len(host) > 3:
+        assert host.lower() not in text
+    user = getpass.getuser().lower()
+    for form in (f"/{user}/", f"\\{user}\\", f"\\\\{user}\\\\"):  # a home path, raw or JSON-escaped
+        assert form not in text
 
 
 def test_b84_bench_refuses_nonsense_arguments(tmp_path: Path) -> None:

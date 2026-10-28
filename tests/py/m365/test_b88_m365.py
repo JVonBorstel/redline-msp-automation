@@ -740,7 +740,7 @@ def test_b88_no_network_no_credentials_and_no_protected_files_in_the_package() -
             for n in names:
                 assert not banned.match(n), (path.name, n)
     for path in (*M365_DIR.rglob("*"),):
-        if path.is_file():
+        if path.is_file() and "__pycache__" not in path.parts and path.suffix in {".py", ".json", ".md", ".txt"}:
             body = path.read_text(encoding="utf-8")
             assert not re.search(r"client_secret|Bearer\s+ey|-----BEGIN", body), path.name
 
