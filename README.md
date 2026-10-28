@@ -47,7 +47,7 @@ Diagrams and the one-lever-call sequence: `docs/ARCHITECTURE.md`. Decisions with
 ## Run the packaged demo
 One command, offline, synthetic data, about ten to fifteen seconds. You need [uv](https://docs.astral.sh/uv/) (Python 3.12 comes from uv; Python is run only through uv).
 ```bash
-git clone https://github.com/JVonBorstel/redline-msp-automation
+git clone https://github.com/VonBorstel-J/redline-msp-automation
 cd redline-msp-automation
 export UV_PYTHON_PREFERENCE=only-managed      # PowerShell: $env:UV_PYTHON_PREFERENCE = 'only-managed'
 uv sync --frozen
@@ -102,7 +102,7 @@ The audit lists, per roadmap item, inventory row and control, its true status, a
 ## The showcase site
 `site/` builds a static site from real runs of this code: triage a ticket, replay the approval queue, tamper with the audit log and verify it in your browser, read the roadmap and the evidence. It makes no third-party requests and stores nothing. Build it with `python site/build.py` (needs uv and PowerShell 7; it builds from this repository and works offline once the uv cache is warm; add `--offline` to forbid network); see `site/README.md`.
 
-When GitHub Pages is enabled for the repository, the `pages` workflow publishes the site from `main` at <https://jvonborstel.github.io/redline-msp-automation/>. Pages: [overview](https://jvonborstel.github.io/redline-msp-automation/index.html), [triage](https://jvonborstel.github.io/redline-msp-automation/triage.html), [approvals and the audit chain](https://jvonborstel.github.io/redline-msp-automation/approvals.html), [injection](https://jvonborstel.github.io/redline-msp-automation/injection.html), [baseline check](https://jvonborstel.github.io/redline-msp-automation/baseline.html), [workflows](https://jvonborstel.github.io/redline-msp-automation/workflows.html), [levers](https://jvonborstel.github.io/redline-msp-automation/levers.html), [roadmap](https://jvonborstel.github.io/redline-msp-automation/roadmap.html), [proof](https://jvonborstel.github.io/redline-msp-automation/proof.html), [about](https://jvonborstel.github.io/redline-msp-automation/about.html). The links work once Pages is enabled.
+When GitHub Pages is enabled for the repository, the `pages` workflow publishes the site from `main` at <https://vonborstel-j.github.io/redline-msp-automation/>. Pages: [overview](https://vonborstel-j.github.io/redline-msp-automation/index.html), [triage](https://vonborstel-j.github.io/redline-msp-automation/triage.html), [approvals and the audit chain](https://vonborstel-j.github.io/redline-msp-automation/approvals.html), [injection](https://vonborstel-j.github.io/redline-msp-automation/injection.html), [baseline check](https://vonborstel-j.github.io/redline-msp-automation/baseline.html), [workflows](https://vonborstel-j.github.io/redline-msp-automation/workflows.html), [levers](https://vonborstel-j.github.io/redline-msp-automation/levers.html), [roadmap](https://vonborstel-j.github.io/redline-msp-automation/roadmap.html), [proof](https://vonborstel-j.github.io/redline-msp-automation/proof.html), [about](https://vonborstel-j.github.io/redline-msp-automation/about.html). The links work once Pages is enabled.
 
 ## Design trade-offs
 - **Levers over free-form agents.** A model that can only press registered buttons is less capable and far easier to audit. Adding capability means adding a lever with its tests, not a prompt.

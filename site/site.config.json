@@ -2,7 +2,7 @@
   "site_name": "Redline",
   "tagline": "A governed AI automation prototype for a managed service provider",
   "author_line": "Built by Jordan VonBorstel",
-  "contact_url": "https://github.com/JVonBorstel",
+  "contact_url": "https://github.com/VonBorstel-J",
   "robots_noindex": true,
   "_notes": [
     "author_line and contact_url are the ONLY place the owner's name may appear; scan/privacy-scan.ps1 -AllowConfig exempts exactly these two strings and nothing else. No email and no phone are shipped.",
