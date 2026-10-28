@@ -8,13 +8,13 @@ Status: **generated** by `tools/coverage_audit.py` (B-98). Do not edit by hand: 
 The map (`map/inventory.json`, `map/controls.json`, `map/roadmap.json`) says what is planned, partial or built. This report recomputes each status from the files that exist in this checkout and lists every place the two disagree. It is fixture-based and static: it reads files and never re-runs a test, so "built" means the evidence files are present, not that the suites passed today (the test suites say that).
 
 ## Headline
-Roadmap: 96 of 98 items built, 0 partial, 2 not demonstrated, 0 planned (96 change notes say built, mocked or document-only). Inventory: 149 of 152 built, 1 partial, 0 planned, 2 not demonstrated, 0 not planned by design. Controls: 40 of 45 built, 2 partial, 0 planned, 3 not demonstrated. Map-versus-code disagreements: 5 (3 error, 0 stale, 0 gap, 2 info).
+Roadmap: 96 of 98 items built, 0 partial, 2 not demonstrated, 0 planned (96 change notes say built, mocked or document-only). Inventory: 149 of 152 built, 1 partial, 0 planned, 2 not demonstrated, 0 not planned by design. Controls: 42 of 45 built, 0 partial, 0 planned, 3 not demonstrated. Map-versus-code disagreements: 2 (0 error, 0 stale, 0 gap, 2 info).
 
 | Level | Total | Built | Partial | Not demonstrated | Planned | Not planned (by design) |
 |---|---|---|---|---|---|---|
 | Roadmap items | 98 | 96 | 0 | 2 | 0 | 0 |
 | Inventory rows | 152 | 149 | 1 | 2 | 0 | 0 |
-| Controls | 45 | 40 | 2 | 3 | 0 | 0 |
+| Controls | 45 | 42 | 0 | 3 | 0 | 0 |
 
 Levers: 60, of which 0 have no test naming them. Workflow folders: 40, of which 0 have no spec.
 
@@ -33,7 +33,7 @@ Severity: **error** = the map claims more than the files show; **stale** = the m
 | COV-MISSING-PATH | error | 0 | a docs/COVERAGE.md row marked built/mocked cites a path that is not in the repo |
 | CTL-MISSING-PATH | error | 0 | control cites an implementation path that is not in the repo |
 | CTL-MISSING-TEST-FILE | error | 0 | control cites a test file that is not in the repo |
-| CTL-MISSING-TEST-NAME | error | 3 | control cites a test function that is not in its file |
+| CTL-MISSING-TEST-NAME | error | 0 | control cites a test function that is not in its file |
 | INV-MISSING-PATH | error | 0 | inventory row cites a path (as existing) that is not in the repo |
 | INV-UNSUPPORTED | error | 0 | inventory row says exists/partial but no covering roadmap item is built |
 | ITEM-NOTE-SAYS-BUILT | error | 0 | the change note says built/mocked/document-only but the files say partial/planned |
@@ -57,13 +57,6 @@ Severity: **error** = the map claims more than the files show; **stale** = the m
 | ITEM-NOT-DEMONSTRATED | info | 2 | files exist but the note says nothing was compiled, validated or run |
 | LEVER-NO-OWNER | info | 0 | the lever's registry fragment is owned by no roadmap item |
 | WF-NO-README | info | 0 | workflow folder has no README.md (STD-DC-7) |
-
-### CTL-MISSING-TEST-NAME (error, 3)
-control cites a test function that is not in its file.
-
-- C-24: evidence cites `tests/py/tools/test_b07_ci_wiring.py::test_b07_1_every_action_is_pinned_to_a_full_commit_sha`; no such function
-- C-24: evidence cites `tests/py/tools/test_b07_ci_wiring.py::test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test`; no such function
-- C-37: evidence cites `tests/py/tools/test_b07_ci_wiring.py::test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test`; no such function
 
 ### ITEM-NOT-DEMONSTRATED (info, 2)
 files exist but the note says nothing was compiled, validated or run.
@@ -201,7 +194,7 @@ files exist but the note says nothing was compiled, validated or run.
 | C-21 | Output reconciliation (no invented numbers) | claimed | built |  |
 | C-22 | Protected paths need owner review | claimed | not demonstrated |  |
 | C-23 | Commit-time secret scan | claimed | not demonstrated |  |
-| C-24 | CI with least-privilege token and pinned actions | claimed | partial | missing test test_b07_1_every_action_is_pinned_to_a_full_commit_sha; missing test test_b07_1_ci_runs_the_ro... |
+| C-24 | CI with least-privilege token and pinned actions | claimed | built |  |
 | C-25 | Data classification and pre-prompt redaction gate | claimed | built |  |
 | C-26 | Per-tenant retrieval isolation | partial | built |  |
 | C-27 | Tenant isolation of prompts, context, logs and error text | partial | built |  |
@@ -214,7 +207,7 @@ files exist but the note says nothing was compiled, validated or run.
 | C-34 | Wrong-automated-action incident runbook | claimed | built |  |
 | C-35 | Notification templates and timelines | partial | built |  |
 | C-36 | End-user fast path back | partial | built |  |
-| C-37 | Lever change management with staged rollout | partial | partial | missing test test_b07_1_ci_runs_the_roadmap_item_tests_and_the_demo_smoke_test |
+| C-37 | Lever change management with staged rollout | partial | built |  |
 | C-38 | Agent and technician access review; least-privilege deleg... | partial | built |  |
 | C-39 | Write-once audit head pinning and retention | partial | built |  |
 | C-40 | Monitoring and alerting on automation behaviour | partial | built |  |
