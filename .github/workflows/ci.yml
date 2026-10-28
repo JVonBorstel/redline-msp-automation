@@ -109,3 +109,53 @@ jobs:
         run: |
           pwsh -NoProfile -File tests/demo/Test-Demo.ps1
           exit $LASTEXITCODE
+
+  infra:
+    name: Bicep compile and lint (no deploy)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # Compile only: no Azure sign-in, no subscription, nothing is created. A what-if needs a subscription and stays manual.
+      - name: Install the Bicep CLI (into the runner's Azure CLI)
+        run: az bicep install && az bicep version
+
+      - name: Compile every template and parameter file
+        run: |
+          set -euo pipefail
+          for f in $(git ls-files 'infra/**/*.bicep'); do
+            echo "build $f"; az bicep build --file "$f" --stdout > /dev/null
+          done
+          for f in $(git ls-files 'infra/**/*.bicepparam'); do
+            echo "build-params $f"; az bicep build-params --file "$f" --stdout > /dev/null
+          done
+
+      - name: Lint every template
+        run: |
+          set -euo pipefail
+          for f in $(git ls-files 'infra/**/main.bicep'); do
+            echo "lint $f"; az bicep lint --file "$f"
+          done
+
+  container:
+    name: Container image builds and runs the packaged demo offline
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Build the image
+        run: docker compose build
+
+      - name: Run the packaged demo (no network, read-only filesystem)
+        run: docker compose run --rm demo
+
+      - name: Run the smoke tests inside the image
+        run: docker compose --profile test run --rm smoke
